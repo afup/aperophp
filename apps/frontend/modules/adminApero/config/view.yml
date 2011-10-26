@@ -1,0 +1,7 @@
+newSuccess:
+  javascripts: [/js/jquery/jquery-ui-1.8.4.min.js, /js/jquery/i18n/jquery-ui-i18n.js, /js/tiny_mce/tiny_mce.js]
+  stylesheets: [/css/jquery-ui/smoothness/jquery-ui-1.8.4.custom.css]
+
+editSuccess:
+  javascripts: [/js/jquery/jquery-ui-1.8.4.min.js, /js/jquery/i18n/jquery-ui-i18n.js, /js/tiny_mce/tiny_mce.js]
+  stylesheets: [/css/jquery-ui/smoothness/jquery-ui-1.8.4.custom.css]

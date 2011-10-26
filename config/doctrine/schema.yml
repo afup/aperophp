@@ -1,0 +1,47 @@
+detect_relations: true
+options:
+  collation: utf8_unicode_ci
+  charset: utf8
+  type: InnoDB
+
+Apero:
+  actAs:
+    Sluggable:
+      unique: true
+      fields: [location_city, location_name]
+      canUpdate: true
+  columns:
+    description:           { type: string(4000) }
+    location_name:         { type: string(255), notnull: true}
+    location_address:      { type: string(255), notnull: true}
+    location_city:         { type: string(255), notnull: true}
+    location_zipcode:      { type: string(255), notnull: true}
+    date_at:               { type: date, notnull: true}
+    time_at:               { type: time, notnull: true}
+    price:                 { type: float, notnull: true, default: 0 }
+    max_people:            { type: integer, notnull: true, default: 0 }
+    is_active:             { type: boolean, notnull: true, default: 0 }
+
+Profile:
+  columns:
+    sf_guard_user_id:      { type: integer(4) }
+    facebook:              { type: string(255) }
+    twitter:               { type: string(255) }
+    mobile_phone:          { type: string(255) }
+    description:           { type: string(4000) }
+    company:               { type: string(100) }
+    function:              { type: string(255) }
+    website:               { type: string(255) }
+    avatar:                { type: string(255) }
+  relations:
+    User:
+      class: sfGuardUser
+      foreignType: one
+
+AperoUser:
+  columns:
+    apero_id:             { type: integer, primary: true }
+    user_id:              { type: integer, primary: true }
+  relations:
+    Apero:                { onDelete: CASCADE, local: apero_id, foreign: id }
+    sfGuardUser:          { onDelete: CASCADE, local: user_id, foreign: id }

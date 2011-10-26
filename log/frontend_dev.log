@@ -1,0 +1,81 @@
+Jan 31 20:42:40 symfony [info] {sfPatternRouting} Connect sfRoute "sf_guard_signin" (/guard/login)
+Jan 31 20:42:40 symfony [info] {sfPatternRouting} Connect sfRoute "sf_guard_signout" (/guard/logout)
+Jan 31 20:42:40 symfony [info] {sfPatternRouting} Match route "sf_guard_signup" (/signup) for /signup with parameters array (  'module' => 'page',  'action' => 'signUp',)
+Jan 31 20:42:40 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+Jan 31 20:42:40 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+Jan 31 20:42:40 symfony [info] {pageActions} Call "pageActions->executeSignUp()"
+Jan 31 20:42:40 symfony [info] {sfPHPView} Render "/var/www/aperophp.net/apps/frontend/modules/page/templates/signUpSuccess.php"
+Jan 31 20:42:40 symfony [info] {sfPHPView} Decorate content with "/var/www/aperophp.net/apps/frontend/templates/layout.php"
+Jan 31 20:42:40 symfony [info] {sfPHPView} Render "/var/www/aperophp.net/apps/frontend/templates/layout.php"
+Jan 31 20:42:40 symfony [info] {sfPartialView} Render "/var/www/aperophp.net/apps/frontend/templates/_flashes.php"
+Jan 31 20:42:40 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+Jan 31 20:42:40 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+Jan 31 20:42:40 symfony [info] {sfWebDebugLogger} Configuration 295.87 ms (9)
+Jan 31 20:42:40 symfony [info] {sfWebDebugLogger} Factories 127.61 ms (1)
+Jan 31 20:42:40 symfony [info] {sfWebDebugLogger} Action "page/signUp" 29.27 ms (1)
+Jan 31 20:42:40 symfony [info] {sfWebDebugLogger} View "Success" for "page/signUp" 26.54 ms (1)
+Jan 31 20:42:40 symfony [info] {sfWebDebugLogger} Partial "global/_flashes" 0.39 ms (1)
+Jan 31 20:42:40 symfony [info] {sfWebResponse} Send content (36896 o)
+Jan 31 20:43:23 symfony [info] {sfPatternRouting} Connect sfRoute "sf_guard_signin" (/guard/login)
+Jan 31 20:43:23 symfony [info] {sfPatternRouting} Connect sfRoute "sf_guard_signout" (/guard/logout)
+Jan 31 20:43:23 symfony [info] {sfPatternRouting} Match route "sf_guard_signup" (/signup) for /signup with parameters array (  'module' => 'page',  'action' => 'signUp',)
+Jan 31 20:43:23 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+Jan 31 20:43:23 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+Jan 31 20:43:23 symfony [info] {pageActions} Call "pageActions->executeSignUp()"
+Jan 31 20:43:23 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'utf8' - ()
+Jan 31 20:43:23 symfony [info] {Doctrine_Connection_Statement} execute : SELECT s.id AS s__id, s.first_name AS s__first_name, s.last_name AS s__last_name, s.email_address AS s__email_address, s.username AS s__username, s.algorithm AS s__algorithm, s.salt AS s__salt, s.password AS s__password, s.is_active AS s__is_active, s.is_super_admin AS s__is_super_admin, s.last_login AS s__last_login, s.created_at AS s__created_at, s.updated_at AS s__updated_at FROM sf_guard_user s WHERE (s.email_address = ?) - (msupiot@clever-age.com)
+Jan 31 20:43:23 symfony [info] {Doctrine_Connection_Statement} execute : INSERT INTO sf_guard_user (algorithm, is_active, is_super_admin, first_name, last_name, email_address, salt, password, username, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) - (sha1, 1, 0, Martin, Supiot, msupiot@clever-age.com, 7fb85cb7228f6f4f9e91c86425258041, 3053d211815416b1ed1f3d5d73183c564cdaaa41, msupiot@clever-age.com, 2011-01-31 20:43:23, 2011-01-31 20:43:23)
+Jan 31 20:43:23 symfony [info] {Doctrine_Connection_Statement} execute : SELECT p.id AS p__id, p.sf_guard_user_id AS p__sf_guard_user_id, p.facebook AS p__facebook, p.twitter AS p__twitter, p.mobile_phone AS p__mobile_phone, p.description AS p__description, p.company AS p__company, p.function AS p__function, p.website AS p__website, p.avatar AS p__avatar FROM profile p WHERE (p.sf_guard_user_id = ?) - (3)
+Jan 31 20:43:23 symfony [info] {Doctrine_Connection_Statement} execute : SELECT s.id AS s__id, s.first_name AS s__first_name, s.last_name AS s__last_name, s.email_address AS s__email_address, s.username AS s__username, s.algorithm AS s__algorithm, s.salt AS s__salt, s.password AS s__password, s.is_active AS s__is_active, s.is_super_admin AS s__is_super_admin, s.last_login AS s__last_login, s.created_at AS s__created_at, s.updated_at AS s__updated_at FROM sf_guard_user s WHERE (s.id = ?) - (3)
+Jan 31 20:43:24 symfony [warning] {sfWebDebugLogger}  Warning at /var/www/aperophp.net/lib/vendor/symfony-1.4.6/lib/vendor/swiftmailer/classes/Swift/Transport/StreamBuffer.php on line 233 (fsockopen() [<a href='function.fsockopen'>function.fsockopen</a>]: unable to connect to localhost:25 (Connection refused))
+Jan 31 20:43:24 symfony [warning] {sfWebDebugLogger}  Warning at /var/www/aperophp.net/lib/vendor/symfony-1.4.6/lib/exception/sfException.class.php on line 105 (Cannot modify header information - headers already sent by (output started at /var/www/aperophp.net/lib/vendor/symfony-1.4.6/lib/vendor/swiftmailer/classes/Swift/Transport/StreamBuffer.php:233))
+Jan 31 20:43:24 symfony [err] {Swift_TransportException} Connection could not be established with host localhost [Connection refused #111]
+Jan 31 20:43:24 symfony [warning] {sfWebDebugLogger}  Warning at /var/www/aperophp.net/lib/vendor/symfony-1.4.6/lib/exception/sfException.class.php on line 159 (Cannot modify header information - headers already sent by (output started at /var/www/aperophp.net/lib/vendor/symfony-1.4.6/lib/vendor/swiftmailer/classes/Swift/Transport/StreamBuffer.php:233))
+Jan 31 20:43:24 symfony [warning] {sfWebDebugLogger}  Warning at /var/www/aperophp.net/lib/vendor/symfony-1.4.6/lib/response/sfWebResponse.class.php on line 336 (Cannot modify header information - headers already sent by (output started at /var/www/aperophp.net/lib/vendor/symfony-1.4.6/lib/vendor/swiftmailer/classes/Swift/Transport/StreamBuffer.php:233))
+Jan 31 20:43:24 symfony [info] {sfWebResponse} Send status "HTTP/1.1 500 Internal Server Error"
+Jan 31 20:43:24 symfony [warning] {sfWebDebugLogger}  Warning at /var/www/aperophp.net/lib/vendor/symfony-1.4.6/lib/response/sfWebResponse.class.php on line 357 (Cannot modify header information - headers already sent by (output started at /var/www/aperophp.net/lib/vendor/symfony-1.4.6/lib/vendor/swiftmailer/classes/Swift/Transport/StreamBuffer.php:233))
+Jan 31 20:43:24 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+Jan 31 20:43:24 symfony [info] {sfWebDebugLogger} Configuration 1.16 ms (8)
+Jan 31 20:43:24 symfony [info] {sfWebDebugLogger} Factories 38.30 ms (1)
+Jan 31 20:43:24 symfony [info] {sfWebDebugLogger} Action "page/signUp" 296.07 ms (1)
+Jan 31 20:43:24 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.02 ms (5)
+Jan 31 20:52:10 symfony [info] {sfPatternRouting} Connect sfRoute "sf_guard_signin" (/guard/login)
+Jan 31 20:52:10 symfony [info] {sfPatternRouting} Connect sfRoute "sf_guard_signout" (/guard/logout)
+Jan 31 20:52:10 symfony [info] {sfPatternRouting} Match route "sf_guard_signin" (/login) for /login with parameters array (  'module' => 'sfGuardAuth',  'action' => 'signin',)
+Jan 31 20:52:10 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+Jan 31 20:52:10 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+Jan 31 20:52:10 symfony [info] {sfGuardAuthActions} Call "sfGuardAuthActions->executeSignin()"
+Jan 31 20:52:10 symfony [info] {sfPHPView} Render "/var/www/aperophp.net/apps/frontend/modules/sfGuardAuth/templates/signinSuccess.php"
+Jan 31 20:52:10 symfony [info] {sfPHPView} Decorate content with "/var/www/aperophp.net/apps/frontend/templates/layout.php"
+Jan 31 20:52:10 symfony [info] {sfPHPView} Render "/var/www/aperophp.net/apps/frontend/templates/layout.php"
+Jan 31 20:52:10 symfony [info] {sfPartialView} Render "/var/www/aperophp.net/apps/frontend/templates/_flashes.php"
+Jan 31 20:52:10 symfony [info] {sfWebResponse} Send status "HTTP/1.1 401 Unauthorized"
+Jan 31 20:52:10 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+Jan 31 20:52:10 symfony [info] {sfWebDebugLogger} Configuration 23.19 ms (10)
+Jan 31 20:52:10 symfony [info] {sfWebDebugLogger} Factories 28.81 ms (1)
+Jan 31 20:52:10 symfony [info] {sfWebDebugLogger} Action "sfGuardAuth/signin" 5.39 ms (1)
+Jan 31 20:52:10 symfony [info] {sfWebDebugLogger} View "Success" for "sfGuardAuth/signin" 13.03 ms (1)
+Jan 31 20:52:10 symfony [info] {sfWebDebugLogger} Partial "global/_flashes" 0.42 ms (1)
+Jan 31 20:52:11 symfony [info] {sfWebResponse} Send content (35407 o)
+Jan 31 20:52:15 symfony [info] {sfPatternRouting} Connect sfRoute "sf_guard_signin" (/guard/login)
+Jan 31 20:52:15 symfony [info] {sfPatternRouting} Connect sfRoute "sf_guard_signout" (/guard/logout)
+Jan 31 20:52:15 symfony [info] {sfPatternRouting} Match route "sf_guard_signin" (/login) for /login with parameters array (  'module' => 'sfGuardAuth',  'action' => 'signin',)
+Jan 31 20:52:15 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+Jan 31 20:52:15 symfony [info] {sfFilterChain} Executing filter "sfExecutionFilter"
+Jan 31 20:52:15 symfony [info] {sfGuardAuthActions} Call "sfGuardAuthActions->executeSignin()"
+Jan 31 20:52:15 symfony [info] {Doctrine_Connection_Mysql} exec : SET NAMES 'utf8' - ()
+Jan 31 20:52:15 symfony [info] {Doctrine_Connection_Statement} execute : SELECT s.id AS s__id, s.first_name AS s__first_name, s.last_name AS s__last_name, s.email_address AS s__email_address, s.username AS s__username, s.algorithm AS s__algorithm, s.salt AS s__salt, s.password AS s__password, s.is_active AS s__is_active, s.is_super_admin AS s__is_super_admin, s.last_login AS s__last_login, s.created_at AS s__created_at, s.updated_at AS s__updated_at FROM sf_guard_user s WHERE ((s.username = ? OR s.email_address = ?) AND s.is_active = ?) - (martin@webaaz.com, martin@webaaz.com, 1)
+Jan 31 20:52:15 symfony [info] {myUser} User is authenticated
+Jan 31 20:52:15 symfony [info] {Doctrine_Connection_Statement} execute : SELECT s.id AS s__id, s.name AS s__name, s.description AS s__description, s.created_at AS s__created_at, s.updated_at AS s__updated_at, s2.user_id AS s2__user_id, s2.permission_id AS s2__permission_id, s2.created_at AS s2__created_at, s2.updated_at AS s2__updated_at FROM sf_guard_permission s LEFT JOIN sf_guard_user_permission s2 ON s.id = s2.permission_id WHERE (s2.user_id IN (?)) - (1)
+Jan 31 20:52:16 symfony [info] {Doctrine_Connection_Statement} execute : SELECT s.id AS s__id, s.name AS s__name, s.description AS s__description, s.created_at AS s__created_at, s.updated_at AS s__updated_at, s2.user_id AS s2__user_id, s2.group_id AS s2__group_id, s2.created_at AS s2__created_at, s2.updated_at AS s2__updated_at FROM sf_guard_group s LEFT JOIN sf_guard_user_group s2 ON s.id = s2.group_id WHERE (s2.user_id IN (?)) - (1)
+Jan 31 20:52:16 symfony [info] {myUser} Add credential(s) ""
+Jan 31 20:52:16 symfony [info] {Doctrine_Connection_Statement} execute : UPDATE sf_guard_user SET last_login = ?, updated_at = ? WHERE id = ? - (2011-01-31 20:52:16, 2011-01-31 20:52:16, 1)
+Jan 31 20:52:16 symfony [info] {sfFrontWebController} Redirect to "http://local.aperophp.net/"
+Jan 31 20:52:16 symfony [info] {sfWebResponse} Send status "HTTP/1.1 302 Found"
+Jan 31 20:52:16 symfony [info] {sfWebResponse} Send header "Location: http://local.aperophp.net/"
+Jan 31 20:52:16 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+Jan 31 20:52:16 symfony [info] {sfWebDebugLogger} Configuration 0.89 ms (8)
+Jan 31 20:52:16 symfony [info] {sfWebDebugLogger} Factories 25.92 ms (1)
+Jan 31 20:52:16 symfony [info] {sfWebDebugLogger} Action "sfGuardAuth/signin" 226.57 ms (1)
+Jan 31 20:52:16 symfony [info] {sfWebDebugLogger} Database (Doctrine) 0.02 ms (5)
+Jan 31 20:52:16 symfony [info] {sfWebResponse} Send content (97 o)
