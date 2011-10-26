@@ -25,6 +25,7 @@ TODO pour aperoPHP.net
 - accès et gestion directe depuis le back-office de l'AFUP
 - définir certains apéros comme des Mini confs : intervenants et sujet / lightning talks (slides si dispos) pour les non-membres AFUP qui veulent copier les "Rendez-Vous AFUP"
 - pouvoir définir une ou deux villes supplémentaires dans son profil (ou un nombre illimité via un select multiple) et être prévenu dès la création d'un apéro dans une de ces villes (en incluant la ville de notre adresse)
+- être prévenu à J et/ou J-X jours quand on est inscrit à un apéro, afin de ne pas oublier le rdv
 
 °°Inutile°°
 
