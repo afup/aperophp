@@ -1,0 +1,11 @@
+all:
+  max_aperos_on_homepage: 10
+  sf_guard_plugin_success_signout_url: "@homepage"
+  security:
+    authorized_ip:
+      - 127.0.0.1 #local
+      - 82.245.232.40 # avignon
+      - 88.184.177.103 # restaurant prevot
+      - 81.57.23.30 # paris
+      - 78.229.90.88 # comocean
+      - 85.69.159.191 # hweb
