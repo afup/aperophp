@@ -1,0 +1,9 @@
+comingSoonSuccess:
+  stylesheets: [comingsoon.css]
+  layout: layout_vide
+
+aperoSuccess:
+  javascripts: [http://maps.google.com/maps/api/js?sensor=false, maps.js]
+
+contactSuccess:
+  javascripts: [http://maps.google.com/maps/api/js?sensor=false, maps.js]

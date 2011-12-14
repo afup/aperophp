@@ -1,0 +1,407 @@
+/*********** CONTENT **********/
+
+#sf_admin_container
+{
+  font-family:verdana, Arial, sans-serif;
+}
+#sf_admin_container th
+{
+  background-color:#f1f1f1;
+  white-space:nowrap;
+}
+#sf_admin_container #sf_admin_content
+{
+}
+.sf_admin_filter {
+  border-left:1px solid rgb(240,240,240);
+  border-bottom:1px solid rgb(240,240,240);
+  border-right:1px solid rgb(240,240,240);
+  background-color:rgb(255,255,255);
+}
+#sf_admin_container a
+{
+  text-decoration:underline;
+}
+#sf_admin_container a:hover
+{
+  text-decoration:none;
+}
+#sf_admin_container h1,
+#sf_admin_container h2
+{
+  font-size:1.5em;
+  margin:10px 0 20px 0;
+  font-weight:bold;
+}
+#sf_admin_container .sf_admin_form_row div > table{
+}
+#sf_admin_container .sf_admin_form_row div > table label{
+  margin-left:0.5em;
+}
+#sf_admin_container .sf_admin_list table
+{
+  margin-bottom:0.5em;
+  border-collapse:collapse;
+  width:100%;
+  border:1px solid rgb(255,255,255);
+}
+#sf_admin_container .sf_admin_list thead th,
+#sf_admin_container .sf_admin_list tfoot th
+{
+  padding:10px 10px;
+  vertical-align:middle;
+  border-top:1px solid rgb(255,255,255);
+  background:rgb(235,235,235) url(../images/btn_bg.png) top repeat-x;
+  background-position:0 -60px;
+}
+#sf_admin_container .sf_admin_list tfoot th
+{
+  border-top:1px solid rgb(255,255,255) !important;
+  border-bottom:1px solid rgb(255,255,255);
+}
+#sf_admin_container .sf_admin_list thead th
+{
+  border-bottom:1px solid rgb(255,255,255);
+}
+#sf_admin_container .sf_admin_list th
+{
+  white-space:nowrap;
+  padding:5px 10px ;
+  color:rgb(0,0,0);
+  text-align:left;
+}
+#sf_admin_container .sf_admin_list th a
+{
+  color:rgb(0,0,0);
+  text-decoration:none;
+}
+
+#sf_admin_container .sf_admin_list td
+{
+  padding:10px 10px;
+  border:0;
+  border-bottom:1px solid rgb(240,240,240);
+  border-top:1px solid rgb(255,255,255);
+  text-align:left;
+  vertical-align:middle;
+}
+
+#sf_admin_container .sf_admin_list thead tr,
+#sf_admin_container .sf_admin_list tfoot tr
+{
+  border-left:1px solid rgb(255,255,255);
+  border-right:1px solid rgb(255,255,255);
+}
+
+#sf_admin_container .sf_admin_list tr.even
+{
+  background-color:rgb(248,248,248);
+}
+
+#sf_admin_container .sf_admin_list tr.odd
+{
+  background-color:rgb(250,250,250);
+}
+
+#sf_admin_container .sf_admin_form_row .content .sf_admin_list {
+  margin-left:0 !important;
+}
+
+#sf_admin_container ul.error_list
+{
+  margin:0;
+  margin-bottom:7px;
+  margin-left:10em;
+  color:#B43F3F;
+  border:none;
+  font-weight:bold;
+}
+
+#sf_admin_container ul.error_list li
+{
+  padding:4px;
+  padding-left:5px;
+  list-style:none;
+  color:#B43F3F;
+}
+
+#sf_admin_container .sf_admin_list tr:hover > td
+{
+  background-color:#FEFFE0;
+}
+#sf_admin_container .sf_admin_list tr:hover > td .sf_admin_action_delete
+{
+  xvisibility:visible;
+}
+#sf_admin_container .sf_admin_list td .sf_admin_action_delete
+{
+  xvisibility:hidden;
+}
+
+
+#sf_admin_container input, #sf_admin_container textarea
+{
+  width:auto;
+}
+
+#sf_admin_container .radio_list, #sf_admin_container .checkbox_list
+{
+  margin:0;
+  padding:0;
+}
+
+#sf_admin_container .radio_list li, #sf_admin_container .checkbox_list li,
+#sf_admin_container .sf_admin_checklist li
+{
+  list-style:none;
+  display:inline;
+}
+
+#sf_admin_container .double_list_select, #sf_admin_container .double_list_select-selected
+{
+  width:12em;
+}
+
+#sf_admin_container .double_list_label
+{
+  font-weight:bold;
+}
+
+#sf_admin_container thead th,
+#sf_admin_container tfoot td
+{
+  margin:0;
+  list-style:none;
+  text-align:right;
+  border-top:1px solid rgb(240,240,240);
+  background:rgb(255,255,255) url(../images/white-grad.png) top repeat-x;
+
+}
+#sf_admin_container thead th {
+  text-align:left;
+  padding:5px;
+  border-bottom:1px solid rgb(240,240,240);
+}
+#sf_admin_container .sf_admin_filter tbody td {
+  padding:5px;
+}
+
+#sf_admin_container thead img, #sf_admin_container tfoot img
+{
+  vertical-align:middle;
+}
+
+#sf_admin_bar
+{
+  float:right;
+  margin-left:20px;
+}
+
+.sf_admin_pagination
+{
+  float:right;
+}
+.sf_admin_pagination a:visited,
+.sf_admin_pagination a:link
+{
+  color: #3081dd !important;
+  text-decoration:underline !important;
+}
+.sf_admin_pagination a:hover,
+.sf_admin_pagination a:active
+{
+  color: #3081dd !important;
+  text-decoration:none !important;
+}
+#sf_admin_container
+{
+}
+#sf_admin_container ul.sf_admin_td_actions
+{
+  margin:0;
+  padding:0;
+  list-style-type:none;
+}
+
+#sf_admin_container ul.sf_admin_td_actions li
+{
+  list-style-type:none;
+  display:inline;
+  margin-right:10px;
+}
+
+#sf_admin_container ul.sf_admin_actions
+{
+  margin:0;
+  padding:0;
+  list-style-type:none;
+}
+
+#sf_admin_container ul.sf_admin_actions li
+{
+  list-style-type:none;
+  display:inline;
+  margin-right:10px;
+}
+
+#sf_admin_container ul li a
+{
+  padding-left:20px;
+  padding-bottom:3px;
+  background:url(../sf/sf_admin/images/default.png) no-repeat 0 0;
+}
+
+#sf_admin_container ul li.sf_admin_action_new a
+{
+  background:url(../sf/sf_admin/images/add.png) no-repeat 0 0;
+}
+
+#sf_admin_container ul li.sf_admin_action_edit a
+{
+  background:url(../sf/sf_admin/images/edit.png) no-repeat 0 0;
+}
+
+#sf_admin_container ul li.sf_admin_action_list a
+{
+  background:url(../sf/sf_admin/images/list.png) no-repeat 0 0;
+}
+
+#sf_admin_container ul li.sf_admin_action_send a
+{
+  background:url(../images/email_go.png) no-repeat 0 0;
+}
+
+#sf_admin_container ul li.sf_admin_action_user a
+{
+  background:url(../images/user.png) no-repeat 0 0;
+}
+
+#sf_admin_container ul li.sf_admin_action_rename a
+{
+  background:url(../images/textfield_rename.png) no-repeat 0 0;
+}
+
+#sf_admin_container ul li.sf_admin_action_export a
+{
+  background:url(../images/page_excel.png) no-repeat 0 0;
+}
+
+#sf_admin_container ul li.sf_admin_action_save a
+{
+  background:url(../sf/sf_admin/disk.png) no-repeat 0 0;
+}
+
+#sf_admin_container ul li.sf_admin_action_delete a
+{
+  background:url(../sf/sf_admin/images/delete.png) no-repeat 0 0;
+}
+
+#sf_admin_container ul li.sf_admin_action_cancel a
+{
+  padding:3px 6px;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  border-radius:5px;
+  color:#d12f19;
+  background-image:none;
+}
+#sf_admin_container ul li.sf_admin_action_cancel a:hover,
+#sf_admin_container ul li.sf_admin_action_cancel a:active
+{
+  background-color: #d12f19;
+  color:#ffffff;
+  background-image:none;
+}
+
+#sf_admin_container .sf_admin_row_0 td
+{
+}
+
+#sf_admin_container .sf_admin_row_1 td
+{
+  background-color:rgb(255,255,255);
+}
+
+#sf_admin_container fieldset h2
+{
+  font-size:1.4em;
+  margin:0;
+  padding:0 0 1em 0;
+  color:rgb(75,75,77);
+}
+
+#sf_admin_container fieldset
+{
+  padding:10px;
+  margin-bottom:1em;
+  border:none;
+  background-color:rgb(245,245,245);
+  -moz-border-radius:1em;
+  -webkit-border-radius:1em;
+  -khtml-border-radius:1em;
+  border-radius:1em;
+}
+
+#sf_admin_container fieldset h2
+{
+  background-color:transparent ;
+}
+
+#sf_admin_container fieldset.collapsed * { display:none; }
+#sf_admin_container fieldset.collapsed h2, #sf_admin_container fieldset.collapsed { display:block !important; }
+#sf_admin_container fieldset.collapsed .collapse-toggle { display:inline !important; }
+#sf_admin_container fieldset.collapse h2 a.collapse-toggle { color:#ffc; }
+#sf_admin_container fieldset.collapse h2 a.collapse-toggle:hover { text-decoration:underline; }
+
+#sf_admin_container label,
+#sf_admin_container span.labelfake
+{
+  display:block;
+  padding:0 1em 3px 0;
+  float:left;
+  text-align:left;
+  width:13em;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+#sf_admin_container ul label, #sf_admin_container td label
+{
+  display:inline;
+  float:none !important;
+}
+#sf_admin_container form
+{
+}
+#sf_admin_container .sf_admin_form_row
+{
+  clear:both;
+  background-color:rgb(235,235,235);
+  padding:8px 10px 8px 10px;
+  margin-bottom:2px;
+}
+#sf_admin_container .sf_admin_form_row .content
+{
+  padding-left:14em;
+}
+#sf_admin_container .sf_admin_form_row .content > div
+{
+  xmargin-left:5em;
+}
+#sf_admin_container .help
+{
+  padding-left:14em;
+  color:#aaa;
+}
+#sf_admin_container .sf_admin_list td .help
+{
+  padding-left:0;
+}
+#sf_admin_container .errors input, #sf_admin_container .errors select, #sf_admin_container .errors textarea
+{
+  border:1px solid #B43F3F;
+}
+.sf_admin_list .sf_admin_boolean
+{
+  text-align:center;
+}
