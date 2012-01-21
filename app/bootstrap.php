@@ -21,6 +21,8 @@ $app->register(new ValidatorServiceProvider());
 $app->register(new SessionServiceProvider());
 $app->register(new DoctrineServiceProvider());
 
+$app->register(new PrestaQuotes\Provider\Service\Model());
+
 $app->register(new TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/../src/Resources/views',
 ));
