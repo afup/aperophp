@@ -6,3 +6,5 @@
     git = https://github.com/symfony/TwigBridge.git
 [Symfony/Component/Validator]
     git = https://github.com/symfony/Validator.git
+[Symfony/Component/Translation]
+    git = https://github.com/symfony/Translation.git

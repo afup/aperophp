@@ -8,6 +8,9 @@ $app['db.options'] = array(
     'path'   => __DIR__.'/../cache/app.db',
 );
 
+// Translation
+$app['translator.messages'] = array();
+
 // MySQL
 /*
 $app['db.options'] = array(
