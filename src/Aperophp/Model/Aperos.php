@@ -11,5 +11,5 @@ use Doctrine\DBAL\Connection;
  */
 class Aperos extends ModelInterface
 {
-	
+
 }
