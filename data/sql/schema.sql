@@ -69,7 +69,7 @@ CREATE  TABLE IF NOT EXISTS `aperophp`.`Aperos` (
   `lieu` VARCHAR(100) NOT NULL ,
   `date` DATE NOT NULL ,
   `heure` INT NOT NULL ,
-  `genre` ENUM('apero', 'conference') NOT NULL DEFAULT apero ,
+  `genre` ENUM('apero', 'conference') NOT NULL DEFAULT 'apero' ,
   `description` TEXT NOT NULL ,
   `carte` VARCHAR(256) NULL ,
   `id_utilisateur` INT NOT NULL ,

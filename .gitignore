@@ -1,3 +1,5 @@
 app/config.php
 composer.lock
 composer.phar
+nbproject/
+app/config.php
