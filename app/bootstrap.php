@@ -1,15 +1,16 @@
 <?php
 
-$autoload = require_once __DIR__.'/../vendor/.composer/autoload.php';
+require_once __DIR__.'/../vendor/silex/autoload.php';
 
 use Silex\Application;
 
 $app = new Application();
 
 // Autoloading
-$app['autoloader']->registerNamespaces(
-	array('Aperophp' => __DIR__ . '/../src/')
-);
+$app['autoloader']->registerNamespaces(array(
+    'Symfony'  => __DIR__.'/../vendor',
+    'Aperophp' => __DIR__.'/../src/'
+));
 
 use Silex\Provider\SymfonyBridgesServiceProvider;
 use Silex\Provider\UrlGeneratorServiceProvider;
@@ -24,12 +25,16 @@ $app->register(new UrlGeneratorServiceProvider());
 $app->register(new FormServiceProvider());
 $app->register(new ValidatorServiceProvider());
 $app->register(new SessionServiceProvider());
-$app->register(new DoctrineServiceProvider());
+$app->register(new DoctrineServiceProvider(), array(
+    'db.dbal.class_path'    => __DIR__.'/../vendor/silex/vendor/doctrine-dbal/lib',
+    'db.common.class_path'  => __DIR__.'/../vendor/silex/vendor/doctrine-common/lib',
+));
 
 $app->register(new Aperophp\Provider\Service\Model());
 
 $app->register(new TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/../src/Resources/views',
+    'twig.class_path' => __DIR__.'/../vendor/silex/vendor/twig/lib',
 ));
 
 if (file_exists(__DIR__.'/config.php')) {

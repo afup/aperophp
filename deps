@@ -1,0 +1,8 @@
+[silex]
+    git = https://github.com/fabpot/Silex.git
+[Symfony/Component/Form]
+    git = https://github.com/symfony/Form.git
+[Symfony/Bridge/Twig]
+    git = https://github.com/symfony/TwigBridge.git
+[Symfony/Component/Validator]
+    git = https://github.com/symfony/Validator.git
