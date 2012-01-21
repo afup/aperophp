@@ -19,6 +19,7 @@ use Silex\Provider\FormServiceProvider;
 use Silex\Provider\ValidatorServiceProvider;
 use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\DoctrineServiceProvider;
+use Silex\Provider\TranslationServiceProvider;
 
 $app->register(new SymfonyBridgesServiceProvider());
 $app->register(new UrlGeneratorServiceProvider());
@@ -36,6 +37,11 @@ $app->register(new TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/../src/Resources/views',
     'twig.class_path' => __DIR__.'/../vendor/silex/vendor/twig/lib',
 ));
+
+$app->register(new TranslationServiceProvider(array(
+    'locale_fallback'           => 'fr',
+    'translation.class_path'    => __DIR__.'/../Symfony/Component/Translation',
+)));
 
 if (file_exists(__DIR__.'/config.php')) {
     require_once __DIR__.'/config.php';
