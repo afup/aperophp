@@ -24,8 +24,8 @@ DROP TABLE IF EXISTS `User` ;
 
 CREATE  TABLE IF NOT EXISTS `User` (
   `id` INT NOT NULL AUTO_INCREMENT ,
-  `name` VARCHAR(80) NULL ,
-  `first_name` VARCHAR(80) NULL ,
+  `lastname` VARCHAR(80) NULL ,
+  `firstname` VARCHAR(80) NULL ,
   `username` VARCHAR(80) NOT NULL ,
   `password` VARCHAR(64) NOT NULL ,
   `actived` TINYINT(1)  NOT NULL ,
