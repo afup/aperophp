@@ -19,24 +19,12 @@ use Silex\Provider\ValidatorServiceProvider;
 use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\DoctrineServiceProvider;
 
-// Configuration
-$app['config.vendor.path'] = __DIR__ . '/../vendor';
-$app['config.view.path']   = __DIR__ . '/views/';
-$app['config.db.path']     = __DIR__ . '/../data';
-
 $app->register(new SymfonyBridgesServiceProvider());
 $app->register(new UrlGeneratorServiceProvider());
 $app->register(new FormServiceProvider());
 $app->register(new ValidatorServiceProvider());
 $app->register(new SessionServiceProvider());
-$app->register(new DoctrineServiceProvider(), array(
-			'db.options' => array(
-				'driver'  => 'pdo_sqlite',
-				'path'    => '/tmp/quote.db',
-		),
-	'db.common.class_path'  => $app['config.vendor.path'] . '/doctrine/common/lib',
-	'db.dbal.class_path'    => $app['config.vendor.path'] . '/doctrine/dbal/lib',
-));
+$app->register(new DoctrineServiceProvider());
 
 $app->register(new Aperophp\Provider\Service\Model());
 
