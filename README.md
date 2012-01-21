@@ -1,4 +1,4 @@
 # Install
 
-    wget http://getcomposer.org/composer.phar
-    php composer.phar install
+    rm -rf vendors/*
+    bin/vendors install
