@@ -2,7 +2,27 @@
 
 $app['debug'] = true;
 
+
+// Configuration
+$app['config.vendor.path'] = __DIR__ . '/../vendor';
+
+
+$app['db.common.class_path'] = $app['config.vendor.path'] . '/doctrine/common/lib',
+$app['db.dbal.class_path']   = $app['config.vendor.path'] . '/doctrine/dbal/lib',
+
+// Sqlite
 $app['db.options'] = array(
     'driver' => 'pdo_sqlite',
     'path'   => __DIR__.'/../cache/app.db',
 );
+
+// MySQL
+/*
+$app['db.options'] = array(
+    'driver'    => 'pdo_mysql',
+    'host'      => 'localhost',
+    'dbname'    => 'aperophp',
+    'user' 	    => '',
+    'password'  => '',
+);
+*/

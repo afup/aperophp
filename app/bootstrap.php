@@ -6,6 +6,11 @@ use Silex\Application;
 
 $app = new Application();
 
+// Autoloading
+$app['autoloader']->registerNamespaces(
+	array('Aperophp' => __DIR__ . '/../src/')
+);
+
 use Silex\Provider\SymfonyBridgesServiceProvider;
 use Silex\Provider\UrlGeneratorServiceProvider;
 use Silex\Provider\TwigServiceProvider;
@@ -20,6 +25,8 @@ $app->register(new FormServiceProvider());
 $app->register(new ValidatorServiceProvider());
 $app->register(new SessionServiceProvider());
 $app->register(new DoctrineServiceProvider());
+
+$app->register(new Aperophp\Provider\Service\Model());
 
 $app->register(new TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/../src/Resources/views',
