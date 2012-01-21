@@ -19,7 +19,7 @@ class Model implements ServiceProviderInterface
 		// *******
 		$app['model'] = $app->protect(function ($tableName) use ($app) 
 		{
-			$class = sprintf('PrestaQuotes\Model\%s', $tableName);
+			$class = sprintf('Aperophp\Model\%s', $tableName);
 			
 			if( !class_exists($class) )
 			{
