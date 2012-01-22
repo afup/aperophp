@@ -11,9 +11,6 @@ $app['db.options'] = array(
 // Translation
 $app['translator.messages'] = array();
 
-// Register namespace
-$app['autoloader']->registerNamespace('Aperophp\\Form', __DIR__ . '/../src');
-
 // MySQL
 /*
 $app['db.options'] = array(
