@@ -3,6 +3,7 @@
 namespace Aperophp\Provider\Controller;
 
 use Aperophp\Model;
+use Aperophp\Lib\Utils;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
@@ -63,7 +64,7 @@ class Member implements ControllerProviderInterface
                     $oMember = new Model\Member($app['db']);
                     $oMember
                         ->setUsername($data['username'])
-                        ->setPassword($data['password'])
+                        ->setPassword(Utils::hashMe($data['password'], $app['secret']))
                         ->setActive(1)
                         ->save();
                     
