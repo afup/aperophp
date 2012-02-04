@@ -19,8 +19,8 @@ class Signin extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('username', 'text')
-            ->add('password', 'password');
+            ->add('username', 'text', array('label' => 'Identifiant'))
+            ->add('password', 'password', array('label' => 'Mot de passe'));
     }
     
     public function getDefaultOptions(array $options)

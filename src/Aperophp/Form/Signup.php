@@ -19,11 +19,11 @@ class Signup extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('lastname', 'text', array('required' => false))
-            ->add('firstname', 'text', array('required' => false))
-            ->add('username', 'text')
+            ->add('lastname', 'text', array('label' => 'Nom', 'required' => false, 'attr' => array('placeholder' => 'Facultatif.')))
+            ->add('firstname', 'text', array('label' => 'Prénom', 'required' => false, 'attr' => array('placeholder' => 'Facultatif.')))
+            ->add('username', 'text', array('label' => 'Identifiant'))
             ->add('email', 'email')
-            ->add('password', 'password');
+            ->add('password', 'password', array('label' => 'Mot de passe'));
     }
     
     public function getDefaultOptions(array $options)
