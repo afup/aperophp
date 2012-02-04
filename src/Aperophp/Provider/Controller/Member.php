@@ -32,6 +32,58 @@ class Member implements ControllerProviderInterface
         // *******
         
         // *******
+        // ** Signin member
+        // *******
+        $controllers->get('signin.html', function() use ($app)
+        {
+            $form = $app['form.factory']->create(new \Aperophp\Form\Signin());
+        
+            return $app['twig']->render('member/signin.html.twig', array(
+                'form' => $form->createView(),
+            ));
+        })->bind('_signinmember');
+        // *******
+        
+        // *******
+        // ** Authenticate member
+        // *******
+        $controllers->post('authenticate.html', function(Request $request) use ($app)
+        {
+            $form = $app['form.factory']->create(new \Aperophp\Form\Signin());
+        
+            $form->bindRequest($request);
+            if ($form->isValid())
+            {
+                $data = $form->getData();
+                
+                $oMember = Model\Member::findOneByUsername($app['db'], $data['username']);
+                
+                if ($oMember && $oMember->getPassword() == Utils::hashMe($data['password'], $app['secret']))
+                {
+                    $app['session']->set('user', array('username' => $oMember->getUsername()));
+                    return $app->redirect($app['url_generator']->generate('_homepagemember'));
+                }
+            }
+            
+            return $app['twig']->render('member/signin.html.twig', array(
+                'form' => $form->createView(),
+            ));
+        })->bind('_authenticatemember');
+        // *******
+        
+        // *******
+        // ** Signout member
+        // *******
+        $controllers->get('signout.html', function(Request $request) use ($app)
+        {
+            $app['session']->clear();
+            $app['session']->invalidate();
+            
+            return $app->redirect($app['url_generator']->generate('_homepagemember'));
+        })->bind('_signoutmember');
+        // *******
+        
+        // *******
         // ** Signup member
         // *******
         $controllers->get('signup.html', function() use ($app)

@@ -20,6 +20,36 @@ class Member extends ModelInterface
         $active;
     
     /**
+     * Find one member by username.
+     * 
+     * @author Koin <pkoin.koin@gmail.com>
+     * @since 4 févr. 2012 
+     * @version 1.0 - 4 févr. 2012 - Koin <pkoin.koin@gmail.com>
+     * @param Connection $connection
+     * @param string $username
+     * @return Member
+     */
+    static public function findOneByUsername($connection, $username)
+    {
+        $data = $connection->fetchAssoc('SELECT * FROM Member WHERE username = ?', array($username));
+        
+        if (!$data)
+        {
+            return false;
+        }
+        
+        $oMember = new Member($connection);
+        
+        $oMember
+            ->setId($data['id'])
+            ->setUsername($data['username'])
+            ->setPassword($data['password'])
+            ->setActive($data['active']);
+        
+        return $oMember;
+    }
+    
+    /**
      * Save.
      * 
      * @author Koin <pkoin.koin@gmail.com>

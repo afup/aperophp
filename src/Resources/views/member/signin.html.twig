@@ -1,0 +1,6 @@
+<form method="post" action="{{ url('_authenticatemember') }}" {{ form_enctype(form) }}>
+    {{ form_row(form.username) }}
+    {{ form_row(form.password) }}
+    {{ form_rest(form) }}
+    <button type="submit"><span>Signup</span></button>
+</form>

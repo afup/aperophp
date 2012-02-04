@@ -1,0 +1,7 @@
+{% if app.session.has('user') %}
+HELLO {{ app.session.get('user').username }} !
+<a href="{{ url('_signoutmember') }}">Se déconnecter</a>
+{% else %}
+<a href="{{ url('_signupmember') }}">S'inscrire</a>
+<a href="{{ url('_signinmember') }}">Se connecter</a>
+{% endif %} 
