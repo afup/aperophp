@@ -26,10 +26,29 @@ CREATE  TABLE IF NOT EXISTS `User` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `lastname` VARCHAR(80) NULL ,
   `firstname` VARCHAR(80) NULL ,
-  `username` VARCHAR(80) NOT NULL ,
-  `password` VARCHAR(64) NOT NULL ,
-  `actived` TINYINT(1)  NOT NULL ,
+  `email` VARCHAR(80) NOT NULL ,
   `token` VARCHAR(64) NULL ,
+  `member_id` INT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_User_Member` (`member_id` ASC) ,
+  CONSTRAINT `fk_User_Member`
+    FOREIGN KEY (`member_id` )
+    REFERENCES `Member` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Member`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Member` ;
+
+CREATE  TABLE IF NOT EXISTS `Member` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `username` VARCHAR(80) NOT NULL ,
+  `password` VARCHAR(80) NOT NULL ,
+  `active` TINYINT(1) NOT NULL DEFAULT '1' ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
