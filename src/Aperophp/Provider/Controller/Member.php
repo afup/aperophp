@@ -60,7 +60,7 @@ class Member implements ControllerProviderInterface
                 
                 $oMember = Model\Member::findOneByUsername($app['db'], $data['username']);
                 
-                if ($oMember && $oMember->getPassword() == Utils::hashMe($data['password'], $app['secret']))
+                if ($oMember && $oMember->getActive() && $oMember->getPassword() == Utils::hashMe($data['password'], $app['secret']))
                 {
                     $app['session']->set('user', array(
                         'id' => $oMember->getId(),
