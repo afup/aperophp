@@ -1,5 +1,6 @@
 {% if app.session.has('user') %}
 HELLO {{ app.session.get('user').username }} !
+<a href="{{ url('_editmember') }}">Modifier mes informations</a>
 <a href="{{ url('_signoutmember') }}">Se déconnecter</a>
 {% else %}
 <a href="{{ url('_signupmember') }}">S'inscrire</a>

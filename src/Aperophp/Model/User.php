@@ -22,6 +22,38 @@ class User extends ModelInterface
         $member_id;
     
     /**
+     * Find one user by member id.
+     *
+     * @author Koin <pkoin.koin@gmail.com>
+     * @since 4 févr. 2012
+     * @version 1.0 - 4 févr. 2012 - Koin <pkoin.koin@gmail.com>
+     * @param Connection $connection
+     * @param string $username
+     * @return Member
+     */
+    static public function findOneByMemberId($connection, $member_id)
+    {
+        $data = $connection->fetchAssoc('SELECT * FROM User WHERE member_id = ?', array($member_id));
+    
+        if (!$data)
+        {
+            return false;
+        }
+    
+        $oUser = new User($connection);
+    
+        $oUser
+            ->setId($data['id'])
+            ->setLastname($data['lastname'])
+            ->setFirstname($data['firstname'])
+            ->setEmail($data['email'])
+            ->setToken($data['token'])
+            ->setMemberId($data['member_id']);
+    
+        return $oUser;
+    }
+    
+    /**
      * Save.
      * 
      * @author Koin <pkoin.koin@gmail.com>

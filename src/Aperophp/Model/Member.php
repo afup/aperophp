@@ -17,7 +17,8 @@ class Member extends ModelInterface
         $id,
         $username,
         $password,
-        $active;
+        $active,
+        $user;
     
     /**
      * Find one member by username.
@@ -103,11 +104,26 @@ class Member extends ModelInterface
      */
     protected function update()
     {
-        return $this->connection->update('User', array(
+        return $this->connection->update('Member', array(
             'username' => $this->username,
             'password' => $this->password,
             'active' => $this->active,
         ), array('id' => $this->id));
+    }
+    
+    /**
+     * Return user associated.
+     * 
+     * @author Koin <pkoin.koin@gmail.com>
+     * @since 4 févr. 2012 
+     * @version 1.0 - 4 févr. 2012 - Koin <pkoin.koin@gmail.com>
+     */
+    public function getUser()
+    {
+        if (!$this->user)
+            $this->user = User::findOneByMemberId($this->connection, $this->id);
+        
+        return $this->user;
     }
     
     public function getId()
