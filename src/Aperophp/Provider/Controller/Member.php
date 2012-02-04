@@ -3,7 +3,6 @@
 namespace Aperophp\Provider\Controller;
 
 use Aperophp\Model;
-use Aperophp\Lib\Utils;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
@@ -53,7 +52,7 @@ class Member implements ControllerProviderInterface
                 
                 $oMember = Model\Member::findOneByUsername($app['db'], $data['username']);
                 
-                if ($oMember && $oMember->getActive() && $oMember->getPassword() == Utils::hashMe($data['password'], $app['secret']))
+                if ($oMember && $oMember->getActive() && $oMember->getPassword() == $app['utils']->hash($data['password']))
                 {
                     $app['session']->set('user', array(
                         'id' => $oMember->getId(),
@@ -120,7 +119,7 @@ class Member implements ControllerProviderInterface
                     $oMember = new Model\Member($app['db']);
                     $oMember
                         ->setUsername($data['username'])
-                        ->setPassword(Utils::hashMe($data['password'], $app['secret']))
+                        ->setPassword($app['utils']->hash($data['password']))
                         ->setActive(1)
                         ->save();
                     
@@ -212,7 +211,7 @@ class Member implements ControllerProviderInterface
                     if ($data['password'])
                     {
                         $oMember
-                            ->setPassword(Utils::hashMe($data['password'], $app['secret']))
+                            ->setPassword($app['utils']->hash($data['password']))
                             ->save();
                     }
                     

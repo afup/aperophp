@@ -11,18 +11,27 @@ namespace Aperophp\Lib;
  */
 class Utils
 {
+    protected
+        $app;
+    
+    public function __construct($app)
+    {
+        $this->app = $app;
+    }
+    
     /**
      * Hash my string.
      * 
      * @author Koin <pkoin.koin@gmail.com>
      * @since 4 févr. 2012 
-     * @version 1.0 - 4 févr. 2012 - Koin <pkoin.koin@gmail.com>
+     * @version 1.1 - 4 févr. 2012 - Koin <pkoin.koin@gmail.com>
      * @param string $str
      * @param string $salt
      * @return string
      */
-    static public function hashMe($str, $salt)
+    public function hash($str, $salt = null)
     {
+        $salt = $salt ? $salt : $app['secret'];
         return sha1($str.$salt);
     }
 }
