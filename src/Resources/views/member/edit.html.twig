@@ -1,8 +1,55 @@
-<form method="post" action="{{ url('_updatemember') }}" {{ form_enctype(form) }}>
-    {{ form_row(form.firstname) }}
-    {{ form_row(form.lastname) }}
-    {{ form_row(form.email) }}
-    {{ form_row(form.password) }}
-    {{ form_rest(form) }}
-    <button type="submit"><span>Envoyer</span></button>
-</form>
+{% extends "layout.html.twig" %}
+
+{% block content %}
+<div class="row">
+	<div class="span8 offset4">
+		<form method="post" action="{{ url('_updatemember') }}" class="form-horizontal" {{ form_enctype(form) }}>
+			<fieldset>
+				<legend>Mon profil</legend>
+				<div class="control-group {% if form.lastname.vars.errors|length %}error{% endif %}">
+				    {{ form_label(form.lastname, null, { 'attr': {'class': 'control-label'} }) }}
+				    <div class="controls">
+				    	{{ form_widget(form.lastname) }}
+				    	{{ form_errors(form.lastname) }}
+			    	</div>
+			    </div>
+			    <div class="control-group {% if form.firstname.vars.errors|length %}error{% endif %}">
+				    {{ form_label(form.firstname, null, { 'attr': {'class': 'control-label'} }) }}
+				    <div class="controls">
+				    	{{ form_widget(form.firstname) }}
+				    	{{ form_errors(form.firstname) }}
+			    	</div>
+			    </div>
+			    <div class="control-group">
+				    <label for="username" class="control-label">Identifiant</label>
+				    <div class="controls">
+				    	<input type="text" disabled="" placeholder="{{ app.session.get('user').username }}" id="username" class="disabled">
+				    </div>
+			    </div>
+			    <div class="control-group {% if form.email.vars.errors|length %}error{% endif %}">
+				    {{ form_label(form.email, null, { 'attr': {'class': 'control-label'} }) }}
+				    <div class="controls">
+				    	<div class="input-prepend">
+							<span class="add-on"><i class="icon-envelope"></i></span>
+							{{ form_widget(form.email, { 'attr': {'class': 'span2'} }) }}
+							{{ form_errors(form.email) }}
+						</div>
+			    	</div>
+			    </div>
+			    <div class="control-group {% if form.password.vars.errors|length %}error{% endif %}">
+				    {{ form_label(form.password, null, { 'attr': {'class': 'control-label'} }) }}
+				    <div class="controls">
+				    	{{ form_widget(form.password) }}
+				    	{{ form_errors(form.password) }}
+			    	</div>
+			    </div>
+			    {{ form_rest(form) }}
+			    <div class="form-actions">
+			    	<button class="btn btn-primary" type="submit">Enregistrer</button>
+					<button class="btn" type="reset">Annuler</button>
+			   	</div>
+		    </fieldset>
+		</form>
+	</div>
+</div>
+{% endblock %}

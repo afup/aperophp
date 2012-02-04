@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Koin <pkoin.koin@gmail.com>
  * @since 22 janv. 2012 
- * @version 1.1 - 4 févr. 2012 - Koin <pkoin.koin@gmail.com>
+ * @version 1.2 - 4 févr. 2012 - Koin <pkoin.koin@gmail.com>
  */
 class Member implements ControllerProviderInterface
 {
@@ -25,19 +25,12 @@ class Member implements ControllerProviderInterface
         $controllers = new ControllerCollection();
         
         // *******
-        // ** Homepage member
-        // *******
-        $controllers->get('/', function() use ($app)
-        {
-            return $app['twig']->render('member/index.html.twig');
-        })->bind('_homepagemember');
-        // *******
-        
-        // *******
         // ** Signin member
         // *******
         $controllers->get('signin.html', function() use ($app)
         {
+            $app['session']->set('menu', 'signin');
+            
             $form = $app['form.factory']->create(new \Aperophp\Form\Signin());
         
             return $app['twig']->render('member/signin.html.twig', array(
@@ -51,6 +44,8 @@ class Member implements ControllerProviderInterface
         // *******
         $controllers->post('authenticate.html', function(Request $request) use ($app)
         {
+            $app['session']->set('menu', 'signin');
+            
             $form = $app['form.factory']->create(new \Aperophp\Form\Signin());
         
             $form->bindRequest($request);
@@ -66,8 +61,10 @@ class Member implements ControllerProviderInterface
                         'id' => $oMember->getId(),
                         'username' => $oMember->getUsername(),
                     ));
-                    return $app->redirect($app['url_generator']->generate('_homepagemember'));
+                    return $app->redirect($app['url_generator']->generate('_homepageaperos'));
                 }
+                
+                $app['session']->setFlash('error', 'Identifiant / Mot de passe incorrect.');
             }
             
             return $app['twig']->render('member/signin.html.twig', array(
@@ -84,7 +81,7 @@ class Member implements ControllerProviderInterface
             $app['session']->clear();
             $app['session']->invalidate();
             
-            return $app->redirect($app['url_generator']->generate('_homepagemember'));
+            return $app->redirect($app['url_generator']->generate('_homepageaperos'));
         })->bind('_signoutmember');
         // *******
         
@@ -93,6 +90,8 @@ class Member implements ControllerProviderInterface
         // *******
         $controllers->get('signup.html', function() use ($app)
         {
+            $app['session']->set('menu', 'signup');
+            
             $form = $app['form.factory']->create(new \Aperophp\Form\Signup());
         
             return $app['twig']->render('member/signup.html.twig', array(
@@ -106,6 +105,8 @@ class Member implements ControllerProviderInterface
         // *******
         $controllers->post('create.html', function(Request $request) use ($app)
         {
+            $app['session']->set('menu', 'signup');
+            
             $form = $app['form.factory']->create(new \Aperophp\Form\Signup());
         
             $form->bindRequest($request);

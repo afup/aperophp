@@ -23,8 +23,10 @@ class Aperos implements ControllerProviderInterface
         // ******* 
         $controllers->get('/', function() use ($app) 
         {			
-            return $app['twig']->render('index.html.twig');
-        });
+            $app['session']->set('menu', 'home');
+            
+            return $app['twig']->render('apero/index.html.twig');
+        })->bind('_homepageaperos');
         // *******
         
         // *******
