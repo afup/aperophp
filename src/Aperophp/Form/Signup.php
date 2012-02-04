@@ -19,8 +19,8 @@ class Signup extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('lastname', 'text')
-            ->add('firstname', 'text')
+            ->add('lastname', 'text', array('required' => false))
+            ->add('firstname', 'text', array('required' => false))
             ->add('username', 'text')
             ->add('email', 'email')
             ->add('password', 'password');
@@ -32,9 +32,18 @@ class Signup extends AbstractType
             'fields' => array(
                 'lastname'     => new Constraints\MaxLength(array('limit' => 80)),
                 'firstname'    => new Constraints\MaxLength(array('limit' => 80)),
-                'username'     => new Constraints\MaxLength(array('limit' => 80)),
-                'email'        => new Constraints\Email(),
-                'password'     => new Constraints\NotNull(),
+                'username'     => array(
+                    new Constraints\MaxLength(array('limit' => 80)),
+                    new Constraints\NotNull(),
+                ),
+                'email'        => array(
+                    new Constraints\Email(),
+                    new Constraints\NotNull(),
+                ),
+                'password'     => array(
+                    new Constraints\MaxLength(array('limit' => 80)),
+                    new Constraints\NotNull(),
+                ),
             ),
             'allowExtraFields' => false,
         ));
