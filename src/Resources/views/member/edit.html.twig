@@ -3,6 +3,9 @@
 {% block content %}
 <div class="row">
 	<div class="span8 offset4">
+		{% if app.session.hasFlash('success') %}
+		<div class="alert alert-success">{{ app.session.flash('success') }}</div> 
+		{% endif %} 
 		<form method="post" action="{{ url('_updatemember') }}" class="form-horizontal" {{ form_enctype(form) }}>
 			<fieldset>
 				<legend>Mon profil</legend>

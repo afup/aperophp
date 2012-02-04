@@ -2,8 +2,6 @@
 
 namespace Aperophp\Provider\Controller;
 
-use Aperophp\Model\User;
-
 use Aperophp\Model;
 use Aperophp\Lib\Utils;
 use Silex\Application;
@@ -31,7 +29,7 @@ class Member implements ControllerProviderInterface
         {
             $app['session']->set('menu', 'signin');
             
-            $form = $app['form.factory']->create(new \Aperophp\Form\Signin());
+            $form = $app['form.factory']->create(new \Aperophp\Form\SigninType());
         
             return $app['twig']->render('member/signin.html.twig', array(
                 'form' => $form->createView(),
@@ -46,7 +44,7 @@ class Member implements ControllerProviderInterface
         {
             $app['session']->set('menu', 'signin');
             
-            $form = $app['form.factory']->create(new \Aperophp\Form\Signin());
+            $form = $app['form.factory']->create(new \Aperophp\Form\SigninType());
         
             $form->bindRequest($request);
             if ($form->isValid())
@@ -92,7 +90,7 @@ class Member implements ControllerProviderInterface
         {
             $app['session']->set('menu', 'signup');
             
-            $form = $app['form.factory']->create(new \Aperophp\Form\Signup());
+            $form = $app['form.factory']->create(new \Aperophp\Form\SignupType());
         
             return $app['twig']->render('member/signup.html.twig', array(
                 'form' => $form->createView(),
@@ -107,7 +105,7 @@ class Member implements ControllerProviderInterface
         {
             $app['session']->set('menu', 'signup');
             
-            $form = $app['form.factory']->create(new \Aperophp\Form\Signup());
+            $form = $app['form.factory']->create(new \Aperophp\Form\SignupType());
         
             $form->bindRequest($request);
             if ($form->isValid())
@@ -143,7 +141,9 @@ class Member implements ControllerProviderInterface
                     throw $e;
                 }
                 
-                return $app->redirect($app['url_generator']->generate('_homepagemember'));
+                $app['session']->setFlash('success', 'Votre compte a été créé avec succès.');
+                
+                return $app->redirect($app['url_generator']->generate('_signinmember'));
             }
         
             return $app['twig']->render('member/signup.html.twig', array(
@@ -166,7 +166,7 @@ class Member implements ControllerProviderInterface
             $oMember = Model\Member::findOneByUsername($app['db'], $user['username']);
             $oUser = $oMember->getUser();
             
-            $form = $app['form.factory']->create(new \Aperophp\Form\EditMember(), array(
+            $form = $app['form.factory']->create(new \Aperophp\Form\EditMemberType(), array(
                 'lastname' => $oUser->getLastname(),
                 'firstname' => $oUser->getFirstname(),
                 'email' => $oUser->getEmail(),
@@ -192,7 +192,7 @@ class Member implements ControllerProviderInterface
             $oMember = Model\Member::findOneByUsername($app['db'], $user['username']);
             $oUser = $oMember->getUser();
             
-            $form = $app['form.factory']->create(new \Aperophp\Form\EditMember());
+            $form = $app['form.factory']->create(new \Aperophp\Form\EditMemberType());
         
             $form->bindRequest($request);
             if ($form->isValid())
@@ -224,7 +224,9 @@ class Member implements ControllerProviderInterface
                     throw $e;
                 }
                 
-                return $app->redirect($app['url_generator']->generate('_homepagemember'));
+                $app['session']->setFlash('success', 'Votre compte a été modifié avec succès.');
+                
+                return $app->redirect($app['url_generator']->generate('_editmember'));
             }
             
             return $app['twig']->render('member/edit.html.twig', array(

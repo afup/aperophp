@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints;
  * @since 4 févr. 2012 
  * @version 1.0 - 4 févr. 2012 - Koin <pkoin.koin@gmail.com>
  */
-class Signin extends AbstractType
+class SigninType extends AbstractType
 {
     public function buildForm(FormBuilder $builder, array $options)
     {

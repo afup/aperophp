@@ -6,6 +6,9 @@
 		{% if app.session.hasFlash('error') %} 
 		<div class="alert alert-error"><strong>Erreur!</strong> {{ app.session.flash('error') }}</div> 
 		{% endif %} 
+		{% if app.session.hasFlash('success') %}
+		<div class="alert alert-success">{{ app.session.flash('success') }}</div> 
+		{% endif %} 
 		<form method="post" action="{{ url('_authenticatemember') }}" class="well" {{ form_enctype(form) }}>
 		    {{ form_row(form.username) }}
 		    {{ form_row(form.password) }}
