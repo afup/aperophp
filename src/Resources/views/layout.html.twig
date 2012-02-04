@@ -12,9 +12,9 @@
     <![endif]-->
 
     <!-- Le styles -->
-    <link href="http://aperophp.local/site/web/css/bootstrap.css" rel="stylesheet">
-    <link href="http://aperophp.local/site/web/css/bootstrap-responsive.css" rel="stylesheet">
-    <link href="http://aperophp.local/site/web/css/apero.css" rel="stylesheet">
+    <link href="{{ app.request.basepath }}/css/bootstrap.css" rel="stylesheet">
+    <link href="{{ app.request.basepath }}/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="{{ app.request.basepath }}/css/apero.css" rel="stylesheet">
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -35,7 +35,7 @@
       <hr>
       {% include 'common/footer.html.twig' %}
     </div>
-    <script src="http://aperophp.local/site/web/js/jquery.js"></script>
-    <script src="http://aperophp.local/site/web/js/bootstrap.js"></script>
+    <script src="{{ app.request.basepath }}/js/jquery.js"></script>
+    <script src="{{ app.request.basepath }}/js/bootstrap.js"></script>
   </body>
 </html>
