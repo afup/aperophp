@@ -7,3 +7,4 @@ deps.lock
 .buildpath
 .project
 .settings/
+*.*~

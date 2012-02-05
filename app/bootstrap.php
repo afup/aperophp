@@ -12,6 +12,11 @@ $app['autoloader']->registerNamespaces(array(
     'Aperophp' => __DIR__.'/../src/'
 ));
 
+// Utils
+$app['utils'] = $app->share(function() use ($app) {
+    return new \Aperophp\Lib\Utils($app);
+});
+
 use Silex\Provider\SymfonyBridgesServiceProvider;
 use Silex\Provider\UrlGeneratorServiceProvider;
 use Silex\Provider\TwigServiceProvider;
