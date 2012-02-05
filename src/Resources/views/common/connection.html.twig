@@ -1,0 +1,17 @@
+{% if app.session.has('user') %}
+<ul class="nav pull-right">
+	<li class="dropdown">
+		<a data-toggle="dropdown" class="dropdown-toggle" href="#">Bienvenu, {{ app.session.get('user').username }} <b class="caret"></b></a>
+		<ul class="dropdown-menu">
+			<li><a href="{{ url('_editmember') }}"><i class="icon-user"></i> Mon profil</a></li>
+			<li class="divider"></li>
+			<li><a href="{{ url('_signoutmember') }}">Déconnexion</a></li>
+		</ul>
+	</li>
+</ul>
+{% else %}
+<ul class="nav pull-right">
+	<li class="{% if app.session.get('menu') == 'signup' %}active{% endif %}"><a href="{{ url('_signupmember') }}">S'inscrire</a></li>
+	<li class="{% if app.session.get('menu') == 'signin' %}active{% endif %}"><a href="{{ url('_signinmember') }}">Se connecter</a></li>
+</ul>
+{% endif %} 

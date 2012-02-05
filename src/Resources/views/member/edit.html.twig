@@ -1,22 +1,15 @@
 {% extends "layout.html.twig" %}
 
-{% form_theme form _self %}
-
-{% block field_errors %}
-{% spaceless %}
-    {% for error in errors %}
-        <span class="help-inline">{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}</span>
-    {% endfor %}
-{% endspaceless %}
-{% endblock field_errors %}
-
 {% block content %}
 <div class="row">
 	<div class="span8 offset4">
-		<form method="post" action="{{ url('_createmember') }}" class="form-horizontal" {{ form_enctype(form) }}>
+		{% if app.session.hasFlash('success') %}
+		<div class="alert alert-success">{{ app.session.flash('success') }}</div> 
+		{% endif %} 
+		<form method="post" action="{{ url('_updatemember') }}" class="form-horizontal" {{ form_enctype(form) }}>
 			<fieldset>
-				<legend>Inscription</legend>
-			    <div class="control-group {% if form.lastname.vars.errors|length %}error{% endif %}">
+				<legend>Mon profil</legend>
+				<div class="control-group {% if form.lastname.vars.errors|length %}error{% endif %}">
 				    {{ form_label(form.lastname, null, { 'attr': {'class': 'control-label'} }) }}
 				    <div class="controls">
 				    	{{ form_widget(form.lastname) }}
@@ -30,12 +23,11 @@
 				    	{{ form_errors(form.firstname) }}
 			    	</div>
 			    </div>
-			    <div class="control-group {% if form.username.vars.errors|length %}error{% endif %}">
-				    {{ form_label(form.username, null, { 'attr': {'class': 'control-label'} }) }}
+			    <div class="control-group">
+				    <label for="username" class="control-label">Identifiant</label>
 				    <div class="controls">
-				    	{{ form_widget(form.username) }}
-				    	{{ form_errors(form.username) }}
-			    	</div>
+				    	<input type="text" disabled="" placeholder="{{ app.session.get('user').username }}" id="username" class="disabled">
+				    </div>
 			    </div>
 			    <div class="control-group {% if form.email.vars.errors|length %}error{% endif %}">
 				    {{ form_label(form.email, null, { 'attr': {'class': 'control-label'} }) }}
@@ -56,10 +48,10 @@
 			    </div>
 			    {{ form_rest(form) }}
 			    <div class="form-actions">
-			    	<button class="btn btn-primary" type="submit">S'inscrire</button>
+			    	<button class="btn btn-primary" type="submit">Enregistrer</button>
 					<button class="btn" type="reset">Annuler</button>
 			   	</div>
-			</fieldset>
+		    </fieldset>
 		</form>
 	</div>
 </div>
