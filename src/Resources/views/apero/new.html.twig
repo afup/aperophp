@@ -1,5 +1,63 @@
-<h1>Organiser un apéritif</h1>
+{% extends "layout.html.twig" %}
 
-<form>
+{% form_theme form _self %}
 
-</form>
+{% block field_errors %}
+{% spaceless %}
+    {% for error in errors %}
+        <span class="help-inline">{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}</span>
+    {% endfor %}
+{% endspaceless %}
+{% endblock field_errors %}
+
+{% block content %}
+<div class="row">
+	<div class="span8 offset4">
+		<form method="post" action="{{ url('_createdrink') }}" class="form-horizontal" {{ form_enctype(form) }}>
+			<fieldset>
+				<legend>Organiser un apéro</legend>
+				<div class="control-group {% if form.place.vars.errors|length %}error{% endif %}">
+				    {{ form_label(form.place, null, { 'attr': {'class': 'control-label'} }) }}
+				    <div class="controls">
+				    	{{ form_widget(form.place) }}
+				    	{{ form_errors(form.place) }}
+			    	</div>
+			    </div>
+			    <div class="control-group {% if form.day.vars.errors|length %}error{% endif %}">
+				    {{ form_label(form.day, null, { 'attr': {'class': 'control-label'} }) }}
+				    <div class="controls">
+				    	{{ form_widget(form.day) }}
+				    	{{ form_errors(form.day) }}
+			    	</div>
+			    </div>
+			    <div class="control-group {% if form.hour.vars.errors|length %}error{% endif %}">
+				    {{ form_label(form.hour, null, { 'attr': {'class': 'control-label'} }) }}
+				    <div class="controls">
+				    	{{ form_widget(form.hour) }}
+				    	{{ form_errors(form.hour) }}
+			    	</div>
+			    </div>
+			    <div class="control-group {% if form.description.vars.errors|length %}error{% endif %}">
+				    {{ form_label(form.description, null, { 'attr': {'class': 'control-label'} }) }}
+				    <div class="controls">
+				    	{{ form_widget(form.description) }}
+				    	{{ form_errors(form.description) }}
+			    	</div>
+			    </div>
+			    <div class="control-group {% if form.id_city.vars.errors|length %}error{% endif %}">
+				    {{ form_label(form.id_city, null, { 'attr': {'class': 'control-label'} }) }}
+				    <div class="controls">
+				    	{{ form_widget(form.id_city) }}
+				    	{{ form_errors(form.id_city) }}
+			    	</div>
+			    </div>
+			    {{ form_rest(form) }}
+			    <div class="form-actions">
+			    	<button class="btn btn-primary" type="submit">Créer</button>
+					<button class="btn" type="reset">Annuler</button>
+			   	</div>
+		    </fieldset>
+		</form>
+	</div>
+</div>
+{% endblock %}
