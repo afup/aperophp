@@ -1,0 +1,20 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+<div class="row">
+	<div class="span4 offset6">
+		{% if app.session.hasFlash('error') %} 
+		<div class="alert alert-error"><strong>Erreur!</strong> {{ app.session.flash('error') }}</div> 
+		{% endif %} 
+		{% if app.session.hasFlash('success') %}
+		<div class="alert alert-success">{{ app.session.flash('success') }}</div> 
+		{% endif %} 
+		<form method="post" action="{{ url('_authenticatemember') }}" class="well" {{ form_enctype(form) }}>
+		    {{ form_row(form.username) }}
+		    {{ form_row(form.password) }}
+		    {{ form_rest(form) }}
+		    <button type="submit" class="btn btn-primary">Connexion</button>
+		</form>
+	</div>
+</div>
+{% endblock %}

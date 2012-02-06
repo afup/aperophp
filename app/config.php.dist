@@ -21,3 +21,6 @@ $app['db.options'] = array(
     'password'  => '',
 );
 */
+
+// Secret string
+$app['secret'] = 'change_me_im_not_secret';

@@ -5,3 +5,7 @@ nbproject/
 app/config.php
 deps.lock
 cache/
+.buildpath
+.project
+.settings/
+*.*~
