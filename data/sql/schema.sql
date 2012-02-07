@@ -86,7 +86,7 @@ CREATE  TABLE IF NOT EXISTS `Drink` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `place` VARCHAR(100) NOT NULL ,
   `day` DATE NOT NULL ,
-  `hour` INT NOT NULL ,
+  `hour` TIME NOT NULL ,
   `kind` ENUM('drink', 'talk') NOT NULL DEFAULT 'drink' ,
   `description` TEXT NOT NULL ,
   `map` VARCHAR(256) NULL ,
