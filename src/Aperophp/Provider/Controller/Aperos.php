@@ -7,13 +7,14 @@ use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Aperos controller
  *
  * @author Mikael Randy <mikael.randy@gmail.com>
  * @since 21 janv. 2012
- * @version 1.1 - 6 févr. 2012 - Koin <pkoin.koin@gmail.com>
+ * @version 1.2 - 7 févr. 2012 - Koin <pkoin.koin@gmail.com>
  */
 class Aperos implements ControllerProviderInterface
 {
@@ -37,12 +38,13 @@ class Aperos implements ControllerProviderInterface
         // *******
         $controllers->get('new.html', function() use ($app)
         {
-            $app['session']->set('menu', 'newdrink');
-            
             if (!$app['session']->has('user'))
             {
-                $app->abort(401, 'Authentication required.');
+                $app['session']->setFlash('error', 'Vous devez être authentifié pour créer un apéro.');
+                return new RedirectResponse($app['url_generator']->generate('_signinmember'));
             }
+            
+            $app['session']->set('menu', 'newdrink');
             
             $form = $app['form.factory']->create(new \Aperophp\Form\DrinkType($app['db']));
             
@@ -59,7 +61,8 @@ class Aperos implements ControllerProviderInterface
         {
             if (!$app['session']->has('user'))
             {
-                $app->abort(401, 'Authentication required.');
+                $app['session']->setFlash('error', 'Vous devez être authentifié pour créer un apéro.');
+                return new RedirectResponse($app['url_generator']->generate('_signinmember'));
             }
             
             $user = $app['session']->get('user');
