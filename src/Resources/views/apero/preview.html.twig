@@ -1,0 +1,10 @@
+<div class="span4">
+	<h5>{{ drink.kindTranslated }}</h5>
+	<h2>{{ drink.city.name }}</h2>
+	<h3>{{ drink.day|date("d F Y") }}</h3>
+	<ul>
+		<li>Lieu : {{ drink.place }}</li>
+		<li>à {{ drink.hour|date("H:i") }}</li>
+	</ul>
+	<p><a class="btn" href="{{ url('_viewaperos', {'id': drink.id}) }}">Voir le détail &raquo;</a></p>
+</div>

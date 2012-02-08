@@ -29,7 +29,11 @@ class Aperos implements ControllerProviderInterface
         {			
             $app['session']->set('menu', 'home');
             
-            return $app['twig']->render('apero/index.html.twig');
+            $aDrinkChunked = array_chunk(Model\Drink::findAll($app['db'], 6), 3);
+            
+            return $app['twig']->render('apero/index.html.twig', array(
+                'drinks' => $aDrinkChunked
+            ));
         })->bind('_homepageaperos');
         // *******
         
@@ -93,6 +97,30 @@ class Aperos implements ControllerProviderInterface
                 'form' => $form->createView(),
             ));
         })->bind('_createdrink');
+        // *******
+        
+        // *******
+        // ** See a drink
+        // *******
+        $controllers->get('/{id}/view.html', function($id) use ($app)
+        {
+            $app['session']->set('menu', null);
+            
+            $oDrink = Model\Drink::findOneById($app['db'], $id);
+            
+            if (!$oDrink)
+            {
+                $app->abort(404, 'Cet apéro n\'existe pas.');
+            }
+            
+            // TODO : dynamic please !
+            $app['gmap']->addMarkerByAddress("Ninkasi, Gerland, Lyon","Marker Title", "Marker Description");
+            
+            return $app['twig']->render('apero/view.html.twig', array(
+                'drink' => $oDrink,
+                'map' => $app['gmap'],
+            ));
+        })->bind('_viewaperos');
         // *******
         
         return $controllers;

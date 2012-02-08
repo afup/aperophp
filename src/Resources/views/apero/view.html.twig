@@ -1,0 +1,32 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+<div class="row">
+	<div class="span4">
+		{{ map.printMap()|raw }}
+	</div>
+	<div class="span7">
+		<h1>{{ drink.kindTranslated }} <small>à {{ drink.city.name }}, le {{ drink.day|date("d F Y") }} à {{ drink.hour|date("H:i") }}</small></h1>
+		<p>Lieu : {{ drink.place }}</p>
+		<blockquote>
+			<p>{{ drink.description }}</p>
+			<small>organisé par {{ drink.user.email|replace({'@': '[at]'}) }}</small>
+		</blockquote>
+		{% include 'apero/comment.html.twig' %}
+	</div>
+	<div class="span4">
+		<div class="well">
+			{% include 'apero/participations.html.twig' %}
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block headjs %}
+{{ map.getHeaderJS()|raw }}
+{{ map.getMapJS()|raw }}
+{% endblock %}
+
+{% block bottomjs %}
+{{ map.printOnLoad()|raw }}
+{% endblock %}

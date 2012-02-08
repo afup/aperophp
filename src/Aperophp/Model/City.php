@@ -13,6 +13,10 @@ use Doctrine\DBAL\Connection;
  */
 class City extends ModelInterface
 {
+    protected
+        $id,
+        $name;
+    
     /**
      * Get all.
      * 
@@ -33,5 +37,54 @@ class City extends ModelInterface
         }
         
         return $result;
+    }
+    
+    /**
+     * FInd one by id.
+     * 
+     * @author Koin <pkoin.koin@gmail.com>
+     * @since 7 févr. 2012 
+     * @version 1.0 - 7 févr. 2012 - Koin <pkoin.koin@gmail.com>
+     * @param Connection $connection
+     * @param integer $id
+     */
+    static public function findOneById(Connection $connection, $id)
+    {
+        $data = $connection->fetchAssoc('SELECT * FROM City WHERE id = ?', array($id));
+    
+        if (!$data)
+        {
+            return false;
+        }
+    
+        $oCity = new self($connection);
+    
+        $oCity
+            ->setId($data['id'])
+            ->setName($data['name']);
+    
+        return $oCity;
+    }
+    
+    public function getId()
+    {
+        return $this->id;
+    }
+    
+    public function getName()
+    {
+        return $this->name;
+    }
+    
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+    
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
     }
 }

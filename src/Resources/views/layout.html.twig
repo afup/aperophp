@@ -10,6 +10,8 @@
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    
+    {% block headjs %}{% endblock %}
 
     <!-- Le styles -->
     <link href="{{ app.request.basepath }}/css/bootstrap.min.css" rel="stylesheet">
@@ -37,5 +39,6 @@
     </div>
     <script src="{{ app.request.basepath }}/js/jquery.min.js"></script>
     <script src="{{ app.request.basepath }}/js/bootstrap.min.js"></script>
+    {% block bottomjs %}{% endblock %}
   </body>
 </html>

@@ -25,7 +25,9 @@ class Drink extends ModelInterface
         $description,
         $map,
         $id_user,
-        $id_city;
+        $id_city,
+        $city,
+        $user;
 
     static public function getKinds()
     {
@@ -33,6 +35,76 @@ class Drink extends ModelInterface
             self::KIND_DRINK        => 'Apéro',
             self::KIND_CONFERENCE   => 'Conférence',
         );
+    }
+    
+    /**
+     * Find all order by day.
+     * 
+     * @author Koin <pkoin.koin@gmail.com>
+     * @since 7 févr. 2012 
+     * @version 1.0 - 7 févr. 2012 - Koin <pkoin.koin@gmail.com>
+     * @param Connection $connection
+     */
+    static public function findAll(Connection $connection, $limit = null)
+    {
+        $sql = "SELECT * FROM Drink ORDER BY day";
+        $sql .= $limit ? " LIMIT " . $limit : "";
+        
+        $aData = $connection->fetchAll($sql);
+        
+        $aDrink = array();
+        foreach ($aData as $data)
+        {
+            $oDrink = new self($connection);
+            $oDrink
+                ->setId($data['id'])
+                ->setPlace($data['place'])
+                ->setDay($data['day'])
+                ->setHour($data['hour'])
+                ->setKind($data['kind'])
+                ->setDescription($data['description'])
+                ->setMap($data['map'])
+                ->setIdUser($data['id_user'])
+                ->setIdCity($data['id_city']);
+            
+            $aDrink[$data['id']] = $oDrink;
+        }
+        
+        return $aDrink;
+    }
+    
+    /**
+     * Find one by id.
+     * 
+     * @author Koin <pkoin.koin@gmail.com>
+     * @since 7 févr. 2012 
+     * @version 1.0 - 7 févr. 2012 - Koin <pkoin.koin@gmail.com>
+     * @param Connection $connection
+     * @param integer $id
+     */
+    static public function findOneById(Connection $connection, $id)
+    {
+        $data = $connection->fetchAssoc('SELECT * FROM Drink WHERE id = ?', array($id));
+    
+        if (!$data)
+        {
+            return false;
+        }
+    
+        $oDrink = new self($connection);
+        
+        $oDrink
+            ->setId($data['id'])
+            ->setPlace($data['place'])
+            ->setDay($data['day'])
+            ->setHour($data['hour'])
+            ->setKind($data['kind'])
+            ->setDescription($data['description'])
+            ->setMap($data['map'])
+            ->setIdCity($data['id_city'])
+            ->setIdUser($data['id_user']);
+    
+        return $oDrink;
     }
     
     /**
@@ -104,6 +176,56 @@ class Drink extends ModelInterface
             'id_user' => $this->id_user,
             'id_city' => $this->id_city,
         ), array('id' => $this->id));
+    }    
+    
+    /**
+     * Get kind translated.
+     * 
+     * @author Koin <pkoin.koin@gmail.com>
+     * @since 7 févr. 2012 
+     * @version 1.0 - 7 févr. 2012 - Koin <pkoin.koin@gmail.com>
+     * @return string
+     */
+    public function getKindTranslated()
+    {
+        $kinds = self::getKinds();
+        return array_key_exists($this->kind, $kinds) ? $kinds[$this->kind] : '';
+    }
+    
+    /**
+     * Get city associated.
+     * 
+     * @author Koin <pkoin.koin@gmail.com>
+     * @since 7 févr. 2012 
+     * @version 1.0 - 7 févr. 2012 - Koin <pkoin.koin@gmail.com>
+     * @return City
+     */
+    public function getCity()
+    {
+        if (!$this->city)
+        {
+            $this->city = City::findOneById($this->connection, $this->id_city);
+        }
+        
+        return $this->city;
+    }
+    
+    /**
+     * Get user associated
+     * 
+     * @author Koin <pkoin.koin@gmail.com>
+     * @since 8 févr. 2012 
+     * @version 1.0 - 8 févr. 2012 - Koin <pkoin.koin@gmail.com>
+     * @return Ambigous <boolean, \Aperophp\Model\City>
+     */
+    public function getUser()
+    {
+        if (!$this->user)
+        {
+            $this->user = User::findOneById($this->connection, $this->id_user);
+        }
+    
+        return $this->user;
     }
     
     public function getId()
