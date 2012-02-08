@@ -100,9 +100,92 @@ class Aperos implements ControllerProviderInterface
         // *******
         
         // *******
+        // ** Edit a drink
+        // *******
+        $controllers->get('{id}/edit.html', function($id) use ($app)
+        {
+            $app['session']->set('menu', null);
+        
+            $oDrink = Model\Drink::findOneById($app['db'], $id);
+        
+            if (!$oDrink)
+            {
+                $app->abort(404, 'Cet apéro n\'existe pas.');
+            }
+        
+            $user = $app['session']->get('user');
+            
+            if (!$user || $oDrink->getIdUser() != $user['id'])
+            {
+                $app['session']->setFlash('error', 'Vous devez être authentifié et être organisateur de cet apéro pour pouvoir l\'éditer.');
+                return new RedirectResponse($app['url_generator']->generate('_signinmember'));
+            }
+            
+            $form = $app['form.factory']->create(new \Aperophp\Form\DrinkType($app['db']), $oDrink);
+            
+            return $app['twig']->render('apero/edit.html.twig', array(
+                'form' => $form->createView(),
+                'id' => $id,
+            ));
+        })->bind('_editdrink');
+        // *******
+        
+        // *******
+        // ** Update a drink
+        // *******
+        $controllers->post('{id}/update.html', function(Request $request, $id) use ($app)
+        {
+            $app['session']->set('menu', null);
+        
+            $oDrink = Model\Drink::findOneById($app['db'], $id);
+        
+            if (!$oDrink)
+            {
+                $app->abort(404, 'Cet apéro n\'existe pas.');
+            }
+        
+            $user = $app['session']->get('user');
+        
+            if (!$user || $oDrink->getIdUser() != $user['id'])
+            {
+                $app['session']->setFlash('error', 'Vous devez être authentifié et être organisateur de cet apéro pour pouvoir l\'éditer.');
+                return new RedirectResponse($app['url_generator']->generate('_signinmember'));
+            }
+        
+            $form = $app['form.factory']->create(new \Aperophp\Form\DrinkType($app['db']));
+            
+            $form->bindRequest($request);
+            if ($form->isValid())
+            {
+                $data = $form->getData();
+                
+                $oDrink
+                    ->setPlace($data['place'])
+                    ->setDay($data['day'])
+                    ->setHour($data['hour'])
+                    ->setKind(Model\Drink::KIND_DRINK)
+                    ->setDescription($data['description'])
+                    ->setIdCity($data['id_city'])
+                    ->setIdUser($user['id']);
+                
+                $oDrink->save();
+                
+                $app['session']->setFlash('success', 'L\'apéro a été modifié avec succès.');
+                
+                return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));
+            }
+            
+            return $app['twig']->render('apero/edit.html.twig', array(
+                'form' => $form->createView(),
+                'id' => $id,
+            ));
+        })->bind('_updatedrink');
+        // *******
+        
+        // *******
         // ** See a drink
         // *******
-        $controllers->get('/{id}/view.html', function($id) use ($app)
+        $controllers->get('{id}/view.html', function($id) use ($app)
         {
             $app['session']->set('menu', null);
             
@@ -120,7 +203,7 @@ class Aperos implements ControllerProviderInterface
                 'drink' => $oDrink,
                 'map' => $app['gmap'],
             ));
-        })->bind('_viewaperos');
+        })->bind('_showdrink');
         // *******
         
         return $controllers;
