@@ -29,7 +29,8 @@ class DrinkType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('place', 'text', array('label' => 'Lieu'))
+            ->add('place', 'hidden')
+            ->add('map', 'hidden')
             ->add('day', 'text', array('label' => 'Jour'))
             ->add('hour', 'text', array('label' => 'Heure'))
             ->add('id_city', 'choice', array('label' => 'Ville', 'choices' => $this->cities))
@@ -43,6 +44,10 @@ class DrinkType extends AbstractType
                 'place' => array(
                     new Constraints\NotNull(),
                     new Constraints\MaxLength(array('limit' => 100)),
+                ),
+                'map' => array(
+                        new Constraints\NotNull(),
+                        new Constraints\MaxLength(array('limit' => 256)),
                 ),
                 'day' => array(
                     new Constraints\NotNull(),

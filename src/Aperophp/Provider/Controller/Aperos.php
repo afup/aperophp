@@ -97,6 +97,7 @@ class Aperos implements ControllerProviderInterface
                 $oDrink = new Model\Drink($app['db']);
                 $oDrink
                     ->setPlace($data['place'])
+                    ->setMap($data['map'])
                     ->setDay($data['day'])
                     ->setHour($data['hour'])
                     ->setKind(Model\Drink::KIND_DRINK)
@@ -177,6 +178,7 @@ class Aperos implements ControllerProviderInterface
                 
                 $oDrink
                     ->setPlace($data['place'])
+                    ->setMap($data['map'])
                     ->setDay($data['day'])
                     ->setHour($data['hour'])
                     ->setKind(Model\Drink::KIND_DRINK)
@@ -212,8 +214,7 @@ class Aperos implements ControllerProviderInterface
                 $app->abort(404, 'Cet apéro n\'existe pas.');
             }
             
-            // TODO : dynamic please !
-            $app['gmap']->addMarkerByAddress("Ninkasi, Gerland, Lyon","Marker Title", "Marker Description");
+            $app['gmap']->addMarkerByAddress($oDrink->getMap(), $oDrink->getPlace());
             
             return $app['twig']->render('apero/view.html.twig', array(
                 'drink' => $oDrink,
