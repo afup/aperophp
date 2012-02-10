@@ -38,6 +38,22 @@ class Aperos implements ControllerProviderInterface
         // *******
         
         // *******
+        // ** List
+        // *******
+        $controllers->get('list.html', function() use ($app)
+        {
+            $app['session']->set('menu', 'listdrinks');
+            
+            //TODO pagination
+            $aDrink = Model\Drink::findAll($app['db']);
+            
+            return $app['twig']->render('apero/list.html.twig', array(
+                'drinks' => $aDrink
+            ));
+        })->bind('_listdrinks');
+        // *******
+        
+        // *******
         // ** Add a drink 
         // *******
         $controllers->get('new.html', function() use ($app)

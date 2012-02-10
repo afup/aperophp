@@ -11,7 +11,7 @@
         <ul class="nav">
           <li class="{% if app.session.get('menu') == 'home' %}active{% endif %}"><a href="{{ url('_homepageaperos') }}">Home</a></li>
           <li class="{% if app.session.get('menu') == 'newdrink' %}active{% endif %}"><a href="{{ url('_newdrink') }}">Organiser un apéro</a></li>
-          <li><a href="#contact">Liste des apéros</a></li>
+          <li class="{% if app.session.get('menu') == 'listdrinks' %}active{% endif %}"><a href="{{ url('_listdrinks') }}">Liste des apéros</a></li>
         </ul>
         {% include "common/connection.html.twig" %}
       </div><!--/.nav-collapse -->
