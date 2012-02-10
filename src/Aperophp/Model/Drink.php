@@ -42,12 +42,12 @@ class Drink extends ModelInterface
      * 
      * @author Koin <pkoin.koin@gmail.com>
      * @since 7 févr. 2012 
-     * @version 1.0 - 7 févr. 2012 - Koin <pkoin.koin@gmail.com>
+     * @version 1.1 - 11 févr. 2012 - Koin <pkoin.koin@gmail.com>
      * @param Connection $connection
      */
     static public function findAll(Connection $connection, $limit = null)
     {
-        $sql = "SELECT * FROM Drink ORDER BY day";
+        $sql = "SELECT * FROM Drink ORDER BY day DESC";
         $sql .= $limit ? " LIMIT " . $limit : "";
         
         $aData = $connection->fetchAll($sql);
