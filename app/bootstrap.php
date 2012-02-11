@@ -42,7 +42,9 @@ $app->register(new SymfonyBridgesServiceProvider());
 $app->register(new UrlGeneratorServiceProvider());
 $app->register(new FormServiceProvider());
 $app->register(new ValidatorServiceProvider());
-$app->register(new SessionServiceProvider());
+$app->register(new SessionServiceProvider(), array(
+    'locale' => 'fr',
+));
 $app->register(new DoctrineServiceProvider(), array(
     'db.dbal.class_path'    => __DIR__.'/../vendor/silex/vendor/doctrine-dbal/lib',
     'db.common.class_path'  => __DIR__.'/../vendor/silex/vendor/doctrine-common/lib',
@@ -57,8 +59,15 @@ $app->register(new TwigServiceProvider(), array(
 
 $app->register(new TranslationServiceProvider(array(
     'locale_fallback'           => 'fr',
+    'locale'                    => 'fr',
     'translation.class_path'    => __DIR__.'/../Symfony/Component/Translation',
 )));
+
+$app['translator.messages'] = array(
+    'fr' => array(
+        'February' => 'Février'
+    ),
+);
 
 if (file_exists(__DIR__.'/config.php')) {
     require_once __DIR__.'/config.php';

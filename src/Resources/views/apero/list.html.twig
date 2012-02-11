@@ -16,7 +16,7 @@
 			<tbody>
 				{% for drink in drinks %}
 				<tr>
-					<td class="vmiddle">Le {{ drink.day|date("d F Y") }}, à {{ drink.hour|date("H:i") }}</td>
+					<td class="vmiddle">Le {{ drink.day|date("d") }} {{ drink.day|date("F")|trans }} {{ drink.day|date("Y") }}, à {{ drink.hour|date("H:i") }}</td>
 					<td class="vmiddle">A {{ drink.city.name }}, {{ drink.place }}</td>
 					<td class="vmiddle">{{ drink.kindTranslated }}</td>
 					<td class="vmiddle">{{ drink.user.email|replace({'@': '[at]'}) }}</td>
