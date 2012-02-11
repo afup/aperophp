@@ -16,11 +16,10 @@
 		<form method="post" action="{{ url('_updatedrink', {'id': id}) }}" class="form-horizontal" {{ form_enctype(form) }}>
 			<fieldset>
 				<legend>Editer l'apéro</legend>
-			    <div class="control-group {% if form.day.vars.errors|length %}error{% endif %}">
-				    {{ form_label(form.day, null, { 'attr': {'class': 'control-label'} }) }}
+			    <div class="control-group">
+				    <label for="drink_dayselector" class="control-label required">Jour</label>
 				    <div class="controls">
-				    	{{ form_widget(form.day) }}
-				    	{{ form_errors(form.day) }}
+				    	<input type="text" required="required" id="drink_dayselector" value="{{ form.day.vars.value|date("d/m/Y") }}">
 			    	</div>
 			    </div>
 			    <div class="control-group {% if form.hour.vars.errors|length %}error{% endif %}">
@@ -69,4 +68,10 @@
 
 {% block bottomjs %}
 <script src="{{ app.request.basepath }}/js/gmapautocomplete.js" type="text/javascript"></script>
+<script src="{{ app.request.basepath }}/js/datepicker.js" type="text/javascript"></script>
+<script>
+	// Date picker for Day field.
+	init_datepicker($('#drink_dayselector'), $('#drink_day'));
+	$( "#drink_dayselector" ).datepicker( "option", "defaultDate", '{{ form.day.vars.value|date("d/m/Y") }}' );
+</script>
 {% endblock %}

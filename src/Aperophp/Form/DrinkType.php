@@ -19,11 +19,27 @@ use Doctrine\DBAL\Connection;
 class DrinkType extends AbstractType
 {
     protected
-        $cities;
+        $cities,
+        $hours;
     
     public function __construct(Connection $connection)
     {
         $this->cities = \Aperophp\Model\City::findAll($connection);
+        
+        // Build hour choices
+        $this->hours = array();
+        
+        $oStartDate = new \DateTime('2000-01-01');
+        $oEndDate = new \DateTime('2000-01-02');
+        
+        do 
+        {
+            $this->hours[$oStartDate->format('H:i:s')] = $oStartDate->format('H\hi');
+            $oStartDate->add(new \DateInterval('PT30M'));
+        }
+        while ($oStartDate < $oEndDate);
+        
+        
     }
     
     public function buildForm(FormBuilder $builder, array $options)
@@ -31,8 +47,8 @@ class DrinkType extends AbstractType
         $builder
             ->add('place', 'hidden')
             ->add('map', 'hidden')
-            ->add('day', 'text', array('label' => 'Jour'))
-            ->add('hour', 'text', array('label' => 'Heure'))
+            ->add('day', 'hidden')
+            ->add('hour', 'choice', array('label' => 'Heure', 'choices' => $this->hours))
             ->add('id_city', 'choice', array('label' => 'Ville', 'choices' => $this->cities))
             ->add('description', 'textarea', array('label' => 'Description'));
     }
