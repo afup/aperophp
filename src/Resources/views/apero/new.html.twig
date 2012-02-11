@@ -1,14 +1,6 @@
 {% extends "layout.html.twig" %}
 
-{% form_theme form _self %}
-
-{% block field_errors %}
-{% spaceless %}
-    {% for error in errors %}
-        <span class="help-inline">{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}</span>
-    {% endfor %}
-{% endspaceless %}
-{% endblock field_errors %}
+{% form_theme form 'common/Form/fields.html.twig' %}
 
 {% block content %}
 <div class="row">
