@@ -10,15 +10,17 @@
 					<th>Où</th>
 					<th>Pour</th>
 					<th>Organisateur</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for drink in drinks %}
 				<tr>
-					<td>Le {{ drink.day|date("d F Y") }}, à {{ drink.hour|date("H:i") }}</td>
-					<td>A {{ drink.city.name }}, {{ drink.place }}</td>
-					<td>{{ drink.kindTranslated }}</td>
-					<td>{{ drink.user.email|replace({'@': '[at]'}) }}</td>
+					<td class="vmiddle">Le {{ drink.day|date("d F Y") }}, à {{ drink.hour|date("H:i") }}</td>
+					<td class="vmiddle">A {{ drink.city.name }}, {{ drink.place }}</td>
+					<td class="vmiddle">{{ drink.kindTranslated }}</td>
+					<td class="vmiddle">{{ drink.user.email|replace({'@': '[at]'}) }}</td>
+					<td><a class="btn btn-small" href="{{ url('_showdrink', {'id': drink.id}) }}">Voir le détail &raquo;</a></td>
 				</tr>
 				{% endfor %}
 			</tbody>

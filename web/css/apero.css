@@ -40,3 +40,7 @@ div.apero h5{
     padding-left: 1ex;
     padding-right: 1ex;
 }
+
+.vmiddle {
+	vertical-align: middle !important;
+}
