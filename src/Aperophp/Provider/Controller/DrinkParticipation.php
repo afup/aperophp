@@ -20,8 +20,7 @@ class DrinkParticipation implements ControllerProviderInterface
     {
         $controllers = new ControllerCollection();
 
-        // Prefixe drink/id/participation/
-        // - subscrire (inscription)
+        // TODO : Check if Drink is not terminated
 
         // *******
         // ** Create participation
@@ -32,13 +31,13 @@ class DrinkParticipation implements ControllerProviderInterface
 
             if( $app['session']->has('user') )
             {
-                $form       = $app['form.factory']->create(new \Aperophp\Form\CreateParticipateType());
+                $form       = $app['form.factory']->create(new \Aperophp\Form\Participate\CreateType());
                 $user_id    = $app['session']->get('user')->getId();
                 $form       ->bindRequest($request);
             }
             else
             {
-                $form       = $app['form.factory']->create(new \Aperophp\Form\CreateParticipateAnonymousType());
+                $form       = $app['form.factory']->create(new \Aperophp\Form\Participate\CreateAnonymousType());
                 $form       ->bindRequest($request);
                 $d          = $form->getData();
                 $user_id    = null;
@@ -71,7 +70,7 @@ class DrinkParticipation implements ControllerProviderInterface
 
                 if( null !== $participation )
                     $participation  ->setDrinkId($data['drink'])
-                                    ->setUserId($data['user']);
+                                    ->setUserId($user_id);
 
                 $participation      ->setPercentage($data['percentage'])
                                     ->setReminder($data['remider'])
@@ -95,13 +94,13 @@ class DrinkParticipation implements ControllerProviderInterface
 
             if( $app['session']->has('user') )
             {
-                $form           = $app['form.factory']->create(new \Aperophp\Form\UpdateParticipateType());
+                $form           = $app['form.factory']->create(new \Aperophp\Form\Participate\UpdateType());
                 $user_id        = $app['session']->get('user')->getId();
                 $form           ->bindRequest($request);
             }
             else
             {
-                $form       = $app['form.factory']->create(new \Aperophp\Form\UpdateParticipateAnonymousType());
+                $form       = $app['form.factory']->create(new \Aperophp\Form\Participate\UpdateAnonymousType());
                 $form       ->bindRequest($request);
                 $d          = $form->getData();
                 $user_id    = Modele\User::findByTokenEmail($d['token'], $d['email']);
@@ -126,7 +125,7 @@ class DrinkParticipation implements ControllerProviderInterface
 
                 if( null !== $participation )
                     $participation  ->setDrinkId($data['drink'])
-                                    ->setUserId($data['user']);
+                                    ->setUserId($user_id);
 
                 $participation      ->setPercentage($data['percentage'])
                                     ->setReminder($data['remider'])
@@ -150,13 +149,13 @@ class DrinkParticipation implements ControllerProviderInterface
 
             if( $app['session']->has('user') )
             {
-                $form           = $app['form.factory']->create(new \Aperophp\Form\DeleteParticipateType());
+                $form           = $app['form.factory']->create(new \Aperophp\Form\Participate\DeleteType());
                 $user_id        = $app['session']->get('user')->getId();
                 $form           ->bindRequest($request);
             }
             else
             {
-                $form       = $app['form.factory']->create(new \Aperophp\Form\DeleteParticipateAnonymousType());
+                $form       = $app['form.factory']->create(new \Aperophp\Form\Participate\DeleteAnonymousType());
                 $form       ->bindRequest($request);
                 $d          = $form->getData();
                 $user_id    = Modele\User::findByTokenEmail($d['token'], $d['email']);

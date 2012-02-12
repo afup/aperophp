@@ -59,18 +59,18 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `User_City` ;
 
 CREATE  TABLE IF NOT EXISTS `User_City` (
-  `id_user` INT NOT NULL ,
-  `id_city` INT NOT NULL ,
-  PRIMARY KEY (`id_user`, `id_city`) ,
-  INDEX `fk_Utilisateur_Ville_Ville` (`id_city` ASC) ,
-  INDEX `fk_Utilisateur_Ville_Utilisateur` (`id_user` ASC) ,
+  `user_id` INT NOT NULL ,
+  `city_id` INT NOT NULL ,
+  PRIMARY KEY (`user_id`, `city_id`) ,
+  INDEX `fk_Utilisateur_Ville_Ville` (`city_id` ASC) ,
+  INDEX `fk_Utilisateur_Ville_Utilisateur` (`user_id` ASC) ,
   CONSTRAINT `fk_Utilisateur_Ville_Ville`
-    FOREIGN KEY (`id_city` )
+    FOREIGN KEY (`city_id` )
     REFERENCES `City` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Utilisateur_Ville_Utilisateur`
-    FOREIGN KEY (`id_user` )
+    FOREIGN KEY (`user_id` )
     REFERENCES `User` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -90,18 +90,18 @@ CREATE  TABLE IF NOT EXISTS `Drink` (
   `kind` ENUM('drink', 'talk') NOT NULL DEFAULT 'drink' ,
   `description` TEXT NOT NULL ,
   `map` VARCHAR(256) NULL ,
-  `id_user` INT NOT NULL ,
-  `id_city` INT NOT NULL ,
+  `user_id` INT NOT NULL ,
+  `city_id` INT NOT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_Aperos_Utilisateur` (`id_user` ASC) ,
-  INDEX `fk_Aperos_Ville` (`id_city` ASC) ,
+  INDEX `fk_Aperos_Utilisateur` (`user_id` ASC) ,
+  INDEX `fk_Aperos_Ville` (`city_id` ASC) ,
   CONSTRAINT `fk_Aperos_Utilisateur`
-    FOREIGN KEY (`id_user` )
+    FOREIGN KEY (`user_id` )
     REFERENCES `User` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Aperos_Ville`
-    FOREIGN KEY (`id_city` )
+    FOREIGN KEY (`city_id` )
     REFERENCES `City` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -114,20 +114,20 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `Drink_Participation` ;
 
 CREATE  TABLE IF NOT EXISTS `Drink_Participation` (
-  `id_drink` INT NOT NULL ,
-  `id_user` INT NOT NULL ,
+  `drink_id` INT NOT NULL ,
+  `user_id` INT NOT NULL ,
   `percentage` INT NOT NULL ,
   `reminder` INT NOT NULL ,
-  PRIMARY KEY (`id_drink`, `id_user`) ,
-  INDEX `fk_Apero_Participation_Apero` (`id_drink` ASC) ,
-  INDEX `fk_Apero_Participation_Utilisateur` (`id_user` ASC) ,
+  PRIMARY KEY (`drink_id`, `user_id`) ,
+  INDEX `fk_Apero_Participation_Apero` (`drink_id` ASC) ,
+  INDEX `fk_Apero_Participation_Utilisateur` (`user_id` ASC) ,
   CONSTRAINT `fk_Apero_Participation_Apero`
-    FOREIGN KEY (`id_drink` )
+    FOREIGN KEY (`drink_id` )
     REFERENCES `Drink` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Apero_Participation_Utilisateur`
-    FOREIGN KEY (`id_user` )
+    FOREIGN KEY (`user_id` )
     REFERENCES `User` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -143,18 +143,18 @@ CREATE  TABLE IF NOT EXISTS `Drink_Comment` (
   `id` INT NOT NULL ,
   `created_at` BIGINT NOT NULL ,
   `content` TEXT NOT NULL ,
-  `id_drink` INT NOT NULL ,
-  `id_user` INT NOT NULL ,
+  `drink_id` INT NOT NULL ,
+  `user_id` INT NOT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_Apero_Commentaire_Apero` (`id_drink` ASC) ,
-  INDEX `fk_Apero_Commentaire_Utilisateur` (`id_user` ASC) ,
+  INDEX `fk_Apero_Commentaire_Apero` (`drink_id` ASC) ,
+  INDEX `fk_Apero_Commentaire_Utilisateur` (`user_id` ASC) ,
   CONSTRAINT `fk_Apero_Commentaire_Apero`
-    FOREIGN KEY (`id_drink` )
+    FOREIGN KEY (`drink_id` )
     REFERENCES `Drink` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Apero_Commentaire_Utilisateur`
-    FOREIGN KEY (`id_user` )
+    FOREIGN KEY (`user_id` )
     REFERENCES `User` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -172,11 +172,11 @@ CREATE  TABLE IF NOT EXISTS `Article` (
   `title` VARCHAR(60) NOT NULL ,
   `content` TEXT NOT NULL ,
   `published` TINYINT(1)  NOT NULL ,
-  `id_user` INT NOT NULL ,
+  `user_id` INT NOT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_Articles_Utilisateur` (`id_user` ASC) ,
+  INDEX `fk_Articles_Utilisateur` (`user_id` ASC) ,
   CONSTRAINT `fk_Articles_Utilisateur`
-    FOREIGN KEY (`id_user` )
+    FOREIGN KEY (`user_id` )
     REFERENCES `User` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -192,18 +192,18 @@ CREATE  TABLE IF NOT EXISTS `Article_Comment` (
   `id` INT NOT NULL ,
   `created_at` BIGINT NOT NULL ,
   `content` TEXT NOT NULL ,
-  `id_user` INT NOT NULL ,
-  `id_article` INT NOT NULL ,
+  `user_id` INT NOT NULL ,
+  `article_id` INT NOT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_Article_Commentaire_Utilisateur` (`id_user` ASC) ,
-  INDEX `fk_Article_Commentaire_Article` (`id_article` ASC) ,
+  INDEX `fk_Article_Commentaire_Utilisateur` (`user_id` ASC) ,
+  INDEX `fk_Article_Commentaire_Article` (`article_id` ASC) ,
   CONSTRAINT `fk_Article_Commentaire_Utilisateur`
-    FOREIGN KEY (`id_user` )
+    FOREIGN KEY (`user_id` )
     REFERENCES `User` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Article_Commentaire_Article`
-    FOREIGN KEY (`id_article` )
+    FOREIGN KEY (`article_id` )
     REFERENCES `Article` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)

@@ -52,15 +52,15 @@ CREATE  TABLE IF NOT EXISTS `Member` (
 DROP TABLE IF EXISTS `User_City` ;
 
 CREATE  TABLE IF NOT EXISTS `User_City` (
-  `id_user` integer NOT NULL ,
-  `id_city` integer NOT NULL ,
+  `user_id` integer NOT NULL ,
+  `city_id` integer NOT NULL ,
   CONSTRAINT `fk_Utilisateur_Ville_Ville`
-    FOREIGN KEY (`id_city` )
+    FOREIGN KEY (`city_id` )
     REFERENCES `City` (`id` )
     ON DELETE NO ACTION
    ,
   CONSTRAINT `fk_Utilisateur_Ville_Utilisateur`
-    FOREIGN KEY (`id_user` )
+    FOREIGN KEY (`user_id` )
     REFERENCES `User` (`id` )
     ON DELETE NO ACTION
   )
@@ -80,15 +80,15 @@ CREATE  TABLE IF NOT EXISTS `Drink` (
   `kind` varchar(255) NOT NULL DEFAULT 'drink' ,
   `description` TEXT NOT NULL ,
   `map` VARCHAR(256) NULL ,
-  `id_user` integer NOT NULL ,
-  `id_city` integer NOT NULL ,
+  `user_id` integer NOT NULL ,
+  `city_id` integer NOT NULL ,
   CONSTRAINT `fk_Aperos_Utilisateur`
-    FOREIGN KEY (`id_user` )
+    FOREIGN KEY (`user_id` )
     REFERENCES `User` (`id` )
     ON DELETE NO ACTION
    ,
   CONSTRAINT `fk_Aperos_Ville`
-    FOREIGN KEY (`id_city` )
+    FOREIGN KEY (`city_id` )
     REFERENCES `City` (`id` )
     ON DELETE NO ACTION
   )
@@ -101,17 +101,17 @@ CREATE  TABLE IF NOT EXISTS `Drink` (
 DROP TABLE IF EXISTS `Drink_Participation` ;
 
 CREATE  TABLE IF NOT EXISTS `Drink_Participation` (
-  `id_drink` integer NOT NULL ,
-  `id_user` integer NOT NULL ,
+  `drink_id` integer NOT NULL ,
+  `user_id` integer NOT NULL ,
   `percentage` integer NOT NULL ,
   `reminder` integer NOT NULL ,
   CONSTRAINT `fk_Apero_Participation_Apero`
-    FOREIGN KEY (`id_drink` )
+    FOREIGN KEY (`drink_id` )
     REFERENCES `Drink` (`id` )
     ON DELETE NO ACTION
    ,
   CONSTRAINT `fk_Apero_Participation_Utilisateur`
-    FOREIGN KEY (`id_user` )
+    FOREIGN KEY (`user_id` )
     REFERENCES `User` (`id` )
     ON DELETE NO ACTION
   )
@@ -127,15 +127,15 @@ CREATE  TABLE IF NOT EXISTS `Drink_Comment` (
   `id` integer NOT NULL ,
   `created_at` BIGINT NOT NULL ,
   `content` TEXT NOT NULL ,
-  `id_drink` integer NOT NULL ,
-  `id_user` integer NOT NULL ,
+  `drink_id` integer NOT NULL ,
+  `user_id` integer NOT NULL ,
   CONSTRAINT `fk_Apero_Commentaire_Apero`
-    FOREIGN KEY (`id_drink` )
+    FOREIGN KEY (`drink_id` )
     REFERENCES `Drink` (`id` )
     ON DELETE NO ACTION
    ,
   CONSTRAINT `fk_Apero_Commentaire_Utilisateur`
-    FOREIGN KEY (`id_user` )
+    FOREIGN KEY (`user_id` )
     REFERENCES `User` (`id` )
     ON DELETE NO ACTION
   )
@@ -153,9 +153,9 @@ CREATE  TABLE IF NOT EXISTS `Article` (
   `title` VARCHAR(60) NOT NULL ,
   `content` TEXT NOT NULL ,
   `published` integer  NOT NULL ,
-  `id_user` integer NOT NULL ,
+  `user_id` integer NOT NULL ,
   CONSTRAINT `fk_Articles_Utilisateur`
-    FOREIGN KEY (`id_user` )
+    FOREIGN KEY (`user_id` )
     REFERENCES `User` (`id` )
     ON DELETE NO ACTION
   )
@@ -171,15 +171,15 @@ CREATE  TABLE IF NOT EXISTS `Article_Comment` (
   `id` integer NOT NULL ,
   `created_at` BIGINT NOT NULL ,
   `content` TEXT NOT NULL ,
-  `id_user` integer NOT NULL ,
-  `id_article` integer NOT NULL ,
+  `user_id` integer NOT NULL ,
+  `article_id` integer NOT NULL ,
   CONSTRAINT `fk_Article_Commentaire_Utilisateur`
-    FOREIGN KEY (`id_user` )
+    FOREIGN KEY (`user_id` )
     REFERENCES `User` (`id` )
     ON DELETE NO ACTION
    ,
   CONSTRAINT `fk_Article_Commentaire_Article`
-    FOREIGN KEY (`id_article` )
+    FOREIGN KEY (`article_id` )
     REFERENCES `Article` (`id` )
     ON DELETE NO ACTION
   )
