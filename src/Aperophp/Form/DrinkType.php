@@ -18,30 +18,6 @@ use Doctrine\DBAL\Connection;
  */
 class DrinkType extends AbstractType
 {
-    protected
-        $cities,
-        $hours;
-    
-    public function __construct(Connection $connection)
-    {
-        $this->cities = \Aperophp\Model\City::findAll($connection);
-        
-        // Build hour choices
-        $this->hours = array();
-        
-        $oStartDate = new \DateTime('2000-01-01');
-        $oEndDate = new \DateTime('2000-01-02');
-        
-        do 
-        {
-            $this->hours[$oStartDate->format('H:i:s')] = $oStartDate->format('H\hi');
-            $oStartDate->add(new \DateInterval('PT30M'));
-        }
-        while ($oStartDate < $oEndDate);
-        
-        
-    }
-    
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
@@ -50,13 +26,14 @@ class DrinkType extends AbstractType
             ->add('latitude', 'hidden')
             ->add('longitude', 'hidden')
             ->add('day', 'hidden')
-            ->add('hour', 'choice', array('label' => 'Heure', 'choices' => $this->hours))
-            ->add('id_city', 'choice', array('label' => 'Ville', 'choices' => $this->cities))
+            ->add('hour', 'choice', array('label' => 'Heure', 'choices' => $options['hours']))
+            ->add('id_city', 'choice', array('label' => 'Ville', 'choices' => $options['cities']))
             ->add('description', 'textarea', array('label' => 'Description'));
     }
     
     public function getDefaultOptions(array $options)
     {
+        // Collection Constraint 
         $collectionConstraint = new Constraints\Collection(array(
             'fields' => array(
                 'place' => array(
@@ -76,14 +53,30 @@ class DrinkType extends AbstractType
                 ),
                 'id_city' => array(
                     new Constraints\NotNull(),
-                    new Constraints\Choice(array('choices' => array_keys($this->cities))),
+                    new Constraints\Choice(array('choices' => array_keys($options['cities']))),
                 ),
                 'description' => new Constraints\NotNull(),
             ),
             'allowExtraFields' => false,
         ));
     
-        return array('validation_constraint' => $collectionConstraint);
+        // Hours
+        $hours = array();
+        $oStartDate = new \DateTime('2000-01-01');
+        $oEndDate = new \DateTime('2000-01-02');
+        
+        do
+        {
+            $hours[$oStartDate->format('H:i:s')] = $oStartDate->format('H\hi');
+            $oStartDate->add(new \DateInterval('PT30M'));
+        }
+        while ($oStartDate < $oEndDate);
+        
+        return array(
+            'validation_constraint' => $collectionConstraint,
+            'hours' => $hours,
+            'cities' => $options['cities'],
+        );
     }
     
     public function getName()

@@ -66,7 +66,7 @@ class Aperos implements ControllerProviderInterface
             
             $app['session']->set('menu', 'newdrink');
             
-            $form = $app['form.factory']->create(new \Aperophp\Form\DrinkType($app['db']));
+            $form = $app['form.factory']->create(new \Aperophp\Form\DrinkType(), null, array('cities' => Model\City::findAll($app['db'])));
             
             return $app['twig']->render('apero/new.html.twig', array(
                 'form' => $form->createView(),
@@ -87,7 +87,7 @@ class Aperos implements ControllerProviderInterface
             
             $user = $app['session']->get('user');
             
-            $form = $app['form.factory']->create(new \Aperophp\Form\DrinkType($app['db']));
+            $form = $app['form.factory']->create(new \Aperophp\Form\DrinkType(), null, array('cities' => Model\City::findAll($app['db'])));
         
             $form->bindRequest($request);
             if ($form->isValid())
@@ -140,7 +140,7 @@ class Aperos implements ControllerProviderInterface
                 return new RedirectResponse($app['url_generator']->generate('_signinmember'));
             }
             
-            $form = $app['form.factory']->create(new \Aperophp\Form\DrinkType($app['db']), $oDrink);
+            $form = $app['form.factory']->create(new \Aperophp\Form\DrinkType(), $oDrink, array('cities' => Model\City::findAll($app['db'])));
             
             return $app['twig']->render('apero/edit.html.twig', array(
                 'form' => $form->createView(),
@@ -171,7 +171,7 @@ class Aperos implements ControllerProviderInterface
                 return new RedirectResponse($app['url_generator']->generate('_signinmember'));
             }
         
-            $form = $app['form.factory']->create(new \Aperophp\Form\DrinkType($app['db']));
+            $form = $app['form.factory']->create(new \Aperophp\Form\DrinkType(), null, array('cities' => Model\City::findAll($app['db'])));
             
             $form->bindRequest($request);
             if ($form->isValid())
