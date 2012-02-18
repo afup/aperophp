@@ -9,7 +9,7 @@ use Doctrine\DBAL\Connection;
  *
  * @author Mikael Randy <mikael.randy@gmail.com>
  * @since 21 janv. 2012
- * @version 1.1 - 6 févr. 2012 - Koin <pkoin.koin@gmail.com>
+ * @version 1.2 - 18 févr. 2012 - Koin <pkoin.koin@gmail.com>
  */
 class Drink extends ModelInterface
 {
@@ -19,11 +19,13 @@ class Drink extends ModelInterface
     protected
         $id,
         $place,
+        $address,
         $day,
         $hour,
         $kind,
         $description,
-        $map,
+        $latitude,
+        $longitude,
         $id_user,
         $id_city,
         $city,
@@ -42,7 +44,7 @@ class Drink extends ModelInterface
      * 
      * @author Koin <pkoin.koin@gmail.com>
      * @since 7 févr. 2012 
-     * @version 1.1 - 11 févr. 2012 - Koin <pkoin.koin@gmail.com>
+     * @version 1.2 - 18 févr. 2012 - Koin <pkoin.koin@gmail.com>
      * @param Connection $connection
      */
     static public function findAll(Connection $connection, $limit = null)
@@ -59,11 +61,13 @@ class Drink extends ModelInterface
             $oDrink
                 ->setId($data['id'])
                 ->setPlace($data['place'])
+                ->setAddress($data['address'])
                 ->setDay($data['day'])
                 ->setHour($data['hour'])
                 ->setKind($data['kind'])
                 ->setDescription($data['description'])
-                ->setMap($data['map'])
+                ->setLatitude($data['latitude'])
+                ->setLongitude($data['longitude'])
                 ->setIdUser($data['id_user'])
                 ->setIdCity($data['id_city']);
             
@@ -78,7 +82,7 @@ class Drink extends ModelInterface
      * 
      * @author Koin <pkoin.koin@gmail.com>
      * @since 7 févr. 2012 
-     * @version 1.0 - 7 févr. 2012 - Koin <pkoin.koin@gmail.com>
+     * @version 1.1 - 18 févr. 2012 - Koin <pkoin.koin@gmail.com>
      * @param Connection $connection
      * @param integer $id
      */
@@ -96,11 +100,13 @@ class Drink extends ModelInterface
         $oDrink
             ->setId($data['id'])
             ->setPlace($data['place'])
+            ->setAddress($data['address'])
             ->setDay($data['day'])
             ->setHour($data['hour'])
             ->setKind($data['kind'])
             ->setDescription($data['description'])
-            ->setMap($data['map'])
+            ->setLatitude($data['latitude'])
+            ->setLongitude($data['longitude'])
             ->setIdCity($data['id_city'])
             ->setIdUser($data['id_user']);
     
@@ -137,17 +143,19 @@ class Drink extends ModelInterface
      * 
      * @author Koin <pkoin.koin@gmail.com>
      * @since 6 févr. 2012 
-     * @version 1.0 - 6 févr. 2012 - Koin <pkoin.koin@gmail.com>
+     * @version 1.1 - 18 févr. 2012 - Koin <pkoin.koin@gmail.com>
      */
     protected function insert()
     {
         $stmt = $this->connection->insert('Drink', array(
             'place' => $this->place,
+            'address' => $this->address,
             'day' => $this->day,
             'hour' => $this->hour,
             'kind' => $this->kind,
             'description' => $this->description,
-            'map' => $this->map,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
             'id_user' => $this->id_user,
             'id_city' => $this->id_city,
         ));
@@ -162,17 +170,19 @@ class Drink extends ModelInterface
      * 
      * @author Koin <pkoin.koin@gmail.com>
      * @since 6 févr. 2012 
-     * @version 1.0 - 6 févr. 2012 - Koin <pkoin.koin@gmail.com>
+     * @version 1.1 - 18 févr. 2012 - Koin <pkoin.koin@gmail.com>
      */
     protected function update()
     {
         return $this->connection->update('Drink', array(
             'place' => $this->place,
+            'address' => $this->address,
             'day' => $this->day,
             'hour' => $this->hour,
             'kind' => $this->kind,
             'description' => $this->description,
-            'map' => $this->map,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
             'id_user' => $this->id_user,
             'id_city' => $this->id_city,
         ), array('id' => $this->id));
@@ -238,6 +248,11 @@ class Drink extends ModelInterface
         return $this->place;
     }
     
+    public function getAddress()
+    {
+        return $this->address;
+    }
+    
     public function getDay()
     {
         return $this->day;
@@ -258,9 +273,14 @@ class Drink extends ModelInterface
         return $this->description;
     }
     
-    public function getMap()
+    public function getLatitude()
     {
-        return $this->map;
+        return $this->latitude;
+    }
+    
+    public function getLongitude()
+    {
+        return $this->longitude;
     }
     
     public function getIdUser()
@@ -282,6 +302,12 @@ class Drink extends ModelInterface
     public function setPlace($place)
     {
         $this->place = $place;
+        return $this;
+    }
+    
+    public function setAddress($address)
+    {
+        $this->address = $address;
         return $this;
     }
     
@@ -309,9 +335,15 @@ class Drink extends ModelInterface
         return $this;
     }
     
-    public function setMap($map)
+    public function setLatitude($latitude)
     {
-        $this->map = $map;
+        $this->latitude = $latitude;
+        return $this;
+    }
+    
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
         return $this;
     }
     

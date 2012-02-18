@@ -3,11 +3,13 @@
 {% block content %}
 <div class="row">
 	<div class="span4">
-		{{ map.printMap()|raw }}
+		<div class="well">
+			{% include 'apero/participations.html.twig' %}
+		</div>
 	</div>
-	<div class="span7">
+	<div class="span8">
 		<div class="row">
-			<div class="span6"><h1>{{ drink.kindTranslated }} <small>à {{ drink.city.name }}, le {{ drink.day|date("d") }} {{ drink.day|date("F")|trans }} {{ drink.day|date("Y") }} à {{ drink.hour|date("H:i") }}</small></h1></div>
+			<div class="span7"><h1>{{ drink.kindTranslated }} <small>à {{ drink.city.name }}, le {{ drink.day|date("d") }} {{ drink.day|date("F")|trans }} {{ drink.day|date("Y") }} à {{ drink.hour|date("H:i") }}</small></h1></div>
 			<div class="span1">
 				<div class="btn-group">
 					<a href="#" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Action <span class="caret"></span></a>
@@ -17,26 +19,31 @@
 				</div>
 			</div>
 		</div>
-		<p>Lieu : {{ drink.place }}, {{ drink.map }}</p>
+		<p>Lieu : {{ drink.place }}, {{ drink.address }}</p>
 		<blockquote>
 			<p>{{ drink.description }}</p>
 			<small>organisé par {{ drink.user.email|replace({'@': '[at]'}) }}</small>
 		</blockquote>
+		<div id="map" style="width: 100%; height: 200px;">ok</div>
 		{% include 'apero/comment.html.twig' %}
-	</div>
-	<div class="span4">
-		<div class="well">
-			{% include 'apero/participations.html.twig' %}
-		</div>
 	</div>
 </div>
 {% endblock %}
 
-{% block headjs %}
-{{ map.getHeaderJS()|raw }}
-{{ map.getMapJS()|raw }}
-{% endblock %}
-
 {% block bottomjs %}
-{{ map.printOnLoad()|raw }}
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+  // http://gmaps-samples-v3.googlecode.com/svn/trunk/single-infowindow/single-infowindow.html
+  google.maps.event.addDomListener(window, 'load', function() {
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 14,
+      center: new google.maps.LatLng({{ drink.latitude }}, {{ drink.longitude }}),
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+    var marker1 = new google.maps.Marker({
+      map: map,
+      position: new google.maps.LatLng({{ drink.latitude }}, {{ drink.longitude }})
+    });
+  });
+</script>
 {% endblock %}

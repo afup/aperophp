@@ -14,7 +14,7 @@ use Doctrine\DBAL\Connection;
  *
  * @author Koin <pkoin.koin@gmail.com>
  * @since 6 févr. 2012 
- * @version 1.0 - 6 févr. 2012 - Koin <pkoin.koin@gmail.com>
+ * @version 1.1 - 18 févr. 2012 - Koin <pkoin.koin@gmail.com>
  */
 class DrinkType extends AbstractType
 {
@@ -46,7 +46,9 @@ class DrinkType extends AbstractType
     {
         $builder
             ->add('place', 'hidden')
-            ->add('map', 'hidden')
+            ->add('address', 'hidden')
+            ->add('latitude', 'hidden')
+            ->add('longitude', 'hidden')
             ->add('day', 'hidden')
             ->add('hour', 'choice', array('label' => 'Heure', 'choices' => $this->hours))
             ->add('id_city', 'choice', array('label' => 'Ville', 'choices' => $this->cities))
@@ -61,10 +63,9 @@ class DrinkType extends AbstractType
                     new Constraints\NotNull(),
                     new Constraints\MaxLength(array('limit' => 100)),
                 ),
-                'map' => array(
-                        new Constraints\NotNull(),
-                        new Constraints\MaxLength(array('limit' => 256)),
-                ),
+                'address' => new Constraints\MaxLength(array('limit' => 100)),
+                'latitude' => new Constraints\Min(array('limit' => 0)),
+                'longitude' => new Constraints\Min(array('limit' => 0)),
                 'day' => array(
                     new Constraints\NotNull(),
                     new Constraints\Date(),

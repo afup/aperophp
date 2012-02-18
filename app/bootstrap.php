@@ -17,18 +17,6 @@ $app['utils'] = $app->share(function() use ($app) {
     return new \Aperophp\Lib\Utils($app);
 });
 
-// Google maps
-$app['gmap'] = $app->share(function() use ($app) {
-    $oGoogleMapAPI = new \Aperophp\Lib\GoogleMapAPI();
-    
-    $oGoogleMapAPI->_minify_js = false;
-    $oGoogleMapAPI->setWidth(370);
-    $oGoogleMapAPI->setHeight(300);
-    $oGoogleMapAPI->setMapType('map');
-    
-    return $oGoogleMapAPI;
-});
-
 use Silex\Provider\SymfonyBridgesServiceProvider;
 use Silex\Provider\UrlGeneratorServiceProvider;
 use Silex\Provider\TwigServiceProvider;
