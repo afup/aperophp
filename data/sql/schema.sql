@@ -83,13 +83,15 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `Drink` ;
 
 CREATE  TABLE IF NOT EXISTS `Drink` (
-  `id` INT NOT NULL ,
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `place` VARCHAR(100) NOT NULL ,
+  `address` VARCHAR(100) ,
   `day` DATE NOT NULL ,
-  `hour` INT NOT NULL ,
+  `hour` TIME NOT NULL ,
   `kind` ENUM('drink', 'talk') NOT NULL DEFAULT 'drink' ,
   `description` TEXT NOT NULL ,
-  `map` VARCHAR(256) NULL ,
+  `latitude` DECIMAL(9,6) ,
+  `longitude` DECIMAL(9,6) ,
   `id_user` INT NOT NULL ,
   `id_city` INT NOT NULL ,
   PRIMARY KEY (`id`) ,
@@ -140,7 +142,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `Drink_Comment` ;
 
 CREATE  TABLE IF NOT EXISTS `Drink_Comment` (
-  `id` INT NOT NULL ,
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `created_at` BIGINT NOT NULL ,
   `content` TEXT NOT NULL ,
   `id_drink` INT NOT NULL ,
@@ -167,7 +169,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `Article` ;
 
 CREATE  TABLE IF NOT EXISTS `Article` (
-  `id` INT NOT NULL ,
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `created_at` BIGINT NOT NULL ,
   `title` VARCHAR(60) NOT NULL ,
   `content` TEXT NOT NULL ,
@@ -189,7 +191,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `Article_Comment` ;
 
 CREATE  TABLE IF NOT EXISTS `Article_Comment` (
-  `id` INT NOT NULL ,
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `created_at` BIGINT NOT NULL ,
   `content` TEXT NOT NULL ,
   `id_user` INT NOT NULL ,
