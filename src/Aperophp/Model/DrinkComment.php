@@ -22,6 +22,36 @@ class DrinkComment extends ModelInterface
         $user;
     
     /**
+     * Find all order by day.
+     *
+     * @author Koin <pkoin.koin@gmail.com>
+     * @since 7 févr. 2012
+     * @version 1.2 - 18 févr. 2012 - Koin <pkoin.koin@gmail.com>
+     * @param Connection $connection
+     */
+    static public function findByIdDrink(Connection $connection, $id_drink)
+    {
+        $sql = "SELECT * FROM Drink_Comment WHERE id_drink = ? ORDER BY created_at";
+        $aData = $connection->fetchAll($sql, array($id_drink));
+    
+        $aDrinkComment = array();
+        foreach ($aData as $data)
+        {
+            $oDrinkComment = new self($connection);
+            $oDrinkComment
+                ->setId($data['id'])
+                ->setCreatedAt($data['created_at'])
+                ->setContent($data['content'])
+                ->setIdDrink($data['id_drink'])
+                ->setIdUser($data['id_user']);
+    
+            $aDrinkComment[$data['id']] = $oDrinkComment;
+        }
+    
+        return $aDrinkComment;
+    }
+    
+    /**
      * Save.
      * 
      * @author Koin <pkoin.koin@gmail.com>
@@ -95,7 +125,7 @@ class DrinkComment extends ModelInterface
     public function getUser()
     {
         if (!$this->user)
-            $this->user = User::findOneByMemberId($this->connection, $this->id_user);
+            $this->user = User::findOneById($this->connection, $this->id_user);
         
         return $this->user;
     }
@@ -123,6 +153,12 @@ class DrinkComment extends ModelInterface
     public function getIdUser()
     {
         return $this->id_user;
+    }
+    
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
     }
     
     public function setCreatedAt($created_at)

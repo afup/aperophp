@@ -218,8 +218,26 @@ class Aperos implements ControllerProviderInterface
                 $app->abort(404, 'Cet apéro n\'existe pas.');
             }
             
+            // If member is authenticated, prefill form.
+            $oUser = null;
+            $values = array();
+            if ($user = $app['session']->get('user'))
+            {
+                $oUser = Model\User::findOneById($app['db'], $user['id']);
+                
+                $values = array(
+                    'id_user' => $oUser->getId(),
+                    'lastname' => $oUser->getLastname(),
+                    'firstname' => $oUser->getFirstname(),
+                    'email' => $oUser->getEmail(),
+                );
+            }
+            
+            $form = $app['form.factory']->create(new \Aperophp\Form\DrinkCommentType(), $values, array('user' => $oUser));
+            
             return $app['twig']->render('apero/view.html.twig', array(
                 'drink' => $oDrink,
+                'form' => $form->createView(),
             ));
         })->bind('_showdrink');
         // *******
