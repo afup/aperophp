@@ -25,7 +25,7 @@ class DrinkParticipation implements ControllerProviderInterface
         // *******
         // ** Create participation
         // *******
-        $controllers->post('drink/participation/create.html', function(Request $request) use ($app)
+        $controllers->post('create.html', function(Request $request) use ($app)
         {
             $app['session']->set('menu', 'drink');
 
@@ -88,7 +88,7 @@ class DrinkParticipation implements ControllerProviderInterface
         // *******
         // ** Update participation
         // *******
-        $controllers->post('drink/participation/update.html', function(Request $request) use ($app)
+        $controllers->post('update.html', function(Request $request) use ($app)
         {
             $app['session']->set('menu', 'drink');
 
@@ -143,7 +143,7 @@ class DrinkParticipation implements ControllerProviderInterface
         // *******
         // ** Delete participation
         // *******
-        $controllers->post('drink/participation/delete.html', function(Request $request) use ($app)
+        $controllers->post('delete.html', function(Request $request) use ($app)
         {
             $app['session']->set('menu', 'drink');
 
