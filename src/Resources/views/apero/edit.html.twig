@@ -5,13 +5,13 @@
 {% block content %}
 <div class="row">
 	<div class="span8 offset4">
-		<form method="post" action="{{ url('_createdrink') }}" class="form-horizontal" {{ form_enctype(form) }}>
+		<form method="post" action="{{ url('_updatedrink', {'id': id}) }}" class="form-horizontal" {{ form_enctype(form) }}>
 			<fieldset>
-				<legend>Organiser un apéro</legend>
+				<legend>Editer l'apéro</legend>
 			    <div class="control-group">
 				    <label for="drink_dayselector" class="control-label required">Jour</label>
 				    <div class="controls">
-				    	<input type="text" required="required" id="drink_dayselector">
+				    	<input type="text" required="required" id="drink_dayselector" value="{{ form.day.vars.value|date("d/m/Y") }}">
 			    	</div>
 			    </div>
 			    <div class="control-group {% if form.hour.vars.errors|length %}error{% endif %}">
@@ -38,14 +38,14 @@
 				<div class="control-group">
 				    <label for="drink_placegmap" class="control-label required">Lieu</label>
 				    <div class="controls">
-				    	<p><input type="text" required="required" id="drink_placegmap"></p>
-				    	<p><input type="text" class="input-xlarge disabled" disabled="" id="drink_place_disabled"></p>
-				    	<p><input type="text" class="input-xlarge disabled" disabled="" id="drink_address_disabled"></p>
+				    	<p><input type="text" id="drink_placegmap"></p>
+				    	<p><input type="text" class="input-xlarge disabled" disabled="" id="drink_place_disabled" value="{{ form.place.vars.value }}"></p>
+				    	<p><input type="text" class="input-xlarge disabled" disabled="" id="drink_address_disabled" value="{{ form.address.vars.value }}"></p>
 			    	</div>
 			    </div>
 			    {{ form_rest(form) }}
 			    <div class="form-actions">
-			    	<button class="btn btn-primary" type="submit">Créer</button>
+			    	<button class="btn btn-primary" type="submit">Editer</button>
 					<button class="btn" type="reset">Annuler</button>
 			   	</div>
 		    </fieldset>
@@ -61,5 +61,6 @@
 <script>
 	// Date picker for Day field.
 	init_datepicker($('#drink_dayselector'), $('#drink_day'));
+	$( "#drink_dayselector" ).datepicker( "option", "defaultDate", '{{ form.day.vars.value|date("d/m/Y") }}' );
 </script>
 {% endblock %}

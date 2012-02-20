@@ -28,12 +28,44 @@ class User extends ModelInterface
      * @since 4 févr. 2012
      * @version 1.0 - 4 févr. 2012 - Koin <pkoin.koin@gmail.com>
      * @param Connection $connection
-     * @param string $username
-     * @return Member
+     * @param integer $member_id
+     * @return User
      */
     static public function findOneByMemberId($connection, $member_id)
     {
         $data = $connection->fetchAssoc('SELECT * FROM User WHERE member_id = ?', array($member_id));
+    
+        if (!$data)
+        {
+            return false;
+        }
+    
+        $oUser = new User($connection);
+    
+        $oUser
+            ->setId($data['id'])
+            ->setLastname($data['lastname'])
+            ->setFirstname($data['firstname'])
+            ->setEmail($data['email'])
+            ->setToken($data['token'])
+            ->setMemberId($data['member_id']);
+    
+        return $oUser;
+    }
+    
+    /**
+     * Find one user by id.
+     * 
+     * @author Koin <pkoin.koin@gmail.com>
+     * @since 8 févr. 2012 
+     * @version 1.0 - 8 févr. 2012 - Koin <pkoin.koin@gmail.com>
+     * @param Connection $connection
+     * @param integer $id
+     * @return User
+     */
+    static public function findOneById(Connection $connection, $id)
+    {
+        $data = $connection->fetchAssoc('SELECT * FROM User WHERE id = ?', array($id));
     
         if (!$data)
         {

@@ -7,13 +7,14 @@ use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Member controller.
  *
  * @author Koin <pkoin.koin@gmail.com>
  * @since 22 janv. 2012 
- * @version 1.2 - 4 févr. 2012 - Koin <pkoin.koin@gmail.com>
+ * @version 1.3 - 7 févr. 2012 - Koin <pkoin.koin@gmail.com>
  */
 class Member implements ControllerProviderInterface
 {
@@ -158,7 +159,8 @@ class Member implements ControllerProviderInterface
         {
             if (!$app['session']->has('user'))
             {
-                $app->abort(401, 'Authentication required.');
+                $app['session']->setFlash('error', 'Vous devez être authentifié pour accéder à cette ressource.');
+                return new RedirectResponse($app['url_generator']->generate('_signinmember'));
             }
             
             $user = $app['session']->get('user');
@@ -184,7 +186,8 @@ class Member implements ControllerProviderInterface
         {
             if (!$app['session']->has('user'))
             {
-                $app->abort(401, 'Authentication required.');
+                $app['session']->setFlash('error', 'Vous devez être authentifié pour accéder à cette ressource.');
+                return new RedirectResponse($app['url_generator']->generate('_signinmember'));
             }
             
             $user = $app['session']->get('user');
