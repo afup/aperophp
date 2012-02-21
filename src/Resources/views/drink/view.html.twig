@@ -4,7 +4,7 @@
 <div class="row">
 	<div class="span4">
 		<div class="well">
-			{% include 'apero/participations.html.twig' %}
+			{% include 'drink/participations.html.twig' %}
 		</div>
 	</div>
 	<div class="span8">
@@ -25,7 +25,7 @@
 			<small>organisé par {{ drink.user.email|replace({'@': '[at]'}) }}</small>
 		</blockquote>
 		<div id="map" style="width: 100%; height: 200px;">ok</div>
-		{% include 'apero/comment.html.twig' %}
+		{% include 'drink/comment.html.twig' %}
 	</div>
 </div>
 {% endblock %}

@@ -95,17 +95,15 @@ CREATE  TABLE IF NOT EXISTS `Drink` (
   `city_id` INT NOT NULL ,
   `latitude` DECIMAL(9,6) ,
   `longitude` DECIMAL(9,6) ,
-  `id_user` INT NOT NULL ,
-  `id_city` INT NOT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_Aperos_Utilisateur` (`user_id` ASC) ,
-  INDEX `fk_Aperos_Ville` (`city_id` ASC) ,
-  CONSTRAINT `fk_Aperos_Utilisateur`
+  INDEX `fk_Drinks_Utilisateur` (`user_id` ASC) ,
+  INDEX `fk_Drinks_Ville` (`city_id` ASC) ,
+  CONSTRAINT `fk_Drinks_Utilisateur`
     FOREIGN KEY (`user_id` )
     REFERENCES `User` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Aperos_Ville`
+  CONSTRAINT `fk_Drinks_Ville`
     FOREIGN KEY (`city_id` )
     REFERENCES `City` (`id` )
     ON DELETE NO ACTION
@@ -124,14 +122,14 @@ CREATE  TABLE IF NOT EXISTS `Drink_Participation` (
   `percentage` INT NOT NULL ,
   `reminder` INT NOT NULL ,
   PRIMARY KEY (`drink_id`, `user_id`) ,
-  INDEX `fk_Apero_Participation_Apero` (`drink_id` ASC) ,
-  INDEX `fk_Apero_Participation_Utilisateur` (`user_id` ASC) ,
-  CONSTRAINT `fk_Apero_Participation_Apero`
+  INDEX `fk_Drink_Participation_Drink` (`drink_id` ASC) ,
+  INDEX `fk_Drink_Participation_Utilisateur` (`user_id` ASC) ,
+  CONSTRAINT `fk_Drink_Participation_Drink`
     FOREIGN KEY (`drink_id` )
     REFERENCES `Drink` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Apero_Participation_Utilisateur`
+  CONSTRAINT `fk_Drink_Participation_Utilisateur`
     FOREIGN KEY (`user_id` )
     REFERENCES `User` (`id` )
     ON DELETE NO ACTION
@@ -151,14 +149,14 @@ CREATE  TABLE IF NOT EXISTS `Drink_Comment` (
   `drink_id` INT NOT NULL ,
   `user_id` INT NOT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_Apero_Commentaire_Apero` (`drink_id` ASC) ,
-  INDEX `fk_Apero_Commentaire_Utilisateur` (`user_id` ASC) ,
-  CONSTRAINT `fk_Apero_Commentaire_Apero`
+  INDEX `fk_Drink_Commentaire_Drink` (`drink_id` ASC) ,
+  INDEX `fk_Drink_Commentaire_Utilisateur` (`user_id` ASC) ,
+  CONSTRAINT `fk_Drink_Commentaire_Drink`
     FOREIGN KEY (`drink_id` )
     REFERENCES `Drink` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Apero_Commentaire_Utilisateur`
+  CONSTRAINT `fk_Drink_Commentaire_Utilisateur`
     FOREIGN KEY (`user_id` )
     REFERENCES `User` (`id` )
     ON DELETE NO ACTION

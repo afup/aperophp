@@ -13,7 +13,7 @@ use Doctrine\DBAL\Connection;
  * Drink form.
  *
  * @author Koin <pkoin.koin@gmail.com>
- * @since 6 févr. 2012 
+ * @since 6 févr. 2012
  * @version 1.1 - 18 févr. 2012 - Koin <pkoin.koin@gmail.com>
  */
 class DrinkType extends AbstractType
@@ -27,13 +27,13 @@ class DrinkType extends AbstractType
             ->add('longitude', 'hidden')
             ->add('day', 'hidden')
             ->add('hour', 'choice', array('label' => 'Heure', 'choices' => $options['hours']))
-            ->add('id_city', 'choice', array('label' => 'Ville', 'choices' => $options['cities']))
+            ->add('city_id', 'choice', array('label' => 'Ville', 'choices' => $options['cities']))
             ->add('description', 'textarea', array('label' => 'Description'));
     }
-    
+
     public function getDefaultOptions(array $options)
     {
-        // Collection Constraint 
+        // Collection Constraint
         $collectionConstraint = new Constraints\Collection(array(
             'fields' => array(
                 'place' => array(
@@ -51,7 +51,7 @@ class DrinkType extends AbstractType
                     new Constraints\NotNull(),
                     new Constraints\Time(),
                 ),
-                'id_city' => array(
+                'city_id' => array(
                     new Constraints\NotNull(),
                     new Constraints\Choice(array('choices' => array_keys($options['cities']))),
                 ),
@@ -59,26 +59,26 @@ class DrinkType extends AbstractType
             ),
             'allowExtraFields' => false,
         ));
-    
+
         // Hours
         $hours = array();
         $oStartDate = new \DateTime('2000-01-01');
         $oEndDate = new \DateTime('2000-01-02');
-        
+
         do
         {
             $hours[$oStartDate->format('H:i:s')] = $oStartDate->format('H\hi');
             $oStartDate->add(new \DateInterval('PT30M'));
         }
         while ($oStartDate < $oEndDate);
-        
+
         return array(
             'validation_constraint' => $collectionConstraint,
             'hours' => $hours,
             'cities' => $options['cities'],
         );
     }
-    
+
     public function getName()
     {
         return 'drink';

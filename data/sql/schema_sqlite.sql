@@ -73,21 +73,24 @@ CREATE  TABLE IF NOT EXISTS `User_City` (
 DROP TABLE IF EXISTS `Drink` ;
 
 CREATE  TABLE IF NOT EXISTS `Drink` (
-  `id` integer NOT NULL ,
+  `id` integer NOT NULL primary key autoincrement ,
   `place` VARCHAR(100) NOT NULL ,
+  `address` VARCHAR(100) ,
   `day` DATE NOT NULL ,
   `hour` integer NOT NULL ,
   `kind` varchar(255) NOT NULL DEFAULT 'drink' ,
   `description` TEXT NOT NULL ,
   `map` VARCHAR(256) NULL ,
+  `latitude` DECIMAL(9,6) ,
+  `longitude` DECIMAL(9,6) ,
   `user_id` integer NOT NULL ,
   `city_id` integer NOT NULL ,
-  CONSTRAINT `fk_Aperos_Utilisateur`
+  CONSTRAINT `fk_Drink_Utilisateur`
     FOREIGN KEY (`user_id` )
     REFERENCES `User` (`id` )
     ON DELETE NO ACTION
    ,
-  CONSTRAINT `fk_Aperos_Ville`
+  CONSTRAINT `fk_Drink_Ville`
     FOREIGN KEY (`city_id` )
     REFERENCES `City` (`id` )
     ON DELETE NO ACTION
@@ -105,12 +108,12 @@ CREATE  TABLE IF NOT EXISTS `Drink_Participation` (
   `user_id` integer NOT NULL ,
   `percentage` integer NOT NULL ,
   `reminder` integer NOT NULL ,
-  CONSTRAINT `fk_Apero_Participation_Apero`
+  CONSTRAINT `fk_Drink_Participation_Drink`
     FOREIGN KEY (`drink_id` )
     REFERENCES `Drink` (`id` )
     ON DELETE NO ACTION
    ,
-  CONSTRAINT `fk_Apero_Participation_Utilisateur`
+  CONSTRAINT `fk_Drink_Participation_Utilisateur`
     FOREIGN KEY (`user_id` )
     REFERENCES `User` (`id` )
     ON DELETE NO ACTION
@@ -124,17 +127,17 @@ CREATE  TABLE IF NOT EXISTS `Drink_Participation` (
 DROP TABLE IF EXISTS `Drink_Comment` ;
 
 CREATE  TABLE IF NOT EXISTS `Drink_Comment` (
-  `id` integer NOT NULL ,
+  `id` integer NOT NULL primary key autoincrement ,
   `created_at` BIGINT NOT NULL ,
   `content` TEXT NOT NULL ,
   `drink_id` integer NOT NULL ,
   `user_id` integer NOT NULL ,
-  CONSTRAINT `fk_Apero_Commentaire_Apero`
+  CONSTRAINT `fk_Drink_Commentaire_Drink`
     FOREIGN KEY (`drink_id` )
     REFERENCES `Drink` (`id` )
     ON DELETE NO ACTION
    ,
-  CONSTRAINT `fk_Apero_Commentaire_Utilisateur`
+  CONSTRAINT `fk_Drink_Commentaire_Utilisateur`
     FOREIGN KEY (`user_id` )
     REFERENCES `User` (`id` )
     ON DELETE NO ACTION
@@ -148,7 +151,7 @@ CREATE  TABLE IF NOT EXISTS `Drink_Comment` (
 DROP TABLE IF EXISTS `Article` ;
 
 CREATE  TABLE IF NOT EXISTS `Article` (
-  `id` integer NOT NULL ,
+  `id` integer NOT NULL primary key autoincrement ,
   `created_at` BIGINT NOT NULL ,
   `title` VARCHAR(60) NOT NULL ,
   `content` TEXT NOT NULL ,
@@ -168,7 +171,7 @@ CREATE  TABLE IF NOT EXISTS `Article` (
 DROP TABLE IF EXISTS `Article_Comment` ;
 
 CREATE  TABLE IF NOT EXISTS `Article_Comment` (
-  `id` integer NOT NULL ,
+  `id` integer NOT NULL primary key autoincrement ,
   `created_at` BIGINT NOT NULL ,
   `content` TEXT NOT NULL ,
   `user_id` integer NOT NULL ,
