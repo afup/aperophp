@@ -1,0 +1,43 @@
+{% form_theme form 'common/Form/fields.html.twig' %}
+
+<form method="post" action="{{ url('_createcomment', {'drink_id': drink.id}) }}" id="commentForm" class="form-horizontal" {{ form_enctype(form) }}>
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">×</a>
+		<h3>Commentaire</h3>
+	</div>
+	<div class="modal-body">
+		<div class="control-group {% if form.lastname.vars.errors|length %}error{% endif %}">
+		    {{ form_label(form.lastname, null, { 'attr': {'class': 'control-label'} }) }}
+		    <div class="controls">
+		    	{{ form_widget(form.lastname) }}
+		    	{{ form_errors(form.lastname) }}
+	    	</div>
+	    </div>
+	    <div class="control-group {% if form.firstname.vars.errors|length %}error{% endif %}">
+		    {{ form_label(form.firstname, null, { 'attr': {'class': 'control-label'} }) }}
+		    <div class="controls">
+		    	{{ form_widget(form.firstname) }}
+		    	{{ form_errors(form.firstname) }}
+	    	</div>
+	    </div>
+	    <div class="control-group {% if form.email.vars.errors|length %}error{% endif %}">
+		    {{ form_label(form.email, null, { 'attr': {'class': 'control-label'} }) }}
+		    <div class="controls">
+		    	{{ form_widget(form.email) }}
+		    	{{ form_errors(form.email) }}
+	    	</div>
+	    </div>
+	    <div class="control-group {% if form.content.vars.errors|length %}error{% endif %}">
+		    {{ form_label(form.content, null, { 'attr': {'class': 'control-label'} }) }}
+		    <div class="controls">
+		    	{{ form_widget(form.content) }}
+		    	{{ form_errors(form.content) }}
+	    	</div>
+	    </div>
+	    {{ form_rest(form) }}
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="submit">Ajouter</button>
+		<a href="#" data-dismiss="modal" class="btn">Annuler</a>
+	</div>
+</form>

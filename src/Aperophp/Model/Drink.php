@@ -29,7 +29,8 @@ class Drink extends ModelInterface
         $user_id,
         $city_id,
         $city,
-        $user;
+        $user,
+        $comments;
 
     static public function getKinds()
     {
@@ -236,6 +237,23 @@ class Drink extends ModelInterface
         }
 
         return $this->user;
+    }
+
+    /**
+     * Get comments associated.
+     *
+     * @author Koin <pkoin.koin@gmail.com>
+     * @since 19 févr. 2012
+     * @version 1.0 - 19 févr. 2012 - Koin <pkoin.koin@gmail.com>
+     */
+    public function getComments()
+    {
+        if (!$this->comments)
+        {
+            $this->comments = DrinkComment::findByDrinkId($this->connection, $this->id);
+        }
+
+        return $this->comments;
     }
 
     public function getId()

@@ -144,7 +144,7 @@ DROP TABLE IF EXISTS `Drink_Comment` ;
 
 CREATE  TABLE IF NOT EXISTS `Drink_Comment` (
   `id` INT NOT NULL AUTO_INCREMENT ,
-  `created_at` BIGINT NOT NULL ,
+  `created_at` DATETIME ,
   `content` TEXT NOT NULL ,
   `drink_id` INT NOT NULL ,
   `user_id` INT NOT NULL ,
