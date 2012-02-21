@@ -4,7 +4,7 @@
 <div class="row">
 	<div class="span4">
 		<div class="well">
-			{% include 'drink/participations.html.twig' %}
+			{% include 'drink/participations.html.twig' with {'participations': drink.participations} %}
 		</div>
 	</div>
 	<div class="span8">

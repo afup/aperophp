@@ -60,9 +60,9 @@ class DrinkParticipation extends ModelInterface
     {
         if( null !== $this->_drink && null !== $this->_user )
         {
-            $query  = 'SELECT drink_id, user_id, percentage, reminder'
-                    . 'FROM Drink_Participation'
-                    . 'WHERE drink_id = :drink_id AND user_id = :user_id';
+            $query  = 'SELECT drink_id, user_id, percentage, reminder '
+                    . 'FROM Drink_Participation '
+                    . 'WHERE drink_id = :drink_id AND user_id = :user_id;';
             $data   = $this->connection->fetchAssoc($query,
                                                     array(
                                                             ':drink_id' => $drink_id,
@@ -92,16 +92,16 @@ class DrinkParticipation extends ModelInterface
      */
     public static function findByDrinkId(Connection $connection, $drink_id)
     {
-        if( null !== $this->_drink && null !== $this->_user )
+        $result = array();
+        if( null !== $drink_id )
         {
-            $query  = 'SELECT drink_id, user_id, percentage, reminder'
-                    . 'FROM Drink_Participation'
-                    . 'WHERE drink_id = :drink_id';
-            $data   = $this->connection->fetchAll(  $query,
-                                                    array(':drink_id' => $drink_id)
-                                                );
+            $query  = 'SELECT drink_id, user_id, percentage, reminder '
+                    . 'FROM Drink_Participation '
+                    . 'WHERE drink_id = :drink_id;';
+            $data   = $connection->fetchAll($query,
+                                            array(':drink_id' => $drink_id)
+                                           );
 
-            $result = array();
             foreach( $data as $line )
             {
                 $n          = new self($connection);
@@ -113,9 +113,9 @@ class DrinkParticipation extends ModelInterface
 
                 $result[]   = $n;
             }
-
-            return $result;
         }
+
+        return $result;
     }
 
     /**
@@ -126,16 +126,16 @@ class DrinkParticipation extends ModelInterface
      */
     public static function findByUserId(Connection $connection, $user_id)
     {
-        if( null !== $this->_user && null !== $this->_user )
+        $result = array();
+        if( null !== $user_id )
         {
-            $query  = 'SELECT drink_id, user_id, percentage, reminder'
-                    . 'FROM User_Participation'
-                    . 'WHERE user_id = :user_id';
-            $data   = $this->connection->fetchAll(  $query,
-                                                    array(':user_id' => $user_id)
-                                                );
+            $query  = 'SELECT drink_id, user_id, percentage, reminder '
+                    . 'FROM User_Participation '
+                    . 'WHERE user_id = :user_id;';
+            $data   = $connection->fetchAll($query,
+                                            array(':user_id' => $user_id)
+                                           );
 
-            $result = array();
             foreach( $data as $line )
             {
                 $n          = new self($connection);
@@ -147,9 +147,9 @@ class DrinkParticipation extends ModelInterface
 
                 $result[]   = $n;
             }
-
-            return $result;
         }
+
+        return $result;
     }
 
     /**

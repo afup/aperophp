@@ -9,7 +9,7 @@ use Doctrine\DBAL\Connection;
  *
  * @author Mikael Randy <mikael.randy@gmail.com>
  * @since 21 janv. 2012
- * @version 1.2 - 18 févr. 2012 - Koin <pkoin.koin@gmail.com>
+ * @version 1.3 - 21 févr. 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
  */
 class Drink extends ModelInterface
 {
@@ -30,7 +30,8 @@ class Drink extends ModelInterface
         $city_id,
         $city,
         $user,
-        $comments;
+        $comments,
+        $participations;
 
     static public function getKinds()
     {
@@ -254,6 +255,23 @@ class Drink extends ModelInterface
         }
 
         return $this->comments;
+    }
+
+    /**
+     * Get participations associated.
+     *
+     * @author Gautier DI FOLCO <gautier.difolco@gmail.com>
+     * @since 21 févr. 2012
+     * @version 1.0 - 21 févr. 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
+     */
+    public function getParticipations()
+    {
+        if (!$this->participations)
+        {
+            $this->participations = DrinkParticipation::findByDrinkId($this->connection, $this->id);
+        }
+
+        return $this->participations;
     }
 
     public function getId()
