@@ -71,5 +71,25 @@
       },
     });
   });
+  $("#participateForm").live("submit", function(event) {
+    /* stop form from submitting normally */
+    event.preventDefault();
+    /* Send the data using post and put the results in a div */
+    $.ajax({
+      type: "POST",
+      url: $("#participateForm").attr("action"),
+      data: $("#participateForm").serialize(),
+      success: function (data, status) {
+        $("#participateModal").empty();
+        if (data == 'redirect')
+          window.location.reload();
+        else
+          $("#participateModal").append(data);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        $("#participateModal").empty().append("Une erreur est survenue, merci de rafraîchir votre page et de réessayer.");
+      },
+    });
+  });
 </script>
 {% endblock %}

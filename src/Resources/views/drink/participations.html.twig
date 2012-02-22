@@ -1,4 +1,8 @@
-<h2>Participants <small>S'inscrire</small></h2>
+<h2>Participants 
+<a class="btn pull-right" data-toggle="modal" href="#participateModal" >S'inscrire</a>
+<div class="modal hide fade" id="participateModal">
+{% include 'drink/participate.html.twig' %}
+</div></h2>
 <table>
     {% for participation in participations %}
         <tr>
