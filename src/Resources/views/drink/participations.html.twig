@@ -1,5 +1,10 @@
 <h2>Participants 
+{% if isParticipating %}
+<a class="btn pull-right" href="{{ url('_deleteparticipatedrink', {'drink_id': drink.id}) }}" >Se désinscrire</a>
+<a class="btn pull-right" data-toggle="modal" href="#participateModal" >Modifier</a>
+{% else %}
 <a class="btn pull-right" data-toggle="modal" href="#participateModal" >S'inscrire</a>
+{% endif %}
 <div class="modal hide fade" id="participateModal">
 {% include 'drink/participate.html.twig' %}
 </div></h2>

@@ -222,7 +222,7 @@ class DrinkParticipation extends ModelInterface
      *
      *  @return boolean                         Is the delete successful ?
      */
-    protected function delete()
+    public function delete()
     {
         return $this->connection->delete('Drink_Participation', array(
             'percentage' => $this->_percentage,

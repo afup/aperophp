@@ -240,6 +240,7 @@ class Drink implements ControllerProviderInterface
                 'drink'             => $oDrink,
                 'commentForm'       => $comment->createView(),
                 'participationForm' => $participation->createView(),
+                'isParticipating'   => null !== Model\DrinkParticipation::find($app['db'], $oDrink->getId(), $oUser->getId())
             ));
         })->bind('_showdrink');
         // *******
