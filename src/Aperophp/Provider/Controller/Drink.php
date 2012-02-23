@@ -233,15 +233,23 @@ class Drink implements ControllerProviderInterface
                 );
             }
 
+            $oDrinkParticipation = Model\DrinkParticipation::find($app['db'], $oDrink->getId(), $oUser->getId());
+            $dValues             = $values;
+            if( $oDrinkParticipation )
+                $dValues += array(
+                                    'percentage'    => $oDrinkParticipation->getPercentage(),
+                                    'reminder'      => $oDrinkParticipation->getReminder()
+                            );
+
+
             $comment        = $app['form.factory']->create(new \Aperophp\Form\DrinkCommentType(), $values, array('user' => $oUser));
-            $participation  = $app['form.factory']->create(new \Aperophp\Form\DrinkParticipationType(), $values, array('user' => $oUser));
+            $participation  = $app['form.factory']->create(new \Aperophp\Form\DrinkParticipationType(), $dValues, array('user' => $oUser));
 
             return $app['twig']->render('drink/view.html.twig', array(
                 'drink'             => $oDrink,
                 'commentForm'       => $comment->createView(),
                 'participationForm' => $participation->createView(),
-                'isParticipating'   => null !== Model\DrinkParticipation::find($app['db'], $oDrink->getId(), $oUser->getId())
-            ));
+                'isParticipating'   => null !== $oDrinkParticipation));
         })->bind('_showdrink');
         // *******
 
