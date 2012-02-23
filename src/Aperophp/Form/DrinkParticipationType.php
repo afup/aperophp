@@ -11,14 +11,15 @@ use Symfony\Component\Validator\Constraints;
  *  Participate form.
  *
  *  @author Gautier DI FOLCO <gautier.difolco@gmail.com>
- *  @version 1.0 - 12 fev. 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
+ *  @version 1.1 - 22 fev. 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
  */
 class DrinkParticipationType extends AbstractType
 {
     public function buildForm(FormBuilder $builder, array $options)
     {
         $defaultOptions = $options['user'] ? array('disabled' => '') : array();
-        $builder    ->add('drink_id', 'hidden')
+        $builder
+                    ->add('user_id', 'hidden')
                     ->add('lastname', 'text',   array(
                                                         'label' => 'Nom',
                                                         'required' => false,
@@ -45,21 +46,22 @@ class DrinkParticipationType extends AbstractType
     {
         $collectionConstraint = new Constraints\Collection(array(
             'fields' => array(
-                'drink_id'     => new Constraints\NotNull(),
-                'lastname'     => new Constraints\MaxLength(array('limit' => 80)),
-                'firstname'    => new Constraints\MaxLength(array('limit' => 80)),
-                'email'        => array(
+                'user_id'       => new Constraints\Min(array('limit' => 0)),
+                'lastname'      => new Constraints\MaxLength(array('limit' => 80)),
+                'firstname'     => new Constraints\MaxLength(array('limit' => 80)),
+                'email'         => array(
                                             new Constraints\Email(),
                                             new Constraints\NotNull(),
-                                  ),
-                'percentage'   => array(
+                                   ),
+                'percentage'    => array(
                                             new Constraints\Min(array('limit' => 0)),
                                             new Constraints\Max(array('limit' => 100))
-                                  )
+                                   ),
+                'reminder'      => array()
             ),
             'allowExtraFields'  => false,
         ));
-    
+
         return array(
                         'validation_constraint' => $collectionConstraint,
                         'user' => $options['user']

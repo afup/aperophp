@@ -2,35 +2,35 @@
 
 {% block content %}
 <div class="row">
-	<div class="span4">
-		<div class="well">
-			{% include 'drink/participations.html.twig' with {'participations': drink.participations} %}
-		</div>
-	</div>
-	<div class="span8">
-		<div class="row">
-			<div class="span7"><h1>{{ drink.kindTranslated }} <small>à {{ drink.city.name }}, le {{ drink.day|date("d") }} {{ drink.day|date("F")|trans }} {{ drink.day|date("Y") }} à {{ drink.hour|date("H:i") }}</small></h1></div>
-			<div class="span1">
-				<div class="btn-group">
-					<a href="#" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Action <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a href="{{ url('_editdrink', {'id': drink.id}) }}"><i class="icon-pencil"></i> Editer</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<p>Lieu : {{ drink.place }}, {{ drink.address }}</p>
-		<blockquote>
-			<p>{{ drink.description }}</p>
-			<small>organisé par {{ drink.user.email|replace({'@': '[at]'}) }}</small>
-		</blockquote>
-		<div id="map" style="width: 100%; height: 200px; margin-bottom: 15px;"></div>
-		{% include 'comment/list.html.twig' with {'comments': drink.comments} %}
-		<a class="btn pull-right" data-toggle="modal" href="#commentModal" >Ajouter un commentaire</a>
-		<div class="modal hide fade" id="commentModal">
-			{% include 'comment/new.html.twig' %}
-		</div>
-	</div>
+    <div class="span4">
+        <div class="well">
+            {% include 'drink/participations.html.twig' with {'participations': drink.participations} %}
+        </div>
+    </div>
+    <div class="span8">
+        <div class="row">
+            <div class="span7"><h1>{{ drink.kindTranslated }} <small>à {{ drink.city.name }}, le {{ drink.day|date("d") }} {{ drink.day|date("F")|trans }} {{ drink.day|date("Y") }} à {{ drink.hour|date("H:i") }}</small></h1></div>
+            <div class="span1">
+                <div class="btn-group">
+                    <a href="#" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Action <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url('_editdrink', {'id': drink.id}) }}"><i class="icon-pencil"></i> Editer</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <p>Lieu : {{ drink.place }}, {{ drink.address }}</p>
+        <blockquote>
+            <p>{{ drink.description }}</p>
+            <small>organisé par {{ drink.user.email|replace({'@': '[at]'}) }}</small>
+        </blockquote>
+        <div id="map" style="width: 100%; height: 200px; margin-bottom: 15px;"></div>
+        {% include 'comment/list.html.twig' with {'comments': drink.comments} %}
+        <a class="btn pull-right" data-toggle="modal" href="#commentModal" >Ajouter un commentaire</a>
+        <div class="modal hide fade" id="commentModal">
+            {% include 'comment/new.html.twig' %}
+        </div>
+    </div>
 </div>
 {% endblock %}
 
@@ -71,7 +71,7 @@
       },
     });
   });
-  $("#participateForm").live("submit", function(event) {
+  $("#particpateForm").live("submit", function(event) {
     /* stop form from submitting normally */
     event.preventDefault();
     /* Send the data using post and put the results in a div */

@@ -8,7 +8,7 @@ use Doctrine\DBAL\Connection;
  *  Participation in a drink
  *
  *  @author Gautier DI FOLCO <gautier.difolco@gmail.com>
- *  @version 1.0 - 21 janv. 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
+ *  @version 1.1 - 23 janv. 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
  */
 class DrinkParticipation extends ModelInterface
 {
@@ -49,6 +49,20 @@ class DrinkParticipation extends ModelInterface
     protected $_is_new      = true;
 
     /**
+     *  Drink of participation
+     *
+     *  @var    \Aperophp\Model\Drink
+     */
+    protected $drink        = null;
+
+    /**
+     *  Participating user
+     *
+     *  @var    \Aperophp\Model\User
+     */
+    protected $user         = null;
+
+    /**
      *  Find a DrinkParticipation
      *
      *  @param  Connection  $connection         Connection to the database
@@ -58,16 +72,16 @@ class DrinkParticipation extends ModelInterface
      */
     public static function find(Connection $connection, $drink_id, $user_id)
     {
-        if( null !== $this->_drink && null !== $this->_user )
+        if( null !== $drink_id && null !== $user_id )
         {
             $query  = 'SELECT drink_id, user_id, percentage, reminder '
                     . 'FROM Drink_Participation '
                     . 'WHERE drink_id = :drink_id AND user_id = :user_id;';
-            $data   = $this->connection->fetchAssoc($query,
-                                                    array(
-                                                            ':drink_id' => $drink_id,
-                                                            ':user_id'  => $user_id
-                                                    ));
+            $data   = $connection->fetchAssoc(  $query,
+                                                array(
+                                                        ':drink_id' => $drink_id,
+                                                        ':user_id'  => $user_id
+                                                ));
             if( !$data )
                 return null;
 
@@ -179,12 +193,11 @@ class DrinkParticipation extends ModelInterface
      */
     protected function insert()
     {
-        return $this->connection->insert('User', array(
-            'lastname' => $this->lastname,
-            'firstname' => $this->firstname,
-            'email' => $this->email,
-            'token' => $this->token,
-            'member_id' => $this->member_id,
+        return $this->connection->insert('Drink_Participation', array(
+            'drink_id'   => $this->_drink_id,
+            'user_id'    => $this->_user_id,
+            'percentage' => $this->_percentage,
+            'reminder'   => $this->_reminder
         )) === 1;
     }
 
@@ -195,7 +208,7 @@ class DrinkParticipation extends ModelInterface
      */
     protected function update()
     {
-        return $this->connection->update('DrinkParticipation', array(
+        return $this->connection->update('Drink_Participation', array(
             'percentage' => $this->_percentage,
             'reminder'   => $this->_reminder
         ), array(
@@ -211,13 +224,43 @@ class DrinkParticipation extends ModelInterface
      */
     protected function delete()
     {
-        return $this->connection->delete('DrinkParticipation', array(
+        return $this->connection->delete('Drink_Participation', array(
             'percentage' => $this->_percentage,
             'reminder'   => $this->_reminder
         ), array(
             'drink_id'   => $this->_drink_id,
             'user_id'    => $this->_user_id
         )) === 1;
+    }
+
+    /**
+     * Return user associated.
+     *
+     *  @author Gautier DI FOLCO <gautier.difolco@gmail.com>
+     *  @version 1.1 - 23 janv. 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
+     *  @return \Aperophp\Model\User
+     */
+    public function getUser()
+    {
+        if (!$this->user)
+            $this->user = User::findOneById($this->connection, $this->_user_id);
+
+        return $this->user;
+    }
+
+    /**
+     * Return drink associated.
+     *
+     *  @author Gautier DI FOLCO <gautier.difolco@gmail.com>
+     *  @version 1.1 - 23 janv. 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
+     *  @return \Aperophp\Model\Drink
+     */
+    public function getDrink()
+    {
+        if (!$this->drink)
+            $this->drink = Drink::findOneById($this->connection, $this->_drink_id);
+
+        return $this->drink;
     }
 
     /**

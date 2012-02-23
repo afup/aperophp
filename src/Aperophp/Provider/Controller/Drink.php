@@ -233,12 +233,12 @@ class Drink implements ControllerProviderInterface
                 );
             }
 
-            $form           = $app['form.factory']->create(new \Aperophp\Form\DrinkCommentType(), $values, array('user' => $oUser));
+            $comment        = $app['form.factory']->create(new \Aperophp\Form\DrinkCommentType(), $values, array('user' => $oUser));
             $participation  = $app['form.factory']->create(new \Aperophp\Form\DrinkParticipationType(), $values, array('user' => $oUser));
 
             return $app['twig']->render('drink/view.html.twig', array(
                 'drink'             => $oDrink,
-                'commentForm'       => $form->createView(),
+                'commentForm'       => $comment->createView(),
                 'participationForm' => $participation->createView(),
             ));
         })->bind('_showdrink');
