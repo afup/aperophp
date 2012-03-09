@@ -8,3 +8,21 @@
     git = https://github.com/symfony/Validator.git
 [Symfony/Component/Translation]
     git = https://github.com/symfony/Translation.git
+[Symfony/Component/ClassLoader]
+    git = https://github.com/symfony/ClassLoader.git
+[Symfony/Component/HttpKernel]
+    git = https://github.com/symfony/HttpKernel.git
+[Symfony/Component/EventDispatcher]
+    git = https://github.com/symfony/EventDispatcher.git
+[Symfony/Component/Routing]
+    git = https://github.com/symfony/Routing.git
+[Symfony/Component/HttpFoundation]
+    git = https://github.com/symfony/HttpFoundation.git
+[Pimple]
+    git = https://github.com/fabpot/Pimple.git
+[doctrine-dbal]
+    git = https://github.com/doctrine/dbal.git
+[doctrine-common]
+    git = https://github.com/doctrine/common.git
+[twig]
+    git = https://github.com/fabpot/Twig.git

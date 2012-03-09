@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../vendor/silex/autoload.php';
+require_once __DIR__.'/autoload.php';
 
 use Silex\Application;
 
@@ -34,15 +34,15 @@ $app->register(new SessionServiceProvider(), array(
     'locale' => 'fr',
 ));
 $app->register(new DoctrineServiceProvider(), array(
-    'db.dbal.class_path'    => __DIR__.'/../vendor/silex/vendor/doctrine-dbal/lib',
-    'db.common.class_path'  => __DIR__.'/../vendor/silex/vendor/doctrine-common/lib',
+    'db.dbal.class_path'    => __DIR__.'/../vendor/doctrine-dbal/lib',
+    'db.common.class_path'  => __DIR__.'/../vendor/doctrine-common/lib',
 ));
 
 $app->register(new Aperophp\Provider\Service\Model());
 
 $app->register(new TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/../src/Resources/views',
-    'twig.class_path' => __DIR__.'/../vendor/silex/vendor/twig/lib',
+    'twig.class_path' => __DIR__.'/../vendor/twig/lib',
 ));
 
 $app->register(new TranslationServiceProvider(array(
