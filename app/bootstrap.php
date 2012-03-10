@@ -43,6 +43,7 @@ $app->register(new Aperophp\Provider\Service\Model());
 $app->register(new TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/../src/Resources/views',
     'twig.class_path' => __DIR__.'/../vendor/twig/lib',
+    'twig.options' => array('debug' => true),
 ));
 
 $app->register(new TranslationServiceProvider(array(
@@ -50,6 +51,12 @@ $app->register(new TranslationServiceProvider(array(
     'locale'                    => 'fr',
     'translation.class_path'    => __DIR__.'/../Symfony/Component/Translation',
 )));
+
+$oldTwigConfiguration = isset($app['twig.configure']) ? $app['twig.configure']: function(){};
+$app['twig.configure'] = $app->protect(function($twig) use ($oldTwigConfiguration) {
+    $oldTwigConfiguration($twig);
+    $twig->addExtension(new Twig_Extensions_Extension_Debug());
+});
 
 $app['translator.messages'] = array(
     'fr' => array(

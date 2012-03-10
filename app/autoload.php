@@ -11,5 +11,6 @@ $loader->registerNamespaces(array(
 ));
 $loader->registerPrefixes(array(
     'Pimple' => __DIR__.'/../vendor/Pimple/lib',
+    'Twig_Extensions_'  => __DIR__.'/../vendor/twig-extensions/lib',
 ));
 $loader->register();

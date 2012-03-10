@@ -26,3 +26,5 @@
     git = https://github.com/doctrine/common.git
 [twig]
     git = https://github.com/fabpot/Twig.git
+[twig-extensions]
+    git = https://github.com/fabpot/Twig-extensions.git
