@@ -1,10 +1,16 @@
+## Application files
 app/config.php
 composer.lock
 composer.phar
-nbproject/
-app/config.php
 deps.lock
+
+# IDE files
+  # Netbeans
+nbproject/
+  # Eclipse
 .buildpath
 .project
 .settings/
+
+# Backup files
 *.*~
