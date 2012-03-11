@@ -24,7 +24,7 @@ class DrinkCommentType extends AbstractType
         $defaultOptions = $options['user'] ? array('disabled' => '') : array();
         
         $builder
-            ->add('id_user', 'hidden')
+            ->add('user_id', 'hidden')
             ->add('lastname', 'text', array('label' => 'Nom', 'required' => false, 'attr' => array('placeholder' => 'Facultatif.') + $defaultOptions))
             ->add('firstname', 'text', array('label' => 'Prénom', 'required' => false, 'attr' => array('placeholder' => 'Facultatif.') + $defaultOptions))
             ->add('email', 'email', array('attr' => $defaultOptions))
@@ -35,7 +35,7 @@ class DrinkCommentType extends AbstractType
     {
         $collectionConstraint = new Constraints\Collection(array(
             'fields' => array(
-                'id_user'      => new Constraints\Min(array('limit' => 0)),
+                'user_id'      => new Constraints\Min(array('limit' => 0)),
                 'lastname'     => new Constraints\MaxLength(array('limit' => 80)),
                 'firstname'    => new Constraints\MaxLength(array('limit' => 80)),
                 'email'        => array(

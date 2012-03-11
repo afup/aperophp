@@ -14,7 +14,7 @@
 		{% for threedrinks in drinks %}
 		<div class="row-fluid">
 			{% for drink in threedrinks %}
-		    {% include 'apero/preview.html.twig' with {'drink': drink} %}
+		    {% include 'drink/preview.html.twig' with {'drink': drink} %}
 		    {% endfor %}
 		</div><!--/row-->
 		{% endfor %}
