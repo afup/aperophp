@@ -3,6 +3,7 @@ app/config.php
 composer.lock
 composer.phar
 deps.lock
+vendor/*
 
 # IDE files
   # Netbeans
