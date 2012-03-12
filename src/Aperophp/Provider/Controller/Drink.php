@@ -220,6 +220,7 @@ class Drink implements ControllerProviderInterface
 
             // If member is authenticated, prefill form.
             $oUser = null;
+            $oDrinkParticipation = null;
             $values = array();
             if ($user = $app['session']->get('user'))
             {
@@ -231,9 +232,10 @@ class Drink implements ControllerProviderInterface
                     'firstname' => $oUser->getFirstname(),
                     'email' => $oUser->getEmail(),
                 );
+
+                $oDrinkParticipation = Model\DrinkParticipation::find($app['db'], $oDrink->getId(), $oUser->getId());
             }
 
-            $oDrinkParticipation = Model\DrinkParticipation::find($app['db'], $oDrink->getId(), $oUser->getId());
             $dValues             = $values;
             if( $oDrinkParticipation )
                 $dValues += array(
