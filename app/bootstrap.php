@@ -32,6 +32,8 @@ $app->register(new FormServiceProvider());
 $app->register(new ValidatorServiceProvider());
 $app->register(new SessionServiceProvider(), array(
     'locale' => 'fr',
+    'session.storage.options' => array(
+        'auto_start' => true),
 ));
 $app->register(new DoctrineServiceProvider(), array(
     'db.dbal.class_path'    => __DIR__.'/../vendor/doctrine-dbal/lib',
