@@ -26,13 +26,14 @@
 
 ## Minimal Viable Product
 
-* créer un apéro (ville, lieu de l'apéro, date et heure)
-* modifier un apéro
-* avoir une carte (genre Google Maps) du lieu
-* dire qu'on participe à un apéro (j'aime bien le %age de présence :))
+* [DONE] créer un apéro (ville, lieu de l'apéro, date et heure)
+* [DONE] modifier un apéro
+* [DONE] avoir une carte (genre Google Maps) du lieu
+* [DONE] dire qu'on participe à un apéro (j'aime bien le %age de présence :))
 * nombre de personnes donc
-* enlever sa participation à l'apéro
-* pouvoir poster des commentaires/lien pré et post-apéros (genre les photos)
+* [DONE] enlever sa participation à l'apéro
+* [DONE]pouvoir poster des commentaires
+* pouvoir poster deslien pré et post-apéros (genre les photos)
 * une interface plus jolie que l'acutelle !!! => graphiste alcoolique ami ? twitter bootstrap ?
 * système d'auth:
  * un utilisateur s'inscrit à un apéro (pas au site !) avec juste son mail + nom
