@@ -55,3 +55,6 @@
 
 * mais je ne suis pas sûre qu'il faille avoir du postage de photo sur le site web (service déporté comme flickR ira bien) +1, ça fait toujours ça de moins à gérer
 
+# Backlog
+
+* 2012-03-18 - Depuis Twig 1.6.2, tout écran avec un formulaire affiche une liste de notices
