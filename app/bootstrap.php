@@ -62,7 +62,18 @@ $app['twig.configure'] = $app->protect(function($twig) use ($oldTwigConfiguratio
 
 $app['translator.messages'] = array(
     'fr' => array(
-        'February' => 'Février'
+        'January' => 'Janvier',
+        'February' => 'Février',
+        'March' => 'Mars',
+        'April' => 'Avril',
+        'May' => 'Mai',
+        'June' => 'Juin',
+        'July' => 'Juillet',
+        'August' => 'Aout',
+        'September' => 'Septembre',
+        'October' => 'Octobre',
+        'November' => 'Novembre',
+        'December' => 'Décembre',
     ),
 );
 
