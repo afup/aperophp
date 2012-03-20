@@ -23,7 +23,11 @@
             <tbody>
                 {% for participation in participations %}
                     <tr>
-                        <td class="vleft">{{ participation.user.email|replace({'@': '[at]'}) }}</td>
+                        {% if participation.user.member is not null%}
+                            <td class="vleft">{{ participation.user.member.username }}</td>
+                        {% else %}
+                            <td class="vleft">{{ participation.user.email|replace({'@': '[at]'}) }}</td>
+                        {% endif %}
                         <td class="vright">{{ participation.percentage }} %</td>
                     </tr>
                 {% endfor %}
