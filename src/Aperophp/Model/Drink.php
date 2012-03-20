@@ -90,7 +90,7 @@ class Drink extends ModelInterface
     static public function findAllJoinParticipants(Connection $connection, $limit = null)
     {
         $sql  = 'SELECT * FROM Drink D, Drink_Participation P ';
-        $sql .= 'WHERE P.drink_id = D.id ';
+        $sql .= 'WHERE D.id = P.drink_id ';
         $sql .= $limit ? 'AND id IN (SELECT id FROM DRINK ORDER BY day DESC LIMIT ' . $limit . ')' : '';
         $sql .= 'ORDER BY day DESC';
 
