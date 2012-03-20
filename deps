@@ -1,5 +1,6 @@
 [silex]
     git = https://github.com/fabpot/Silex.git
+    version = 39184eb544
 [Symfony/Component/Form]
     git = https://github.com/symfony/Form.git
 [Symfony/Bridge/Twig]
