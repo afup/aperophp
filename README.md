@@ -30,13 +30,13 @@
 * [DONE] modifier un apéro
 * [DONE] avoir une carte (genre Google Maps) du lieu
 * [DONE] dire qu'on participe à un apéro (j'aime bien le %age de présence :))
-* nombre de personnes donc
+* [DONE] nombre de personnes donc
 * [DONE] enlever sa participation à l'apéro
-* [DONE]pouvoir poster des commentaires
+* [DONE] pouvoir poster des commentaires
 * pouvoir poster deslien pré et post-apéros (genre les photos)
 * une interface plus jolie que l'acutelle !!! => graphiste alcoolique ami ? twitter bootstrap ?
 * système d'auth:
- * un utilisateur s'inscrit à un apéro (pas au site !) avec juste son mail + nom
+ * [DONE] un utilisateur s'inscrit à un apéro (pas au site !) avec juste son mail + nom
  * le site lui envoie un mail avec une url perso qui contient un token (par exemple un md5)
  * l'utilisateur peut modifier son inscription à l'apéro via cette url
  * si il perd l'url, on peut facilement lui régénérer un token et lui renvoyer un mail
@@ -58,4 +58,4 @@
 # Backlog
 
 * 2012-03-18 - Depuis Twig 1.6.2, tout écran avec un formulaire affiche une liste de notices
-* 2012-03-20 - Dans le modèle Drink, la méthode getParticipations() fait du lazy-loading qui implique des requêtes inutiles. Il faut prévoir une méthode getAllJoinParticipations() pour les listes de Drink
+* [DONE] 2012-03-20 - Dans le modèle Drink, la méthode getParticipations() fait du lazy-loading qui implique des requêtes inutiles. Il faut prévoir une méthode getAllJoinParticipations() pour les listes de Drink
