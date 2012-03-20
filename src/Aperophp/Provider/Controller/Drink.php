@@ -29,7 +29,7 @@ class Drink implements ControllerProviderInterface
         {
             $app['session']->set('menu', 'home');
 
-            $aDrinkChunked = array_chunk(Model\Drink::findAll($app['db'], 6), 3);
+            $aDrinkChunked = array_chunk(Model\Drink::findAllJoinParticipants($app['db'], 6), 3);
 
             return $app['twig']->render('drink/index.html.twig', array(
                 'drinks' => $aDrinkChunked
@@ -45,7 +45,7 @@ class Drink implements ControllerProviderInterface
             $app['session']->set('menu', 'listdrinks');
 
             //TODO pagination
-            $aDrink = Model\Drink::findAll($app['db']);
+            $aDrink = Model\Drink::findAllJoinParticipants($app['db']);
 
             return $app['twig']->render('drink/list.html.twig', array(
                 'drinks' => $aDrink
