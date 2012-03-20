@@ -18,6 +18,7 @@
     git = https://github.com/symfony/Routing.git
 [Symfony/Component/HttpFoundation]
     git = https://github.com/symfony/HttpFoundation.git
+    version = 369d855411
 [Pimple]
     git = https://github.com/fabpot/Pimple.git
 [doctrine-dbal]

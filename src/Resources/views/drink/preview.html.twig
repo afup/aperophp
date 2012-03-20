@@ -5,7 +5,7 @@
     <ul>
         <li>Lieu : {{ drink.place }}</li>
         <li>à {{ drink.hour|date("H:i") }}</li>
-        <li>Nombre : {{ drink.nbParticipants }}</li>
+        <li>Nombre d'inscrits : {{ drink.nbParticipations }}</li>
     </ul>
     <p><a class="btn" href="{{ url('_showdrink', {'id': drink.id}) }}">Voir le détail &raquo;</a></p>
 </div>
