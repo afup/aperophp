@@ -91,7 +91,7 @@ class Drink extends ModelInterface
     {
         $sql  = 'SELECT *, D.user_id as c_id, P.user_id AS p_id FROM Drink D ';
         $sql .= 'LEFT OUTER JOIN Drink_Participation P ON D.id = P.drink_id ';
-        $sql .= $limit ? 'AND id IN (SELECT id FROM DRINK ORDER BY day DESC LIMIT ' . $limit . ')' : '';
+        $sql .= $limit ? 'JOIN (SELECT id FROM Drink ORDER BY day DESC LIMIT ' . $limit . ') t ON t.id = D.id ' : '';
         $sql .= 'ORDER BY day DESC';
 
         $aData = $connection->fetchAll($sql);
