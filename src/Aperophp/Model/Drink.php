@@ -84,13 +84,13 @@ class Drink extends ModelInterface
      *
      * @author Gautier DI FOLCO <gautier.difolco@gmail.com>
      * @since 20 mars 2012
-     * @version 1.0 - 20 mars 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
+     * @version 1.1 - 20 mars 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
      * @param Connection $connection
      */
     static public function findAllJoinParticipants(Connection $connection, $limit = null)
     {
-        $sql  = 'SELECT * FROM Drink D, Drink_Participation P ';
-        $sql .= 'WHERE D.id = P.drink_id ';
+        $sql  = 'SELECT *, D.user_id as c_id, P.user_id AS p_id FROM Drink D ';
+        $sql .= 'LEFT OUTER JOIN Drink_Participation P ON D.id = P.drink_id ';
         $sql .= $limit ? 'AND id IN (SELECT id FROM DRINK ORDER BY day DESC LIMIT ' . $limit . ')' : '';
         $sql .= 'ORDER BY day DESC';
 
@@ -112,7 +112,7 @@ class Drink extends ModelInterface
                     ->setDescription($data['description'])
                     ->setLatitude($data['latitude'])
                     ->setLongitude($data['longitude'])
-                    ->setUserId($data['user_id'])
+                    ->setUserId($data['c_id'])
                     ->setCityId($data['city_id']);
                 $oDrink
                     ->participations = array();
@@ -120,13 +120,16 @@ class Drink extends ModelInterface
                 $aDrink[$data['id']] = $oDrink;
             }
 
-            $oDrinkParticipation = new DrinkParticipation($connection);
-            $oDrinkParticipation
-                ->setDrinkId((integer) $data['drink_id'])
-                ->setuserId((integer) $data['user_id'])
-                ->setPercentage((integer) $data['percentage'])
-                ->setReminder((boolean) $data['reminder']);
-            $aDrink[$data['id']]->participations[] = $oDrinkParticipation;
+            if (!empty($data['drink_id']))
+            {
+                $oDrinkParticipation = new DrinkParticipation($connection);
+                $oDrinkParticipation
+                    ->setDrinkId((integer) $data['drink_id'])
+                    ->setuserId((integer) $data['p_id'])
+                    ->setPercentage((integer) $data['percentage'])
+                    ->setReminder((boolean) $data['reminder']);
+                $aDrink[$data['id']]->participations[] = $oDrinkParticipation;
+            }
         }
 
         return $aDrink;
