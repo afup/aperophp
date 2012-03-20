@@ -274,6 +274,18 @@ class Drink extends ModelInterface
         return $this->participations;
     }
 
+    /**
+     * Get the number of participants.
+     *
+     * @author Gautier DI FOLCO <gautier.difolco@gmail.com>
+     * @since 20 mars 2012
+     * @version 1.0 - 20 mars 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
+     */
+    public function getNbParticipations()
+    {
+        return count($this->getParticipations());
+    }
+
     public function getId()
     {
         return $this->id;
