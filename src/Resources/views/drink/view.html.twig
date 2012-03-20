@@ -22,7 +22,11 @@
         <p>Lieu : {{ drink.place }}, {{ drink.address }}</p>
         <blockquote>
             <p>{{ drink.description }}</p>
-            <small>organisé par {{ drink.user.email|replace({'@': '[at]'}) }}</small>
+            {% if drink.user.member is not null%}
+                <small>organisé par {{ drink.user.member.username }}</small>
+            {% else %}
+                <small>organisé par {{ drink.user.email|replace({'@': '[at]'}) }}</small>
+            {% endif %}
         </blockquote>
         <div id="map" style="width: 100%; height: 200px; margin-bottom: 15px;"></div>
         {% include 'comment/list.html.twig' with {'comments': drink.comments} %}

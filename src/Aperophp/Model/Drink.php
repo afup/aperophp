@@ -80,7 +80,7 @@ class Drink extends ModelInterface
     }
 
     /**
-     * Find all order by day.
+     * Find all order by day and join the DrinkParticipations.
      *
      * @author Gautier DI FOLCO <gautier.difolco@gmail.com>
      * @since 20 mars 2012
