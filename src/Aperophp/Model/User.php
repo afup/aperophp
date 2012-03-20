@@ -8,19 +8,20 @@ use Doctrine\DBAL\Connection;
  * User model.
  *
  * @author Koin <pkoin.koin@gmail.com>
- * @since 22 janv. 2012 
- * @version 1.0 - 22 janv. 2012 - Koin <pkoin.koin@gmail.com>
+ * @since 22 janv. 2012
+ * @version 1.2 - 20 mars 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
  */
 class User extends ModelInterface
 {
-    protected 
+    protected
         $id,
         $lastname,
         $firstname,
         $email,
         $token,
-        $member_id;
-    
+        $member_id,
+        $member;
+
     /**
      * Find one user by member id.
      *
@@ -34,14 +35,14 @@ class User extends ModelInterface
     static public function findOneByMemberId($connection, $member_id)
     {
         $data = $connection->fetchAssoc('SELECT * FROM User WHERE member_id = ?', array($member_id));
-    
+
         if (!$data)
         {
             return false;
         }
-    
+
         $oUser = new User($connection);
-    
+
         $oUser
             ->setId($data['id'])
             ->setLastname($data['lastname'])
@@ -49,15 +50,15 @@ class User extends ModelInterface
             ->setEmail($data['email'])
             ->setToken($data['token'])
             ->setMemberId($data['member_id']);
-    
+
         return $oUser;
     }
-    
+
     /**
      * Find one user by id.
-     * 
+     *
      * @author Koin <pkoin.koin@gmail.com>
-     * @since 8 févr. 2012 
+     * @since 8 févr. 2012
      * @version 1.0 - 8 févr. 2012 - Koin <pkoin.koin@gmail.com>
      * @param Connection $connection
      * @param integer $id
@@ -66,14 +67,14 @@ class User extends ModelInterface
     static public function findOneById(Connection $connection, $id)
     {
         $data = $connection->fetchAssoc('SELECT * FROM User WHERE id = ?', array($id));
-    
+
         if (!$data)
         {
             return false;
         }
-    
+
         $oUser = new User($connection);
-    
+
         $oUser
             ->setId($data['id'])
             ->setLastname($data['lastname'])
@@ -81,27 +82,27 @@ class User extends ModelInterface
             ->setEmail($data['email'])
             ->setToken($data['token'])
             ->setMemberId($data['member_id']);
-    
+
         return $oUser;
     }
-    
+
     /**
      * Save.
-     * 
+     *
      * @author Koin <pkoin.koin@gmail.com>
-     * @since 4 févr. 2012 
+     * @since 4 févr. 2012
      * @version 1.0 - 4 févr. 2012 - Koin <pkoin.koin@gmail.com>
      */
     public function save()
     {
         return $this->isNew() ? $this->insert() : $this->update();
     }
-    
+
     /**
      * Is new ?
-     * 
+     *
      * @author Koin <pkoin.koin@gmail.com>
-     * @since 4 févr. 2012 
+     * @since 4 févr. 2012
      * @version 1.0 - 4 févr. 2012 - Koin <pkoin.koin@gmail.com>
      * @return boolean
      */
@@ -109,12 +110,12 @@ class User extends ModelInterface
     {
         return $this->id ? false : true;
     }
-    
+
     /**
      * Insert.
-     * 
+     *
      * @author Koin <pkoin.koin@gmail.com>
-     * @since 4 févr. 2012 
+     * @since 4 févr. 2012
      * @version 1.0 - 4 févr. 2012 - Koin <pkoin.koin@gmail.com>
      */
     protected function insert()
@@ -126,17 +127,17 @@ class User extends ModelInterface
             'token' => $this->token,
             'member_id' => $this->member_id,
         ));
-        
+
         $this->id = $this->connection->lastInsertId();
-        
+
         return $stmt;
     }
-    
+
     /**
      * Update.
-     * 
+     *
      * @author Koin <pkoin.koin@gmail.com>
-     * @since 4 févr. 2012 
+     * @since 4 févr. 2012
      * @version 1.0 - 4 févr. 2012 - Koin <pkoin.koin@gmail.com>
      */
     protected function update()
@@ -149,67 +150,82 @@ class User extends ModelInterface
             'member_id' => $this->member_id,
         ), array('id' => $this->id));
     }
-    
+
+    /**
+     * Return member associated.
+     *
+     * @author Gautier DI FOLCO <gautier.difolco@gmail.com>
+     * @since 20 mars 2012
+     * @version 1.0 - 20 mars 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
+     */
+    public function getMember()
+    {
+        if (!$this->member)
+            $this->member = Member::findById($this->connection, $this->member_id);
+
+        return $this->member;
+    }
+
     public function getId()
     {
         return $this->id;
     }
-    
+
     public function getLastname()
     {
         return $this->lastname;
     }
-    
+
     public function getFirstname()
     {
         return $this->firstname;
     }
-    
+
     public function getEmail()
     {
         return $this->email;
     }
-    
+
     public function getToken()
     {
         return $this->token;
     }
-    
+
     public function getMemberId()
     {
         return $this->member_id;
     }
-    
+
     public function setId($id)
     {
         $this->id = $id;
         return $this;
     }
-    
+
     public function setLastname($lastname)
     {
         $this->lastname = $lastname;
         return $this;
     }
-    
+
     public function setFirstname($firstname)
     {
         $this->firstname = $firstname;
         return $this;
     }
-    
+
     public function setEmail($email)
     {
         $this->email = $email;
         return $this;
     }
-    
+
     public function setToken($token)
     {
         $this->token = $token;
         return $this;
     }
-    
+
     public function setMemberId($member_id)
     {
         $this->member_id = $member_id;

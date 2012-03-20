@@ -9,7 +9,7 @@ use Doctrine\DBAL\Connection;
  *
  * @author Mikael Randy <mikael.randy@gmail.com>
  * @since 21 janv. 2012
- * @version 1.3 - 21 févr. 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
+ * @version 1.4 - 20 mars 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
  */
 class Drink extends ModelInterface
 {
@@ -74,6 +74,62 @@ class Drink extends ModelInterface
                 ->setCityId($data['city_id']);
 
             $aDrink[$data['id']] = $oDrink;
+        }
+
+        return $aDrink;
+    }
+
+    /**
+     * Find all order by day and join the DrinkParticipations.
+     *
+     * @author Gautier DI FOLCO <gautier.difolco@gmail.com>
+     * @since 20 mars 2012
+     * @version 1.1 - 20 mars 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
+     * @param Connection $connection
+     */
+    static public function findAllJoinParticipants(Connection $connection, $limit = null)
+    {
+        $sql  = 'SELECT *, D.user_id as c_id, P.user_id AS p_id FROM Drink D ';
+        $sql .= 'LEFT OUTER JOIN Drink_Participation P ON D.id = P.drink_id ';
+        $sql .= $limit ? 'AND id IN (SELECT id FROM DRINK ORDER BY day DESC LIMIT ' . $limit . ')' : '';
+        $sql .= 'ORDER BY day DESC';
+
+        $aData = $connection->fetchAll($sql);
+
+        $aDrink = array();
+        foreach ($aData as $data)
+        {
+            if (!array_key_exists($data['id'], $aDrink))
+            {
+                $oDrink = new self($connection);
+                $oDrink
+                    ->setId($data['id'])
+                    ->setPlace($data['place'])
+                    ->setAddress($data['address'])
+                    ->setDay($data['day'])
+                    ->setHour($data['hour'])
+                    ->setKind($data['kind'])
+                    ->setDescription($data['description'])
+                    ->setLatitude($data['latitude'])
+                    ->setLongitude($data['longitude'])
+                    ->setUserId($data['c_id'])
+                    ->setCityId($data['city_id']);
+                $oDrink
+                    ->participations = array();
+
+                $aDrink[$data['id']] = $oDrink;
+            }
+
+            if (!empty($data['drink_id']))
+            {
+                $oDrinkParticipation = new DrinkParticipation($connection);
+                $oDrinkParticipation
+                    ->setDrinkId((integer) $data['drink_id'])
+                    ->setuserId((integer) $data['p_id'])
+                    ->setPercentage((integer) $data['percentage'])
+                    ->setReminder((boolean) $data['reminder']);
+                $aDrink[$data['id']]->participations[] = $oDrinkParticipation;
+            }
         }
 
         return $aDrink;
