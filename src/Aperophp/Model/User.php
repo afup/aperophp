@@ -9,7 +9,7 @@ use Doctrine\DBAL\Connection;
  *
  * @author Koin <pkoin.koin@gmail.com>
  * @since 22 janv. 2012
- * @version 1.2 - 20 mars 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
+ * @version 1.4 - 21 mars 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
  */
 class User extends ModelInterface
 {
@@ -67,6 +67,39 @@ class User extends ModelInterface
     static public function findOneById(Connection $connection, $id)
     {
         $data = $connection->fetchAssoc('SELECT * FROM User WHERE id = ?', array($id));
+
+        if (!$data)
+        {
+            return false;
+        }
+
+        $oUser = new User($connection);
+
+        $oUser
+            ->setId($data['id'])
+            ->setLastname($data['lastname'])
+            ->setFirstname($data['firstname'])
+            ->setEmail($data['email'])
+            ->setToken($data['token'])
+            ->setMemberId($data['member_id']);
+
+        return $oUser;
+    }
+
+    /**
+     * Find one user by email/token.
+     *
+     * @author Gautier DI FOLCO <gautier.difolco@gmail.com>
+     * @since 21 mars 2012
+     * @version 1.0 - 21 mars 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
+     * @param Connection $connection
+     * @param string $email
+     * @param string $token
+     * @return User
+     */
+    static public function findOneByEmailToken(Connection $connection, $email, $token)
+    {
+        $data = $connection->fetchAssoc('SELECT * FROM User WHERE email = ? AND token = ?', array($email, $token));
 
         if (!$data)
         {

@@ -20,17 +20,6 @@ class Participate implements ControllerProviderInterface
     {
         $controllers = new ControllerCollection();
 
-        // TODO : Send mail
-        /*
-        $message = \Swift_Message::newInstance()
-            ->setSubject('[YourSite] Feedback')
-            ->setFrom(array('noreply@yoursite.com'))
-            ->setTo(array('feedback@yoursite.com'))
-            ->setBody($request->get('message'));
-
-        $app['mailer']->send($message);
-         */
-
         // *******
         // ** Save/Update participation
         // *******
@@ -83,12 +72,25 @@ class Participate implements ControllerProviderInterface
                     // If member is not authenticated, a user is created.
                     if (!$oUser)
                     {
+                        $token = sha1(md5(rand()).microtime(true).md5(rand()));
                         $oUser = new Model\User($app['db']);
                         $oUser
                                 ->setEmail($data['email'])
                                 ->setFirstname($data['firstname'])
                                 ->setLastname($data['lastname'])
+                                ->setToken($token)
                                 ->save();
+
+                        /*
+                        // TODO : Send mail
+                        $message = \Swift_Message::newInstance()
+                            ->setSubject('[YourSite] Feedback')
+                            ->setFrom(array('noreply@yoursite.com'))
+                            ->setTo(array('feedback@yoursite.com'))
+                            ->setBody($request->get('message'));
+
+                        $app['mailer']->send($message);
+                         */
                     }
 
                     $data           = $form->getData();
@@ -134,7 +136,7 @@ class Participate implements ControllerProviderInterface
         // *******
         // ** Delete participation
         // *******
-        $controllers->get('{drink_id}/delete.html', function(Request $request, $drink_id) use ($app)
+        $controllers->get('{drink_id}/delete.html/{email}/{token}', function(Request $request, $drink_id, $email, $token) use ($app)
         {
             $oDrink = Model\Drink::findOneById($app['db'], $drink_id);
 
@@ -154,28 +156,34 @@ class Participate implements ControllerProviderInterface
 
             $oUser = null;
             $values = array();
-            if ($user = $app['session']->get('user'))
+
+            if (!empty($token) && !empty($email))
             {
-                $oUser = Model\User::findOneById($app['db'], $user['id']);
+                $oUser = Model\User::findOneByEmailToken($app['db'], $email, $token);
+                if (!$oUser)
+                {
+                    $app['session'] ->setFlash('error', 'Couple email/jeton invalide.');
+                    return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drink_id)));
+                }
+            }
+            else
+            {
+                if ($user = $app['session']->get('user'))
+                {
+                    $oUser = Model\User::findOneById($app['db'], $user['id']);
+                }
+                // If member is not authenticated, nothing can be done.
+                if (!$oUser)
+                {
+                    $app['session'] ->setFlash('error', 'Connectez-vous ou utilisez le lien reçu par mail.');
+                    return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drink_id)));
+                }
             }
 
             $app['db']->beginTransaction();
 
             try
             {
-                // If member is not authenticated, token/email is checked.
-/*                if (!$oUser)
-                {
-                        $app['session'] ->setFlash('error', 'Couple email/jeton invalide.');
-                        return $app     ->redirect($app['url_generator']
-                                        ->generate('_viewdrink'));
-                    $oUser = new Model\User($app['db']);
-                    $oUser
-                            ->setEmail($data['email'])
-                            ->setFirstname($data['firstname'])
-                            ->setLastname($data['lastname'])
-                            ->save();
-                }*/
 
                 $participation  = Model\DrinkParticipation::find(
                                                                     $app['db'],
@@ -183,7 +191,8 @@ class Participate implements ControllerProviderInterface
                                                                     $oUser->getId()
                                                                 );
 
-                if( null === $participation )
+                if (null === $participation
+                || ((!empty($token) || !empty($email)) && null != $participation->getUser()->getMember()))
                     $app['session'] ->setFlash('error', 'Participation inéxistante.');
                 else
                 {
@@ -203,9 +212,7 @@ class Participate implements ControllerProviderInterface
 
             return $request->isXmlHttpRequest() ? 'redirect' : $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drink_id)));
 
-
-            return $app->redirect($app['url_generator']->generate('_viewdrink'));
-        })->bind('_deleteparticipatedrink');
+        })->value('email', null)->value('token', null)->bind('_deleteparticipatedrink');
 
         return $controllers;
     }
