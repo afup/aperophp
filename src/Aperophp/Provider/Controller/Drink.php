@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  *
  * @author Mikael Randy <mikael.randy@gmail.com>
  * @since 21 janv. 2012
- * @version 1.2 - 7 févr. 2012 - Koin <pkoin.koin@gmail.com>
+ * @version 1.3 - 21 mars 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
  */
 class Drink implements ControllerProviderInterface
 {
@@ -132,6 +132,15 @@ class Drink implements ControllerProviderInterface
                 $app->abort(404, 'Cet apéro n\'existe pas.');
             }
 
+            $now = new \Datetime('now');
+            $dDrink = \Datetime::createFromFormat(  'Y-m-d H:i:s',
+                                                    $oDrink->getDay() . ' ' . $oDrink->getHour());
+            if ($now > $dDrink)
+            {
+                $app['session'] ->setFlash('error', 'L\'événement est terminé.');
+                return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));
+            }
+
             $user = $app['session']->get('user');
 
             if (!$user || $oDrink->getUserId() != $user['id'])
@@ -161,6 +170,15 @@ class Drink implements ControllerProviderInterface
             if (!$oDrink)
             {
                 $app->abort(404, 'Cet apéro n\'existe pas.');
+            }
+
+            $now = new \Datetime('now');
+            $dDrink = \Datetime::createFromFormat(  'Y-m-d H:i:s',
+                                                    $oDrink->getDay() . ' ' . $oDrink->getHour());
+            if ($now > $dDrink)
+            {
+                $app['session'] ->setFlash('error', 'L\'événement est terminé.');
+                return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));
             }
 
             $user = $app['session']->get('user');
@@ -247,10 +265,15 @@ class Drink implements ControllerProviderInterface
             $comment        = $app['form.factory']->create(new \Aperophp\Form\DrinkCommentType(), $values, array('user' => $oUser));
             $participation  = $app['form.factory']->create(new \Aperophp\Form\DrinkParticipationType(), $dValues, array('user' => $oUser));
 
+            $now = new \Datetime('now');
+            $dDrink = \Datetime::createFromFormat(  'Y-m-d H:i:s',
+                                                    $oDrink->getDay() . ' ' . $oDrink->getHour());
+
             return $app['twig']->render('drink/view.html.twig', array(
                 'drink'             => $oDrink,
                 'commentForm'       => $comment->createView(),
                 'participationForm' => $participation->createView(),
+                'isFinished'        => $now > $dDrink,
                 'isParticipating'   => null !== $oDrinkParticipation));
         })->bind('_showdrink');
         // *******
