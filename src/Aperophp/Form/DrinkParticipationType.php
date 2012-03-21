@@ -47,6 +47,7 @@ class DrinkParticipationType extends AbstractType
         $collectionConstraint = new Constraints\Collection(array(
             'fields' => array(
                 'user_id'       => new Constraints\Min(array('limit' => 0)),
+                'csrf'          => new Constraints\Min(array('limit' => 0)),
                 'lastname'      => new Constraints\MaxLength(array('limit' => 80)),
                 'firstname'     => new Constraints\MaxLength(array('limit' => 80)),
                 'email'         => array(

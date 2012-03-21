@@ -4,7 +4,7 @@
 <div class="row">
     <div class="span4">
         <div class="well">
-            {% include 'drink/participations.html.twig' with {'participations': drink.participations, 'nb': drink.nbParticipations} %}
+            {% include 'drink/participations.html.twig' with {'participations': drink.participations, 'nb': drink.nbParticipations, 'isFinished': isFinished} %}
         </div>
     </div>
     <div class="span8">
@@ -14,7 +14,9 @@
                 <div class="btn-group">
                     <a href="#" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Action <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ url('_editdrink', {'id': drink.id}) }}"><i class="icon-pencil"></i> Editer</a></li>
+                        {% if not isFinished %}
+                            <li><a href="{{ url('_editdrink', {'id': drink.id}) }}"><i class="icon-pencil"></i> Editer</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>

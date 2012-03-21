@@ -33,7 +33,7 @@
 * [DONE] nombre de personnes donc
 * [DONE] enlever sa participation à l'apéro
 * [DONE] pouvoir poster des commentaires
-* pouvoir poster deslien pré et post-apéros (genre les photos)
+* pouvoir poster des liens pré et post-apéros (genre les photos)
 * une interface plus jolie que l'acutelle !!! => graphiste alcoolique ami ? twitter bootstrap ?
 * système d'auth:
  * [DONE] un utilisateur s'inscrit à un apéro (pas au site !) avec juste son mail + nom
