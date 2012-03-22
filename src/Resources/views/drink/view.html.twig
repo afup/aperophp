@@ -10,16 +10,17 @@
     <div class="span8">
         <div class="row">
             <div class="span7"><h1>{{ drink.kindTranslated }} <small>à {{ drink.city.name }}, le {{ drink.day|date("d") }} {{ drink.day|date("F")|trans }} {{ drink.day|date("Y") }} à {{ drink.hour|date("H:i") }}</small></h1></div>
-            <div class="span1">
-                <div class="btn-group">
-                    <a href="#" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Action <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        {% if not isFinished %}
-                            <li><a href="{{ url('_editdrink', {'id': drink.id}) }}"><i class="icon-pencil"></i> Editer</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
+
+            {% if not isFinished %}
+              <div class=""ass="span1">
+                  <div class="btn-group">
+                      <a href="#" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Action <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{{ url('_editdrink', {'id': drink.id}) }}"><i class="icon-pencil"></i> Editer</a></li>
+                      </ul>
+                  </div>
+              </div>
+            {% endif %}
         </div>
         <p>Lieu : {{ drink.place }}, {{ drink.address }}</p>
         <blockquote>
