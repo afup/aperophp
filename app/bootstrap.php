@@ -24,6 +24,10 @@ $app['autoloader']->registerNamespaces(array(
     'Aperophp' => __DIR__.'/../src/'
 ));
 
+$app['autoloader']->registerPrefixes(array(
+    'Swift_' => __DIR__.'/../vendor/SwiftMailer/lib/classes/',
+));
+
 // Utils
 $app['utils'] = $app->share(function() use ($app) {
     return new \Aperophp\Lib\Utils($app);
@@ -37,6 +41,7 @@ use Silex\Provider\ValidatorServiceProvider;
 use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
+use Silex\Provider\SwiftmailerServiceProvider;
 
 $app->register(new SymfonyBridgesServiceProvider());
 $app->register(new UrlGeneratorServiceProvider());
@@ -98,5 +103,10 @@ $app['translator.messages'] = array(
 );
 // *******
 
+$app->register(new SwiftmailerServiceProvider(array(
+    'swiftmailer.options'       => $app['mail.options'],
+    'swiftmailer.class_path'    => __DIR__.'/../vendor/SwiftMailer/lib/classes/', 
+)));
+//$app['swiftmailer.transport'] = new \Swift_Transport_SpoolTransport($app['swiftmailer.transport.eventdispatcher']);
 
 return $app;

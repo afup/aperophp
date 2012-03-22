@@ -36,3 +36,17 @@ $app['db.options'] = array(
 */
 // *******
 
+
+// *******
+// ** SwiftMailer
+// *******
+// @see http://silex.sensiolabs.org/doc/providers/swiftmailer.html#parameters
+// SMTP Transport
+$app['swiftmailer.options'] = array(
+	'host' => 'localhost',
+	'port' => '25',
+	'username' => '',
+	'password' => '',
+	'encryption' => null,
+	'auth_mode' => null,
+);

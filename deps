@@ -31,3 +31,6 @@
     version = tags/v1.6.2
 [twig-extensions]
     git = https://github.com/fabpot/Twig-extensions.git
+[SwiftMailer]
+    git = https://github.com/swiftmailer/swiftmailer.git
+    version = tags/v4.1.5
