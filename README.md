@@ -59,4 +59,4 @@
 
 * 2012-03-18 - Depuis Twig 1.6.2, tout écran avec un formulaire affiche une liste de notices
 * [DONE] 2012-03-20 - Dans le modèle Drink, la méthode getParticipations() fait du lazy-loading qui implique des requêtes inutiles. Il faut prévoir une méthode getAllJoinParticipations() pour les listes de Drink
-* 2012-03-22 - Lors de l'inscription à un apéro en mode non-connecté, lors de la validation du formulaire, rien ne se passe
+* [DONE] 2012-03-22 - Lors de l'inscription à un apéro en mode non-connecté, lors de la validation du formulaire, rien ne se passe

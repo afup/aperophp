@@ -3,7 +3,7 @@
 <form method="post" action="{{ url('_participatedrink', {'drink_id': drink.id}) }}" id="participateForm" class="form-horizontal" {{ form_enctype(participationForm) }}>
     <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
-        <h3>Commentaire</h3>
+        <h3>Participation</h3>
     </div>
     <div class="modal-body">
         <div class="control-group {% if participationForm.lastname.vars.errors|length %}error{% endif %}">
