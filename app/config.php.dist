@@ -4,9 +4,20 @@
  *	Default configuration
  */
 
+
+// *******
+// ** Misc
+// *******
 $app['debug'] 	= false;
 $app['locale'] 	= 'fr';
+// Secret string
+$app['secret'] 	= 'change_me_im_not_secret';
+// *******
 
+
+// *******
+// ** Database
+// *******
 // Sqlite
 $app['db.options'] = array(
     'driver' => 'pdo_sqlite',
@@ -23,6 +34,5 @@ $app['db.options'] = array(
     'password'  => '',
 );
 */
+// *******
 
-// Secret string
-$app['secret'] = 'change_me_im_not_secret';
