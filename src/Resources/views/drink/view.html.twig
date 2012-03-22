@@ -31,7 +31,7 @@
                 <small>organisé par {{ drink.user.email|replace({'@': '[at]'}) }}</small>
             {% endif %}
         </blockquote>
-        <div id="map" style="width: 100%; height: 200px; margin-bottom: 15px;"></div>
+        <div id="map" style="width: 100%; height: 400px; margin-bottom: 15px;"></div>
         {% include 'comment/list.html.twig' with {'comments': drink.comments} %}
         <a class="btn pull-right" data-toggle="modal" href="#commentModal" >Ajouter un commentaire</a>
         <div class="modal hide fade" id="commentModal">
