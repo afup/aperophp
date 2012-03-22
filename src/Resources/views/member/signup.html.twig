@@ -5,7 +5,7 @@
 {% block content %}
 <div class="row">
 	<div class="span8 offset4">
-		<form method="post" action="{{ url('_createmember') }}" class="form-horizontal" {{ form_enctype(form) }}>
+		<form method="post" action="{{ url('_signupmember') }}" class="form-horizontal" {{ form_enctype(form) }}>
 			<fieldset>
 				<legend>Inscription</legend>
 			    <div class="control-group {% if form.lastname.vars.errors|length %}error{% endif %}">

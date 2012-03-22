@@ -6,7 +6,7 @@
 		{% if app.session.hasFlash('success') %}
 		<div class="alert alert-success">{{ app.session.flash('success') }}</div> 
 		{% endif %} 
-		<form method="post" action="{{ url('_updatemember') }}" class="form-horizontal" {{ form_enctype(form) }}>
+		<form method="post" action="{{ url('_editmember') }}" class="form-horizontal" {{ form_enctype(form) }}>
 			<fieldset>
 				<legend>Mon profil</legend>
 				<div class="control-group {% if form.lastname.vars.errors|length %}error{% endif %}">
