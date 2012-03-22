@@ -4,7 +4,8 @@
  *	Default configuration
  */
 
-$app['debug'] = false;
+$app['debug'] 	= false;
+$app['locale'] 	= 'fr';
 
 // Sqlite
 $app['db.options'] = array(

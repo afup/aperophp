@@ -18,7 +18,6 @@ if (file_exists(__DIR__.'/config.php')) {
 }
 // *******
 
-
 // Autoloading
 $app['autoloader']->registerNamespaces(array(
     'Symfony'  => __DIR__.'/../vendor',
@@ -43,52 +42,61 @@ $app->register(new SymfonyBridgesServiceProvider());
 $app->register(new UrlGeneratorServiceProvider());
 $app->register(new FormServiceProvider());
 $app->register(new ValidatorServiceProvider());
+$app->register(new Aperophp\Provider\Service\Model());
+
 $app->register(new SessionServiceProvider(), array(
-    'locale' => 'fr',
+    'locale' => $app['locale'],
     'session.storage.options' => array(
         'auto_start' => true),
 ));
+
 $app->register(new DoctrineServiceProvider(), array(
     'db.dbal.class_path'    => __DIR__.'/../vendor/doctrine-dbal/lib',
     'db.common.class_path'  => __DIR__.'/../vendor/doctrine-common/lib',
 ));
 
-$app->register(new Aperophp\Provider\Service\Model());
-
+// *******
+// ** Twig
+// *******
 $app->register(new TwigServiceProvider(), array(
-    'twig.path' => __DIR__.'/../src/Resources/views',
-    'twig.class_path' => __DIR__.'/../vendor/twig/lib',
-    'twig.options' => array('debug' => true),
+    'twig.path'         => __DIR__.'/../src/Resources/views',
+    'twig.class_path'   => __DIR__.'/../vendor/twig/lib',
+    'twig.options'      => array('debug' => $app['debug']),
 ));
 
+// Add Twig extensions
+$app['twig.configure'] = $app->protect(function($twig) {
+    $twig->addExtension(new Twig_Extensions_Extension_Debug());
+});
+// *******
+
+
+// *******
+// ** Translations
+// *******
 $app->register(new TranslationServiceProvider(array(
     'locale_fallback'           => 'fr',
-    'locale'                    => 'fr',
+    'locale'                    => $app['locale'],
     'translation.class_path'    => __DIR__.'/../Symfony/Component/Translation',
 )));
 
-$oldTwigConfiguration = isset($app['twig.configure']) ? $app['twig.configure']: function(){};
-$app['twig.configure'] = $app->protect(function($twig) use ($oldTwigConfiguration) {
-    $oldTwigConfiguration($twig);
-    $twig->addExtension(new Twig_Extensions_Extension_Debug());
-});
-
 $app['translator.messages'] = array(
     'fr' => array(
-        'January' => 'Janvier',
-        'February' => 'Février',
-        'March' => 'Mars',
-        'April' => 'Avril',
-        'May' => 'Mai',
-        'June' => 'Juin',
-        'July' => 'Juillet',
-        'August' => 'Aout',
+        'January'   => 'Janvier',
+        'February'  => 'Février',
+        'March'     => 'Mars',
+        'April'     => 'Avril',
+        'May'       => 'Mai',
+        'June'      => 'Juin',
+        'July'      => 'Juillet',
+        'August'    => 'Aout',
         'September' => 'Septembre',
-        'October' => 'Octobre',
-        'November' => 'Novembre',
-        'December' => 'Décembre',
+        'October'   => 'Octobre',
+        'November'  => 'Novembre',
+        'December'  => 'Décembre',
     ),
 );
+// *******
 
 
 return $app;
