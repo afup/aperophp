@@ -1,6 +1,10 @@
 <?php
 
-$app['debug'] = true;
+/**
+ *	Default configuration
+ */
+
+$app['debug'] = false;
 
 // Sqlite
 $app['db.options'] = array(
