@@ -22,7 +22,7 @@ CREATE  TABLE IF NOT EXISTS `User` (
   `id` integer NOT NULL primary key autoincrement ,
   `lastname` VARCHAR(80) NULL ,
   `firstname` VARCHAR(80) NULL ,
-  `email` VARCHAR(80) NOT NULL ,
+  `email` VARCHAR(80) NOT NULL UNIQUE,
   `token` VARCHAR(64) NULL ,
   `member_id` integer NULL ,
   CONSTRAINT `fk_User_Member`
@@ -40,7 +40,7 @@ DROP TABLE IF EXISTS `Member` ;
 
 CREATE  TABLE IF NOT EXISTS `Member` (
   `id` integer NOT NULL primary key autoincrement ,
-  `username` VARCHAR(80) NOT NULL ,
+  `username` VARCHAR(80) NOT NULL UNIQUE,
   `password` VARCHAR(80) NOT NULL ,
   `active` integer NOT NULL DEFAULT '1' )
 ;

@@ -37,13 +37,13 @@ CREATE TABLE IF NOT EXISTS `City` (
 -- Contenu de la table `City`
 --
 
-INSERT INTO `City` (`id`, `name`) VALUES
-(5, 'Bordeaux'),
-(1, 'Lyon'),
-(3, 'Nantes'),
-(4, 'Orléans'),
-(2, 'Paris'),
-(6, 'Toulouse');
+INSERT INTO `City` (`name`) VALUES
+('Bordeaux'),
+('Lyon'),
+('Nantes'),
+('Orléans'),
+('Paris'),
+('Toulouse');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
