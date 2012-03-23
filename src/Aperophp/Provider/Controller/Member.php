@@ -128,6 +128,7 @@ class Member implements ControllerProviderInterface
                     return $app->redirect($app['url_generator']->generate('_signinmember'));
                 }
                 // Invalid form will display form back
+                $app['session']->setFlash('error', 'Quelque chose n\'est pas valide');
             }
 
             return $app['twig']->render('member/signup.html.twig', array(
