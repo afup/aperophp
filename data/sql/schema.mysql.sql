@@ -26,7 +26,7 @@ CREATE  TABLE IF NOT EXISTS `User` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `lastname` VARCHAR(80) NULL ,
   `firstname` VARCHAR(80) NULL ,
-  `email` VARCHAR(80) NOT NULL,
+  `email` VARCHAR(80) NOT NULL UNIQUE,
   `token` VARCHAR(64) NULL ,
   `member_id` INT NULL ,
   PRIMARY KEY (`id`) ,
@@ -46,7 +46,7 @@ DROP TABLE IF EXISTS `Member` ;
 
 CREATE  TABLE IF NOT EXISTS `Member` (
   `id` INT NOT NULL AUTO_INCREMENT ,
-  `username` VARCHAR(80) NOT NULL,
+  `username` VARCHAR(80) NOT NULL UNIQUE,
   `password` VARCHAR(80) NOT NULL ,
   `active` TINYINT(1) NOT NULL DEFAULT '1' ,
   PRIMARY KEY (`id`) )
