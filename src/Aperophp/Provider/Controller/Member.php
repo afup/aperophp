@@ -85,10 +85,6 @@ class Member implements ControllerProviderInterface
             $app['session']->set('menu', 'signup');
 
             $form = $app['form.factory']->create(new \Aperophp\Form\SignupType());
-
-            return $app['twig']->render('member/signup.html.twig', array(
-                'form' => $form->createView(),
-            ));
         
             // If it's not POST method, just display void form
             if( $request->getMethod() == 'POST' )
