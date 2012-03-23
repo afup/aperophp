@@ -46,21 +46,23 @@ class DrinkParticipationType extends AbstractType
     {
         $collectionConstraint = new Constraints\Collection(array(
             'fields' => array(
-                'user_id'       => new Constraints\Min(array('limit' => 0)),
-                'csrf'          => new Constraints\Min(array('limit' => 0)),
-                'lastname'      => new Constraints\MaxLength(array('limit' => 80)),
-                'firstname'     => new Constraints\MaxLength(array('limit' => 80)),
-                'email'         => array(
-                                            new Constraints\Email(),
-                                            new Constraints\NotNull(),
-                                   ),
-                'percentage'    => array(
-                                            new Constraints\Min(array('limit' => 0)),
-                                            new Constraints\Max(array('limit' => 100))
-                                   ),
-                'reminder'      => array()
+                'user_id'           => new Constraints\Min(array('limit' => 0)),
+                'lastname'          => new Constraints\MaxLength(array('limit' => 80)),
+                'firstname'         => new Constraints\MaxLength(array('limit' => 80)),
+                'email'             => array(
+                                                new Constraints\Email(),
+                                                new Constraints\NotNull(),
+                                       ),
+                'percentage'        => array(
+                                                new Constraints\Min(array('limit' => 0)),
+                                                new Constraints\Max(array('limit' => 100))
+                                       ),
+                'reminder'          => array(),
+//                'csrf_protection'   => true,
+//                'csrf_field_name'   => '_token',
+//                'intention'         => 'drink_participation'
             ),
-            'allowExtraFields'  => false,
+            'allowExtraFields'      => false,
         ));
 
         return array(

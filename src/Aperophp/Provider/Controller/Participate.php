@@ -38,7 +38,7 @@ class Participate implements ControllerProviderInterface
             if ($now > $dDrink)
             {
                 $app['session'] ->setFlash('error', 'L\'événement est terminé.');
-                return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drink_id)));
+                return $request->isXmlHttpRequest() ? 'redirect' : $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drink_id)));
             }
 
             $oUser = null;
@@ -70,7 +70,7 @@ class Participate implements ControllerProviderInterface
                 try
                 {
                     // If member is not authenticated, a user is created.
-                    if (!$oUser)
+                    if (!$oUser)// TODO  sauf s'il a un token !!!
                     {
                         $token = sha1(md5(rand()).microtime(true).md5(rand()));
                         $oUser = new Model\User($app['db']);
@@ -124,6 +124,7 @@ class Participate implements ControllerProviderInterface
 
                 return $request->isXmlHttpRequest() ? 'redirect' : $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drink_id)));
             }
+            else
 
             return $app['twig']->render('drink/participate.html.twig', array(
                 'participationForm' => $form->createView(),
