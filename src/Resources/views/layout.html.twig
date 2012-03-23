@@ -34,6 +34,13 @@
   <body>
     {% include 'common/topbar.html.twig' %}
     <div class="container-fluid">
+      {#  *******
+          ** Display flash
+          *******  #}
+      {% if app.session.hasFlash('success') %}<div class="alert alert-success">{{ app.session.flash('success') }}</div>{% endif %}
+      {% if app.session.hasFlash('notice') %}<div class="alert alert-notice">{{ app.session.flash('notice') }}</div>{% endif %}
+      {% if app.session.hasFlash('error') %}<div class="alert alert-error">{{ app.session.flash('error') }}</div>{% endif %} 
+      {#  ******* #}
       {% block content %}{% endblock %}
       <hr>
       {% include 'common/footer.html.twig' %}
