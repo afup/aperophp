@@ -225,7 +225,7 @@ class Drink implements ControllerProviderInterface
         // *******
         // ** See a drink
         // *******
-        $controllers->get('{id}/view.html', function($id) use ($app)
+        $controllers->get('{id}/view.html/{email}/{token}', function($id, $email, $token) use ($app)
         {
             $app['session']->set('menu', null);
 
@@ -240,10 +240,17 @@ class Drink implements ControllerProviderInterface
             $oUser = null;
             $oDrinkParticipation = null;
             $values = array();
+            $anonymous = true;
             if ($user = $app['session']->get('user'))
             {
                 $oUser = Model\User::findOneById($app['db'], $user['id']);
+                $anonymous = false;
+            }
+            else if (!empty($email) && !empty($token))
+                $oUser = Model\User::findOneByEmailToken($app['db'], $email, $token);
 
+            if ($oUser)
+            {
                 $values = array(
                     'user_id' => $oUser->getId(),
                     'lastname' => $oUser->getLastname(),
@@ -264,6 +271,11 @@ class Drink implements ControllerProviderInterface
 
             $comment        = $app['form.factory']->create(new \Aperophp\Form\DrinkCommentType(), $values, array('user' => $oUser));
             $participation  = $app['form.factory']->create(new \Aperophp\Form\DrinkParticipationType(), $dValues, array('user' => $oUser));
+            $dpAnonymousE   = null;
+
+            if ($anonymous)
+                $dpAnonymousE = $app['form.factory']->create(new \Aperophp\Form\DrinkParticipationAnonymousEditType(), $dValues, array('user' => $oUser))
+                                                    ->createView();
 
             $now = new \Datetime('now');
             $dDrink = \Datetime::createFromFormat(  'Y-m-d H:i:s',
@@ -273,9 +285,10 @@ class Drink implements ControllerProviderInterface
                 'drink'             => $oDrink,
                 'commentForm'       => $comment->createView(),
                 'participationForm' => $participation->createView(),
+                'dpAnonymousEForm'  => $dpAnonymousE,
                 'isFinished'        => $now > $dDrink,
                 'isParticipating'   => null !== $oDrinkParticipation));
-        })->bind('_showdrink');
+        })->value('email', null)->value('token', null)->bind('_showdrink');
         // *******
 
         return $controllers;

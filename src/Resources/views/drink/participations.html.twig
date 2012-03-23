@@ -5,11 +5,19 @@
             <a class="btn pull-right" data-toggle="modal" href="#participateModal" >Modifier</a>
         {% else %}
             <a class="btn pull-right" data-toggle="modal" href="#participateModal" >S'inscrire</a>
+            {% if dpAnonymousEForm is not null %}
+                <a class="btn pull-right" data-toggle="modal" href="#participateAnonymousEModal" >Modifier</a>
+            {%endif%}
         {% endif %}
 
         <div class="modal hide fade" id="participateModal">
             {% include 'drink/participate.html.twig' %}
         </div>
+        {% if dpAnonymousEForm is not null %}
+            <div class="modal hide fade" id="participateAnonymousEModal">
+                {% include 'drink/participateAnonymousE.html.twig' %}
+            </div>
+        {%endif%}
     {% endif %}
 </h2>
 
