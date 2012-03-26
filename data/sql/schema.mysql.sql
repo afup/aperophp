@@ -26,7 +26,7 @@ CREATE  TABLE IF NOT EXISTS `User` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `lastname` VARCHAR(80) NULL ,
   `firstname` VARCHAR(80) NULL ,
-  `email` VARCHAR(80) NOT NULL UNIQUE,
+  `email` VARCHAR(80) NOT NULL,
   `token` VARCHAR(64) NULL ,
   `member_id` INT NULL ,
   PRIMARY KEY (`id`) ,

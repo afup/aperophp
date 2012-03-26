@@ -22,7 +22,7 @@ CREATE  TABLE IF NOT EXISTS `User` (
   `id` integer NOT NULL primary key autoincrement ,
   `lastname` VARCHAR(80) NULL ,
   `firstname` VARCHAR(80) NULL ,
-  `email` VARCHAR(80) NOT NULL UNIQUE,
+  `email` VARCHAR(80) NOT NULL,
   `token` VARCHAR(64) NULL ,
   `member_id` integer NULL ,
   CONSTRAINT `fk_User_Member`
