@@ -1,0 +1,57 @@
+{% form_theme dpAnonymousEForm 'common/Form/fields.html.twig' %}
+
+<form method="post" action="{{ url('_participatedrink', {'drink_id': drink.id}) }}" id="participateForm" class="form-horizontal" {{ form_enctype(dpAnonymousEForm) }}>
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>Participation</h3>
+    </div>
+    <div class="modal-body">
+        <div class="control-group {% if dpAnonymousEForm.lastname.vars.errors|length %}error{% endif %}">
+            {{ form_label(dpAnonymousEForm.lastname, null, { 'attr': {'class': 'control-label'} }) }}
+            <div class="controls">
+                {{ form_widget(dpAnonymousEForm.lastname) }}
+                {{ form_errors(dpAnonymousEForm.lastname) }}
+            </div>
+        </div>
+        <div class="control-group {% if dpAnonymousEForm.firstname.vars.errors|length %}error{% endif %}">
+            {{ form_label(dpAnonymousEForm.firstname, null, { 'attr': {'class': 'control-label'} }) }}
+            <div class="controls">
+                {{ form_widget(dpAnonymousEForm.firstname) }}
+                {{ form_errors(dpAnonymousEForm.firstname) }}
+            </div>
+        </div>
+        <div class="control-group {% if dpAnonymousEForm.email.vars.errors|length %}error{% endif %}">
+            {{ form_label(dpAnonymousEForm.email, null, { 'attr': {'class': 'control-label'} }) }}
+            <div class="controls">
+                {{ form_widget(dpAnonymousEForm.email) }}
+                {{ form_errors(dpAnonymousEForm.email) }}
+            </div>
+        </div>
+        <div class="control-group {% if dpAnonymousEForm.token.vars.errors|length %}error{% endif %}">
+            {{ form_label(dpAnonymousEForm.token, null, { 'attr': {'class': 'control-label'} }) }}
+            <div class="controls">
+                {{ form_widget(dpAnonymousEForm.token) }}
+                {{ form_errors(dpAnonymousEForm.token) }}
+            </div>
+        </div>
+        <div class="control-group {% if dpAnonymousEForm.percentage.vars.errors|length %}error{% endif %}">
+            {{ form_label(dpAnonymousEForm.percentage, null, { 'attr': {'class': 'control-label'} }) }}
+            <div class="controls">
+                {{ form_widget(dpAnonymousEForm.percentage) }}
+                {{ form_errors(dpAnonymousEForm.percentage) }}
+            </div>
+        </div>
+        <div class="control-group {% if dpAnonymousEForm.reminder.vars.errors|length %}error{% endif %}">
+            {{ form_label(dpAnonymousEForm.reminder, null, { 'attr': {'class': 'control-label'} }) }}
+            <div class="controls">
+                {{ form_widget(dpAnonymousEForm.reminder) }}
+                {{ form_errors(dpAnonymousEForm.reminder) }}
+            </div>
+        </div>
+        {{ form_rest(dpAnonymousEForm) }}
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit">Participer</button>
+        <a href="#" data-dismiss="modal" class="btn">Annuler</a>
+    </div>
+</form>

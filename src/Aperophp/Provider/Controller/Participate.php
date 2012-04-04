@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
  *  Controller for DrinkParticipations managing.
  *
  *  @author Gautier DI FOLCO <gautier.difolco@gmail.com>
- *  @version 1.3 - 21 mars 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
+ *  @version 1.4 - 23 mars 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
  */
 class Participate implements ControllerProviderInterface
 {
@@ -47,8 +47,13 @@ class Participate implements ControllerProviderInterface
             {
                 $oUser = Model\User::findOneById($app['db'], $user['id']);
             }
+            else if (null !== $request->get('token') && null !== $request->get('email'))
+                $oUser = Model\User::findOneByEmailToken($app['db'], $request->get('email'), $request->get('token'));
 
-            $form           = $app['form.factory']->create(new \Aperophp\Form\DrinkParticipationType(), null, array('user' => $oUser));
+            if (null === $request->get('token'))
+                $form = $app['form.factory']->create(new \Aperophp\Form\DrinkParticipationType(), null, array('user' => $oUser));
+            else
+                $form = $app['form.factory']->create(new \Aperophp\Form\DrinkParticipationAnonymousEditType(), null, array('user' => $oUser));
 
             $form->bindRequest($request);
             if ($form->isValid())
@@ -70,7 +75,7 @@ class Participate implements ControllerProviderInterface
                 try
                 {
                     // If member is not authenticated, a user is created.
-                    if (!$oUser)// TODO  sauf s'il a un token !!!
+                    if (!$oUser)
                     {
                         $token = sha1(md5(rand()).microtime(true).md5(rand()));
                         $oUser = new Model\User($app['db']);
@@ -81,17 +86,23 @@ class Participate implements ControllerProviderInterface
                                 ->setToken($token)
                                 ->save();
 
-                        /*
-                        // TODO : Send mail
-                        $message = \Swift_Message::newInstance()
-                            ->setSubject('[YourSite] Feedback')
-                            ->setFrom(array('noreply@yoursite.com'))
-                            ->setTo(array('feedback@yoursite.com'))
-                            ->setBody($request->get('message'));
+                        $app['mailer']->send($app['mailer']
+                                ->createMessage()
+                                ->setSubject('[Aperophp.net] Inscription à un '.$oDrink->getKindTranslated())
+                                ->setFrom(array('noreply@aperophp.net'))
+                                ->setTo(array($oUser->getEmail()))
+                                ->setBody(  $app['twig']->render('drink/participation_mail.html.twig',
+                                            array(
+                                                'user'  => $oUser,
+                                                'drink' => $oDrink
+                                            )), 'text/html'));
 
-                        $app['mailer']->send($message);
-                         */
                     }
+                    else if ($form instanceof \Aperophp\Form\DrinkParticipationAnonymousEditType)
+                        $oUser
+                                ->setFirstname($data['firstname'])
+                                ->setLastname($data['lastname'])
+                                ->save();
 
                     $data           = $form->getData();
                     $participation  = Model\DrinkParticipation::find(

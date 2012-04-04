@@ -98,5 +98,25 @@
       },
     });
   });
+  $("#dpAnonymousEForm").live("submit", function(event) {
+    /* stop form from submitting normally */
+    event.preventDefault();
+    /* Send the data using post and put the results in a div */
+    $.ajax({
+      type: "POST",
+      url: $("#dpAnonymousEForm").attr("action"),
+      data: $("#dpAnonymousEForm").serialize(),
+      success: function (data, status) {
+        $("#dpAnonymousEModal").empty();
+        if (data == 'redirect')
+          window.location.reload();
+        else
+          $("#dpAnonymousEModal").append(data);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        $("#dpAnonymousEModal").empty().append("Une erreur est survenue, merci de rafraîchir votre page et de réessayer.");
+      },
+    });
+  });
 </script>
 {% endblock %}
