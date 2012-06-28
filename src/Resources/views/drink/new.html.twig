@@ -1,0 +1,65 @@
+{% extends "layout.html.twig" %}
+
+{% form_theme form 'common/Form/fields.html.twig' %}
+
+{% block content %}
+<div class="row">
+	<div class="span8 offset4">
+		<form method="post" action="{{ url('_createdrink') }}" class="form-horizontal" {{ form_enctype(form) }}>
+			<fieldset>
+				<legend>Organiser un apéro</legend>
+			    <div class="control-group">
+				    <label for="drink_dayselector" class="control-label required">Jour</label>
+				    <div class="controls">
+				    	<input type="text" required="required" id="drink_dayselector">
+			    	</div>
+			    </div>
+			    <div class="control-group {% if form.hour.vars.errors|length %}error{% endif %}">
+				    {{ form_label(form.hour, null, { 'attr': {'class': 'control-label'} }) }}
+				    <div class="controls">
+				    	{{ form_widget(form.hour) }}
+				    	{{ form_errors(form.hour) }}
+			    	</div>
+			    </div>
+			    <div class="control-group {% if form.description.vars.errors|length %}error{% endif %}">
+				    {{ form_label(form.description, null, { 'attr': {'class': 'control-label'} }) }}
+				    <div class="controls">
+				    	{{ form_widget(form.description) }}
+				    	{{ form_errors(form.description) }}
+			    	</div>
+			    </div>
+			    <div class="control-group {% if form.city_id.vars.errors|length %}error{% endif %}">
+				    {{ form_label(form.city_id, null, { 'attr': {'class': 'control-label'} }) }}
+				    <div class="controls">
+				    	{{ form_widget(form.city_id) }}
+				    	{{ form_errors(form.city_id) }}
+			    	</div>
+			    </div>
+				<div class="control-group">
+				    <label for="drink_placegmap" class="control-label required">Lieu</label>
+				    <div class="controls">
+				    	<p><input type="text" required="required" id="drink_placegmap"></p>
+				    	<p><input type="text" class="input-xlarge disabled" disabled="" id="drink_place_disabled"></p>
+				    	<p><input type="text" class="input-xlarge disabled" disabled="" id="drink_address_disabled"></p>
+			    	</div>
+			    </div>
+			    {{ form_rest(form) }}
+			    <div class="form-actions">
+			    	<button class="btn btn-primary" type="submit">Créer</button>
+					<button class="btn" type="reset">Annuler</button>
+			   	</div>
+		    </fieldset>
+		</form>
+	</div>
+</div>
+{% endblock %}
+
+{% block bottomjs %}
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places" type="text/javascript"></script>
+<script src="{{ app.request.basepath }}/js/gmap.autocomplete.js" type="text/javascript"></script>
+<script src="{{ app.request.basepath }}/js/datepicker.js" type="text/javascript"></script>
+<script>
+	// Date picker for Day field.
+	init_datepicker($('#drink_dayselector'), $('#drink_day'));
+</script>
+{% endblock %}

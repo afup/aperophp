@@ -1,0 +1,19 @@
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container-fluid">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand" href="{{ url('_homepagedrinks') }}">Apéro PHP</a>
+      <div class="nav-collapse">
+        <ul class="nav">
+          <li class="{% if app.session.get('menu') == 'newdrink' %}active{% endif %}"><a href="{{ url('_newdrink') }}">Organiser un apéro</a></li>
+          <li class="{% if app.session.get('menu') == 'listdrinks' %}active{% endif %}"><a href="{{ url('_listdrinks') }}">Liste des apéros</a></li>
+        </ul>
+        {% include "common/connection.html.twig" %}
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
+</div>

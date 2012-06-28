@@ -1,0 +1,14 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+<div class="row">
+	<div class="span4 offset6">
+		<form method="post" action="{{ url('_signinmember') }}" class="well" {{ form_enctype(form) }}>
+		    {{ form_row(form.username) }}
+		    {{ form_row(form.password) }}
+		    {{ form_rest(form) }}
+		    <button type="submit" class="btn btn-primary">Connexion</button>
+		</form>
+	</div>
+</div>
+{% endblock %}

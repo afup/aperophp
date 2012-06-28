@@ -1,0 +1,52 @@
+<?php
+
+/**
+ *	Default configuration
+ */
+
+
+// *******
+// ** Misc
+// *******
+$app['debug'] 	= false;
+$app['locale'] 	= 'fr';
+// Secret string
+$app['secret'] 	= 'change_me_im_not_secret';
+// *******
+
+
+// *******
+// ** Database
+// *******
+// Sqlite
+$app['db.options'] = array(
+    'driver' => 'pdo_sqlite',
+    'path'   => __DIR__.'/../cache/app.db',
+);
+
+// MySQL
+/*
+$app['db.options'] = array(
+    'driver'    => 'pdo_mysql',
+    'host'      => 'localhost',
+    'dbname'    => 'aperophp',
+    'user' 	    => '',
+    'password'  => '',
+);
+*/
+// *******
+
+
+// *******
+// ** SwiftMailer
+// *******
+// @see http://silex.sensiolabs.org/doc/providers/swiftmailer.html#parameters
+// SMTP Transport
+$app['swiftmailer.options'] = array(
+	'host' => 'localhost',
+	'port' => '25',
+	'username' => '',
+	'password' => '',
+	'encryption' => null,
+	'auth_mode' => null,
+);

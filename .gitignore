@@ -1,0 +1,17 @@
+## Application files
+app/config.php
+composer.lock
+composer.phar
+deps.lock
+vendor/*
+
+# IDE files
+  # Netbeans
+nbproject/
+  # Eclipse
+.buildpath
+.project
+.settings/
+
+# Backup files
+*.*~

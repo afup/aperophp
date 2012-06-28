@@ -1,0 +1,46 @@
+/* 
+    Document   : apero
+    Created on : 21 janv. 2012, 15:47:49
+    Author     : shaim
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+    display: block;
+}
+
+div.apero{
+    border: 1px #f9ab1a solid;
+    padding: 1ex;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+div.conference{
+    border: 1px #4c5e96 solid;
+    padding: 1ex;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+div.conference h5,
+div.apero h5{
+    background-color: #94a1c5;
+    color: #fff;
+    padding-left: 1ex;
+    padding-right: 1ex;
+}
+
+.vmiddle {
+	vertical-align: middle !important;
+}

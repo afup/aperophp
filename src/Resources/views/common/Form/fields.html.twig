@@ -1,0 +1,7 @@
+{% block field_errors %}
+{% spaceless %}
+    {% for error in errors %}
+        <span class="help-inline">{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}</span>
+    {% endfor %}
+{% endspaceless %}
+{% endblock field_errors %}
