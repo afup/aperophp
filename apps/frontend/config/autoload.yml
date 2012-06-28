@@ -1,4 +1,0 @@
-autoload:
-  vendor_some_lib:
-    path:      %SF_LIB_DIR%/vendor/MRAPI
-    recursive: on

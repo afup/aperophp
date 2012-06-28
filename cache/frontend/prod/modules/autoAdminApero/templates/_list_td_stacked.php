@@ -1,3 +1,0 @@
-<td colspan="5">
-  <?php echo __('<p>Le %%date_at%% à %%time_at%% : %%location_city%%, %%location_name%%</p><p>%%is_active%% %%nb_register%% participant(s) / %%max_people%% maximum (%%price%%)</p>', array('%%date_at%%' => false !== strtotime($apero->getDateAt()) ? format_date($apero->getDateAt(), "dd MMMM yyyy") : '&nbsp;', '%%time_at%%' => $apero->getTimeAt(), '%%location_city%%' => $apero->getLocationCity(), '%%location_name%%' => $apero->getLocationName(), '%%is_active%%' => get_partial('adminApero/list_field_boolean', array('value' => $apero->getIsActive())), '%%nb_register%%' => $apero->getNbRegister(), '%%max_people%%' => $apero->getMaxPeople(), '%%price%%' => $apero->getPrice()), 'messages') ?>
-</td>
