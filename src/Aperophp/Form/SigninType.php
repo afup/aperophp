@@ -3,27 +3,27 @@
 namespace Aperophp\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
-
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Signin form.
  *
  * @author Koin <pkoin.koin@gmail.com>
- * @since 4 févr. 2012 
+ * @since 4 févr. 2012
  * @version 1.0 - 4 févr. 2012 - Koin <pkoin.koin@gmail.com>
  */
 class SigninType extends AbstractType
 {
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('username', 'text', array('label' => 'Identifiant'))
             ->add('password', 'password', array('label' => 'Mot de passe'));
     }
-    
-    public function getDefaultOptions(array $options)
+
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $collectionConstraint = new Constraints\Collection(array(
             'fields' => array(
@@ -38,10 +38,12 @@ class SigninType extends AbstractType
             ),
             'allowExtraFields' => false,
         ));
-    
-        return array('validation_constraint' => $collectionConstraint);
+
+        $resolver->setDefaults(array(
+            'validation_constraint' => $collectionConstraint
+        ));
     }
-    
+
     public function getName()
     {
         return 'signin';

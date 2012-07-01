@@ -1,0 +1,21 @@
+{
+    "name"        : "afup/aperophp",
+    "require": {
+        "silex/silex"             : "1.0.*",
+        "doctrine/dbal"           : "dev-master",
+        "twig/twig"               : "dev-master",
+        "twig/extensions"         : "dev-master",
+        "symfony/class-loader"    : "dev-master",
+        "symfony/form"            : "dev-master",
+        "symfony/validator"       : "dev-master",
+        "symfony/translation"     : "dev-master",
+        "symfony/config"          : "dev-master",
+        "symfony/twig-bridge"     : "dev-master",
+        "swiftmailer/swiftmailer" : "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "Aperophp": "src/"
+        }
+    }
+}
