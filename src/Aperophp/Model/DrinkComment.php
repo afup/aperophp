@@ -13,13 +13,12 @@ use Doctrine\DBAL\Connection;
  */
 class DrinkComment extends ModelInterface
 {
-    protected
-        $id,
-        $created_at,
-        $content,
-        $drink_id,
-        $user_id,
-        $user;
+    protected $id;
+    protected $createdAt;
+    protected $content;
+    protected $drinkId;
+    protected $userId;
+    protected $user;
 
     /**
      * Find all order by day.
@@ -29,14 +28,13 @@ class DrinkComment extends ModelInterface
      * @version 1.2 - 18 févr. 2012 - Koin <pkoin.koin@gmail.com>
      * @param Connection $connection
      */
-    static public function findByDrinkId(Connection $connection, $drink_id)
+    static public function findByDrinkId(Connection $connection, $drinkId)
     {
-        $sql = "SELECT * FROM Drink_Comment WHERE drink_id = ? ORDER BY created_at";
-        $aData = $connection->fetchAll($sql, array($drink_id));
+        $sql = 'SELECT * FROM Drink_Comment WHERE drink_id = ? ORDER BY created_at';
+        $aData = $connection->fetchAll($sql, array($drinkId));
 
         $aDrinkComment = array();
-        foreach ($aData as $data)
-        {
+        foreach ($aData as $data) {
             $oDrinkComment = new self($connection);
             $oDrinkComment
                 ->setId($data['id'])
@@ -86,15 +84,15 @@ class DrinkComment extends ModelInterface
     protected function insert()
     {
         $stmt = $this->connection->insert('Drink_Comment', array(
-            'created_at' => $this->created_at,
-            'content' => $this->content,
-            'drink_id' => $this->drink_id,
-            'user_id' => $this->user_id,
+            'created_at' => $this->createdAt,
+            'content'    => $this->content,
+            'drink_id'   => $this->drinkId,
+            'user_id'    => $this->userId,
         ));
 
         $this->id = $this->connection->lastInsertId();
 
-        return $stmt;
+        return 1 === $stmt;
     }
 
     /**
@@ -106,12 +104,14 @@ class DrinkComment extends ModelInterface
      */
     protected function update()
     {
-        return $this->connection->update('Drink_Comment', array(
-            'created_at' => $this->created_at,
-            'content' => $this->content,
-            'drink_id' => $this->drink_id,
-            'user_id' => $this->user_id,
-        ), array('id' => $this->id));
+        return 1 === $this->connection->update('Drink_Comment', array(
+            'created_at' => $this->createdAt,
+            'content'    => $this->content,
+            'drink_id'   => $this->drinkId,
+            'user_id'    => $this->userId,
+        ), array(
+            'id' => $this->id
+        ));
     }
 
     /**
@@ -124,8 +124,9 @@ class DrinkComment extends ModelInterface
      */
     public function getUser()
     {
-        if (!$this->user)
-            $this->user = User::findOneById($this->connection, $this->user_id);
+        if (!$this->user) {
+            $this->user = User::findOneById($this->connection, $this->userId);
+        }
 
         return $this->user;
     }
@@ -137,7 +138,7 @@ class DrinkComment extends ModelInterface
 
     public function getCreatedAt()
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
     public function getContent()
@@ -147,41 +148,46 @@ class DrinkComment extends ModelInterface
 
     public function getDrinkId()
     {
-        return $this->drink_id;
+        return $this->drinkId;
     }
 
     public function getUserId()
     {
-        return $this->user_id;
+        return $this->userId;
     }
 
     public function setId($id)
     {
         $this->id = $id;
+
         return $this;
     }
 
-    public function setCreatedAt($created_at)
+    public function setCreatedAt($createdAt)
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
+
         return $this;
     }
 
     public function setContent($content)
     {
         $this->content = $content;
+
         return $this;
     }
 
-    public function setDrinkId($drink_id)
+    public function setDrinkId($drinkId)
     {
-        $this->drink_id = $drink_id;
+        $this->drinkId = $drinkId;
+
         return $this;
     }
 
-    public function setUserId($user_id)
+    public function setUserId($userId)
     {
-        $this->user_id = $user_id;
+        $this->userId = $userId;
+
         return $this;
     }
 }
