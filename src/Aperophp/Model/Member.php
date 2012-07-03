@@ -13,12 +13,11 @@ use Doctrine\DBAL\Connection;
  */
 class Member extends ModelInterface
 {
-    protected
-        $id,
-        $username,
-        $password,
-        $active,
-        $user;
+    protected $id;
+    protected $username;
+    protected $password;
+    protected $active;
+    protected $user;
 
     /**
      * Find one member by username.
@@ -34,9 +33,8 @@ class Member extends ModelInterface
     {
         $data = $connection->fetchAssoc('SELECT * FROM Member WHERE username = ?', array($username));
 
-        if (!$data)
-        {
-            return false;
+        if (!$data) {
+            return null;
         }
 
         $oMember = new Member($connection);
@@ -61,12 +59,13 @@ class Member extends ModelInterface
      * @param   integer     $id
      * @return  Member
      */
-    static public function findById($connection, $id)
+    static public function findOneById($connection, $id)
     {
-        $data = $connection->fetchAssoc('SELECT * FROM Member WHERE id = ?', array((integer)$id));
+        $data = $connection->fetchAssoc('SELECT * FROM Member WHERE id = ?', array((integer) $id));
 
-        if (!$data)
+        if (!$data) {
             return null;
+        }
 
         $oMember = new Member($connection);
 
@@ -116,12 +115,12 @@ class Member extends ModelInterface
         $stmt = $this->connection->insert('Member', array(
             'username' => $this->username,
             'password' => $this->password,
-            'active' => $this->active,
+            'active'   => $this->active,
         ));
 
         $this->id = $this->connection->lastInsertId();
 
-        return $stmt;
+        return 1 === $stmt;
     }
 
     /**
@@ -133,11 +132,13 @@ class Member extends ModelInterface
      */
     protected function update()
     {
-        return $this->connection->update('Member', array(
+        return 1 === $this->connection->update('Member', array(
             'username' => $this->username,
             'password' => $this->password,
-            'active' => $this->active,
-        ), array('id' => $this->id));
+            'active'   => $this->active,
+        ), array(
+            'id' => $this->id
+        ));
     }
 
     /**
@@ -149,8 +150,9 @@ class Member extends ModelInterface
      */
     public function getUser()
     {
-        if (!$this->user)
+        if (!$this->user) {
             $this->user = User::findOneByMemberId($this->connection, $this->id);
+        }
 
         return $this->user;
     }
@@ -178,24 +180,28 @@ class Member extends ModelInterface
     public function setId($id)
     {
         $this->id = $id;
+
         return $this;
     }
 
     public function setUsername($username)
     {
         $this->username = $username;
+
         return $this;
     }
 
     public function setPassword($password)
     {
         $this->password = $password;
+
         return $this;
     }
 
     public function setActive($active)
     {
         $this->active = $active;
+
         return $this;
     }
 }
