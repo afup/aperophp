@@ -85,4 +85,18 @@ class Member extends Test
                                     ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
         ;
     }
+
+    public function testEditProfile_withAnonymousUser_isRedirectedToLoginform()
+    {
+        $this->assert
+            ->if($client = $this->createClient())
+            ->then
+                ->if($crawler = $client->request('GET', '/member/edit.html'))
+                ->then()
+                    ->boolean($client->getResponse()->isRedirect('/member/signin.html'))->isTrue()
+                        ->if($crawler = $client->followRedirect())
+                        ->then()
+                            ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
+        ;
+    }
 }

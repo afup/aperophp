@@ -50,6 +50,20 @@ class Drink extends Test
         ;
     }
 
+    public function testNewDrink_withAnonymousUser_isRedirectedToLoginform()
+    {
+        $this->assert
+            ->if($client = $this->createClient())
+            ->then
+                ->if($crawler = $client->request('GET', '/drink/new.html'))
+                ->then()
+                    ->boolean($client->getResponse()->isRedirect('/member/signin.html'))->isTrue()
+                        ->if($crawler = $client->followRedirect())
+                        ->then()
+                            ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
+        ;
+    }
+
     public function testDrinkList()
     {
         $this->assert
