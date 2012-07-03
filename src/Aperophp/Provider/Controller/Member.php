@@ -29,25 +29,22 @@ class Member implements ControllerProviderInterface
         $controllers->match('signin.html', function(Request $request) use ($app)
         {
             $app['session']->set('menu', 'signin');
-
             $form = $app['form.factory']->create('signin');
 
             // If it's not POST method, just display void form
-            if( $request->getMethod() == 'POST' )
-            {
+            if ($request->getMethod() == 'POST') {
                 $form->bindRequest($request);
-                if ($form->isValid())
-                {
+                if ($form->isValid()) {
                     $data = $form->getData();
 
                     $oMember = Model\Member::findOneByUsername($app['db'], $data['username']);
 
-                    if ($oMember && $oMember->getActive() && $oMember->getPassword() == $app['utils']->hash($data['password']))
-                    {
+                    if ($oMember && $oMember->getActive() && $oMember->getPassword() == $app['utils']->hash($data['password'])) {
                         $app['session']->set('user', array(
                             'id' => $oMember->getId(),
                             'username' => $oMember->getUsername(),
                         ));
+
                         return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
                     }
 
@@ -62,7 +59,7 @@ class Member implements ControllerProviderInterface
         })
         ->bind('_signinmember')
         ->method('GET|POST');
-        
+
         // *******
 
         // *******
@@ -83,21 +80,17 @@ class Member implements ControllerProviderInterface
         $controllers->get('signup.html', function(Request $request) use ($app)
         {
             $app['session']->set('menu', 'signup');
-
             $form = $app['form.factory']->create('signup');
-        
+
             // If it's not POST method, just display void form
-            if( $request->getMethod() == 'POST' )
-            {
+            if ($request->getMethod() == 'POST') {
                 $form->bindRequest($request);
-                if ($form->isValid())
-                {
+                if ($form->isValid()) {
                     $data = $form->getData();
 
                     $app['db']->beginTransaction();
 
-                    try
-                    {
+                    try {
                         // 1. Create member
                         $oMember = new Model\Member($app['db']);
                         $oMember
@@ -116,9 +109,7 @@ class Member implements ControllerProviderInterface
                             ->save();
 
                         $app['db']->commit();
-                    }
-                    catch (Exception $e)
-                    {
+                    } catch (Exception $e) {
                         $app['db']->rollback();
                         throw $e;
                     }
@@ -144,15 +135,15 @@ class Member implements ControllerProviderInterface
         // *******
         $controllers->match('edit.html', function(Request $request) use ($app)
         {
-            if (!$app['session']->has('user'))
-            {
+            if (!$app['session']->has('user')) {
                 $app['session']->setFlash('error', 'Vous devez être authentifié pour accéder à cette ressource.');
+
                 return new RedirectResponse($app['url_generator']->generate('_signinmember'));
             }
 
-            $user = $app['session']->get('user');
+            $user    = $app['session']->get('user');
             $oMember = Model\Member::findOneByUsername($app['db'], $user['username']);
-            $oUser = $oMember->getUser();
+            $oUser   = $oMember->getUser();
 
             $form = $app['form.factory']->create('member_edit', array(
                 'lastname' => $oUser->getLastname(),
@@ -161,34 +152,28 @@ class Member implements ControllerProviderInterface
             ));
 
             // If it's not POST method, just display void form
-            if( $request->getMethod() == 'POST' )
-            {
+            if ($request->getMethod() == 'POST') {
                 $form->bindRequest($request);
-                if ($form->isValid())
-                {
+                if ($form->isValid()) {
                     $data = $form->getData();
 
                     $app['db']->beginTransaction();
 
-                    try
-                    {
+                    try {
                         $oUser
                             ->setLastname($data['lastname'])
                             ->setFirstname($data['firstname'])
                             ->setEmail($data['email'])
                             ->save();
 
-                        if ($data['password'])
-                        {
+                        if ($data['password']) {
                             $oMember
                                 ->setPassword($app['utils']->hash($data['password']))
                                 ->save();
                         }
 
                         $app['db']->commit();
-                    }
-                    catch (Exception $e)
-                    {
+                    } catch (Exception $e) {
                         $app['db']->rollback();
                         throw $e;
                     }
@@ -204,8 +189,8 @@ class Member implements ControllerProviderInterface
                 'form' => $form->createView(),
             ));
         })
-        ->bind('_editmember')
-        ->method('GET|POST');
+            ->bind('_editmember')
+            ->method('GET|POST');
         // *******
 
         return $controllers;

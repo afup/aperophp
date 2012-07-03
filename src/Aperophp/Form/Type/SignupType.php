@@ -49,16 +49,17 @@ class SignupType extends AbstractType
                 'lastname'     => new Constraints\MaxLength(array('limit' => 80)),
                 'firstname'    => new Constraints\MaxLength(array('limit' => 80)),
                 'username'     => array(
+                    new Constraints\NotBlank(),
                     new Constraints\MaxLength(array('limit' => 80)),
-                    new Constraints\NotNull(),
                 ),
                 'email'        => array(
+                    new Constraints\NotBlank(),
                     new Constraints\Email(),
-                    new Constraints\NotNull(),
                 ),
                 'password'     => array(
+                    new Constraints\NotBlank(),
+                    new Constraints\MinLength(array('limit' => 5)),
                     new Constraints\MaxLength(array('limit' => 80)),
-                    new Constraints\NotNull(),
                 ),
             ),
             'allowExtraFields' => false,
