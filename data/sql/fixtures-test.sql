@@ -24,10 +24,10 @@ INSERT INTO `Member` (`id`, `username`, `password`) VALUES
 -- Contenu de la table `User`
 --
 
-INSERT INTO `User` (`id`, `lastname`, `firstname`, `email`, `member_id`) VALUES
-(1, 'Example1', 'User1', 'user1@example.com', null),
-(2, 'Example2', 'User2', 'user2@example.com', null),
-(3, 'Example3', 'User3', 'user3@example.com', 1);
+INSERT INTO `User` (`id`, `lastname`, `firstname`, `email`, `token`, `member_id`) VALUES
+(1, 'Example1', 'User1', 'user1@example.org', 'token', null),
+(2, 'Example2', 'User2', 'user2@example.org', 'token', null),
+(3, 'Example3', 'User3', 'user3@example.org', 'token', 1);
 
 --
 -- Contenu de la table `Drink`

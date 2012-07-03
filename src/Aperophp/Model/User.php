@@ -13,14 +13,13 @@ use Doctrine\DBAL\Connection;
  */
 class User extends ModelInterface
 {
-    protected
-        $id,
-        $lastname,
-        $firstname,
-        $email,
-        $token,
-        $member_id,
-        $member;
+    protected $id;
+    protected $lastname;
+    protected $firstname;
+    protected $email;
+    protected $token;
+    protected $memberId;
+    protected $member;
 
     /**
      * Find one user by member id.
@@ -32,13 +31,12 @@ class User extends ModelInterface
      * @param integer $member_id
      * @return User
      */
-    static public function findOneByMemberId($connection, $member_id)
+    static public function findOneByMemberId($connection, $memberId)
     {
-        $data = $connection->fetchAssoc('SELECT * FROM User WHERE member_id = ?', array($member_id));
+        $data = $connection->fetchAssoc('SELECT * FROM User WHERE member_id = ?', array($memberId));
 
-        if (!$data)
-        {
-            return false;
+        if (!$data) {
+            return null;
         }
 
         $oUser = new User($connection);
@@ -68,9 +66,8 @@ class User extends ModelInterface
     {
         $data = $connection->fetchAssoc('SELECT * FROM User WHERE id = ?', array($id));
 
-        if (!$data)
-        {
-            return false;
+        if (!$data) {
+            return null;
         }
 
         $oUser = new User($connection);
@@ -101,9 +98,8 @@ class User extends ModelInterface
     {
         $data = $connection->fetchAssoc('SELECT * FROM User WHERE email = ? AND token = ?', array($email, $token));
 
-        if (!$data)
-        {
-            return false;
+        if (!$data) {
+            return null;
         }
 
         $oUser = new User($connection);
@@ -158,12 +154,12 @@ class User extends ModelInterface
             'firstname' => $this->firstname,
             'email' => $this->email,
             'token' => $this->token,
-            'member_id' => $this->member_id,
+            'member_id' => $this->memberId,
         ));
 
         $this->id = $this->connection->lastInsertId();
 
-        return $stmt;
+        return 1 === $stmt;
     }
 
     /**
@@ -175,13 +171,15 @@ class User extends ModelInterface
      */
     protected function update()
     {
-        return $this->connection->update('User', array(
-            'lastname' => $this->lastname,
+        return 1 === $this->connection->update('User', array(
+            'lastname'  => $this->lastname,
             'firstname' => $this->firstname,
-            'email' => $this->email,
-            'token' => $this->token,
-            'member_id' => $this->member_id,
-        ), array('id' => $this->id));
+            'email'     => $this->email,
+            'token'     => $this->token,
+            'member_id' => $this->memberId,
+        ), array(
+            'id' => $this->id
+        ));
     }
 
     /**
@@ -193,8 +191,9 @@ class User extends ModelInterface
      */
     public function getMember()
     {
-        if (!$this->member)
-            $this->member = Member::findById($this->connection, $this->member_id);
+        if (!$this->member) {
+            $this->member = Member::findById($this->connection, $this->memberId);
+        }
 
         return $this->member;
     }
@@ -232,36 +231,42 @@ class User extends ModelInterface
     public function setId($id)
     {
         $this->id = $id;
+
         return $this;
     }
 
     public function setLastname($lastname)
     {
         $this->lastname = $lastname;
+
         return $this;
     }
 
     public function setFirstname($firstname)
     {
         $this->firstname = $firstname;
+
         return $this;
     }
 
     public function setEmail($email)
     {
         $this->email = $email;
+
         return $this;
     }
 
     public function setToken($token)
     {
         $this->token = $token;
+
         return $this;
     }
 
-    public function setMemberId($member_id)
+    public function setMemberId($memberId)
     {
-        $this->member_id = $member_id;
+        $this->memberId = $memberId;
+
         return $this;
     }
 }
