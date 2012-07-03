@@ -1,5 +1,5 @@
 {
-    "hash": "dfcbe1728385e604441c0b12271f35ac",
+    "hash": "9ce9c6452244dafbf5e3001f5b906d99",
     "packages": [
         {
             "package": "doctrine/common",
@@ -56,6 +56,18 @@
             "commit-date": "1341154877"
         },
         {
+            "package": "symfony/browser-kit",
+            "version": "dev-master",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/browser-kit",
+            "version": "dev-master",
+            "source-reference": "v2.1.0-BETA1",
+            "commit-date": "1337339299"
+        },
+        {
             "package": "symfony/class-loader",
             "version": "dev-master",
             "source-reference": "v2.1.0-BETA1",
@@ -66,6 +78,18 @@
             "version": "dev-master",
             "source-reference": "5b1a7a0a205b2c465a957142b03f1fc3202966e1",
             "commit-date": "1340892719"
+        },
+        {
+            "package": "symfony/dom-crawler",
+            "version": "dev-master",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/dom-crawler",
+            "version": "dev-master",
+            "source-reference": "v2.1.0-BETA1",
+            "commit-date": "1337632035"
         },
         {
             "package": "symfony/event-dispatcher",
@@ -196,6 +220,7 @@
         "symfony/validator": 20,
         "symfony/translation": 20,
         "symfony/config": 20,
+        "symfony/browser-kit": 20,
         "symfony/twig-bridge": 20,
         "swiftmailer/swiftmailer": 20,
         "mageekguy/atoum": 20

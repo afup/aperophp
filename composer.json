@@ -10,6 +10,7 @@
         "symfony/validator"       : "dev-master",
         "symfony/translation"     : "dev-master",
         "symfony/config"          : "dev-master",
+        "symfony/browser-kit"     : "dev-master",
         "symfony/twig-bridge"     : "dev-master",
         "swiftmailer/swiftmailer" : "dev-master",
         "mageekguy/atoum"         : "dev-master"
