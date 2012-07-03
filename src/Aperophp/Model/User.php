@@ -192,7 +192,7 @@ class User extends ModelInterface
     public function getMember()
     {
         if (!$this->member) {
-            $this->member = Member::findById($this->connection, $this->memberId);
+            $this->member = Member::findOneById($this->connection, $this->memberId);
         }
 
         return $this->member;

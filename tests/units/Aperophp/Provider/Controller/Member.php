@@ -58,4 +58,31 @@ class Member extends Test
                             ->integer($crawler->filter('span.help-inline')->count())->isEqualTo(3)
         ;
     }
+
+    public function testEditProfile_withValidData_isModified()
+    {
+        $this->assert
+            ->if($client = $this->createClient())
+            ->then
+                ->if(true == $client->connect())
+                ->then()
+                    ->if($crawler = $client->request('GET', '/member/edit.html'))
+                    ->then()
+                        ->boolean($client->getResponse()->isOk())->isTrue()
+                        ->if($form = $crawler->selectButton('edit')->form())
+                        ->then()
+                            ->if($crawler = $client->submit($form, array(
+                                'member_edit[lastname]'  => 'Foo',
+                                'member_edit[firstname]' => 'Bar',
+                                'member_edit[email]'     => 'foobar@example.com',
+                                'member_edit[password]'  => '',
+                            )))
+                            ->then()
+                                ->boolean($client->getResponse()->isRedirect('/member/edit.html'))->isTrue()
+                                ->if($crawler = $client->followRedirect())
+                                ->then()
+                                    ->boolean($client->getResponse()->isOk())->isTrue()
+                                    ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
+        ;
+    }
 }

@@ -49,4 +49,15 @@ class Drink extends Test
                                     ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
         ;
     }
+
+    public function testDrinkList()
+    {
+        $this->assert
+            ->if($client = $this->createClient())
+            ->then
+                ->if($crawler = $client->request('GET', '/drink/list.html'))
+                ->then()
+                    ->boolean($client->getResponse()->isOk())->isTrue()
+        ;
+    }
 }
