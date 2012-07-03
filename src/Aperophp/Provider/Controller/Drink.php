@@ -58,9 +58,9 @@ class Drink implements ControllerProviderInterface
         // *******
         $controllers->get('new.html', function() use ($app)
         {
-            if (!$app['session']->has('user'))
-            {
+            if (!$app['session']->has('user')) {
                 $app['session']->setFlash('error', 'Vous devez être authentifié pour créer un apéro.');
+
                 return new RedirectResponse($app['url_generator']->generate('_signinmember'));
             }
 
@@ -80,21 +80,21 @@ class Drink implements ControllerProviderInterface
         // *******
         $controllers->post('create.html', function(Request $request) use ($app)
         {
-            if (!$app['session']->has('user'))
-            {
+            if (!$app['session']->has('user')) {
                 $app['session']->setFlash('error', 'Vous devez être authentifié pour créer un apéro.');
+
                 return new RedirectResponse($app['url_generator']->generate('_signinmember'));
             }
 
             $user = $app['session']->get('user');
 
-            $form = $app['form.factory']->create('drink', $data);
+            $form = $app['form.factory']->create('drink');
 
             $form->bindRequest($request);
-            if ($form->isValid())
-            {
+            if ($form->isValid()) {
                 $data = $form->getData();
 
+                $oDrink = new Model\Drink($app['db']);
                 $oDrink
                     ->setPlace($data['place'])
                     ->setAddress($data['address'])
@@ -108,6 +108,8 @@ class Drink implements ControllerProviderInterface
                     ->setUserId($user['id']);
 
                 $oDrink->save();
+
+                $app['session']->setFlash('success', 'L\'apéro a été créé avec succès.');
 
                 return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
             }
@@ -127,25 +129,23 @@ class Drink implements ControllerProviderInterface
 
             $oDrink = Model\Drink::findOneById($app['db'], $id);
 
-            if (!$oDrink)
-            {
+            if (!$oDrink) {
                 $app->abort(404, 'Cet apéro n\'existe pas.');
             }
 
             $now = new \Datetime('now');
-            $dDrink = \Datetime::createFromFormat(  'Y-m-d H:i:s',
-                                                    $oDrink->getDay() . ' ' . $oDrink->getHour());
-            if ($now > $dDrink)
-            {
+            $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $oDrink->getDay() . ' ' . $oDrink->getHour());
+            if ($now > $dDrink) {
                 $app['session'] ->setFlash('error', 'L\'événement est terminé.');
+
                 return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));
             }
 
             $user = $app['session']->get('user');
 
-            if (!$user || $oDrink->getUserId() != $user['id'])
-            {
+            if (!$user || $oDrink->getUserId() != $user['id']) {
                 $app['session']->setFlash('error', 'Vous devez être authentifié et être organisateur de cet apéro pour pouvoir l\'éditer.');
+
                 return new RedirectResponse($app['url_generator']->generate('_signinmember'));
             }
 
@@ -167,33 +167,30 @@ class Drink implements ControllerProviderInterface
 
             $oDrink = Model\Drink::findOneById($app['db'], $id);
 
-            if (!$oDrink)
-            {
+            if (!$oDrink) {
                 $app->abort(404, 'Cet apéro n\'existe pas.');
             }
 
             $now = new \Datetime('now');
-            $dDrink = \Datetime::createFromFormat(  'Y-m-d H:i:s',
-                                                    $oDrink->getDay() . ' ' . $oDrink->getHour());
-            if ($now > $dDrink)
-            {
+            $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $oDrink->getDay() . ' ' . $oDrink->getHour());
+            if ($now > $dDrink) {
                 $app['session'] ->setFlash('error', 'L\'événement est terminé.');
+
                 return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));
             }
 
             $user = $app['session']->get('user');
 
-            if (!$user || $oDrink->getUserId() != $user['id'])
-            {
+            if (!$user || $oDrink->getUserId() != $user['id']) {
                 $app['session']->setFlash('error', 'Vous devez être authentifié et être organisateur de cet apéro pour pouvoir l\'éditer.');
+
                 return new RedirectResponse($app['url_generator']->generate('_signinmember'));
             }
 
             $form = $app['form.factory']->create('drink', $oDrink);
 
             $form->bindRequest($request);
-            if ($form->isValid())
-            {
+            if ($form->isValid()) {
                 $data = $form->getData();
 
                 $oDrink
@@ -231,8 +228,7 @@ class Drink implements ControllerProviderInterface
 
             $oDrink = Model\Drink::findOneById($app['db'], $id);
 
-            if (!$oDrink)
-            {
+            if (!$oDrink) {
                 $app->abort(404, 'Cet apéro n\'existe pas.');
             }
 
@@ -241,16 +237,14 @@ class Drink implements ControllerProviderInterface
             $oDrinkParticipation = null;
             $values = array();
             $anonymous = true;
-            if ($user = $app['session']->get('user'))
-            {
+            if ($user = $app['session']->get('user')) {
                 $oUser = Model\User::findOneById($app['db'], $user['id']);
                 $anonymous = false;
-            }
-            else if (!empty($email) && !empty($token))
+            } else if (!empty($email) && !empty($token)) {
                 $oUser = Model\User::findOneByEmailToken($app['db'], $email, $token);
+            }
 
-            if ($oUser)
-            {
+            if ($oUser) {
                 $values = array(
                     'user_id' => $oUser->getId(),
                     'lastname' => $oUser->getLastname(),
@@ -261,25 +255,25 @@ class Drink implements ControllerProviderInterface
                 $oDrinkParticipation = Model\DrinkParticipation::find($app['db'], $oDrink->getId(), $oUser->getId());
             }
 
-            $dValues             = $values;
-            if( $oDrinkParticipation )
+            $dValues = $values;
+            if ($oDrinkParticipation) {
                 $dValues += array(
                                     'percentage'    => $oDrinkParticipation->getPercentage(),
                                     'reminder'      => $oDrinkParticipation->getReminder()
-                            );
+                                );
+            }
 
 
             $comment        = $app['form.factory']->create('drink_comment', $values, array('user' => $oUser));
             $participation  = $app['form.factory']->create('drink_participate', $dValues, array('user' => $oUser));
             $dpAnonymousE   = null;
 
-            if ($anonymous)
-                $dpAnonymousE = $app['form.factory']->create('drink_participate_edit_anonymous', $dValues, array('user' => $oUser))
-                                                    ->createView();
+            if ($anonymous) {
+                $dpAnonymousE = $app['form.factory']->create('drink_participate_edit_anonymous', $dValues, array('user' => $oUser))->createView();
+            }
 
             $now = new \Datetime('now');
-            $dDrink = \Datetime::createFromFormat(  'Y-m-d H:i:s',
-                                                    $oDrink->getDay() . ' ' . $oDrink->getHour());
+            $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $oDrink->getDay() . ' ' . $oDrink->getHour());
 
             return $app['twig']->render('drink/view.html.twig', array(
                 'drink'             => $oDrink,
@@ -287,7 +281,8 @@ class Drink implements ControllerProviderInterface
                 'participationForm' => $participation->createView(),
                 'dpAnonymousEForm'  => $dpAnonymousE,
                 'isFinished'        => $now > $dDrink,
-                'isParticipating'   => null !== $oDrinkParticipation));
+                'isParticipating'   => null !== $oDrinkParticipation
+            ));
         })->value('email', null)->value('token', null)->bind('_showdrink');
         // *******
 

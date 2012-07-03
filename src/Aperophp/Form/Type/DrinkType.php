@@ -89,7 +89,6 @@ class DrinkType extends AbstractType
         } while ($oStartDate < $oEndDate);
 
         $resolver->setDefaults(array(
-            'data_class'            => 'Aperophp\Model\Drink',
             'validation_constraint' => $collectionConstraint,
             'hours'                 => $hours,
             'cities'                => $this->getCities(),

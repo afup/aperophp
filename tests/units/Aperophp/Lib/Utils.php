@@ -13,6 +13,7 @@ class Utils extends Test
         return array(
             array('foobar', null, '6fb4c22ae98bc23cbd012c6874a2548a6c305d14'),
             array('foobar', 'another_salt', 'e32573359dfda7e36546803901ce5b714337f887'),
+            array('user', null, '65e774516849ac5d28cb6a8088c6f441b694ff2e'),
         );
     }
 

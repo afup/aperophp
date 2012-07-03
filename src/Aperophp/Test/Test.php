@@ -3,7 +3,6 @@
 namespace Aperophp\Test;
 
 use mageekguy\atoum;
-use Symfony\Component\HttpKernel\Client;
 
 class Test extends atoum\test
 {
