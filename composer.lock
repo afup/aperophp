@@ -1,5 +1,5 @@
 {
-    "hash": "9ce9c6452244dafbf5e3001f5b906d99",
+    "hash": "2b2d421deb059faf5d9f0e85177334e6",
     "packages": [
         {
             "package": "doctrine/common",
@@ -58,12 +58,6 @@
         {
             "package": "symfony/browser-kit",
             "version": "dev-master",
-            "alias-pretty-version": "2.1.x-dev",
-            "alias-version": "2.1.9999999.9999999-dev"
-        },
-        {
-            "package": "symfony/browser-kit",
-            "version": "dev-master",
             "source-reference": "v2.1.0-BETA1",
             "commit-date": "1337339299"
         },
@@ -78,6 +72,18 @@
             "version": "dev-master",
             "source-reference": "5b1a7a0a205b2c465a957142b03f1fc3202966e1",
             "commit-date": "1340892719"
+        },
+        {
+            "package": "symfony/console",
+            "version": "dev-master",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/console",
+            "version": "dev-master",
+            "source-reference": "808bf42b4b74c12e6c6a6a9750688035f1c49f9c",
+            "commit-date": "1340543161"
         },
         {
             "package": "symfony/dom-crawler",
@@ -221,6 +227,7 @@
         "symfony/translation": 20,
         "symfony/config": 20,
         "symfony/browser-kit": 20,
+        "symfony/console": 20,
         "symfony/twig-bridge": 20,
         "swiftmailer/swiftmailer": 20,
         "mageekguy/atoum": 20
