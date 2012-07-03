@@ -41,7 +41,7 @@ class Comment implements ControllerProviderInterface
                 $oUser = Model\User::findOneById($app['db'], $user['id']);
             }
 
-            $form = $app['form.factory']->create(new \Aperophp\Form\DrinkCommentType(), null, array('user' => $oUser));
+            $form = $app['form.factory']->create('drink_comment', null, array('user' => $oUser));
 
             $form->bindRequest($request);
             if ($form->isValid())

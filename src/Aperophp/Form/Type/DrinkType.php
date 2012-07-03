@@ -1,12 +1,13 @@
 <?php
 
-namespace Aperophp\Form;
+namespace Aperophp\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Aperophp\Model;
 
 /**
  * Drink form.
@@ -17,6 +18,14 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class DrinkType extends AbstractType
 {
+    protected $connection;
+    protected $cities = null;
+
+    public function __construct(Connection $connection)
+    {
+        $this->connection = $connection;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -60,7 +69,9 @@ class DrinkType extends AbstractType
                 ),
                 'city_id'     => array(
                     new Constraints\NotNull(),
-                    new Constraints\Choice(array('choices' => array_keys($options['cities']))),
+                    new Constraints\Choice(array(
+                        'choices' => array_keys($this->getCities())
+                    )),
                 ),
                 'description' => new Constraints\NotNull(),
             ),
@@ -78,14 +89,24 @@ class DrinkType extends AbstractType
         } while ($oStartDate < $oEndDate);
 
         $resolver->setDefaults(array(
+            'data_class'            => 'Aperophp\Model\Drink',
             'validation_constraint' => $collectionConstraint,
             'hours'                 => $hours,
-            'cities'                => $options['cities'],
+            'cities'                => $this->getCities(),
         ));
     }
 
     public function getName()
     {
         return 'drink';
+    }
+
+    protected function getCities()
+    {
+        if (null !== $this->cities) {
+            return $this->cities;
+        }
+
+        return Model\City::findAll($this->connection);
     }
 }

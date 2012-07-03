@@ -33,7 +33,14 @@ $app['utils'] = $app->share(function() use ($app) {
 });
 
 $app->register(new UrlGeneratorServiceProvider());
+
 $app->register(new FormServiceProvider());
+$app['form.extensions'] = $app->share($app->extend('form.extensions', function ($extensions) use ($app) {
+    $extensions[] = new Aperophp\Form\FormExtension($app['db']);
+
+    return $extensions;
+}));
+
 $app->register(new ValidatorServiceProvider());
 $app->register(new Aperophp\Provider\Service\Model());
 

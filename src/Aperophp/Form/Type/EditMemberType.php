@@ -1,6 +1,6 @@
 <?php
 
-namespace Aperophp\Form;
+namespace Aperophp\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -62,6 +62,6 @@ class EditMemberType extends AbstractType
 
     public function getName()
     {
-        return 'signup';
+        return 'member_edit';
     }
 }

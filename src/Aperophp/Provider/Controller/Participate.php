@@ -51,9 +51,9 @@ class Participate implements ControllerProviderInterface
                 $oUser = Model\User::findOneByEmailToken($app['db'], $request->get('email'), $request->get('token'));
 
             if (null === $request->get('token'))
-                $form = $app['form.factory']->create(new \Aperophp\Form\DrinkParticipationType(), null, array('user' => $oUser));
+                $form = $app['form.factory']->create('drink_participate', null, array('user' => $oUser));
             else
-                $form = $app['form.factory']->create(new \Aperophp\Form\DrinkParticipationAnonymousEditType(), null, array('user' => $oUser));
+                $form = $app['form.factory']->create('drink_participate_edit_anonymous', null, array('user' => $oUser));
 
             $form->bindRequest($request);
             if ($form->isValid())

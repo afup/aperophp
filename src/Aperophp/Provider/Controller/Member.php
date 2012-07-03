@@ -30,7 +30,7 @@ class Member implements ControllerProviderInterface
         {
             $app['session']->set('menu', 'signin');
 
-            $form = $app['form.factory']->create(new \Aperophp\Form\SigninType());
+            $form = $app['form.factory']->create('signin');
 
             // If it's not POST method, just display void form
             if( $request->getMethod() == 'POST' )
@@ -84,7 +84,7 @@ class Member implements ControllerProviderInterface
         {
             $app['session']->set('menu', 'signup');
 
-            $form = $app['form.factory']->create(new \Aperophp\Form\SignupType());
+            $form = $app['form.factory']->create('signup');
         
             // If it's not POST method, just display void form
             if( $request->getMethod() == 'POST' )
@@ -154,7 +154,7 @@ class Member implements ControllerProviderInterface
             $oMember = Model\Member::findOneByUsername($app['db'], $user['username']);
             $oUser = $oMember->getUser();
 
-            $form = $app['form.factory']->create(new \Aperophp\Form\EditMemberType(), array(
+            $form = $app['form.factory']->create('member_edit', array(
                 'lastname' => $oUser->getLastname(),
                 'firstname' => $oUser->getFirstname(),
                 'email' => $oUser->getEmail(),

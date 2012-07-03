@@ -1,6 +1,6 @@
 <?php
 
-namespace Aperophp\Form;
+namespace Aperophp\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -8,40 +8,42 @@ use Symfony\Component\Validator\Constraints;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- *  Edit DrinkParticipation for anonymous users form.
+ *  Participate form.
  *
  *  @author Gautier DI FOLCO <gautier.difolco@gmail.com>
- *  @version 1.0 - 23 mars 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
+ *  @version 1.1 - 22 fev. 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
  */
-class DrinkParticipationAnonymousEditType extends AbstractType
+class DrinkParticipationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $defaultOptions = $options['user'] ? array('disabled' => '') : array();
         $builder
             ->add('user_id', 'hidden')
-            ->add('lastname', 'text', array(
+            ->add('lastname', 'text',   array(
                 'label'    => 'Nom',
                 'required' => false,
                 'attr'     => array(
                     'placeholder' => 'Facultatif.'
                 )
-            ))
+            ) + $defaultOptions)
             ->add('firstname', 'text', array(
                 'label'    => 'Prénom',
                 'required' => false,
                 'attr'     => array(
                     'placeholder' => 'Facultatif.'
                 )
+            ) + $defaultOptions)
+            ->add('email', 'email', array(
+                'attr' => $defaultOptions
             ))
-            ->add('email', 'email')
-            ->add('token', 'text')
             ->add('percentage', 'text', array(
                 'label' => 'Poucentage de participation'
-            ))
+            ) + $defaultOptions)
             ->add('reminder', 'checkbox', array(
                 'label'    => 'Me rappeler l\'évènement',
                 'required' => false
-            ));
+            ) + $defaultOptions);
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -53,9 +55,8 @@ class DrinkParticipationAnonymousEditType extends AbstractType
                 'firstname'    => new Constraints\MaxLength(array('limit' => 80)),
                 'email'        => array(
                     new Constraints\Email(),
-                    new Constraints\NotNull()
+                    new Constraints\NotNull(),
                 ),
-                'token'        => array(new Constraints\NotNull()),
                 'percentage'   => array(
                     new Constraints\Min(array('limit' => 0)),
                     new Constraints\Max(array('limit' => 100))
@@ -70,12 +71,12 @@ class DrinkParticipationAnonymousEditType extends AbstractType
 
         $resolver->setDefaults(array(
             'validation_constraint' => $collectionConstraint,
-            'user'                  => $options['user']
+            'user' => $options['user']
         ));
     }
 
     public function getName()
     {
-        return 'drink_participate_edit_anonymous';
+        return 'drink_participate';
     }
 }

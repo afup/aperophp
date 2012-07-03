@@ -66,7 +66,8 @@ class Drink implements ControllerProviderInterface
 
             $app['session']->set('menu', 'newdrink');
 
-            $form = $app['form.factory']->create(new \Aperophp\Form\DrinkType(), null, array('cities' => Model\City::findAll($app['db'])));
+                $oDrink = new Model\Drink($app['db']);
+            $form = $app['form.factory']->create('drink', $oDrink);
 
             return $app['twig']->render('drink/new.html.twig', array(
                 'form' => $form->createView(),
@@ -87,14 +88,13 @@ class Drink implements ControllerProviderInterface
 
             $user = $app['session']->get('user');
 
-            $form = $app['form.factory']->create(new \Aperophp\Form\DrinkType(), null, array('cities' => Model\City::findAll($app['db'])));
+            $form = $app['form.factory']->create('drink', $data);
 
             $form->bindRequest($request);
             if ($form->isValid())
             {
                 $data = $form->getData();
 
-                $oDrink = new Model\Drink($app['db']);
                 $oDrink
                     ->setPlace($data['place'])
                     ->setAddress($data['address'])
@@ -149,7 +149,7 @@ class Drink implements ControllerProviderInterface
                 return new RedirectResponse($app['url_generator']->generate('_signinmember'));
             }
 
-            $form = $app['form.factory']->create(new \Aperophp\Form\DrinkType(), $oDrink, array('cities' => Model\City::findAll($app['db'])));
+            $form = $app['form.factory']->create('drink', $oDrink);
 
             return $app['twig']->render('drink/edit.html.twig', array(
                 'form' => $form->createView(),
@@ -189,7 +189,7 @@ class Drink implements ControllerProviderInterface
                 return new RedirectResponse($app['url_generator']->generate('_signinmember'));
             }
 
-            $form = $app['form.factory']->create(new \Aperophp\Form\DrinkType(), null, array('cities' => Model\City::findAll($app['db'])));
+            $form = $app['form.factory']->create('drink', $oDrink);
 
             $form->bindRequest($request);
             if ($form->isValid())
@@ -269,12 +269,12 @@ class Drink implements ControllerProviderInterface
                             );
 
 
-            $comment        = $app['form.factory']->create(new \Aperophp\Form\DrinkCommentType(), $values, array('user' => $oUser));
-            $participation  = $app['form.factory']->create(new \Aperophp\Form\DrinkParticipationType(), $dValues, array('user' => $oUser));
+            $comment        = $app['form.factory']->create('drink_comment', $values, array('user' => $oUser));
+            $participation  = $app['form.factory']->create('drink_participate', $dValues, array('user' => $oUser));
             $dpAnonymousE   = null;
 
             if ($anonymous)
-                $dpAnonymousE = $app['form.factory']->create(new \Aperophp\Form\DrinkParticipationAnonymousEditType(), $dValues, array('user' => $oUser))
+                $dpAnonymousE = $app['form.factory']->create('drink_participate_edit_anonymous', $dValues, array('user' => $oUser))
                                                     ->createView();
 
             $now = new \Datetime('now');
