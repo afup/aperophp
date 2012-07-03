@@ -28,7 +28,7 @@ class Drink extends ModelInterface
     protected $userId;
     protected $cityId;
     protected $city;
-    protected $member;
+    protected $user;
     protected $comments;
     protected $participations;
 
@@ -274,20 +274,20 @@ class Drink extends ModelInterface
     }
 
     /**
-     * Get member associated
+     * Get user associated
      *
      * @author Koin <pkoin.koin@gmail.com>
      * @since 8 févr. 2012
      * @version 1.0 - 8 févr. 2012 - Koin <pkoin.koin@gmail.com>
      * @return Ambigous <boolean, \Aperophp\Model\City>
      */
-    public function getMember()
+    public function getUser()
     {
-        if (!$this->member) {
-            $this->member = Member::findOneById($this->connection, $this->userId);
+        if (!$this->user) {
+            $this->user = User::findOneById($this->connection, $this->userId);
         }
 
-        return $this->member;
+        return $this->user;
     }
 
     /**
