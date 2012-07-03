@@ -89,9 +89,7 @@ $console->register('db:load-fixtures')
                 $isTestEnv = true;
             }
 
-            if ($input->getOption('load-fixtures')) {
-                $loadFixtures($isTestEnv);
-            }
+            $loadFixtures($isTestEnv);
         }
 );
 
