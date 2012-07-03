@@ -14,11 +14,4 @@ $app['db.options'] = array(
     'password' => $app['db.options']['password'],
 );
 
-$app['swiftmailer.options'] = array(
-    'host'       => 'localhost',
-    'port'       => '25',
-    'username'   => '',
-    'password'   => '',
-    'encryption' => null,
-    'auth_mode'  => null,
-);
+$app['swiftmailer.transport'] = new \Swift_Transport_NullTransport($app['swiftmailer.transport.eventdispatcher']);
