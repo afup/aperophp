@@ -16,117 +16,112 @@ class DrinkParticipation extends ModelInterface
     /**
      *  Drink of participation
      *
-     *  @var    integer
+     *  @var integer
      */
-    protected $_drink_id    = null;
+    protected $drinkId = null;
 
     /**
      *  Participating user
      *
-     *  @var    integer
+     *  @var integer
      */
-    protected $_user_id     = null;
+    protected $userId = null;
 
     /**
      *  Percentage chance for the user to be present to the drink
      *
-     *  @var    integer
+     *  @var integer
      */
-    protected $_percentage  = null;
+    protected $percentage = null;
 
     /**
      *  Is it necessary to remind the user a drink?
      *
-     *  @var    boolean
+     *  @var boolean
      */
-    protected $_reminder    = null;
+    protected $reminder = true;
 
     /**
      *  Is the DrinkParticiaption new?
      *
-     *  @var    boolean
+     *  @var boolean
      */
-    protected $_is_new      = true;
+    protected $isNew = true;
 
     /**
      *  Drink of participation
      *
-     *  @var    \Aperophp\Model\Drink
+     *  @var \Aperophp\Model\Drink
      */
-    protected $drink        = null;
+    protected $drink = null;
 
     /**
      *  Participating user
      *
-     *  @var    \Aperophp\Model\User
+     *  @var \Aperophp\Model\User
      */
-    protected $user         = null;
+    protected $user = null;
 
     /**
      *  Find a DrinkParticipation
      *
-     *  @param  Connection  $connection         Connection to the database
-     *  @param  integer     $drink_id           The drink of the participation
-     *  @param  integer     $user_id            The participant
-     *  @return DrinkParticipation              The DrinkParticipation or null
+     *  @param Connection $connection Connection to the database
+     *  @param integer    $drinkId    The drink of the participation
+     *  @param integer    $userId     The participant
+     *
+     *  @return DrinkParticipation The DrinkParticipation or null
      */
-    public static function find(Connection $connection, $drink_id, $user_id)
+    public static function find(Connection $connection, $drinkId, $userId)
     {
-        if( null !== $drink_id && null !== $user_id )
-        {
-            $query  = 'SELECT drink_id, user_id, percentage, reminder '
-                    . 'FROM Drink_Participation '
-                    . 'WHERE drink_id = :drink_id AND user_id = :user_id;';
-            $data   = $connection->fetchAssoc(  $query,
-                                                array(
-                                                        ':drink_id' => $drink_id,
-                                                        ':user_id'  => $user_id
-                                                ));
-            if( !$data )
-                return null;
+        $query  = 'SELECT drink_id, user_id, percentage, reminder '
+            . 'FROM Drink_Participation '
+            . 'WHERE drink_id = :drink_id AND user_id = :user_id;';
 
-            $n          = new self($connection);
+        $data = $connection->fetchAssoc($query, array(
+            ':drink_id' => $drinkId,
+            ':user_id'  => $userId
+        ));
 
-            $n          ->setDrinkId((integer) $data['drink_id'])
-                        ->setuserId((integer) $data['user_id'])
-                        ->setPercentage((integer) $data['percentage'])
-                        ->setReminder((boolean) $data['reminder']);
-
-            $n->_is_new = false;
-
-            return $n;
+        if (!$data) {
+            return null;
         }
+
+        $n = new self($connection);
+
+        $n->setDrinkId((integer) $data['drink_id'])
+            ->setUserId((integer) $data['user_id'])
+            ->setPercentage((integer) $data['percentage'])
+            ->setReminder((boolean) $data['reminder']);
+
+        $n->isNew = false;
+
+        return $n;
     }
 
     /**
      *  Find all the DrinkParticipation of a Drink
      *
-     *  @param  Connection  $connection         Connection to the database
-     *  @param  integer     $drink              The drink of the participation
+     *  @param Connection $connection Connection to the database
+     *  @param integer    $drinkId    The drink of the participation
+     *
+     *  @return array
      */
-    public static function findByDrinkId(Connection $connection, $drink_id)
+    public static function findByDrinkId(Connection $connection, $drinkId)
     {
+        $query  = 'SELECT drink_id, user_id, percentage, reminder FROM Drink_Participation WHERE drink_id = :drink_id;';
+        $data   = $connection->fetchAll($query,
+            array(':drink_id' => $drinkId)
+        );
+
         $result = array();
-        if( null !== $drink_id )
-        {
-            $query  = 'SELECT drink_id, user_id, percentage, reminder '
-                    . 'FROM Drink_Participation '
-                    . 'WHERE drink_id = :drink_id;';
-            $data   = $connection->fetchAll($query,
-                                            array(':drink_id' => $drink_id)
-                                           );
+        foreach ($data as $line) {
+            $n = new self($connection);
+            $n->setDrinkId((integer) $line['drink_id']);
+            $n->setuserId((integer) $line['user_id']);
+            $n->setPercentage((integer) $line['percentage']);
+            $n->setReminder((boolean) $line['reminder']);
 
-            foreach( $data as $line )
-            {
-                $n          = new self($connection);
-
-                $n          ->setDrinkId((integer) $line['drink_id']);
-                $n          ->setuserId((integer) $line['user_id']);
-                $n          ->setPercentage((integer) $line['percentage']);
-                $n          ->setReminder((boolean) $line['reminder']);
-
-                $result[]   = $n;
-            }
+            $result[] = $n;
         }
 
         return $result;
@@ -135,32 +130,28 @@ class DrinkParticipation extends ModelInterface
     /**
      *  Find all the DrinkParticipation of an User
      *
-     *  @param  Connection  $connection         Connection to the database
-     *  @param  integer     $user               The user of the participation
+     *  @param Connection $connection Connection to the database
+     *  @param integer    $userId     The user of the participation
+     *
+     *  @return array
      */
-    public static function findByUserId(Connection $connection, $user_id)
+    public static function findByUserId(Connection $connection, $userId)
     {
+        $query  = 'SELECT drink_id, user_id, percentage, reminder FROM Drink_Participation WHERE user_id = :user_id;';
+        $data   = $connection->fetchAll($query,
+            array(':user_id' => $userId)
+        );
+
         $result = array();
-        if( null !== $user_id )
-        {
-            $query  = 'SELECT drink_id, user_id, percentage, reminder '
-                    . 'FROM User_Participation '
-                    . 'WHERE user_id = :user_id;';
-            $data   = $connection->fetchAll($query,
-                                            array(':user_id' => $user_id)
-                                           );
+        foreach ($data as $line) {
+            $n = new self($connection);
 
-            foreach( $data as $line )
-            {
-                $n          = new self($connection);
+            $n->setUserId((integer) $line['user_id']);
+            $n->setuserId((integer) $line['user_id']);
+            $n->setPercentage((integer) $line['percentage']);
+            $n->setReminder((boolean) $line['reminder']);
 
-                $n          ->setUserId((integer) $line['user_id']);
-                $n          ->setuserId((integer) $line['user_id']);
-                $n          ->setPercentage((integer) $line['percentage']);
-                $n          ->setReminder((boolean) $line['reminder']);
-
-                $result[]   = $n;
-            }
+            $result[] = $n;
         }
 
         return $result;
@@ -169,7 +160,7 @@ class DrinkParticipation extends ModelInterface
     /**
      *  Save the DrinkParticipation.
      *
-     *  @return boolean                         Is the save successful ?
+     *  @return boolean Is the save successful ?
      */
     public function save()
     {
@@ -179,57 +170,56 @@ class DrinkParticipation extends ModelInterface
     /**
      *  Is the DrinkParticiaption new?
      *
-     *  @return boolean                         Is the DrinkParticiaption new?
+     *  @return boolean Is the DrinkParticiaption new?
      */
     public function isNew()
     {
-        return $this->_is_new;
+        return $this->isNew;
     }
 
     /**
      *  Insert the DrinkParticipation.
      *
-     *  @return boolean                         Is the insert successful ?
+     *  @return boolean Is the insert successful ?
      */
     protected function insert()
     {
         return $this->connection->insert('Drink_Participation', array(
-            'drink_id'   => $this->_drink_id,
-            'user_id'    => $this->_user_id,
-            'percentage' => $this->_percentage,
-            'reminder'   => $this->_reminder
+            'drink_id'   => $this->drinkId,
+            'user_id'    => $this->userId,
+            'percentage' => $this->percentage,
+            'reminder'   => $this->reminder
         )) === 1;
     }
 
     /**
      *  Update the DrinkParticipation.
      *
-     *  @return boolean                         Is the update successful ?
+     *  @return boolean Is the update successful ?
      */
     protected function update()
     {
         return $this->connection->update('Drink_Participation', array(
-            'percentage' => $this->_percentage,
-            'reminder'   => $this->_reminder
+            'percentage' => $this->percentage,
+            'reminder'   => $this->reminder
         ), array(
-            'drink_id'   => $this->_drink_id,
-            'user_id'    => $this->_user_id
+            'drink_id'   => $this->drinkId,
+            'user_id'    => $this->userId
         )) === 1;
     }
 
     /**
      *  Delete the DrinkParticipation.
      *
-     *  @return boolean                         Is the delete successful ?
+     *  @return boolean Is the delete successful ?
      */
     public function delete()
     {
         return $this->connection->delete('Drink_Participation', array(
-            'percentage' => $this->_percentage,
-            'reminder'   => $this->_reminder
-        ), array(
-            'drink_id'   => $this->_drink_id,
-            'user_id'    => $this->_user_id
+            'percentage' => $this->percentage,
+            'reminder'   => $this->reminder,
+            'drink_id'   => $this->drinkId,
+            'user_id'    => $this->userId
         )) === 1;
     }
 
@@ -242,8 +232,9 @@ class DrinkParticipation extends ModelInterface
      */
     public function getUser()
     {
-        if (!$this->user)
-            $this->user = User::findOneById($this->connection, $this->_user_id);
+        if (!$this->user) {
+            $this->user = User::findOneById($this->connection, $this->userId);
+        }
 
         return $this->user;
     }
@@ -257,8 +248,9 @@ class DrinkParticipation extends ModelInterface
      */
     public function getDrink()
     {
-        if (!$this->drink)
-            $this->drink = Drink::findOneById($this->connection, $this->_drink_id);
+        if (!$this->drink) {
+            $this->drink = Drink::findOneById($this->connection, $this->drinkId);
+        }
 
         return $this->drink;
     }
@@ -266,88 +258,96 @@ class DrinkParticipation extends ModelInterface
     /**
      *  Set the drink of participation
      *
-     *  @param  integer             $drink_id   The drink of the participation
-     *  @return DrinkParticipation              The participation
+     *  @param integer $drinkId The drink of the participation
+     *
+     *  @return DrinkParticipation The participation
      */
-    public function setDrinkId($drink_id)
+    public function setDrinkId($drinkId)
     {
-        $this->_drink_id = $drink_id;
+        $this->drinkId = $drinkId;
+
         return $this;
     }
 
     /**
      *  Get the drink of participation
      *
-     *  @return integer                         The drink of the participation
+     *  @return integer The drink of the participation
      */
     public function getDrinkId()
     {
-        return $this->_drink_id;
+        return $this->drinkId;
     }
 
     /**
      *  Set the participating user
      *
-     *  @param  integer             $user_id    The participating user
-     *  @return DrinkParticipation              The participation
+     *  @param integer $userId The participating user
+     *
+     *  @return DrinkParticipation The participation
      */
-    public function setUserId($user_id)
+    public function setUserId($userId)
     {
-        $this->_user_id = $user_id;
+        $this->userId = $userId;
+
         return $this;
     }
 
     /**
      *  Get the participating user
      *
-     *  @return integer                         The participating user
+     *  @return integer The participating user
      */
     public function getUserId()
     {
-        return $this->_user_id;
+        return $this->userId;
     }
 
     /**
      *  Set the percentage chance for the user to be present to the drink
      *
-     *  @param  integer             $percentage The percentage chance for the user to be present to the drink
-     *  @return DrinkParticipation              The participation
+     *  @param integer $percentage The percentage chance for the user to be present to the drink
+     *
+     *  @return DrinkParticipation The participation
      */
     public function setPercentage($percentage)
     {
-        $this->_percentage = $percentage;
+        $this->percentage = $percentage;
+
         return $this;
     }
 
     /**
      *  Get the percentage chance for the user to be present to the drink
      *
-     *  @return integer                     The percentage chance for the user to be present to the drink
+     *  @return integer The percentage chance for the user to be present to the drink
      */
     public function getPercentage()
     {
-        return $this->_percentage;
+        return $this->percentage;
     }
 
     /**
      *  Set the is it necessary to remind the user a drink?
      *
-     *  @param  integer             $reminder   The is it necessary to remind the user a drink?
-     *  @return DrinkParticipation              The participation
+     *  @param integer $reminder The is it necessary to remind the user a drink?
+     *
+     *  @return DrinkParticipation The participation
      */
     public function setReminder($reminder)
     {
-        $this->_reminder = $reminder;
+        $this->reminder = $reminder;
+
         return $this;
     }
 
     /**
      *  Get the is it necessary to remind the user a drink?
      *
-     *  @return integer                     The is it necessary to remind the user a drink?
+     *  @return integer The is it necessary to remind the user a drink?
      */
     public function getReminder()
     {
-        return $this->_reminder;
+        return $this->reminder;
     }
 }

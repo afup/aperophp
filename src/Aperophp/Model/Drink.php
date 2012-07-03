@@ -16,28 +16,27 @@ class Drink extends ModelInterface
     const KIND_DRINK        = 'drink';
     const KIND_CONFERENCE   = 'conference';
 
-    protected
-        $id,
-        $place,
-        $address,
-        $day,
-        $hour,
-        $kind,
-        $description,
-        $latitude,
-        $longitude,
-        $user_id,
-        $city_id,
-        $city,
-        $user,
-        $comments,
-        $participations;
+    protected $id;
+    protected $place;
+    protected $address;
+    protected $day;
+    protected $hour;
+    protected $kind;
+    protected $description;
+    protected $latitude;
+    protected $longitude;
+    protected $userId;
+    protected $cityId;
+    protected $city;
+    protected $member;
+    protected $comments;
+    protected $participations;
 
     static public function getKinds()
     {
         return array(
-            self::KIND_DRINK        => 'Apéro',
-            self::KIND_CONFERENCE   => 'Conférence',
+            self::KIND_DRINK      => 'Apéro',
+            self::KIND_CONFERENCE => 'Conférence',
         );
     }
 
@@ -51,14 +50,13 @@ class Drink extends ModelInterface
      */
     static public function findAll(Connection $connection, $limit = null)
     {
-        $sql = "SELECT * FROM Drink ORDER BY day DESC";
-        $sql .= $limit ? " LIMIT " . $limit : "";
+        $sql = 'SELECT * FROM Drink ORDER BY day DESC';
+        $sql .= $limit ? ' LIMIT ' . $limit : '';
 
         $aData = $connection->fetchAll($sql);
 
         $aDrink = array();
-        foreach ($aData as $data)
-        {
+        foreach ($aData as $data) {
             $oDrink = new self($connection);
             $oDrink
                 ->setId($data['id'])
@@ -97,10 +95,8 @@ class Drink extends ModelInterface
         $aData = $connection->fetchAll($sql);
 
         $aDrink = array();
-        foreach ($aData as $data)
-        {
-            if (!array_key_exists($data['id'], $aDrink))
-            {
+        foreach ($aData as $data) {
+            if (!array_key_exists($data['id'], $aDrink)) {
                 $oDrink = new self($connection);
                 $oDrink
                     ->setId($data['id'])
@@ -120,12 +116,11 @@ class Drink extends ModelInterface
                 $aDrink[$data['id']] = $oDrink;
             }
 
-            if (!empty($data['drink_id']))
-            {
+            if (!empty($data['drink_id'])) {
                 $oDrinkParticipation = new DrinkParticipation($connection);
                 $oDrinkParticipation
                     ->setDrinkId((integer) $data['drink_id'])
-                    ->setuserId((integer) $data['p_id'])
+                    ->setUserId((integer) $data['p_id'])
                     ->setPercentage((integer) $data['percentage'])
                     ->setReminder((boolean) $data['reminder']);
                 $aDrink[$data['id']]->participations[] = $oDrinkParticipation;
@@ -144,13 +139,11 @@ class Drink extends ModelInterface
      * @param Connection $connection
      * @param integer $id
      */
-    static public function findOneById(Connection $connection, $id)
-    {
+    static public function findOneById(Connection $connection, $id) {
         $data = $connection->fetchAssoc('SELECT * FROM Drink WHERE id = ?', array($id));
 
-        if (!$data)
-        {
-            return false;
+        if (!$data) {
+            return null;
         }
 
         $oDrink = new self($connection);
@@ -206,21 +199,21 @@ class Drink extends ModelInterface
     protected function insert()
     {
         $stmt = $this->connection->insert('Drink', array(
-            'place' => $this->place,
-            'address' => $this->address,
-            'day' => $this->day,
-            'hour' => $this->hour,
-            'kind' => $this->kind,
+            'place'       => $this->place,
+            'address'     => $this->address,
+            'day'         => $this->day,
+            'hour'        => $this->hour,
+            'kind'        => $this->kind,
             'description' => $this->description,
-            'latitude' => $this->latitude,
-            'longitude' => $this->longitude,
-            'user_id' => $this->user_id,
-            'city_id' => $this->city_id,
+            'latitude'    => $this->latitude,
+            'longitude'   => $this->longitude,
+            'user_id'     => $this->userId,
+            'city_id'     => $this->cityId,
         ));
 
         $this->id = $this->connection->lastInsertId();
 
-        return $stmt;
+        return 1 === $stmt;
     }
 
     /**
@@ -232,18 +225,20 @@ class Drink extends ModelInterface
      */
     protected function update()
     {
-        return $this->connection->update('Drink', array(
-            'place' => $this->place,
-            'address' => $this->address,
-            'day' => $this->day,
-            'hour' => $this->hour,
-            'kind' => $this->kind,
+        return 1 === $this->connection->update('Drink', array(
+            'place'       => $this->place,
+            'address'     => $this->address,
+            'day'         => $this->day,
+            'hour'        => $this->hour,
+            'kind'        => $this->kind,
             'description' => $this->description,
-            'latitude' => $this->latitude,
-            'longitude' => $this->longitude,
-            'user_id' => $this->user_id,
-            'city_id' => $this->city_id,
-        ), array('id' => $this->id));
+            'latitude'    => $this->latitude,
+            'longitude'   => $this->longitude,
+            'user_id'     => $this->userId,
+            'city_id'     => $this->cityId,
+        ), array(
+            'id' => $this->id
+        ));
     }
 
     /**
@@ -257,6 +252,7 @@ class Drink extends ModelInterface
     public function getKindTranslated()
     {
         $kinds = self::getKinds();
+
         return array_key_exists($this->kind, $kinds) ? $kinds[$this->kind] : '';
     }
 
@@ -270,30 +266,28 @@ class Drink extends ModelInterface
      */
     public function getCity()
     {
-        if (!$this->city)
-        {
-            $this->city = City::findOneById($this->connection, $this->city_id);
+        if (!$this->city) {
+            $this->city = City::findOneById($this->connection, $this->cityId);
         }
 
         return $this->city;
     }
 
     /**
-     * Get user associated
+     * Get member associated
      *
      * @author Koin <pkoin.koin@gmail.com>
      * @since 8 févr. 2012
      * @version 1.0 - 8 févr. 2012 - Koin <pkoin.koin@gmail.com>
      * @return Ambigous <boolean, \Aperophp\Model\City>
      */
-    public function getUser()
+    public function getMember()
     {
-        if (!$this->user)
-        {
-            $this->user = User::findOneById($this->connection, $this->user_id);
+        if (!$this->member) {
+            $this->member = Member::findOneById($this->connection, $this->userId);
         }
 
-        return $this->user;
+        return $this->member;
     }
 
     /**
@@ -305,8 +299,7 @@ class Drink extends ModelInterface
      */
     public function getComments()
     {
-        if (!$this->comments)
-        {
+        if (!$this->comments) {
             $this->comments = DrinkComment::findByDrinkId($this->connection, $this->id);
         }
 
@@ -322,8 +315,7 @@ class Drink extends ModelInterface
      */
     public function getParticipations()
     {
-        if (!$this->participations)
-        {
+        if (!$this->participations) {
             $this->participations = DrinkParticipation::findByDrinkId($this->connection, $this->id);
         }
 
@@ -389,77 +381,88 @@ class Drink extends ModelInterface
 
     public function getUserId()
     {
-        return $this->user_id;
+        return $this->userId;
     }
 
     public function getCityId()
     {
-        return $this->city_id;
+        return $this->cityId;
     }
 
     public function setId($id)
     {
         $this->id = $id;
+
         return $this;
     }
 
     public function setPlace($place)
     {
         $this->place = $place;
+
         return $this;
     }
 
     public function setAddress($address)
     {
         $this->address = $address;
+
         return $this;
     }
 
     public function setDay($day)
     {
         $this->day = $day;
+
         return $this;
     }
 
     public function setHour($hour)
     {
         $this->hour = $hour;
+
         return $this;
     }
 
     public function setKind($kind)
     {
         $this->kind = $kind;
+
         return $this;
     }
 
     public function setDescription($description)
     {
         $this->description = $description;
+
         return $this;
     }
 
     public function setLatitude($latitude)
     {
         $this->latitude = $latitude;
+
         return $this;
     }
 
     public function setLongitude($longitude)
     {
         $this->longitude = $longitude;
+
         return $this;
     }
 
-    public function setUserId($user_id)
+    public function setUserId($userId)
     {
-        $this->user_id = $user_id;
+        $this->userId = $userId;
+
         return $this;
     }
 
-    public function setCityId($city_id)
+    public function setCityId($cityId)
     {
-        $this->city_id = $city_id;
+        $this->cityId = $cityId;
+
         return $this;
     }
 }

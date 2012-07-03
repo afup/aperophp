@@ -41,4 +41,5 @@ INSERT INTO `Drink` (`id`, `place`, `address`, `day`, `hour`, `kind`, `descripti
 --
 
 INSERT INTO `Drink_Participation` (`drink_id`, `user_id`, `percentage`, `reminder`) VALUES
-(1, 1, 75, 1);
+(1, 1, 75, 1),
+(1, 3, 75, 1);
