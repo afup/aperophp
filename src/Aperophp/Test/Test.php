@@ -3,6 +3,7 @@
 namespace Aperophp\Test;
 
 use mageekguy\atoum;
+use Symfony\Component\HttpKernel\Client;
 
 class Test extends atoum\test
 {
@@ -10,5 +11,17 @@ class Test extends atoum\test
     {
         $this->app = require __DIR__.'/../../../app/app.php';
         require __DIR__.'/../../../app/config_test.php';
+    }
+
+    /**
+     * Creates a Client.
+     *
+     * @param array $server An array of server parameters
+     *
+     * @return Client A Client instance
+     */
+    public function createClient(array $server = array())
+    {
+        return new Client($this->app, $server);
     }
 }

@@ -1,0 +1,98 @@
+#!/usr/bin/env php
+<?php
+
+$app = require __DIR__ . '/app.php';
+
+//Include the namespaces of the components we plan to use
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+
+$goToTestEnv = function() use ($app) {
+    require __DIR__.'/config_test.php';
+};
+
+$importFile = function($file) use ($app) {
+    $queries = explode(';', file_get_contents($file));
+    foreach ($queries as $query) {
+        $query = trim($query);
+        if ($query) {
+            $app['db']->query($query);
+        }
+    }
+};
+
+$loadFixtures = function($isTestEnv) use ($app, $importFile) {
+    if ($isTestEnv) {
+        $file = __DIR__.'/../data/sql/fixtures-test.sql';
+    } else {
+        $file = __DIR__.'/../data/sql/fixtures.sql';
+    }
+
+    $importFile($file);
+};
+
+$console = new Application('Aperophp', '1');
+
+$console->register('db:install')
+    ->setDefinition(array(
+        new InputOption('test', '', InputOption::VALUE_NONE, 'Test mode'),
+        new InputOption('load-fixtures', '', InputOption::VALUE_NONE, 'Test mode'),
+    ))
+    ->setDescription('Create database')
+    ->setHelp('Usage: <info>php app/console db:install [--test] [--load-fixtures]</info>')
+    ->setCode(
+        function(InputInterface $input, OutputInterface $output) use ($app, $goToTestEnv, $importFile, $loadFixtures) {
+            $isTestEnv = false;
+            if ($input->getOption('test')) {
+                $goToTestEnv();
+                $isTestEnv = true;
+            }
+
+            $driver = $app['db']->getDriver()->getName();
+            switch ($driver) {
+                case 'pdo_sqlite':
+                    $output->writeln('<info>User driver pdo_sqlite.</info>');
+                    // Create database file
+                    //if (!is_readable($databaseDir = $app['db.options']['path'])) {
+                        //mkdir($databaseDir, 0777, true);
+                    //}
+                    $importFile(__DIR__ . '/../data/sql/schema.sqlite3.sql');
+                    break;
+                case 'pdo_mysql':
+                    $output->writeln('<info>User driver pdo_mysql.</info>');
+                    $importFile(__DIR__ . '/../data/sql/schema.mysql.sql');
+                    break;
+                default:
+                    throw new \LogicException(sprintf('Driver "%s" is not supported.', $driver));
+            }
+
+            if ($input->getOption('load-fixtures')) {
+                $loadFixtures($isTestEnv);
+            }
+        }
+);
+
+$console->register('db:load-fixtures')
+    ->setDefinition(array(
+        new InputOption('test', '', InputOption::VALUE_NONE, 'Test mode'),
+    ))
+    ->setDescription('Create database')
+    ->setHelp('Usage: <info>php app/console db:load-fixtures [--test]</info>')
+    ->setCode(
+        function(InputInterface $input, OutputInterface $output) use ($app, $goToTestEnv, $loadFixtures) {
+            $isTestEnv = false;
+            if ($input->getOption('test')) {
+                $goToTestEnv();
+                $isTestEnv = true;
+            }
+
+            if ($input->getOption('load-fixtures')) {
+                $loadFixtures($isTestEnv);
+            }
+        }
+);
+
+$console->run();
