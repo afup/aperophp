@@ -70,7 +70,7 @@ class DrinkParticipationAnonymousEditType extends AbstractType
 
         $resolver->setDefaults(array(
             'validation_constraint' => $collectionConstraint,
-            'user'                  => $options['user']
+            'user'                  => null
         ));
     }
 

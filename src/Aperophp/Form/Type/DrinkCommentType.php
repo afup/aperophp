@@ -49,7 +49,7 @@ class DrinkCommentType extends AbstractType
         $resolver->setDefaults(array(
             'validation_constraint' => $collectionConstraint,
             'csrf_protection' => false,
-            'user' => $options['user'],
+            'user' => null,
         ));
     }
 

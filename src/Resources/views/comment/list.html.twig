@@ -1,8 +1,8 @@
 {% for comment in comments %}
-<div class="row">
-	<blockquote class="pull-right">
-		<p>{{ comment.content }}</p>
-		<small>{{ comment.user.email|replace({'@': '[at]'}) }}, le {{ comment.createdAt|date("d") }} {{ comment.createdAt|date("F")|trans }} {{ comment.createdAt|date("Y") }} à {{ comment.createdAt|date("H:i") }}</small>
-	</blockquote>
-</div>
+    <div class="row">
+        <blockquote class="pull-right">
+            <p>{{ comment.content }}</p>
+            <small>{{ comment.user.email|replace({'@': '[at]'}) }}, le {{ comment.createdAt|date("d") }} {{ comment.createdAt|date("F")|trans }} {{ comment.createdAt|date("Y") }} à {{ comment.createdAt|date("H:i") }}</small>
+        </blockquote>
+    </div>
 {% endfor %}

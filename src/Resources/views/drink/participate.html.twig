@@ -1,6 +1,6 @@
 {% form_theme participationForm 'common/Form/fields.html.twig' %}
 
-<form method="post" action="{{ url('_participatedrink', {'drink_id': drink.id}) }}" id="participateForm" class="form-horizontal" {{ form_enctype(participationForm) }}>
+<form method="post" action="{{ url('_participatedrink', {'drinkId': drink.id}) }}" id="participateForm" class="form-horizontal" {{ form_enctype(participationForm) }}>
     <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
         <h3>Participation</h3>

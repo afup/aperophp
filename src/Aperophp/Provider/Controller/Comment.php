@@ -25,46 +25,39 @@ class Comment implements ControllerProviderInterface
         // *******
         // ** Add a comment
         // *******
-        $controllers->post('{drink_id}/create.html', function(Request $request, $drink_id) use ($app)
+        $controllers->post('{drinkId}/create.html', function(Request $request, $drinkId) use ($app)
         {
-            $oDrink = Model\Drink::findOneById($app['db'], $drink_id);
+            $oDrink = Model\Drink::findOneById($app['db'], $drinkId);
 
-            if (!$oDrink)
-            {
+            if (!$oDrink) {
                 $app->abort(404, 'Cet apéro n\'existe pas.');
             }
 
             $oUser = null;
             $values = array();
-            if ($user = $app['session']->get('user'))
-            {
+            if ($user = $app['session']->get('user')) {
                 $oUser = Model\User::findOneById($app['db'], $user['id']);
             }
 
             $form = $app['form.factory']->create('drink_comment', null, array('user' => $oUser));
 
             $form->bindRequest($request);
-            if ($form->isValid())
-            {
+            if ($form->isValid()) {
                 $data = $form->getData();
 
-                if ($oUser && $oUser->getId() != $data['user_id'])
-                {
+                if ($oUser && $oUser->getId() != $data['user_id']) {
                     throw new \Exception('Une erreur est survenue, il se peut que vous vous soyez connecté entre temps');
                 }
 
-                if (!$oUser && $data['user_id'])
-                {
+                if (!$oUser && $data['user_id']) {
                     throw new \Exception('Une erreur est survenue, il se peut que vous ayez perdu votre session');
                 }
 
                 $app['db']->beginTransaction();
 
-                try
-                {
+                try {
                     // If member is not authenticated, a user is created.
-                    if (!$oUser)
-                    {
+                    if (!$oUser) {
                         $oUser = new Model\User($app['db']);
                         $oUser
                             ->setEmail($data['email'])
@@ -79,18 +72,18 @@ class Comment implements ControllerProviderInterface
                         ->setContent($data['content'])
                         ->setCreatedAt(date('c'))
                         ->setUserId($oUser->getId())
-                        ->setDrinkId($drink_id)
+                        ->setDrinkId($drinkId)
                         ->save();
 
                     $app['db']->commit();
-                }
-                catch (Exception $e)
-                {
+
+                    $app['session']->setFlash('success', 'Votre commentaire a été posté avec succès.');
+                } catch (Exception $e) {
                     $app['db']->rollback();
                     throw $e;
                 }
 
-                return $request->isXmlHttpRequest() ? 'redirect' : $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drink_id)));
+                return $request->isXmlHttpRequest() ? 'redirect' : $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
             }
 
             return $app['twig']->render('comment/new.html.twig', array(

@@ -2,22 +2,22 @@
 
 {% block content %}
 <div class="row-fluid">
-	<div class="span3">
-		<img src="{{ app.request.basepath }}/img/aperophp.gif" />
-	</div><!--/span-->
-	<div class="span9">
-		<div class="hero-unit">
-			<h1>Apéro PHP</h1>
-			<p>Les apéroPHPs sont ouverts à tous (de débutants à confirmés), venez discuter du PHP mais pas que de PHP ! Boissons alcoolisées ou non, repas ou simple apéro, c'est à vous de le définir...</p>
-			<p><a href="{{ url('_newdrink') }}" class="btn btn-primary btn-large">Organiser un apéro &raquo;</a></p>
-		</div>
-		{% for threedrinks in drinks %}
-		<div class="row-fluid">
-			{% for drink in threedrinks %}
-		    {% include 'drink/preview.html.twig' with {'drink': drink} %}
-		    {% endfor %}
-		</div><!--/row-->
-		{% endfor %}
-	</div><!--/span-->
+    <div class="span3">
+        <img src="{{ app.request.basepath }}/img/aperophp.gif" />
+    </div>
+    <div class="span9">
+    <div class="hero-unit">
+        <h1>Apéro PHP</h1>
+        <p>Les apéroPHPs sont ouverts à tous (de débutants à confirmés), venez discuter du PHP mais pas que de PHP ! Boissons alcoolisées ou non, repas ou simple apéro, c'est à vous de le définir...</p>
+        <p><a href="{{ url('_newdrink') }}" class="btn btn-primary btn-large">Organiser un apéro &raquo;</a></p>
+    </div>
+        {% for threedrinks in drinks %}
+            <div class="row-fluid">
+                {% for drink in threedrinks %}
+                    {% include 'drink/preview.html.twig' with {'drink': drink} %}
+                {% endfor %}
+            </div><!--/row-->
+        {% endfor %}
+    </div><!--/span-->
 </div>
-{% endblock %}  
+{% endblock %}

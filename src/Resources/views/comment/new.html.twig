@@ -1,6 +1,6 @@
 {% form_theme commentForm 'common/Form/fields.html.twig' %}
 
-<form method="post" action="{{ url('_createcomment', {'drink_id': drink.id}) }}" id="commentForm" class="form-horizontal" {{ form_enctype(commentForm) }}>
+<form method="post" action="{{ url('_createcomment', {'drinkId': drink.id}) }}" id="commentForm" class="form-horizontal" {{ form_enctype(commentForm) }}>
     <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
         <h3>Commentaire</h3>
@@ -37,7 +37,7 @@
         {{ form_rest(commentForm) }}
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" type="submit">Ajouter</button>
+        <button class="btn btn-primary" type="submit" name="comment">Ajouter</button>
         <a href="#" data-dismiss="modal" class="btn">Annuler</a>
     </div>
 </form>

@@ -23,9 +23,9 @@ class Participate implements ControllerProviderInterface
         // *******
         // ** Save/Update participation
         // *******
-        $controllers->post('{drink_id}/register.html', function(Request $request, $drink_id) use ($app)
+        $controllers->post('{drinkId}/register.html', function(Request $request, $drinkId) use ($app)
         {
-            $oDrink = Model\Drink::findOneById($app['db'], $drink_id);
+            $oDrink = Model\Drink::findOneById($app['db'], $drinkId);
 
             if (!$oDrink)
             {
@@ -38,7 +38,7 @@ class Participate implements ControllerProviderInterface
             if ($now > $dDrink)
             {
                 $app['session'] ->setFlash('error', 'L\'événement est terminé.');
-                return $request->isXmlHttpRequest() ? 'redirect' : $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drink_id)));
+                return $request->isXmlHttpRequest() ? 'redirect' : $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
             }
 
             $oUser = null;
@@ -107,7 +107,7 @@ class Participate implements ControllerProviderInterface
                     $data           = $form->getData();
                     $participation  = Model\DrinkParticipation::find(
                                                                         $app['db'],
-                                                                        $drink_id,
+                                                                        $drinkId,
                                                                         $oUser->getId()
                                                                     );
 
@@ -115,7 +115,7 @@ class Participate implements ControllerProviderInterface
                     {
                         $participation  = new Model\DrinkParticipation($app['db']);
                         $participation
-                                        ->setDrinkId($drink_id)
+                                        ->setDrinkId($drinkId)
                                         ->setUserId($oUser->getId());
                     }
 
@@ -133,7 +133,7 @@ class Participate implements ControllerProviderInterface
                     throw $e;
                 }
 
-                return $request->isXmlHttpRequest() ? 'redirect' : $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drink_id)));
+                return $request->isXmlHttpRequest() ? 'redirect' : $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
             }
             else
 
@@ -148,9 +148,9 @@ class Participate implements ControllerProviderInterface
         // *******
         // ** Delete participation
         // *******
-        $controllers->get('{drink_id}/delete.html/{email}/{token}', function(Request $request, $drink_id, $email, $token) use ($app)
+        $controllers->get('{drinkId}/delete.html/{email}/{token}', function(Request $request, $drinkId, $email, $token) use ($app)
         {
-            $oDrink = Model\Drink::findOneById($app['db'], $drink_id);
+            $oDrink = Model\Drink::findOneById($app['db'], $drinkId);
 
             if (!$oDrink)
             {
@@ -163,7 +163,7 @@ class Participate implements ControllerProviderInterface
             if ($now > $dDrink)
             {
                 $app['session'] ->setFlash('error', 'L\'événement est terminé.');
-                return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drink_id)));
+                return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
             }
 
             $oUser = null;
@@ -175,7 +175,7 @@ class Participate implements ControllerProviderInterface
                 if (!$oUser)
                 {
                     $app['session'] ->setFlash('error', 'Couple email/jeton invalide.');
-                    return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drink_id)));
+                    return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
                 }
             }
             else
@@ -188,7 +188,7 @@ class Participate implements ControllerProviderInterface
                 if (!$oUser)
                 {
                     $app['session'] ->setFlash('error', 'Connectez-vous ou utilisez le lien reçu par mail.');
-                    return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drink_id)));
+                    return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
                 }
             }
 
@@ -199,7 +199,7 @@ class Participate implements ControllerProviderInterface
 
                 $participation  = Model\DrinkParticipation::find(
                                                                     $app['db'],
-                                                                    $drink_id,
+                                                                    $drinkId,
                                                                     $oUser->getId()
                                                                 );
 
@@ -222,7 +222,7 @@ class Participate implements ControllerProviderInterface
                 throw $e;
             }
 
-            return $request->isXmlHttpRequest() ? 'redirect' : $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drink_id)));
+            return $request->isXmlHttpRequest() ? 'redirect' : $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
 
         })->value('email', null)->value('token', null)->bind('_deleteparticipatedrink');
 

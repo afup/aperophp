@@ -1,7 +1,7 @@
 <h2>Participants 
     {% if not isFinished %}
         {% if isParticipating %}
-            <a class="btn pull-right" href="{{ url('_deleteparticipatedrink', {'drink_id': drink.id}) }}" >Se désinscrire</a>
+            <a class="btn pull-right" href="{{ url('_deleteparticipatedrink', {'drinkId': drink.id}) }}" >Se désinscrire</a>
             <a class="btn pull-right" data-toggle="modal" href="#participateModal" >Modifier</a>
         {% else %}
             <a class="btn pull-right" data-toggle="modal" href="#participateModal" >S'inscrire</a>
