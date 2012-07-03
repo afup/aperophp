@@ -11,7 +11,8 @@
         "symfony/translation"     : "dev-master",
         "symfony/config"          : "dev-master",
         "symfony/twig-bridge"     : "dev-master",
-        "swiftmailer/swiftmailer" : "dev-master"
+        "swiftmailer/swiftmailer" : "dev-master",
+        "mageekguy/atoum"         : "dev-master"
     },
     "autoload": {
         "psr-0": {
