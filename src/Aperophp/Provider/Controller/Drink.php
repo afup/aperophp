@@ -136,7 +136,7 @@ class Drink implements ControllerProviderInterface
             $now = new \Datetime('now');
             $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $oDrink->getDay() . ' ' . $oDrink->getHour());
             if ($now > $dDrink) {
-                $app['session'] ->setFlash('error', 'L\'événement est terminé.');
+                $app['session']->setFlash('error', 'L\'événement est terminé.');
 
                 return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));
             }
