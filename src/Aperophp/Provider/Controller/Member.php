@@ -2,7 +2,6 @@
 
 namespace Aperophp\Provider\Controller;
 
-use Aperophp\Model;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
@@ -37,13 +36,13 @@ class Member implements ControllerProviderInterface
                 if ($form->isValid()) {
                     $data = $form->getData();
 
-                    $oMember = Model\Member::findOneByUsername($app['db'], $data['username']);
+                    $member = $app['members']->findOneByUsernameAndPassword($data['username'], $app['utils']->hash($data['password']));
 
-                    if ($oMember && $oMember->getActive() && $oMember->getPassword() == $app['utils']->hash($data['password'])) {
-                        $app['session']->set('user', array(
-                            'id' => $oMember->getId(),
-                            'username' => $oMember->getUsername(),
-                        ));
+                    if ($member) {
+                        unset($member['password']);
+                        $app['session']->set('member', $member);
+                        $user = $app['users']->findOneByMemberId($member['id']);
+                        $app['session']->set('user', $user);
 
                         return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
                     }
@@ -91,22 +90,10 @@ class Member implements ControllerProviderInterface
                     $app['db']->beginTransaction();
 
                     try {
-                        // 1. Create member
-                        $oMember = new Model\Member($app['db']);
-                        $oMember
-                            ->setUsername($data['username'])
-                            ->setPassword($app['utils']->hash($data['password']))
-                            ->setActive(1)
-                            ->save();
-
-                        // 2. Create user with member association
-                        $oUser = new Model\User($app['db']);
-                        $oUser
-                            ->setEmail($data['email'])
-                            ->setFirstname($data['firstname'])
-                            ->setLastname($data['lastname'])
-                            ->setMemberId($oMember->getId())
-                            ->save();
+                        $data['member']['password'] = $app['utils']->hash($data['member']['password']);
+                        $app['members']->insert($data['member']);
+                        $data['user']['member_id'] = $app['members']->lastInsertId();
+                        $app['users']->insert($data['user']);
 
                         $app['db']->commit();
                     } catch (Exception $e) {
@@ -135,20 +122,18 @@ class Member implements ControllerProviderInterface
         // *******
         $controllers->match('edit.html', function(Request $request) use ($app)
         {
-            if (!$app['session']->has('user')) {
+            if (!$app['session']->has('member')) {
                 $app['session']->setFlash('error', 'Vous devez être authentifié pour accéder à cette ressource.');
 
                 return new RedirectResponse($app['url_generator']->generate('_signinmember'));
             }
 
-            $user    = $app['session']->get('user');
-            $oMember = Model\Member::findOneByUsername($app['db'], $user['username']);
-            $oUser   = $oMember->getUser();
+            $member = $app['session']->get('member');
+            $user = $app['session']->get('user');
 
             $form = $app['form.factory']->create('member_edit', array(
-                'lastname' => $oUser->getLastname(),
-                'firstname' => $oUser->getFirstname(),
-                'email' => $oUser->getEmail(),
+                'member' => $member,
+                'user'   => $user
             ));
 
             // If it's not POST method, just display void form
@@ -157,20 +142,23 @@ class Member implements ControllerProviderInterface
                 if ($form->isValid()) {
                     $data = $form->getData();
 
+                    $member = $app['session']->get('member');
+                    $user = $app['session']->get('user');
+
                     $app['db']->beginTransaction();
 
                     try {
-                        $oUser
-                            ->setLastname($data['lastname'])
-                            ->setFirstname($data['firstname'])
-                            ->setEmail($data['email'])
-                            ->save();
-
-                        if ($data['password']) {
-                            $oMember
-                                ->setPassword($app['utils']->hash($data['password']))
-                                ->save();
+                        if ('' !== $data['member']['password']) {
+                            $data['member']['password'] = $app['utils']->hash($data['member']['password']);
+                            $app['members']->update($data['member'], array('id' => (int) $member['id']));
                         }
+
+                        $app['users']->update($data['user'], array('id' => (int) $user['id']));
+                        // Update session
+                        foreach ($data['user'] as $key => $value) {
+                            $user[$key] = $value;
+                        }
+                        $app['session']->set('user', $user);
 
                         $app['db']->commit();
                     } catch (Exception $e) {
@@ -182,15 +170,15 @@ class Member implements ControllerProviderInterface
 
                     return $app->redirect($app['url_generator']->generate('_editmember'));
                 }
-                // Invalid form will display form back
+                $app['session']->setFlash('error', 'Quelque chose n\'est pas valide');
             }
 
             return $app['twig']->render('member/edit.html.twig', array(
                 'form' => $form->createView(),
             ));
         })
-            ->bind('_editmember')
-            ->method('GET|POST');
+        ->bind('_editmember')
+        ->method('GET|POST');
         // *******
 
         return $controllers;

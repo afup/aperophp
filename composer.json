@@ -2,6 +2,8 @@
     "name"        : "afup/aperophp",
     "require": {
         "silex/silex"                         : "1.0.*",
+        "doctrine/common"                     : "dev-master",
+        "doctrine/dbal"                       : "dev-master",
         "twig/twig"                           : "dev-master",
         "twig/extensions"                     : "dev-master",
         "symfony/class-loader"                : "dev-master",
@@ -14,8 +16,7 @@
         "symfony/css-selector"                : "dev-master",
         "symfony/twig-bridge"                 : "dev-master",
         "swiftmailer/swiftmailer"             : "dev-master",
-        "mageekguy/atoum"                     : "dev-master",
-        "knplabs/repository-service-provider" : "dev-master"
+        "mageekguy/atoum"                     : "dev-master"
     },
     "autoload": {
         "psr-0": {

@@ -19,11 +19,11 @@ class Member extends Test
                     ->if($form = $crawler->selectButton('register')->form())
                     ->then()
                         ->if($crawler = $client->submit($form, array(
-                            'signup[lastname]'  => 'Foo',
-                            'signup[firstname]' => 'Bar',
-                            'signup[username]'  => 'foobar',
-                            'signup[email]'     => 'foobar@example.com',
-                            'signup[password]'  => 'foobar',
+                            'signup[user][lastname]'   => 'Foo',
+                            'signup[user][firstname]'  => 'Bar',
+                            'signup[member][username]' => 'foobar',
+                            'signup[user][email]'      => 'foobar@example.com',
+                            'signup[member][password]' => 'foobar',
                         )))
                         ->then()
                             ->boolean($client->getResponse()->isRedirect('/member/signin.html'))->isTrue()
@@ -45,11 +45,11 @@ class Member extends Test
                     ->if($form = $crawler->selectButton('register')->form())
                     ->then()
                         ->if($crawler = $client->submit($form, array(
-                            'signup[lastname]'  => '',
-                            'signup[firstname]' => '',
-                            'signup[username]'  => '',
-                            'signup[email]'     => 'foobar',
-                            'signup[password]'  => 'f',
+                            'signup[user][lastname]'   => '',
+                            'signup[user][firstname]'  => '',
+                            'signup[member][username]' => '',
+                            'signup[user][email]'      => 'foobar',
+                            'signup[member][password]' => 'f',
                         )))
                         ->then()
                             ->boolean($client->getResponse()->isRedirect())->isFalse()
@@ -72,12 +72,13 @@ class Member extends Test
                         ->if($form = $crawler->selectButton('edit')->form())
                         ->then()
                             ->if($crawler = $client->submit($form, array(
-                                'member_edit[lastname]'  => 'Foo',
-                                'member_edit[firstname]' => 'Bar',
-                                'member_edit[email]'     => 'foobar@example.com',
-                                'member_edit[password]'  => '',
+                                'member_edit[user][lastname]'   => 'Foo',
+                                'member_edit[user][firstname]'  => 'Bar',
+                                'member_edit[user][email]'      => 'foobar@example.com',
+                                'member_edit[member][password]' => '',
                             )))
                             ->then()
+                                //->string($client->getResponse()->getContent())->isEqualTo('toto')
                                 ->boolean($client->getResponse()->isRedirect('/member/edit.html'))->isTrue()
                                 ->if($crawler = $client->followRedirect())
                                 ->then()

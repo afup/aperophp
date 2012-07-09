@@ -8,42 +8,42 @@
         <form method="post" action="{{ url('_signupmember') }}" class="form-horizontal" {{ form_enctype(form) }}>
             <fieldset>
                 <legend>Inscription</legend>
-                <div class="control-group {% if form.lastname.vars.errors|length %}error{% endif %}">
-                    {{ form_label(form.lastname, null, { 'attr': {'class': 'control-label'} }) }}
+                <div class="control-group {% if form.user.lastname.vars.errors|length %}error{% endif %}">
+                    {{ form_label(form.user.lastname, null, { 'attr': {'class': 'control-label'} }) }}
                     <div class="controls">
-                        {{ form_widget(form.lastname) }}
-                        {{ form_errors(form.lastname) }}
+                        {{ form_widget(form.user.lastname) }}
+                        {{ form_errors(form.user.lastname) }}
                     </div>
                 </div>
-                <div class="control-group {% if form.firstname.vars.errors|length %}error{% endif %}">
-                    {{ form_label(form.firstname, null, { 'attr': {'class': 'control-label'} }) }}
+                <div class="control-group {% if form.user.firstname.vars.errors|length %}error{% endif %}">
+                    {{ form_label(form.user.firstname, null, { 'attr': {'class': 'control-label'} }) }}
                     <div class="controls">
-                        {{ form_widget(form.firstname) }}
-                        {{ form_errors(form.firstname) }}
+                        {{ form_widget(form.user.firstname) }}
+                        {{ form_errors(form.user.firstname) }}
                     </div>
                 </div>
-                <div class="control-group {% if form.username.vars.errors|length %}error{% endif %}">
-                    {{ form_label(form.username, null, { 'attr': {'class': 'control-label'} }) }}
+                <div class="control-group {% if form.member.username.vars.errors|length %}error{% endif %}">
+                    {{ form_label(form.member.username, null, { 'attr': {'class': 'control-label'} }) }}
                     <div class="controls">
-                        {{ form_widget(form.username) }}
-                        {{ form_errors(form.username) }}
+                        {{ form_widget(form.member.username) }}
+                        {{ form_errors(form.member.username) }}
                     </div>
                 </div>
-                <div class="control-group {% if form.email.vars.errors|length %}error{% endif %}">
-                    {{ form_label(form.email, null, { 'attr': {'class': 'control-label'} }) }}
+                <div class="control-group {% if form.user.email.vars.errors|length %}error{% endif %}">
+                    {{ form_label(form.user.email, null, { 'attr': {'class': 'control-label'} }) }}
                     <div class="controls">
                         <div class="input-prepend">
                             <span class="add-on"><i class="icon-envelope"></i></span>
-                            {{ form_widget(form.email, { 'attr': {'class': 'span2'} }) }}
-                            {{ form_errors(form.email) }}
+                            {{ form_widget(form.user.email, { 'attr': {'class': 'span2'} }) }}
+                            {{ form_errors(form.user.email) }}
                         </div>
                     </div>
                 </div>
-                <div class="control-group {% if form.password.vars.errors|length %}error{% endif %}">
-                    {{ form_label(form.password, null, { 'attr': {'class': 'control-label'} }) }}
+                <div class="control-group {% if form.member.password.vars.errors|length %}error{% endif %}">
+                    {{ form_label(form.member.password, null, { 'attr': {'class': 'control-label'} }) }}
                     <div class="controls">
-                        {{ form_widget(form.password) }}
-                        {{ form_errors(form.password) }}
+                        {{ form_widget(form.member.password) }}
+                        {{ form_errors(form.member.password) }}
                     </div>
                 </div>
                 {{ form_rest(form) }}

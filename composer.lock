@@ -1,19 +1,23 @@
 {
-    "hash": "e8d7ae1c2524747b05ea8631e74144c4",
+    "hash": "55136ce5c702bdf069d6c5d7ce7aa669",
     "packages": [
         {
             "package": "doctrine/common",
-            "version": "2.2.2"
+            "version": "dev-master",
+            "alias-pretty-version": "2.3.x-dev",
+            "alias-version": "2.3.9999999.9999999-dev"
+        },
+        {
+            "package": "doctrine/common",
+            "version": "dev-master",
+            "source-reference": "d2f8a36b8696b446bf25cfe2b0b3aaf03e0835e6",
+            "commit-date": "1341088911"
         },
         {
             "package": "doctrine/dbal",
-            "version": "2.2.2"
-        },
-        {
-            "package": "knplabs/repository-service-provider",
             "version": "dev-master",
-            "source-reference": "e55316bf936b5446ee1357eb294a5284a979bbb4",
-            "commit-date": "1338475302"
+            "source-reference": "802d13669995142fbea96c27dc74d9622434fc25",
+            "commit-date": "1341437769"
         },
         {
             "package": "mageekguy/atoum",
@@ -48,12 +52,6 @@
         {
             "package": "swiftmailer/swiftmailer",
             "version": "dev-master",
-            "alias-pretty-version": "4.2.x-dev",
-            "alias-version": "4.2.9999999.9999999-dev"
-        },
-        {
-            "package": "swiftmailer/swiftmailer",
-            "version": "dev-master",
             "source-reference": "1829c40b70f3fc45a3696349bfcb99fb755aa926",
             "commit-date": "1341418063"
         },
@@ -66,20 +64,8 @@
         {
             "package": "symfony/class-loader",
             "version": "dev-master",
-            "alias-pretty-version": "2.1.x-dev",
-            "alias-version": "2.1.9999999.9999999-dev"
-        },
-        {
-            "package": "symfony/class-loader",
-            "version": "dev-master",
             "source-reference": "5d8ded640026208fbed5b35762df4def64868381",
             "commit-date": "1341409667"
-        },
-        {
-            "package": "symfony/config",
-            "version": "dev-master",
-            "alias-pretty-version": "2.1.x-dev",
-            "alias-version": "2.1.9999999.9999999-dev"
         },
         {
             "package": "symfony/config",
@@ -122,12 +108,6 @@
             "version": "dev-master",
             "source-reference": "v2.1.0-BETA1",
             "commit-date": "1338018513"
-        },
-        {
-            "package": "symfony/form",
-            "version": "dev-master",
-            "alias-pretty-version": "2.1.x-dev",
-            "alias-version": "2.1.9999999.9999999-dev"
         },
         {
             "package": "symfony/form",
@@ -210,12 +190,6 @@
         {
             "package": "symfony/validator",
             "version": "dev-master",
-            "alias-pretty-version": "2.1.x-dev",
-            "alias-version": "2.1.9999999.9999999-dev"
-        },
-        {
-            "package": "symfony/validator",
-            "version": "dev-master",
             "source-reference": "8e54bffa0853fe66e92bb67c96c80e3a9e1b3cf2",
             "commit-date": "1341422834"
         },
@@ -224,12 +198,6 @@
             "version": "dev-master",
             "source-reference": "feb6d3f10c411e2631997c0a905aa581c80305c1",
             "commit-date": "1337599699"
-        },
-        {
-            "package": "twig/twig",
-            "version": "dev-master",
-            "alias-pretty-version": "1.8.x-dev",
-            "alias-version": "1.8.9999999.9999999-dev"
         },
         {
             "package": "twig/twig",
@@ -250,6 +218,8 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
+        "doctrine/common": 20,
+        "doctrine/dbal": 20,
         "twig/twig": 20,
         "twig/extensions": 20,
         "symfony/class-loader": 20,
@@ -262,7 +232,6 @@
         "symfony/css-selector": 20,
         "symfony/twig-bridge": 20,
         "swiftmailer/swiftmailer": 20,
-        "mageekguy/atoum": 20,
-        "knplabs/repository-service-provider": 20
+        "mageekguy/atoum": 20
     }
 }

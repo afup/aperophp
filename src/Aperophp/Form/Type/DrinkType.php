@@ -7,7 +7,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Aperophp\Model;
+use Aperophp\Repository;
+use Aperophp\Form\EventListener\DataFilterSubscriber;
 
 /**
  * Drink form.
@@ -18,16 +19,18 @@ use Aperophp\Model;
  */
 class DrinkType extends AbstractType
 {
-    protected $connection;
+    protected $cityRepository;
     protected $cities = null;
 
-    public function __construct(Connection $connection)
+    public function __construct(Repository\City $cityRepository)
     {
-        $this->connection = $connection;
+        $this->cityRepository = $cityRepository;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->addEventSubscriber(new DataFilterSubscriber($builder));
+
         $builder
             ->add('place', 'hidden')
             ->add('address', 'hidden')
@@ -106,6 +109,6 @@ class DrinkType extends AbstractType
             return $this->cities;
         }
 
-        return Model\City::findAll($this->connection);
+        return $this->cityRepository->findAllInAssociativeArray();
     }
 }

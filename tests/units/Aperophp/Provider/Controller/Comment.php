@@ -16,13 +16,14 @@ class Comment extends Test
                 ->if($crawler = $client->request('GET', '/drink/1/view.html'))
                 ->then()
                     ->boolean($client->getResponse()->isOk())->isTrue()
+                    ->integer($crawler->filter('blockquote.pull-right')->count())->isEqualTo(2)
                         ->if($form = $crawler->selectButton('comment')->form())
                         ->then()
                             ->if($crawler = $client->submit($form, array(
-                                'drink_comment[firstname]' => 'Foo',
-                                'drink_comment[lastname]'  => 'Bar',
-                                'drink_comment[email]'     => 'foobar@example.org',
-                                'drink_comment[content]'   => 'Super apéro.',
+                                'drink_comment[user][firstname]' => 'Foo',
+                                'drink_comment[user][lastname]'  => 'Bar',
+                                'drink_comment[user][email]'     => 'foobar@example.org',
+                                'drink_comment[content]'         => 'Super apéro.',
                             )))
                             ->then()
                                 ->boolean($client->getResponse()->isRedirect('/drink/1/view.html'))->isTrue()
@@ -30,6 +31,7 @@ class Comment extends Test
                                 ->then()
                                     ->boolean($client->getResponse()->isOk())->isTrue()
                                     ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
+                                    ->integer($crawler->filter('blockquote.pull-right')->count())->isEqualTo(3)
         ;
     }
 }

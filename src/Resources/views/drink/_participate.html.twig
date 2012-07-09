@@ -6,27 +6,29 @@
         <h3>Participation</h3>
     </div>
     <div class="modal-body">
-        <div class="control-group {% if participationForm.lastname.vars.errors|length %}error{% endif %}">
-            {{ form_label(participationForm.lastname, null, { 'attr': {'class': 'control-label'} }) }}
-            <div class="controls">
-                {{ form_widget(participationForm.lastname) }}
-                {{ form_errors(participationForm.lastname) }}
+        {% if participationForm.user is defined %}
+            <div class="control-group {% if participationForm.user.lastname.vars.errors|length %}error{% endif %}">
+                {{ form_label(participationForm.user.lastname, null, { 'attr': {'class': 'control-label'} }) }}
+                <div class="controls">
+                    {{ form_widget(participationForm.user.lastname) }}
+                    {{ form_errors(participationForm.user.lastname) }}
+                </div>
             </div>
-        </div>
-        <div class="control-group {% if participationForm.firstname.vars.errors|length %}error{% endif %}">
-            {{ form_label(participationForm.firstname, null, { 'attr': {'class': 'control-label'} }) }}
-            <div class="controls">
-                {{ form_widget(participationForm.firstname) }}
-                {{ form_errors(participationForm.firstname) }}
+            <div class="control-group {% if participationForm.user.firstname.vars.errors|length %}error{% endif %}">
+                {{ form_label(participationForm.user.firstname, null, { 'attr': {'class': 'control-label'} }) }}
+                <div class="controls">
+                    {{ form_widget(participationForm.user.firstname) }}
+                    {{ form_errors(participationForm.user.firstname) }}
+                </div>
             </div>
-        </div>
-        <div class="control-group {% if participationForm.email.vars.errors|length %}error{% endif %}">
-            {{ form_label(participationForm.email, null, { 'attr': {'class': 'control-label'} }) }}
-            <div class="controls">
-                {{ form_widget(participationForm.email) }}
-                {{ form_errors(participationForm.email) }}
+            <div class="control-group {% if participationForm.user.email.vars.errors|length %}error{% endif %}">
+                {{ form_label(participationForm.user.email, null, { 'attr': {'class': 'control-label'} }) }}
+                <div class="controls">
+                    {{ form_widget(participationForm.user.email) }}
+                    {{ form_errors(participationForm.user.email) }}
+                </div>
             </div>
-        </div>
+        {% endif %}
         <div class="control-group {% if participationForm.percentage.vars.errors|length %}error{% endif %}">
             {{ form_label(participationForm.percentage, null, { 'attr': {'class': 'control-label'} }) }}
             <div class="controls">

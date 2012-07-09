@@ -36,21 +36,31 @@ $app->register(new UrlGeneratorServiceProvider());
 
 $app->register(new FormServiceProvider());
 $app['form.extensions'] = $app->share($app->extend('form.extensions', function ($extensions) use ($app) {
-    $extensions[] = new Aperophp\Form\FormExtension($app['db']);
+    $extensions[] = new Aperophp\Form\FormExtension($app);
 
     return $extensions;
 }));
 
 $app->register(new ValidatorServiceProvider());
-$app->register(new Aperophp\Provider\Service\Model());
 
 $app->register(new SessionServiceProvider(), array(
     'locale' => $app['locale'],
     'session.storage.options' => array(
-        'auto_start' => true),
+        'auto_start' => true
+    ),
 ));
 
 $app->register(new DoctrineServiceProvider());
+
+$app['repository.repositories'] = array(
+    'cities'               => 'Aperophp\Repository\City',
+    'drinks'               => 'Aperophp\Repository\Drink',
+    'drink_comments'       => 'Aperophp\Repository\DrinkComment',
+    'drink_participants'   => 'Aperophp\Repository\DrinkParticipant',
+    'members'              => 'Aperophp\Repository\Member',
+    'users'                => 'Aperophp\Repository\User',
+);
+$app->register(new Aperophp\Provider\RepositoryServiceProvider());
 
 // *******
 // ** Twig

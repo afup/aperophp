@@ -7,6 +7,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Aperophp\Form\EventListener\DataFilterSubscriber;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Drink comment form.
@@ -17,39 +19,65 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class DrinkCommentType extends AbstractType
 {
+    protected $session;
+
+    public function __construct(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // If user is authenticated, "lastname", "firstname", "email" are disabled.
-        $defaultOptions = $options['user'] ? array('disabled' => '') : array();
+        $builder->addEventSubscriber(new DataFilterSubscriber($builder));
 
-        $builder
-            ->add('user_id', 'hidden')
-            ->add('lastname', 'text', array('label' => 'Nom', 'required' => false, 'attr' => array('placeholder' => 'Facultatif.') + $defaultOptions))
-            ->add('firstname', 'text', array('label' => 'Prénom', 'required' => false, 'attr' => array('placeholder' => 'Facultatif.') + $defaultOptions))
-            ->add('email', 'email', array('attr' => $defaultOptions))
-            ->add('content', 'textarea', array('label' => 'Commentaire'));
+        if (!$this->session->has('member')) {
+            $builder->add(
+                $builder->create('user', 'form')
+                ->add('lastname', 'text', array(
+                    'label'    => 'Nom',
+                    'required' => false,
+                    'attr'     => array(
+                        'placeholder' => 'Facultatif.'
+                    )
+                ))
+                ->add('firstname', 'text', array(
+                    'label'    => 'Prénom',
+                    'required' => false,
+                    'attr'     => array(
+                        'placeholder' => 'Facultatif.'
+                    )
+                ))
+                ->add('email', 'email')
+            );
+        }
+
+        $builder->add('content', 'textarea', array(
+            'label' => 'Commentaire'
+        ));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $collectionConstraint = new Constraints\Collection(array(
-            'fields' => array(
-                'user_id'      => new Constraints\Min(array('limit' => 0)),
-                'lastname'     => new Constraints\MaxLength(array('limit' => 80)),
-                'firstname'    => new Constraints\MaxLength(array('limit' => 80)),
-                'email'        => array(
+        $fields = array(
+            'content' => new Constraints\NotNull(),
+        );
+
+        if (!$this->session->has('member')) {
+            $fields['user'] = new Constraints\Collection(array(
+                'lastname' => new Constraints\MaxLength(array('limit' => 80)),
+                'firstname' => new Constraints\MaxLength(array('limit' => 80)),
+                'email' => array(
                     new Constraints\Email(),
                     new Constraints\NotNull(),
-                ),
-                'content'      => new Constraints\NotNull(),
-            ),
-            'allowExtraFields' => false,
+                )
+            ));
+        }
+        $collectionConstraint = new Constraints\Collection(array(
+            'fields' => $fields
         ));
 
         $resolver->setDefaults(array(
             'validation_constraint' => $collectionConstraint,
-            'csrf_protection' => false,
-            'user' => null,
         ));
     }
 

@@ -1,23 +1,15 @@
-<h2>Participants 
+<h2>Participants
     {% if not isFinished %}
         {% if isParticipating %}
             <a class="btn pull-right" href="{{ url('_deleteparticipatedrink', {'drinkId': drink.id}) }}" >Se désinscrire</a>
             <a class="btn pull-right" data-toggle="modal" href="#participateModal" >Modifier</a>
         {% else %}
             <a class="btn pull-right" data-toggle="modal" href="#participateModal" >S'inscrire</a>
-            {% if dpAnonymousEForm is not null %}
-                <a class="btn pull-right" data-toggle="modal" href="#participateAnonymousEModal" >Modifier</a>
-            {%endif%}
         {% endif %}
 
         <div class="modal hide fade" id="participateModal">
-            {% include 'drink/participate.html.twig' %}
+            {% include 'drink/_participate.html.twig' %}
         </div>
-        {% if dpAnonymousEForm is not null %}
-            <div class="modal hide fade" id="participateAnonymousEModal">
-                {% include 'drink/participateAnonymousE.html.twig' %}
-            </div>
-        {%endif%}
     {% endif %}
 </h2>
 
@@ -31,14 +23,14 @@
                 </tr>
             </thead>
             <tbody>
-                {% for participation in participations %}
+                {% for participant in participants %}
                     <tr>
-                        {% if participation.user.member is not null%}
-                            <td class="vleft">{{ participation.user.member.username }}</td>
+                        {% if participant.member_id is not null%}
+                            <td class="vleft">{{ participant.username }}</td>
                         {% else %}
-                            <td class="vleft">{{ participation.user.email|replace({'@': '[at]'}) }}</td>
+                            <td class="vleft">{{ participant.email|replace({'@': '[at]'}) }}</td>
                         {% endif %}
-                        <td class="vright">{{ participation.percentage }} %</td>
+                        <td class="vright">{{ participant.percentage }} %</td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -47,6 +39,6 @@
 </div>
 <div class="row">
     <div class="span3 offset0">
-        Total : {{ participations|length }}
+        Total : {{ participants|length }}
     </div>
 </div>

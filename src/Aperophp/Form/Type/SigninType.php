@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Aperophp\Form\EventListener\DataFilterSubscriber;
 
 /**
  * Signin form.
@@ -18,6 +19,8 @@ class SigninType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->addEventSubscriber(new DataFilterSubscriber($builder));
+
         $builder
             ->add('username', 'text', array('label' => 'Identifiant'))
             ->add('password', 'password', array('label' => 'Mot de passe'));
@@ -27,11 +30,11 @@ class SigninType extends AbstractType
     {
         $collectionConstraint = new Constraints\Collection(array(
             'fields' => array(
-                'username'     => array(
+                'username' => array(
                     new Constraints\MaxLength(array('limit' => 80)),
                     new Constraints\NotNull(),
                 ),
-                'password'     => array(
+                'password' => array(
                     new Constraints\MaxLength(array('limit' => 80)),
                     new Constraints\NotNull(),
                 ),

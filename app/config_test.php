@@ -2,7 +2,6 @@
 
 $app['debug']  = true;
 $app['locale'] = 'fr';
-$app['secret'] = 'enough_secret_for_tests';
 
 $app['db.options'] = array(
     // Experiencing problems with sqlite...

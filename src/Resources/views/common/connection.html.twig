@@ -1,7 +1,7 @@
-{% if app.session.has('user') %}
+{% if app.session.has('member') %}
     <ul class="nav pull-right">
         <li class="dropdown">
-            <a data-toggle="dropdown" class="dropdown-toggle" href="#">Bienvenue, {{ app.session.get('user').username }} <b class="caret"></b></a>
+            <a data-toggle="dropdown" class="dropdown-toggle" href="#">Bienvenue, {{ app.session.get('member').username }} <b class="caret"></b></a>
             <ul class="dropdown-menu">
                 <li><a href="{{ url('_editmember') }}"><i class="icon-user"></i> Mon profil</a></li>
                 <li class="divider"></li>

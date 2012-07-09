@@ -3,16 +3,16 @@
 namespace Aperophp\Form;
 
 use Symfony\Component\Form\AbstractExtension;
-use Doctrine\DBAL\Connection;
+use Silex\Application;
 use Aperophp\Form\Type;
 
 class FormExtension extends AbstractExtension
 {
-    protected $connection;
+    protected $app;
 
-    public function __construct(Connection $connection)
+    public function __construct(Application $app)
     {
-        $this->connection = $connection;
+        $this->app = $app;
     }
 
     /**
@@ -21,10 +21,9 @@ class FormExtension extends AbstractExtension
     protected function loadTypes()
     {
         return array(
-            new Type\DrinkCommentType(),
-            new Type\DrinkParticipationAnonymousEditType(),
-            new Type\DrinkParticipationType(),
-            new Type\DrinkType($this->connection),
+            new Type\DrinkCommentType($this->app['session']),
+            new Type\DrinkParticipationType($this->app['session']),
+            new Type\DrinkType($this->app['cities']),
             new Type\EditMemberType(),
             new Type\SigninType(),
             new Type\SignupType(),

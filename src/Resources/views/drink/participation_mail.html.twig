@@ -1,6 +1,6 @@
-Vous venez de vous inscrire à {{ drink.kindTranslated }} le 
+Vous venez de vous inscrire à {{ drink.kind }} le 
 {{ drink.day|date("d") }} {{ drink.day|date("F")|trans }} {{ drink.day|date("Y") }}
- à {{ drink.hour|date("H:i") }} à {{ drink.city.name }} qui se déroulera
+ à {{ drink.hour|date("H:i") }} à {{ drink.city_name }} qui se déroulera
  à {{ drink.place }} <br/>
 <a href="{{ url('_showdrink', {'id': drink.id}) }}">Détail</a><br />
 <a href="{{ url('_showdrink', {'id': drink.id, 'email': user.email, 'token': user.token}) }}">Modifier sa participation</a><br />

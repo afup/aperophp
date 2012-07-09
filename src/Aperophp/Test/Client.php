@@ -6,7 +6,7 @@ use Symfony\Component\HttpKernel\Client as BaseClient;
 
 class Client extends BaseClient
 {
-    public function connect($username = 'user', $password = 'user')
+    public function connect($username = 'user', $password = 'password')
     {
         $crawler = $this->request('GET', '/member/signin.html');
 

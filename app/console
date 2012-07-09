@@ -25,13 +25,7 @@ $importFile = function($file) use ($app) {
 };
 
 $loadFixtures = function($isTestEnv) use ($app, $importFile) {
-    if ($isTestEnv) {
-        $file = __DIR__.'/../data/sql/fixtures-test.sql';
-    } else {
-        $file = __DIR__.'/../data/sql/fixtures.sql';
-    }
-
-    $importFile($file);
+    $importFile(__DIR__.'/../data/sql/fixtures.sql');
 };
 
 $console = new Application('Aperophp', '1');

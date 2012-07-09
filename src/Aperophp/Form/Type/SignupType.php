@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Aperophp\Form\EventListener\DataFilterSubscriber;
 
 /**
  * Signup form.
@@ -18,7 +19,18 @@ class SignupType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
+        $builder->addEventSubscriber(new DataFilterSubscriber($builder));
+
+        $builder->add(
+            $builder->create('member', 'form')
+            ->add('username', 'text', array(
+                'label' => 'Identifiant'
+            ))
+            ->add('password', 'password', array(
+                'label' => 'Mot de passe'
+            ))
+        )->add(
+            $builder->create('user', 'form')
             ->add('lastname', 'text', array(
                 'label'    => 'Nom',
                 'required' => false,
@@ -33,36 +45,38 @@ class SignupType extends AbstractType
                     'placeholder' => 'Facultatif.'
                 )
             ))
-            ->add('username', 'text', array(
-                'label' => 'Identifiant'
-            ))
             ->add('email', 'email')
-            ->add('password', 'password', array(
-                'label' => 'Mot de passe'
-            ));
+        );
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $collectionConstraint = new Constraints\Collection(array(
             'fields' => array(
-                'lastname'     => new Constraints\MaxLength(array('limit' => 80)),
-                'firstname'    => new Constraints\MaxLength(array('limit' => 80)),
-                'username'     => array(
-                    new Constraints\NotBlank(),
-                    new Constraints\MaxLength(array('limit' => 80)),
-                ),
-                'email'        => array(
-                    new Constraints\NotBlank(),
-                    new Constraints\Email(),
-                ),
-                'password'     => array(
-                    new Constraints\NotBlank(),
-                    new Constraints\MinLength(array('limit' => 5)),
-                    new Constraints\MaxLength(array('limit' => 80)),
-                ),
+                'user' => new Constraints\Collection(array(
+                    'fields' => array(
+                        'lastname'     => new Constraints\MaxLength(array('limit' => 80)),
+                        'firstname'    => new Constraints\MaxLength(array('limit' => 80)),
+                        'email'        => array(
+                            new Constraints\NotBlank(),
+                            new Constraints\Email(),
+                        ),
+                    ),
+                )),
+                'member' => new Constraints\Collection(array(
+                    'fields' => array(
+                        'username'     => array(
+                            new Constraints\NotBlank(),
+                            new Constraints\MaxLength(array('limit' => 80)),
+                        ),
+                        'password'     => array(
+                            new Constraints\NotBlank(),
+                            new Constraints\MinLength(array('limit' => 4)),
+                            new Constraints\MaxLength(array('limit' => 80)),
+                        ),
+                    )
+                ))
             ),
-            'allowExtraFields' => false,
         ));
 
         $resolver->setDefaults(array(

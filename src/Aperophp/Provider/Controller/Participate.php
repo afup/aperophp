@@ -2,7 +2,6 @@
 
 namespace Aperophp\Provider\Controller;
 
-use Aperophp\Model;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
@@ -25,108 +24,83 @@ class Participate implements ControllerProviderInterface
         // *******
         $controllers->post('{drinkId}/register.html', function(Request $request, $drinkId) use ($app)
         {
-            $oDrink = Model\Drink::findOneById($app['db'], $drinkId);
+            $returnValue = $request->isXmlHttpRequest() ? 'redirect' : $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
 
-            if (!$oDrink) {
+            $drink = $app['drinks']->find($drinkId);
+
+            if (!$drink) {
                 $app->abort(404, 'Cet événement n\'existe pas.');
             }
 
             $now = new \Datetime('now');
-            $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $oDrink->getDay() . ' ' . $oDrink->getHour());
+            $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $drink['day'] . ' ' . $drink['hour']);
 
             if ($now > $dDrink) {
                 $app['session'] ->setFlash('error', 'L\'événement est terminé.');
 
-                return $request->isXmlHttpRequest() ? 'redirect' : $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
+                return $returnValue;
             }
 
-            $oUser = null;
-            $values = array();
-            if ($user = $app['session']->get('user')) {
-                $oUser = Model\User::findOneById($app['db'], $user['id']);
-            } elseif (null !== $request->get('token') && null !== $request->get('email')) {
-                $oUser = Model\User::findOneByEmailToken($app['db'], $request->get('email'), $request->get('token'));
-            }
+            $user = $app['session']->get('user');
 
-            if (null === $request->get('token')) {
-                $form = $app['form.factory']->create('drink_participate', null, array('user' => $oUser));
-            } else {
-                $form = $app['form.factory']->create('drink_participate_edit_anonymous', null, array('user' => $oUser));
-            }
+            $form = $app['form.factory']->create('drink_participate');
 
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $data = $form->getData();
 
-                if ($oUser && $oUser->getId() != $data['user_id']) {
-                    throw new \Exception('Une erreur est survenue, il se peut que vous vous soyez connecté entre temps');
+                $member = $app['session']->get('member');
+                $user = $app['session']->get('user');
+
+                if (null === $user) {
+                    $data['user']['token'] = sha1(md5(rand()).microtime(true).md5(rand()));
+                    $app['users']->insert($data['user']);
+                    // Load User in session
+                    $id = $app['users']->lastInsertId();
+                    $user = $app['users']->find($id);
+                    $app['session']->set('user', $user);
+                } elseif (null === $member) {
+                    $app['users']->update($data['user'], array('id' => $user['id']));
                 }
 
-                if (!$oUser && $data['user_id']) {
-                    throw new \Exception('Une erreur est survenue, il se peut que vous ayez perdu votre session');
-                }
-
-                $app['db']->beginTransaction();
-
-                try {
-                    // If member is not authenticated, a user is created.
-                    if (!$oUser) {
-                        $token = sha1(md5(rand()).microtime(true).md5(rand()));
-                        $oUser = new Model\User($app['db']);
-                        $oUser
-                            ->setEmail($data['email'])
-                            ->setFirstname($data['firstname'])
-                            ->setLastname($data['lastname'])
-                            ->setToken($token)
-                            ->save();
-
-                        $app['mailer']->send($app['mailer']
-                            ->createMessage()
-                            ->setSubject('[Aperophp.net] Inscription à un '.$oDrink->getKindTranslated())
-                            ->setFrom(array('noreply@aperophp.net'))
-                            ->setTo(array($oUser->getEmail()))
-                            ->setBody($app['twig']->render('drink/participation_mail.html.twig', array(
-                                'user'  => $oUser,
-                                'drink' => $oDrink
-                            )), 'text/html')
-                        );
-
-                    } else if ($form instanceof \Aperophp\Form\DrinkParticipationAnonymousEditType) {
-                        $oUser
-                            ->setFirstname($data['firstname'])
-                            ->setLastname($data['lastname'])
-                            ->save();
-                    }
-
-                    $data           = $form->getData();
-                    $participation  = Model\DrinkParticipation::find($app['db'], $drinkId, $oUser->getId());
-
-                    if (null === $participation) {
-                        $participation  = new Model\DrinkParticipation($app['db']);
-                        $participation
-                            ->setDrinkId($drinkId)
-                            ->setUserId($oUser->getId());
-                    }
-
-                    $participation
-                        ->setPercentage($data['percentage'])
-                        ->setReminder($data['reminder'])
-                        ->save();
-
+                // Already participating?
+                $participation = $app['drink_participants']->findOne($drinkId, $user['id']);
+                if (false !== $participation) {
+                    $participation['percentage'] = $data['percentage'];
+                    $participation['reminder'] = $data['reminder'];
+                    $app['drink_participants']->update($participation, array(
+                        'drink_id' => $drinkId,
+                        'user_id' => $user['id'],
+                    ));
                     $app['session']->setFlash('success', 'Participation modifiée.');
 
-                    $app['db']->commit();
-                } catch (Exception $e) {
-                    $app['db']->rollback();
-                    throw $e;
+                    return $returnValue;
                 }
 
-                return $request->isXmlHttpRequest() ? 'redirect' : $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
+                $participation['percentage'] = $data['percentage'];
+                $participation['reminder'] = (boolean) $data['reminder'];
+                $participation['user_id'] = $user['id'];
+                $participation['drink_id'] = $drinkId;
+                $app['drink_participants']->insert($participation);
+                $app['session']->setFlash('success', 'Participation ajoutée.');
+
+                $app['mailer']->send($app['mailer']
+                    ->createMessage()
+                    ->setSubject('[Aperophp.net] Inscription à un '.$drink['kind'])
+                    ->setFrom(array('noreply@aperophp.net'))
+                    ->setTo(array($user['email']))
+                    ->setBody($app['twig']->render('drink/participation_mail.html.twig', array(
+                        'user'  => $user,
+                        'drink' => $drink
+                    )), 'text/html')
+                );
+
+                return $returnValue;
             }
 
             return $app['twig']->render('drink/participate.html.twig', array(
                 'participationForm' => $form->createView(),
-                'drink' => $oDrink,
+                'drink' => $drink,
             ));
 
         })->bind('_participatedrink');
@@ -137,14 +111,14 @@ class Participate implements ControllerProviderInterface
         // *******
         $controllers->get('{drinkId}/delete.html/{email}/{token}', function(Request $request, $drinkId, $email, $token) use ($app)
         {
-            $oDrink = Model\Drink::findOneById($app['db'], $drinkId);
+            $drink = $app['drinks']->find($drinkId);
 
-            if (!$oDrink) {
+            if (!$drink) {
                 $app->abort(404, 'Cet événement n\'existe pas.');
             }
 
             $now = new \Datetime('now');
-            $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $oDrink->getDay() . ' ' . $oDrink->getHour());
+            $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $drink['day'] . ' ' . $drink['hour']);
 
             if ($now > $dDrink) {
                 $app['session'] ->setFlash('error', 'L\'événement est terminé.');
@@ -155,49 +129,42 @@ class Participate implements ControllerProviderInterface
             $oUser = null;
             $values = array();
 
-            if (!empty($token) && !empty($email)) {
-                $oUser = Model\User::findOneByEmailToken($app['db'], $email, $token);
-                if (!$oUser) {
-                    $app['session'] ->setFlash('error', 'Couple email/jeton invalide.');
-
-                    return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
-                }
-            } else {
-                if ($user = $app['session']->get('user')) {
-                    $oUser = Model\User::findOneById($app['db'], $user['id']);
-                }
-                // If member is not authenticated, nothing can be done.
-                if (!$oUser) {
+            if (!$app['session']->has('user')) {
+                if (null === $email || null === $token) {
                     $app['session'] ->setFlash('error', 'Connectez-vous ou utilisez le lien reçu par mail.');
 
                     return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
                 }
-            }
+                if (!$user = $app['users']->findOneByEmailAndToken($email, $token)) {
+                    $app['session'] ->setFlash('error', 'Couple email/jeton invalide.');
 
-            $app['db']->beginTransaction();
-
-            try {
-
-                $participation  = Model\DrinkParticipation::find($app['db'], $drinkId, $oUser->getId());
-
-                if (null === $participation || ((!empty($token) || !empty($email)) && null != $participation->getUser()->getMember())) {
-                    $app['session'] ->setFlash('error', 'Participation inéxistante.');
-                } else {
-                    $participation  ->delete();
-                    $app['session'] ->setFlash('success', 'Participation supprimée avec succès.');
+                    return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
                 }
-
-                $app['session']     ->setFlash('success', 'Participation modifiée.');
-
-                $app['db']->commit();
-            } catch (Exception $e) {
-                $app['db']->rollback();
-                throw $e;
+                $app['session']->set('user', $user);
             }
+            $user = $app['session']->get('user');
+
+            $participation = $app['drink_participants']->findOne($drinkId, $user['id']);
+
+            if (false === $participation) {
+                $app['session'] ->setFlash('error', 'Participation inexistante.');
+
+                return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
+            }
+
+            $app['drink_participants']->delete(array(
+                'drink_id' => $participation['drink_id'],
+                'user_id' => $participation['user_id']
+            ));
+
+            $app['session'] ->setFlash('success', 'Participation supprimée avec succès.');
 
             return $request->isXmlHttpRequest() ? 'redirect' : $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
 
-        })->value('email', null)->value('token', null)->bind('_deleteparticipatedrink');
+        })
+        ->value('email', null)
+        ->value('token', null)
+        ->bind('_deleteparticipatedrink');
 
         return $controllers;
     }
