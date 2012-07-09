@@ -2,7 +2,6 @@
 
 namespace Aperophp\Provider\Controller;
 
-use Aperophp\Model;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
@@ -21,7 +20,7 @@ class Member implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
-        $controllers = new ControllerCollection();
+        $controllers = $app['controllers_factory'];
 
         // *******
         // ** Signin member
@@ -29,25 +28,22 @@ class Member implements ControllerProviderInterface
         $controllers->match('signin.html', function(Request $request) use ($app)
         {
             $app['session']->set('menu', 'signin');
-
-            $form = $app['form.factory']->create(new \Aperophp\Form\SigninType());
+            $form = $app['form.factory']->create('signin');
 
             // If it's not POST method, just display void form
-            if( $request->getMethod() == 'POST' )
-            {
+            if ($request->getMethod() == 'POST') {
                 $form->bindRequest($request);
-                if ($form->isValid())
-                {
+                if ($form->isValid()) {
                     $data = $form->getData();
 
-                    $oMember = Model\Member::findOneByUsername($app['db'], $data['username']);
+                    $member = $app['members']->findOneByUsernameAndPassword($data['username'], $app['utils']->hash($data['password']));
 
-                    if ($oMember && $oMember->getActive() && $oMember->getPassword() == $app['utils']->hash($data['password']))
-                    {
-                        $app['session']->set('user', array(
-                            'id' => $oMember->getId(),
-                            'username' => $oMember->getUsername(),
-                        ));
+                    if ($member) {
+                        unset($member['password']);
+                        $app['session']->set('member', $member);
+                        $user = $app['users']->findOneByMemberId($member['id']);
+                        $app['session']->set('user', $user);
+
                         return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
                     }
 
@@ -62,7 +58,7 @@ class Member implements ControllerProviderInterface
         })
         ->bind('_signinmember')
         ->method('GET|POST');
-        
+
         // *******
 
         // *******
@@ -83,42 +79,24 @@ class Member implements ControllerProviderInterface
         $controllers->get('signup.html', function(Request $request) use ($app)
         {
             $app['session']->set('menu', 'signup');
+            $form = $app['form.factory']->create('signup');
 
-            $form = $app['form.factory']->create(new \Aperophp\Form\SignupType());
-        
             // If it's not POST method, just display void form
-            if( $request->getMethod() == 'POST' )
-            {
+            if ($request->getMethod() == 'POST') {
                 $form->bindRequest($request);
-                if ($form->isValid())
-                {
+                if ($form->isValid()) {
                     $data = $form->getData();
 
                     $app['db']->beginTransaction();
 
-                    try
-                    {
-                        // 1. Create member
-                        $oMember = new Model\Member($app['db']);
-                        $oMember
-                            ->setUsername($data['username'])
-                            ->setPassword($app['utils']->hash($data['password']))
-                            ->setActive(1)
-                            ->save();
-
-                        // 2. Create user with member association
-                        $oUser = new Model\User($app['db']);
-                        $oUser
-                            ->setEmail($data['email'])
-                            ->setFirstname($data['firstname'])
-                            ->setLastname($data['lastname'])
-                            ->setMemberId($oMember->getId())
-                            ->save();
+                    try {
+                        $data['member']['password'] = $app['utils']->hash($data['member']['password']);
+                        $app['members']->insert($data['member']);
+                        $data['user']['member_id'] = $app['members']->lastInsertId();
+                        $app['users']->insert($data['user']);
 
                         $app['db']->commit();
-                    }
-                    catch (Exception $e)
-                    {
+                    } catch (Exception $e) {
                         $app['db']->rollback();
                         throw $e;
                     }
@@ -144,51 +122,46 @@ class Member implements ControllerProviderInterface
         // *******
         $controllers->match('edit.html', function(Request $request) use ($app)
         {
-            if (!$app['session']->has('user'))
-            {
+            if (!$app['session']->has('member')) {
                 $app['session']->setFlash('error', 'Vous devez être authentifié pour accéder à cette ressource.');
+
                 return new RedirectResponse($app['url_generator']->generate('_signinmember'));
             }
 
+            $member = $app['session']->get('member');
             $user = $app['session']->get('user');
-            $oMember = Model\Member::findOneByUsername($app['db'], $user['username']);
-            $oUser = $oMember->getUser();
 
-            $form = $app['form.factory']->create(new \Aperophp\Form\EditMemberType(), array(
-                'lastname' => $oUser->getLastname(),
-                'firstname' => $oUser->getFirstname(),
-                'email' => $oUser->getEmail(),
+            $form = $app['form.factory']->create('member_edit', array(
+                'member' => $member,
+                'user'   => $user
             ));
 
             // If it's not POST method, just display void form
-            if( $request->getMethod() == 'POST' )
-            {
+            if ($request->getMethod() == 'POST') {
                 $form->bindRequest($request);
-                if ($form->isValid())
-                {
+                if ($form->isValid()) {
                     $data = $form->getData();
+
+                    $member = $app['session']->get('member');
+                    $user = $app['session']->get('user');
 
                     $app['db']->beginTransaction();
 
-                    try
-                    {
-                        $oUser
-                            ->setLastname($data['lastname'])
-                            ->setFirstname($data['firstname'])
-                            ->setEmail($data['email'])
-                            ->save();
-
-                        if ($data['password'])
-                        {
-                            $oMember
-                                ->setPassword($app['utils']->hash($data['password']))
-                                ->save();
+                    try {
+                        if ('' !== $data['member']['password']) {
+                            $data['member']['password'] = $app['utils']->hash($data['member']['password']);
+                            $app['members']->update($data['member'], array('id' => (int) $member['id']));
                         }
 
+                        $app['users']->update($data['user'], array('id' => (int) $user['id']));
+                        // Update session
+                        foreach ($data['user'] as $key => $value) {
+                            $user[$key] = $value;
+                        }
+                        $app['session']->set('user', $user);
+
                         $app['db']->commit();
-                    }
-                    catch (Exception $e)
-                    {
+                    } catch (Exception $e) {
                         $app['db']->rollback();
                         throw $e;
                     }
@@ -197,7 +170,7 @@ class Member implements ControllerProviderInterface
 
                     return $app->redirect($app['url_generator']->generate('_editmember'));
                 }
-                // Invalid form will display form back
+                $app['session']->setFlash('error', 'Quelque chose n\'est pas valide');
             }
 
             return $app['twig']->render('member/edit.html.twig', array(

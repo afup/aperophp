@@ -91,16 +91,16 @@ CREATE  TABLE IF NOT EXISTS `Drink` (
   `kind` ENUM('drink', 'talk') NOT NULL DEFAULT 'drink' ,
   `description` TEXT NOT NULL ,
   `map` VARCHAR(256) NULL ,
-  `user_id` INT NOT NULL ,
+  `member_id` INT NOT NULL ,
   `city_id` INT NOT NULL ,
   `latitude` DECIMAL(9,6) ,
   `longitude` DECIMAL(9,6) ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_Drinks_Utilisateur` (`user_id` ASC) ,
+  INDEX `fk_Drinks_Utilisateur` (`member_id` ASC) ,
   INDEX `fk_Drinks_Ville` (`city_id` ASC) ,
   CONSTRAINT `fk_Drinks_Utilisateur`
-    FOREIGN KEY (`user_id` )
-    REFERENCES `User` (`id` )
+    FOREIGN KEY (`member_id` )
+    REFERENCES `Member` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Drinks_Ville`

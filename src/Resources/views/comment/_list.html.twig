@@ -1,0 +1,8 @@
+{% for comment in comments %}
+    <div class="row">
+        <blockquote class="pull-right">
+            <p>{{ comment.content }}</p>
+            <small>{{ comment.user_email|replace({'@': '[at]'}) }}, le {{ comment.created_at|date("d") }} {{ comment.created_at|date("F")|trans }} {{ comment.created_at|date("Y") }} à {{ comment.created_at|date("H:i") }}</small>
+        </blockquote>
+    </div>
+{% endfor %}

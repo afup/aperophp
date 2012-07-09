@@ -2,12 +2,12 @@
 
 namespace Aperophp\Provider\Controller;
 
-use Aperophp\Model;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Aperophp\Repository;
 
 /**
  * Drink controller
@@ -20,7 +20,7 @@ class Drink implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
-        $controllers = new ControllerCollection();
+        $controllers = $app['controllers_factory'];
 
         // *******
         // ** Homepage
@@ -29,10 +29,10 @@ class Drink implements ControllerProviderInterface
         {
             $app['session']->set('menu', 'home');
 
-            $aDrinkChunked = array_chunk(Model\Drink::findAllJoinParticipants($app['db'], 6), 3);
+            $drinks = $app['drinks']->findAll(3);
 
             return $app['twig']->render('drink/index.html.twig', array(
-                'drinks' => $aDrinkChunked
+                'drinks' => $drinks
             ));
         })->bind('_homepagedrinks');
         // *******
@@ -45,10 +45,10 @@ class Drink implements ControllerProviderInterface
             $app['session']->set('menu', 'listdrinks');
 
             //TODO pagination
-            $aDrink = Model\Drink::findAllJoinParticipants($app['db']);
+            $drinks = $app['drinks']->findAll(10);
 
             return $app['twig']->render('drink/list.html.twig', array(
-                'drinks' => $aDrink
+                'drinks' => $drinks
             ));
         })->bind('_listdrinks');
         // *******
@@ -56,170 +56,96 @@ class Drink implements ControllerProviderInterface
         // *******
         // ** Add a drink
         // *******
-        $controllers->get('new.html', function() use ($app)
+        $controllers->match('new.html', function(Request $request) use ($app)
         {
-            if (!$app['session']->has('user'))
-            {
+            if (!$app['session']->has('member')) {
                 $app['session']->setFlash('error', 'Vous devez être authentifié pour créer un apéro.');
+
                 return new RedirectResponse($app['url_generator']->generate('_signinmember'));
             }
 
             $app['session']->set('menu', 'newdrink');
 
-            $form = $app['form.factory']->create(new \Aperophp\Form\DrinkType(), null, array('cities' => Model\City::findAll($app['db'])));
+            $form = $app['form.factory']->create('drink');
 
-            return $app['twig']->render('drink/new.html.twig', array(
-                'form' => $form->createView(),
-            ));
-        })->bind('_newdrink');
-        // *******
+            if ('POST' === $request->getMethod()) {
+                $form->bindRequest($request);
+                if ($form->isValid()) {
+                    $data = $form->getData();
 
-        // *******
-        // ** Create a drink
-        // *******
-        $controllers->post('create.html', function(Request $request) use ($app)
-        {
-            if (!$app['session']->has('user'))
-            {
-                $app['session']->setFlash('error', 'Vous devez être authentifié pour créer un apéro.');
-                return new RedirectResponse($app['url_generator']->generate('_signinmember'));
-            }
+                    $member = $app['session']->get('member');
+                    $data['member_id'] = $member['id'];
+                    $data['kind']      = Repository\Drink::KIND_DRINK;
 
-            $user = $app['session']->get('user');
+                    $app['drinks']->insert($data);
+                    $app['session']->setFlash('success', 'L\'apéro a été créé avec succès.');
 
-            $form = $app['form.factory']->create(new \Aperophp\Form\DrinkType(), null, array('cities' => Model\City::findAll($app['db'])));
-
-            $form->bindRequest($request);
-            if ($form->isValid())
-            {
-                $data = $form->getData();
-
-                $oDrink = new Model\Drink($app['db']);
-                $oDrink
-                    ->setPlace($data['place'])
-                    ->setAddress($data['address'])
-                    ->setDay($data['day'])
-                    ->setHour($data['hour'])
-                    ->setKind(Model\Drink::KIND_DRINK)
-                    ->setDescription($data['description'])
-                    ->setLatitude($data['latitude'])
-                    ->setLongitude($data['longitude'])
-                    ->setCityId($data['city_id'])
-                    ->setUserId($user['id']);
-
-                $oDrink->save();
-
-                return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
+                    return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
+                }
             }
 
             return $app['twig']->render('drink/new.html.twig', array(
                 'form' => $form->createView(),
             ));
-        })->bind('_createdrink');
+        })
+        ->bind('_newdrink')
+        ->method('GET|POST');
         // *******
 
         // *******
         // ** Edit a drink
         // *******
-        $controllers->get('{id}/edit.html', function($id) use ($app)
+        $controllers->get('{id}/edit.html', function(Request $request, $id) use ($app)
         {
             $app['session']->set('menu', null);
 
-            $oDrink = Model\Drink::findOneById($app['db'], $id);
+            $drink = $app['drinks']->find($id);
 
-            if (!$oDrink)
-            {
+            if (!$drink) {
                 $app->abort(404, 'Cet apéro n\'existe pas.');
             }
 
             $now = new \Datetime('now');
-            $dDrink = \Datetime::createFromFormat(  'Y-m-d H:i:s',
-                                                    $oDrink->getDay() . ' ' . $oDrink->getHour());
-            if ($now > $dDrink)
-            {
-                $app['session'] ->setFlash('error', 'L\'événement est terminé.');
+            $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $drink['day'] . ' ' . $drink['hour']);
+            if ($now > $dDrink) {
+                $app['session']->setFlash('error', 'L\'événement est terminé.');
+
                 return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));
             }
 
-            $user = $app['session']->get('user');
+            $member = $app['session']->get('member');
 
-            if (!$user || $oDrink->getUserId() != $user['id'])
-            {
+            if (!$member || $drink['member_id'] != $member['id']) {
                 $app['session']->setFlash('error', 'Vous devez être authentifié et être organisateur de cet apéro pour pouvoir l\'éditer.');
+
                 return new RedirectResponse($app['url_generator']->generate('_signinmember'));
             }
 
-            $form = $app['form.factory']->create(new \Aperophp\Form\DrinkType(), $oDrink, array('cities' => Model\City::findAll($app['db'])));
+            $form = $app['form.factory']->create('drink', $drink);
 
-            return $app['twig']->render('drink/edit.html.twig', array(
-                'form' => $form->createView(),
-                'id' => $id,
-            ));
-        })->bind('_editdrink');
-        // *******
+            if ('POST' === $request->getMethod()) {
+                $form->bindRequest($request);
+                if ($form->isValid()) {
+                    $data = $form->getData();
 
-        // *******
-        // ** Update a drink
-        // *******
-        $controllers->post('{id}/update.html', function(Request $request, $id) use ($app)
-        {
-            $app['session']->set('menu', null);
+                    $data['member_id'] = $member['id'];
+                    $data['kind']      = Repository\Drink::KIND_DRINK;
 
-            $oDrink = Model\Drink::findOneById($app['db'], $id);
+                    $app['drinks']->update($data, array('id' => $drink['id']));
+                    $app['session']->setFlash('success', 'L\'apéro a été modifié avec succès.');
 
-            if (!$oDrink)
-            {
-                $app->abort(404, 'Cet apéro n\'existe pas.');
-            }
-
-            $now = new \Datetime('now');
-            $dDrink = \Datetime::createFromFormat(  'Y-m-d H:i:s',
-                                                    $oDrink->getDay() . ' ' . $oDrink->getHour());
-            if ($now > $dDrink)
-            {
-                $app['session'] ->setFlash('error', 'L\'événement est terminé.');
-                return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));
-            }
-
-            $user = $app['session']->get('user');
-
-            if (!$user || $oDrink->getUserId() != $user['id'])
-            {
-                $app['session']->setFlash('error', 'Vous devez être authentifié et être organisateur de cet apéro pour pouvoir l\'éditer.');
-                return new RedirectResponse($app['url_generator']->generate('_signinmember'));
-            }
-
-            $form = $app['form.factory']->create(new \Aperophp\Form\DrinkType(), null, array('cities' => Model\City::findAll($app['db'])));
-
-            $form->bindRequest($request);
-            if ($form->isValid())
-            {
-                $data = $form->getData();
-
-                $oDrink
-                    ->setPlace($data['place'])
-                    ->setAddress($data['address'])
-                    ->setDay($data['day'])
-                    ->setHour($data['hour'])
-                    ->setKind(Model\Drink::KIND_DRINK)
-                    ->setDescription($data['description'])
-                    ->setLatitude($data['latitude'])
-                    ->setLongitude($data['longitude'])
-                    ->setCityId($data['city_id'])
-                    ->setUserId($user['id']);
-
-                $oDrink->save();
-
-                $app['session']->setFlash('success', 'L\'apéro a été modifié avec succès.');
-
-                return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));
+                    return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));
+                }
+                $app['session']->setFlash('error', 'Il y a des erreurs dans le formulaire.');
             }
 
             return $app['twig']->render('drink/edit.html.twig', array(
                 'form' => $form->createView(),
-                'id' => $id,
+                'id'   => $id,
             ));
-        })->bind('_updatedrink');
+        })
+        ->bind('_editdrink')
+        ->method('GET|POST');
         // *******
 
         // *******
@@ -229,65 +155,56 @@ class Drink implements ControllerProviderInterface
         {
             $app['session']->set('menu', null);
 
-            $oDrink = Model\Drink::findOneById($app['db'], $id);
+            $drink = $app['drinks']->find($id);
 
-            if (!$oDrink)
-            {
+            if (!$drink) {
                 $app->abort(404, 'Cet apéro n\'existe pas.');
             }
 
+            $participants = $app['drink_participants']->findByDrinkId($drink['id']);
+            $comments = $app['drink_comments']->findByDrinkId($drink['id']);
+
+            $user = $app['session']->get('user');
+
+            // First, deal with participation
+            $isParticipating = false;
+            $data = array();
+            if (null !== $user) {
+                $data = array('user' => $user);
+                if (false !== $participation = $app['drink_participants']->findOne($id, $user['id'])) {
+                    $data += $participation;
+                    $isParticipating = true;
+                }
+            }
+
+            // Avoid transformer error
+            $data['reminder'] = (boolean) array_key_exists('reminder', $data)? (boolean) $data['reminder'] : false;
+            $participationForm = $app['form.factory']->create('drink_participate', $data);
+
+            // Now, deal with comment
+            //$commentForm = $app['form.factory']->create('drink_comment');
+
+
             // If member is authenticated, prefill form.
-            $oUser = null;
-            $oDrinkParticipation = null;
-            $values = array();
-            $anonymous = true;
-            if ($user = $app['session']->get('user'))
-            {
-                $oUser = Model\User::findOneById($app['db'], $user['id']);
-                $anonymous = false;
-            }
-            else if (!empty($email) && !empty($token))
-                $oUser = Model\User::findOneByEmailToken($app['db'], $email, $token);
-
-            if ($oUser)
-            {
-                $values = array(
-                    'user_id' => $oUser->getId(),
-                    'lastname' => $oUser->getLastname(),
-                    'firstname' => $oUser->getFirstname(),
-                    'email' => $oUser->getEmail(),
-                );
-
-                $oDrinkParticipation = Model\DrinkParticipation::find($app['db'], $oDrink->getId(), $oUser->getId());
+            $data = array();
+            if (null !== $user) {
+                $data = array('user' => $user);
             }
 
-            $dValues             = $values;
-            if( $oDrinkParticipation )
-                $dValues += array(
-                                    'percentage'    => $oDrinkParticipation->getPercentage(),
-                                    'reminder'      => $oDrinkParticipation->getReminder()
-                            );
-
-
-            $comment        = $app['form.factory']->create(new \Aperophp\Form\DrinkCommentType(), $values, array('user' => $oUser));
-            $participation  = $app['form.factory']->create(new \Aperophp\Form\DrinkParticipationType(), $dValues, array('user' => $oUser));
-            $dpAnonymousE   = null;
-
-            if ($anonymous)
-                $dpAnonymousE = $app['form.factory']->create(new \Aperophp\Form\DrinkParticipationAnonymousEditType(), $dValues, array('user' => $oUser))
-                                                    ->createView();
+            $commentForm = $app['form.factory']->create('drink_comment', $data);
 
             $now = new \Datetime('now');
-            $dDrink = \Datetime::createFromFormat(  'Y-m-d H:i:s',
-                                                    $oDrink->getDay() . ' ' . $oDrink->getHour());
+            $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $drink['day'] . ' ' . $drink['hour']);
 
             return $app['twig']->render('drink/view.html.twig', array(
-                'drink'             => $oDrink,
-                'commentForm'       => $comment->createView(),
-                'participationForm' => $participation->createView(),
-                'dpAnonymousEForm'  => $dpAnonymousE,
+                'drink'             => $drink,
+                'participants'      => $participants,
+                'comments'          => $comments,
+                'commentForm'       => $commentForm->createView(),
+                'participationForm' => $participationForm->createView(),
                 'isFinished'        => $now > $dDrink,
-                'isParticipating'   => null !== $oDrinkParticipation));
+                'isParticipating'   => $isParticipating
+            ));
         })->value('email', null)->value('token', null)->bind('_showdrink');
         // *******
 
