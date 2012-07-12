@@ -1,0 +1,28 @@
+<?php
+
+namespace tests\units\Aperophp\Repository;
+
+require_once __DIR__.'/../../../../vendor/autoload.php';
+
+use Aperophp\Test\Test;
+
+class DrinkParticipant extends Test
+{
+    public function testFindOne_withExistingEntry_returnArray()
+    {
+        $this->assert
+            ->if($participation = $this->app['drink_participants']->findOne(1, 1))
+            ->then
+                ->boolean(is_array($participation))->isTrue()
+        ;
+    }
+
+    public function testFindOne_withInexistingEntry_returnFalse()
+    {
+        $this->assert
+            ->if($participation = $this->app['drink_participants']->findOne(231, 2341))
+            ->then
+                ->boolean($participation)->isFalse()
+        ;
+    }
+}

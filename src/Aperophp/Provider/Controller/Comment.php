@@ -2,7 +2,6 @@
 
 namespace Aperophp\Provider\Controller;
 
-use Aperophp\Model;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
@@ -20,82 +19,49 @@ class Comment implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
-        $controllers = new ControllerCollection();
+        $controllers = $app['controllers_factory'];
 
         // *******
         // ** Add a comment
         // *******
-        $controllers->post('{drink_id}/create.html', function(Request $request, $drink_id) use ($app)
+        $controllers->post('{drinkId}/create.html', function(Request $request, $drinkId) use ($app)
         {
-            $oDrink = Model\Drink::findOneById($app['db'], $drink_id);
+            $drink = $app['drinks']->find($drinkId);
 
-            if (!$oDrink)
-            {
+            if (!$drink) {
                 $app->abort(404, 'Cet apéro n\'existe pas.');
             }
 
-            $oUser = null;
-            $values = array();
-            if ($user = $app['session']->get('user'))
-            {
-                $oUser = Model\User::findOneById($app['db'], $user['id']);
-            }
-
-            $form = $app['form.factory']->create(new \Aperophp\Form\DrinkCommentType(), null, array('user' => $oUser));
+            $form = $app['form.factory']->create('drink_comment');
 
             $form->bindRequest($request);
-            if ($form->isValid())
-            {
+            if ($form->isValid()) {
                 $data = $form->getData();
 
-                if ($oUser && $oUser->getId() != $data['user_id'])
-                {
-                    throw new \Exception('Une erreur est survenue, il se peut que vous vous soyez connecté entre temps');
+                // If user is not authenticated, a user is created.
+                if (!$app['session']->has('user')) {
+                    $app['users']->insert($data['user']);
+                    $data['user']['id'] = $app['users']->lastInsertId();
+                    $app['session']->set('user', $data['user']);
                 }
 
-                if (!$oUser && $data['user_id'])
-                {
-                    throw new \Exception('Une erreur est survenue, il se peut que vous ayez perdu votre session');
-                }
+                $user = $app['session']->get('user');
 
-                $app['db']->beginTransaction();
+                $app['drink_comments']->insert(array(
+                    'content'    => $data['content'],
+                    'user_id'    => $user['id'],
+                    'drink_id'   => $drinkId,
+                    'created_at' => date('c'),
+                ));
 
-                try
-                {
-                    // If member is not authenticated, a user is created.
-                    if (!$oUser)
-                    {
-                        $oUser = new Model\User($app['db']);
-                        $oUser
-                            ->setEmail($data['email'])
-                            ->setFirstname($data['firstname'])
-                            ->setLastname($data['lastname'])
-                            ->save();
-                    }
+                $app['session']->setFlash('success', 'Votre commentaire a été posté avec succès.');
 
-                    // Save user's comment on this Drink.
-                    $oDrinkComment = new Model\DrinkComment($app['db']);
-                    $oDrinkComment
-                        ->setContent($data['content'])
-                        ->setCreatedAt(date('c'))
-                        ->setUserId($oUser->getId())
-                        ->setDrinkId($drink_id)
-                        ->save();
-
-                    $app['db']->commit();
-                }
-                catch (Exception $e)
-                {
-                    $app['db']->rollback();
-                    throw $e;
-                }
-
-                return $request->isXmlHttpRequest() ? 'redirect' : $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drink_id)));
+                return $request->isXmlHttpRequest() ? 'redirect' : $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
             }
 
             return $app['twig']->render('comment/new.html.twig', array(
                 'form' => $form->createView(),
-                'drink' => $oDrink,
+                'drink' => $drink,
             ));
         })->bind('_createcomment');
         // *******
