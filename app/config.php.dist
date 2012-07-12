@@ -18,22 +18,14 @@ $app['secret'] 	= 'change_me_im_not_secret';
 // *******
 // ** Database
 // *******
-// Sqlite
-$app['db.options'] = array(
-    'driver' => 'pdo_sqlite',
-    'path'   => __DIR__.'/../cache/app.db',
-);
-
 // MySQL
-/*
 $app['db.options'] = array(
     'driver'    => 'pdo_mysql',
     'host'      => 'localhost',
     'dbname'    => 'aperophp',
-    'user' 	    => '',
+    'user'      => '',
     'password'  => '',
 );
-*/
 // *******
 
 
