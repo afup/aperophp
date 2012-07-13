@@ -4,10 +4,7 @@ $app['debug']  = true;
 $app['locale'] = 'fr';
 
 $app['db.options'] = array(
-    // Experiencing problems with sqlite...
-    //'driver' => 'pdo_sqlite',
-    //'memory' => true,
-    'driver'   => 'pdo_mysql',
+    'driver' => 'pdo_mysql',
     'dbname'   => 'aperophp_test',
     'user'     => $app['db.options']['user'],
     'password' => $app['db.options']['password'],
