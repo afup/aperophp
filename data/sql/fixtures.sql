@@ -36,7 +36,7 @@ INSERT INTO `User` (`id`, `lastname`, `firstname`, `email`, `token`, `member_id`
 --
 
 INSERT INTO `Drink` (`id`, `place`, `address`, `day`, `hour`, `kind`, `description`, `member_id`, `city_id`, `latitude`, `longitude`) VALUES
-(1, 'Au père tranquille', '16 rue Pierre Lescot, Paris, France', '2012-07-19', '19:30:00', 'drink', 'Apéro PHP de test au père tranquille', 1, 5, '48.86214', '2.34843'),
+(1, 'Au père tranquille', '16 rue Pierre Lescot, Paris, France', '2016-07-19', '19:30:00', 'drink', 'Apéro PHP de test au père tranquille', 1, 5, '48.86214', '2.34843'),
 (2, 'Au père tranquille', '16 rue Pierre Lescot, Paris, France', '2010-07-19', '19:30:00', 'drink', 'Apéro déjà passé.', 1, 5, '48.86214', '2.34843');
 
 --
