@@ -1,5 +1,6 @@
 {
     "name"        : "afup/aperophp",
+    "minimum-stability": "dev",
     "require": {
         "silex/silex"                         : "1.0.*",
         "doctrine/common"                     : "dev-master",
