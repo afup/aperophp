@@ -1,7 +1,9 @@
 # Install
 
     rm -rf vendors/*
-    bin/vendors install
+    php /path/to/composer.phar install
+    app/console db:install
+    app/console db:load-fixtures
 
 ## Vhost example
 
