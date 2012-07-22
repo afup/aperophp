@@ -1,7 +1,10 @@
 # Install
 
-    rm -rf vendors/*
-    bin/vendors install
+    rm -Rf vendor/*
+    php /path/to/composer.phar install
+    cd vendor && git clone https://github.com/michelf/php-markdown.git && cd ..
+    app/console db:install
+    app/console db:load-fixtures
 
 ## Vhost example
 
@@ -33,7 +36,7 @@
 * [DONE] nombre de personnes donc
 * [DONE] enlever sa participation à l'apéro
 * [DONE] pouvoir poster des commentaires
-* pouvoir poster des liens pré et post-apéros (genre les photos)
+* [DONE] pouvoir poster des liens pré et post-apéros (genre les photos)
 * une interface plus jolie que l'acutelle !!! => graphiste alcoolique ami ? twitter bootstrap ?
 * système d'auth:
  * [DONE] un utilisateur s'inscrit à un apéro (pas au site !) avec juste son mail + nom
@@ -57,6 +60,6 @@
 
 # Backlog
 
-* 2012-03-18 - Depuis Twig 1.6.2, tout écran avec un formulaire affiche une liste de notices
+* [DONE] 2012-03-18 - Depuis Twig 1.6.2, tout écran avec un formulaire affiche une liste de notices
 * [DONE] 2012-03-20 - Dans le modèle Drink, la méthode getParticipations() fait du lazy-loading qui implique des requêtes inutiles. Il faut prévoir une méthode getAllJoinParticipations() pour les listes de Drink
 * [DONE] 2012-03-22 - Lors de l'inscription à un apéro en mode non-connecté, lors de la validation du formulaire, rien ne se passe

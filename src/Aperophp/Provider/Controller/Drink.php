@@ -2,6 +2,8 @@
 
 namespace Aperophp\Provider\Controller;
 
+include_once dirname(__FILE__) . '/../../../../vendor/php-markdown/markdown.php';
+
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
@@ -14,7 +16,7 @@ use Aperophp\Repository;
  *
  * @author Mikael Randy <mikael.randy@gmail.com>
  * @since 21 janv. 2012
- * @version 1.3 - 21 mars 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
+ * @version 1.4 - 23 july 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
  */
 class Drink implements ControllerProviderInterface
 {
@@ -164,6 +166,14 @@ class Drink implements ControllerProviderInterface
             $participants = $app['drink_participants']->findByDrinkId($drink['id']);
             $comments = $app['drink_comments']->findByDrinkId($drink['id']);
 
+            $textProcessorClass = MARKDOWN_PARSER_CLASS;
+            $textProcessor = new $textProcessorClass;
+            $textProcessor->no_markup = true;
+            $textProcessor->no_entities = true;
+
+            foreach ($comments as &$comment)
+                $comment['content'] = str_replace('href="javascript:', 'href="', $textProcessor->transform($comment['content']));
+
             $user = $app['session']->get('user');
 
             // First, deal with participation
@@ -181,9 +191,6 @@ class Drink implements ControllerProviderInterface
             $data['reminder'] = (boolean) array_key_exists('reminder', $data)? (boolean) $data['reminder'] : false;
             $participationForm = $app['form.factory']->create('drink_participate', $data);
 
-            // Now, deal with comment
-            //$commentForm = $app['form.factory']->create('drink_comment');
-
 
             // If member is authenticated, prefill form.
             $data = array();
@@ -195,6 +202,8 @@ class Drink implements ControllerProviderInterface
 
             $now = new \Datetime('now');
             $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $drink['day'] . ' ' . $drink['hour']);
+
+            $drink['description'] = str_replace('href="javascript:', 'href="', $textProcessor->transform($drink['description']));
 
             return $app['twig']->render('drink/view.html.twig', array(
                 'drink'             => $drink,
