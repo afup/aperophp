@@ -20,7 +20,7 @@ class DrinkParticipant extends Repository
     {
         $sql = '
             SELECT u.*, p.percentage as percentage,
-            (SELECT username FROM member m WHERE m.id = u.member_id) as username
+            (SELECT username FROM Member m WHERE m.id = u.member_id) as username
             FROM User u, Drink_Participation p
             WHERE p.user_id = u.id
               AND p.drink_id = ?
