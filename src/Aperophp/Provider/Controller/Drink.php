@@ -104,7 +104,9 @@ class Drink implements ControllerProviderInterface
             $drink = $app['drinks']->find($id);
 
             if (!$drink) {
-                $app->abort(404, 'Cet apéro n\'existe pas.');
+                $app['session']->setFlash('error', 'Cet apéro n\'existe pas.');
+
+                return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
             }
 
             $now = new \Datetime('now');
@@ -138,7 +140,11 @@ class Drink implements ControllerProviderInterface
 
                     return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));
                 }
-                $app['session']->setFlash('error', 'Il y a des erreurs dans le formulaire.');
+                else
+                {
+                    $app['session']->setFlash('error', 'Il y a des erreurs dans le formulaire.');
+                    return $app->redirect($app['url_generator']->generate('_editdrink', array('id' => $id)));
+                }
             }
 
             return $app['twig']->render('drink/edit.html.twig', array(
@@ -160,7 +166,9 @@ class Drink implements ControllerProviderInterface
             $drink = $app['drinks']->find($id);
 
             if (!$drink) {
-                $app->abort(404, 'Cet apéro n\'existe pas.');
+                $app['session']->setFlash('error', 'Cet apéro n\'existe pas.');
+
+                return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
             }
 
             $participants = $app['drink_participants']->findByDrinkId($drink['id']);

@@ -34,4 +34,26 @@ class Comment extends Test
                                     ->integer($crawler->filter('blockquote.pull-right')->count())->isEqualTo(3)
         ;
     }
+
+    public function testCommentDrinkWithNoData()
+    {
+        $this->assert
+            ->if($client = $this->createClient())
+            ->then
+                ->if($crawler = $client->request('GET', '/drink/1/view.html'))
+                ->then()
+                    ->boolean($client->getResponse()->isOk())->isTrue()
+                    ->integer($crawler->filter('blockquote.pull-right')->count())->isEqualTo(2)
+                        ->if($form = $crawler->selectButton('comment')->form())
+                        ->then()
+                            ->if($crawler = $client->submit($form, array(
+                                'drink_comment[user][firstname]' => '',
+                                'drink_comment[user][lastname]'  => '',
+                                'drink_comment[user][email]'     => '',
+                                'drink_comment[content]'         => '',
+                            )))
+                            ->then()
+                                ->boolean($client->getResponse()->isRedirect('/drink/1/view.html'))->isFalse()
+        ;
+    }
 }

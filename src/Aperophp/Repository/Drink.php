@@ -33,7 +33,7 @@ class Drink extends Repository
               AND u.member_id = m.id
               AND d.city_id = c.id
             ORDER BY day DESC
-            LIMIT %s
+            LIMIT %d
         ', $limit);
 
         return $this->db->fetchAll($sql);

@@ -167,10 +167,11 @@ class Member implements ControllerProviderInterface
                     }
 
                     $app['session']->setFlash('success', 'Votre compte a été modifié avec succès.');
-
-                    return $app->redirect($app['url_generator']->generate('_editmember'));
                 }
-                $app['session']->setFlash('error', 'Quelque chose n\'est pas valide');
+                else
+                    $app['session']->setFlash('error', 'Quelque chose n\'est pas valide');
+
+                return $app->redirect($app['url_generator']->generate('_editmember'));
             }
 
             return $app['twig']->render('member/edit.html.twig', array(

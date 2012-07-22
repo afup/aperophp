@@ -29,7 +29,9 @@ class Participate implements ControllerProviderInterface
             $drink = $app['drinks']->find($drinkId);
 
             if (!$drink) {
-                $app->abort(404, 'Cet événement n\'existe pas.');
+                $app['session']->setFlash('error', 'Cet apéro n\'existe pas.');
+
+                return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
             }
 
             $now = new \Datetime('now');
@@ -114,7 +116,9 @@ class Participate implements ControllerProviderInterface
             $drink = $app['drinks']->find($drinkId);
 
             if (!$drink) {
-                $app->abort(404, 'Cet événement n\'existe pas.');
+                $app['session']->setFlash('error', 'Cet apéro n\'existe pas.');
+
+                return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
             }
 
             $now = new \Datetime('now');

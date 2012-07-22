@@ -8,6 +8,26 @@ use Aperophp\Test\Test;
 
 class Drink extends Test
 {
+    public function testFindAllNull()
+    {
+        $this->assert
+            ->if($drinks = $this->app['drinks']->findAll())
+            ->then
+                ->boolean(is_array($drinks))->isTrue()
+                ->integer(count($drinks))->isEqualTo(2)
+            ;
+
+        foreach ($drinks as $drink) {
+            $this->assert
+                ->boolean(is_array($drink))->isTrue()
+                ->boolean(array_key_exists('participants_count', $drink))->isTrue()
+                ->boolean(array_key_exists('organizer_username', $drink))->isTrue()
+                ->boolean(array_key_exists('organizer_email', $drink))->isTrue()
+                ->boolean(array_key_exists('city_name', $drink))->isTrue()
+            ;
+        }
+    }
+
     public function testFindAll()
     {
         $this->assert

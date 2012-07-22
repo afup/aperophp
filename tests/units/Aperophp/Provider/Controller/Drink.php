@@ -39,7 +39,7 @@ class Drink extends Test
                                 'drink[address]'     => '16 Rue Pierre Lescot, Paris, France',
                                 'drink[latitude]'    => '48.86214',
                                 'drink[longitude]'   => '2.34843',
-                                'drink[day]'         => '2012-07-19',
+                                'drink[day]'         => '2016-07-19',
                             )))
                             ->then()
                                 ->boolean($client->getResponse()->isRedirect('/drink/'))->isTrue()
@@ -84,7 +84,7 @@ class Drink extends Test
                                 'drink[address]'     => '16 Rue Pierre Lescot, Paris, France',
                                 'drink[latitude]'    => '48.86214',
                                 'drink[longitude]'   => '2.34843',
-                                'drink[day]'         => '2012-07-20',
+                                'drink[day]'         => '2016-07-20',
                             )))
                             ->then()
                                 ->boolean($client->getResponse()->isRedirect('/drink/1/view.html'))->isTrue()
@@ -92,7 +92,38 @@ class Drink extends Test
                                 ->then()
                                     ->boolean($client->getResponse()->isOk())->isTrue()
                                     ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
-                                    ->integer($crawler->filter('p.description:contains("[Edited]")')->count())->isEqualTo(1)
+                                    ->integer($crawler->filter('p:contains("[Edited]")')->count())->isEqualTo(1)
+        ;
+    }
+
+    public function testEditDrink_withBadData_isUpdated()
+    {
+        $this->assert
+            ->if($client = $this->createClient())
+            ->then
+                ->if(true == $client->connect())
+                ->then()
+                    ->if($crawler = $client->request('GET', '/drink/1/edit.html'))
+                    ->then()
+                        ->boolean($client->getResponse()->isOk())->isTrue()
+                        ->if($form = $crawler->selectButton('update')->form())
+                        ->then()
+                            ->if($crawler = $client->submit($form, array(
+                                'drink[hour]'        => '00:00:00',
+                                'drink[description]' => '',
+                                'drink[city_id]'     => '5',
+                                'drink[place]'       => '',
+                                'drink[address]'     => '',
+                                'drink[latitude]'    => '',
+                                'drink[longitude]'   => '',
+                                'drink[day]'         => '',
+                            )))
+                            ->then()
+                                ->boolean($client->getResponse()->isRedirect('/drink/1/edit.html'))->isTrue()
+                                ->if($crawler = $client->followRedirect())
+                                ->then()
+                                    ->boolean($client->getResponse()->isOk())->isTrue()
+                                    ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
         ;
     }
 
@@ -147,7 +178,11 @@ class Drink extends Test
             ->then
                 ->if($crawler = $client->request('GET', '/drink/1456/edit.html'))
                 ->then()
-                    ->boolean($client->getResponse()->isNotFound())->isTrue()
+                    ->boolean($client->getResponse()->isRedirect('/drink/'))->isTrue()
+                    ->if($crawler = $client->followRedirect())
+                    ->then()
+                        ->boolean($client->getResponse()->isOk())->isTrue()
+                        ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
         ;
     }
 
@@ -180,7 +215,11 @@ class Drink extends Test
             ->then
                 ->if($crawler = $client->request('GET', '/drink/987/view.html'))
                 ->then()
-                    ->boolean($client->getResponse()->isNotFound())->isTrue()
+                    ->boolean($client->getResponse()->isRedirect('/drink/'))->isTrue()
+                    ->if($crawler = $client->followRedirect())
+                    ->then()
+                        ->boolean($client->getResponse()->isOk())->isTrue()
+                        ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
         ;
     }
 }
