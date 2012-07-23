@@ -80,9 +80,11 @@ class Drink implements ControllerProviderInterface
                     $data['kind']      = Repository\Drink::KIND_DRINK;
 
                     $app['drinks']->insert($data);
+                    $id = $app['drinks']->lastInsertId();
+
                     $app['session']->setFlash('success', 'L\'apéro a été créé avec succès.');
 
-                    return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
+                    return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));
                 }
             }
 
@@ -214,7 +216,10 @@ class Drink implements ControllerProviderInterface
                 'isFinished'        => $now > $dDrink,
                 'isParticipating'   => $isParticipating
             ));
-        })->value('email', null)->value('token', null)->bind('_showdrink');
+        })
+        ->value('email', null)
+        ->value('token', null)
+        ->bind('_showdrink');
         // *******
 
         return $controllers;
