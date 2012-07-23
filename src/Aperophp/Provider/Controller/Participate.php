@@ -53,13 +53,24 @@ class Participate implements ControllerProviderInterface
 
                 if (null === $user) {
                     $data['user']['token'] = sha1(md5(rand()).microtime(true).md5(rand()));
-                    $app['users']->insert($data['user']);
+                    try {
+                        $app['users']->insert($data['user']);
+                    } catch (\Exception $e) {
+                        $app['db']->rollback();
+                        $app->abort(500, 'Un requête n\a pas pu s\'exécuter.');
+                    }
+
                     // Load User in session
                     $id = $app['users']->lastInsertId();
                     $user = $app['users']->find($id);
                     $app['session']->set('user', $user);
                 } elseif (null === $member) {
-                    $app['users']->update($data['user'], array('id' => $user['id']));
+                    try {
+                        $app['users']->update($data['user'], array('id' => $user['id']));
+                    } catch (\Exception $e) {
+                        $app['db']->rollback();
+                        $app->abort(500, 'Un requête n\a pas pu s\'exécuter.');
+                    }
                 }
 
                 // Already participating?
@@ -67,10 +78,16 @@ class Participate implements ControllerProviderInterface
                 if (false !== $participation) {
                     $participation['percentage'] = $data['percentage'];
                     $participation['reminder'] = $data['reminder'];
-                    $app['drink_participants']->update($participation, array(
-                        'drink_id' => $drinkId,
-                        'user_id' => $user['id'],
-                    ));
+                    try {
+                        $app['drink_participants']->update($participation, array(
+                            'drink_id' => $drinkId,
+                            'user_id' => $user['id'],
+                        ));
+                    } catch (\Exception $e) {
+                        $app['db']->rollback();
+                        $app->abort(500, 'Un requête n\a pas pu s\'exécuter.');
+                    }
+
                     $app['session']->setFlash('success', 'Participation modifiée.');
 
                     return $returnValue;
@@ -80,7 +97,13 @@ class Participate implements ControllerProviderInterface
                 $participation['reminder'] = (boolean) $data['reminder'];
                 $participation['user_id'] = $user['id'];
                 $participation['drink_id'] = $drinkId;
-                $app['drink_participants']->insert($participation);
+                try {
+                    $app['drink_participants']->insert($participation);
+                } catch (\Exception $e) {
+                    $app['db']->rollback();
+                    $app->abort(500, 'Un requête n\a pas pu s\'exécuter.');
+                }
+
                 $app['session']->setFlash('success', 'Participation ajoutée.');
 
                 $app['mailer']->send($app['mailer']
@@ -150,10 +173,15 @@ class Participate implements ControllerProviderInterface
                 return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
             }
 
-            $app['drink_participants']->delete(array(
-                'drink_id' => $participation['drink_id'],
-                'user_id' => $participation['user_id']
-            ));
+            try {
+                $app['drink_participants']->delete(array(
+                    'drink_id' => $participation['drink_id'],
+                    'user_id' => $participation['user_id']
+                ));
+            } catch (\Exception $e) {
+                $app['db']->rollback();
+                $app->abort(500, 'Un requête n\a pas pu s\'exécuter.');
+            }
 
             $app['session'] ->setFlash('success', 'Participation supprimée avec succès.');
 

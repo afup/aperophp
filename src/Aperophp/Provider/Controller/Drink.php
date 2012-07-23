@@ -79,7 +79,12 @@ class Drink implements ControllerProviderInterface
                     $data['member_id'] = $member['id'];
                     $data['kind']      = Repository\Drink::KIND_DRINK;
 
-                    $app['drinks']->insert($data);
+                    try {
+                        $app['drinks']->insert($data);
+                    } catch (\Exception $e) {
+                        $app['db']->rollback();
+                        $app->abort(500, 'Un requête n\a pas pu s\'exécuter.');
+                    }
                     $app['session']->setFlash('success', 'L\'apéro a été créé avec succès.');
 
                     return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $app['drinks']->lastInsertId())));
@@ -132,7 +137,12 @@ class Drink implements ControllerProviderInterface
                     $data['member_id'] = $member['id'];
                     $data['kind']      = Repository\Drink::KIND_DRINK;
 
+                    try {
                     $app['drinks']->update($data, array('id' => $drink['id']));
+                    } catch (\Exception $e) {
+                        $app['db']->rollback();
+                        $app->abort(500, 'Un requête n\a pas pu s\'exécuter.');
+                    }
                     $app['session']->setFlash('success', 'L\'apéro a été modifié avec succès.');
 
                     return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));

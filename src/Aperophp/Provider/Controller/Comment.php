@@ -39,19 +39,29 @@ class Comment implements ControllerProviderInterface
 
                 // If user is not authenticated, a user is created.
                 if (!$app['session']->has('user')) {
-                    $app['users']->insert($data['user']);
-                    $data['user']['id'] = $app['users']->lastInsertId();
-                    $app['session']->set('user', $data['user']);
+                    try {
+                        $app['users']->insert($data['user']);
+                        $data['user']['id'] = $app['users']->lastInsertId();
+                        $app['session']->set('user', $data['user']);
+                    } catch (\Exception $e) {
+                        $app['db']->rollback();
+                        $app->abort(500, 'Un requête n\a pas pu s\'exécuter.');
+                    }
                 }
 
                 $user = $app['session']->get('user');
 
-                $app['drink_comments']->insert(array(
-                    'content'    => $data['content'],
-                    'user_id'    => $user['id'],
-                    'drink_id'   => $drinkId,
-                    'created_at' => date('c'),
-                ));
+                try {
+                    $app['drink_comments']->insert(array(
+                        'content'    => $data['content'],
+                        'user_id'    => $user['id'],
+                        'drink_id'   => $drinkId,
+                        'created_at' => date('c'),
+                    ));
+                } catch (\Exception $e) {
+                    $app['db']->rollback();
+                    $app->abort(500, 'Un requête n\a pas pu s\'exécuter.');
+                }
 
                 $app['session']->setFlash('success', 'Votre commentaire a été posté avec succès.');
 

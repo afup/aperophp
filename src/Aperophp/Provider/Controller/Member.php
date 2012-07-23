@@ -96,9 +96,9 @@ class Member implements ControllerProviderInterface
                         $app['users']->insert($data['user']);
 
                         $app['db']->commit();
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         $app['db']->rollback();
-                        throw $e;
+                        $app->abort(500, 'Un requête n\a pas pu s\'exécuter.');
                     }
 
                     $app['session']->setFlash('success', 'Votre compte a été créé avec succès.');
@@ -161,9 +161,9 @@ class Member implements ControllerProviderInterface
                         $app['session']->set('user', $user);
 
                         $app['db']->commit();
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         $app['db']->rollback();
-                        throw $e;
+                        $app->abort(500, 'Un requête n\a pas pu s\'exécuter.');
                     }
 
                     $app['session']->setFlash('success', 'Votre compte a été modifié avec succès.');
