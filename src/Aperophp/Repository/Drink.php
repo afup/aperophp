@@ -2,6 +2,9 @@
 
 namespace Aperophp\Repository;
 
+/**
+ * Drink repository
+ */
 class Drink extends Repository
 {
     const KIND_DRINK        = 'drink';
@@ -32,13 +35,47 @@ class Drink extends Repository
             WHERE d.member_id = m.id
               AND u.member_id = m.id
               AND d.city_id = c.id
-            ORDER BY day DESC
+            ORDER BY day ASC
             LIMIT %s
         ', $limit);
 
         return $this->db->fetchAll($sql);
     }
 
+    /**
+     * Find futur drinks order by day, with participants
+     */
+    public function findNext($limit = null)
+    {
+        if (null === $limit) {
+            $limit = 3;
+        }
+        
+        $today = new \DateTime();
+
+        $sql  = sprintf(
+            'SELECT d.*, m.username as organizer_username, u.email as organizer_email, c.name as city_name,
+                (SELECT COUNT(*) FROM Drink_Participation WHERE drink_id = d.id) as participants_count
+            FROM Drink d, Member m, User u, City c
+            WHERE d.member_id = m.id
+              AND u.member_id = m.id
+              AND d.city_id = c.id
+              AND d.day >= "%s"
+              ORDER BY day ASC
+            LIMIT %s
+        ',
+        $today->format('Y-m-d') ,
+        $limit);
+
+        return $this->db->fetchAll($sql);
+    }
+
+    /**
+     * Load a specific drink
+     *
+     * @param integer $id
+     * @return array
+     */
     public function find($id)
     {
         $sql  =
