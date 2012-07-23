@@ -30,6 +30,8 @@ class Participate extends Test
                                     ->then()
                                         ->boolean($client->getResponse()->isOk())->isTrue()
                                         ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
+                                        ->integer($crawler->filter('a#participation_edit')->count())->isEqualTo(1)
+                                        ->integer($crawler->filter('a#participation_delete')->count())->isEqualTo(1)
                                         // Now, I participate to the drink.
                                         // CHeck if all fields have been prefilled
                                         ->string($crawler->filter('input#drink_participate_percentage')->first()->attr('value'))->isEqualTo('90')
@@ -46,6 +48,26 @@ class Participate extends Test
                                                 ->boolean($client->getResponse()->isOk())->isTrue()
                                                 ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
                                                 ->string($crawler->filter('input#drink_participate_percentage')->first()->attr('value'))->isEqualTo('70')
+                                                ->integer($crawler->filter('a#participation_edit')->count())->isEqualTo(1)
+                                                ->integer($crawler->filter('a#participation_delete')->count())->isEqualTo(1)
+                                                // Delete an existing participation
+                                                ->if($crawler = $client->request('GET', '/drink/participation/1/delete.html'))
+                                                ->then()
+                                                    ->boolean($client->getResponse()->isRedirect('/drink/1/view.html'))->isTrue()
+                                                    ->if($crawler = $client->followRedirect())
+                                                    ->then()
+                                                        ->boolean($client->getResponse()->isOk())->isTrue()
+                                                        ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
+                                                        ->integer($crawler->filter('a#participation_edit')->count())->isEqualTo(0)
+                                                        ->integer($crawler->filter('a#participation_delete')->count())->isEqualTo(0)
+                                                        // Delete a non-existing participation
+                                                        ->if($crawler = $client->request('GET', '/drink/participation/1/delete.html'))
+                                                        ->then()
+                                                            ->boolean($client->getResponse()->isRedirect('/drink/1/view.html'))->isTrue()
+                                                            ->if($crawler = $client->followRedirect())
+                                                            ->then()
+                                                                ->boolean($client->getResponse()->isOk())->isTrue()
+                                                                ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
         ;
     }
 
@@ -73,6 +95,8 @@ class Participate extends Test
                                     ->boolean($client->getResponse()->isOk())->isTrue()
                                     ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
                                     // Now, I participate to the drink.
+                                    ->integer($crawler->filter('a#participation_edit')->count())->isEqualTo(1)
+                                    ->integer($crawler->filter('a#participation_delete')->count())->isEqualTo(1)
                                     // CHeck if all fields have been prefilled
                                     ->string($crawler->filter('input#drink_participate_user_firstname')->first()->attr('value'))->isEqualTo('Foo')
                                     ->string($crawler->filter('input#drink_participate_user_lastname')->first()->attr('value'))->isEqualTo('Bar')
@@ -94,8 +118,54 @@ class Participate extends Test
                                             ->boolean($client->getResponse()->isOk())->isTrue()
                                             ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
                                             ->string($crawler->filter('input#drink_participate_percentage')->first()->attr('value'))->isEqualTo('70')
+                                            ->integer($crawler->filter('a#participation_edit')->count())->isEqualTo(1)
+                                            ->integer($crawler->filter('a#participation_delete')->count())->isEqualTo(1)
+                                            // Delete an existing participation
+                                            ->if($crawler = $client->request('GET', '/drink/participation/1/delete.html'))
+                                            ->then()
+                                                ->boolean($client->getResponse()->isRedirect('/drink/1/view.html'))->isTrue()
+                                                ->if($crawler = $client->followRedirect())
+                                                ->then()
+                                                    ->boolean($client->getResponse()->isOk())->isTrue()
+                                                    ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
+                                                    ->integer($crawler->filter('a#participation_edit')->count())->isEqualTo(0)
+                                                    ->integer($crawler->filter('a#participation_delete')->count())->isEqualTo(0)
+                                                    // Delete a non-existing participation
+                                                    ->if($crawler = $client->request('GET', '/drink/participation/1/delete.html'))
+                                                    ->then()
+                                                        ->boolean($client->getResponse()->isRedirect('/drink/1/view.html'))->isTrue()
+                                                        ->if($crawler = $client->followRedirect())
+                                                        ->then()
+                                                            ->boolean($client->getResponse()->isOk())->isTrue()
+                                                            ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
         ;
 
+    }
 
+    public function testDelete_withUnknowDrink_isRedirectedTo404()
+    {
+        $this->assert
+            ->if($client = $this->createClient())
+            ->then
+                ->if($crawler = $client->request('GET', '/drink/participation/42/delete.html'))
+                ->then()
+                    ->boolean($client->getResponse()->isNotFound())->isTrue()
+                    ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
+        ;
+    }
+
+    public function testDelete_withFinishedDrink_isRedirectedToDrink()
+    {
+        $this->assert
+            ->if($client = $this->createClient())
+            ->then
+                ->if($crawler = $client->request('GET', '/drink/participation/2/delete.html'))
+                ->then()
+                    ->boolean($client->getResponse()->isRedirect('/drink/2/view.html'))->isTrue()
+                    ->if($crawler = $client->followRedirect())
+                    ->then()
+                        ->boolean($client->getResponse()->isOk())->isTrue()
+                        ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
+        ;
     }
 }

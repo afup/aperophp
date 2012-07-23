@@ -25,4 +25,48 @@ class DrinkParticipant extends Test
                 ->boolean($participation)->isFalse()
         ;
     }
+
+    public function testFindByDrinkId_withExistingEntry_returnArray()
+    {
+        $this->assert
+            ->if($participation = $this->app['drink_participants']->findByDrinkId(1))
+            ->then
+                ->if(is_array($participation))
+                ->then
+                    ->boolean(2 == count($participation))->isTrue()
+        ;
+    }
+
+    public function testFindByDrinkId_withUknownEntry_returnArray()
+    {
+        $this->assert
+            ->if($participation = $this->app['drink_participants']->findByDrinkId(42))
+            ->then
+                ->if(is_array($participation))
+                ->then
+                    ->boolean(0 == count($participation))->isTrue()
+        ;
+    }
+
+    public function testFindByUserId_withExistingEntry_returnArray()
+    {
+        $this->assert
+            ->if($participation = $this->app['drink_participants']->findDrinksByUserId(1))
+            ->then
+                ->if(is_array($participation))
+                ->then
+                    ->boolean(1 == count($participation))->isTrue()
+        ;
+    }
+
+    public function testFindByUserId_withUknownEntry_returnArray()
+    {
+        $this->assert
+            ->if($participation = $this->app['drink_participants']->findDrinksByUserId(42))
+            ->then
+                ->if(is_array($participation))
+                ->then
+                    ->boolean(0 == count($participation))->isTrue()
+        ;
+    }
 }
