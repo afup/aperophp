@@ -178,11 +178,8 @@ class Drink extends Test
             ->then
                 ->if($crawler = $client->request('GET', '/drink/1456/edit.html'))
                 ->then()
-                    ->boolean($client->getResponse()->isRedirect('/drink/'))->isTrue()
-                    ->if($crawler = $client->followRedirect())
-                    ->then()
-                        ->boolean($client->getResponse()->isOk())->isTrue()
-                        ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
+                    ->boolean($client->getResponse()->isNotFound())->isTrue()
+                    ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
         ;
     }
 
@@ -215,11 +212,8 @@ class Drink extends Test
             ->then
                 ->if($crawler = $client->request('GET', '/drink/987/view.html'))
                 ->then()
-                    ->boolean($client->getResponse()->isRedirect('/drink/'))->isTrue()
-                    ->if($crawler = $client->followRedirect())
-                    ->then()
-                        ->boolean($client->getResponse()->isOk())->isTrue()
-                        ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
+                    ->boolean($client->getResponse()->isNotFound())->isTrue()
+                    ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
         ;
     }
 }

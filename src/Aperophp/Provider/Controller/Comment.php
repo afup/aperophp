@@ -28,11 +28,8 @@ class Comment implements ControllerProviderInterface
         {
             $drink = $app['drinks']->find($drinkId);
 
-            if (!$drink) {
-                $app['session']->setFlash('error', 'Cet apéro n\'existe pas.');
-
-                return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
-            }
+            if (!$drink)
+                $app->abort(404, 'Cet apéro n\'existe pas.');
 
             $form = $app['form.factory']->create('drink_comment');
 
