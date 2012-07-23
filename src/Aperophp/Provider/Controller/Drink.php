@@ -82,7 +82,7 @@ class Drink implements ControllerProviderInterface
                     $app['drinks']->insert($data);
                     $app['session']->setFlash('success', 'L\'apéro a été créé avec succès.');
 
-                    return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
+                    return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $app['drinks']->lastInsertId())));
                 }
             }
 

@@ -42,10 +42,11 @@ class Drink extends Test
                                 'drink[day]'         => '2016-07-19',
                             )))
                             ->then()
-                                ->boolean($client->getResponse()->isRedirect('/drink/'))->isTrue()
+                                ->boolean($client->getResponse()->isRedirect())->isTrue()
                                 ->if($crawler = $client->followRedirect())
                                 ->then()
                                     ->boolean($client->getResponse()->isOk())->isTrue()
+                                    ->integer(preg_match('#^/drink/(\d+)/view\.html$#', $client->getRequest()->getRequestUri()))->isEqualTo(1)
                                     ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
         ;
     }
