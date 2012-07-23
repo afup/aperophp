@@ -15,7 +15,7 @@ class Participate extends Test
             ->then
                 ->if(true === $client->connect())
                 ->then
-                    ->if($crawler = $client->request('GET', '/drink/1/view.html'))
+                    ->if($crawler = $client->request('GET', '/1/view.html'))
                     ->then()
                         ->boolean($client->getResponse()->isOk())->isTrue()
                             ->if($form = $crawler->selectButton('participate')->form())
@@ -25,7 +25,7 @@ class Participate extends Test
                                     'drink_participate[reminder]'        => true,
                                 )))
                                 ->then()
-                                    ->boolean($client->getResponse()->isRedirect('/drink/1/view.html'))->isTrue()
+                                    ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
                                     ->if($crawler = $client->followRedirect())
                                     ->then()
                                         ->boolean($client->getResponse()->isOk())->isTrue()
@@ -40,7 +40,7 @@ class Participate extends Test
                                             'drink_participate[reminder]'        => true,
                                         )))
                                         ->then()
-                                            ->boolean($client->getResponse()->isRedirect('/drink/1/view.html'))->isTrue()
+                                            ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
                                             ->if($crawler = $client->followRedirect())
                                             ->then()
                                                 ->boolean($client->getResponse()->isOk())->isTrue()
@@ -54,7 +54,7 @@ class Participate extends Test
         $this->assert
             ->if($client = $this->createClient())
             ->then
-                ->if($crawler = $client->request('GET', '/drink/1/view.html'))
+                ->if($crawler = $client->request('GET', '/1/view.html'))
                 ->then()
                     ->boolean($client->getResponse()->isOk())->isTrue()
                         ->if($form = $crawler->selectButton('participate')->form())
@@ -67,7 +67,7 @@ class Participate extends Test
                                 'drink_participate[reminder]'        => true,
                             )))
                             ->then()
-                                ->boolean($client->getResponse()->isRedirect('/drink/1/view.html'))->isTrue()
+                                ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
                                 ->if($crawler = $client->followRedirect())
                                 ->then()
                                     ->boolean($client->getResponse()->isOk())->isTrue()
@@ -88,7 +88,7 @@ class Participate extends Test
                                         'drink_participate[reminder]'        => true,
                                     )))
                                     ->then()
-                                        ->boolean($client->getResponse()->isRedirect('/drink/1/view.html'))->isTrue()
+                                        ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
                                         ->if($crawler = $client->followRedirect())
                                         ->then()
                                             ->boolean($client->getResponse()->isOk())->isTrue()
