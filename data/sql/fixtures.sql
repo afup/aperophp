@@ -53,4 +53,4 @@ INSERT INTO `Drink_Participation` (`drink_id`, `user_id`, `percentage`, `reminde
 
 INSERT INTO `Drink_Comment` (`id`, `created_at`, `content`, `drink_id`, `user_id`) VALUES
 (1, '2012-07-03 21:56:06', 'c\'est génial !', 1, 2),
-(2, '2012-07-03 21:57:17', 'Je suis bien d\accord.', 1, 3);
+(2, '2012-07-03 21:57:17', 'Je suis bien d\'accord.', 1, 3);

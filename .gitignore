@@ -1,6 +1,7 @@
 ## Application files
 app/config.php
 composer.phar
+composer.lock
 deps.lock
 vendor/*
 
@@ -11,6 +12,8 @@ nbproject/
 .buildpath
 .project
 .settings/
+  # SublimeText
+*.sublime-*
 
 # Backup files
 *.*~
