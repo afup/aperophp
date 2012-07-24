@@ -47,7 +47,7 @@ class Drink implements ControllerProviderInterface
             $app['session']->set('menu', 'listdrinks');
 
             //TODO pagination
-            $drinks = $app['drinks']->findAll(10);
+            $drinks = $app['drinks']->findNext(10);
 
             return $app['twig']->render('drink/list.html.twig', array(
                 'drinks' => $drinks
@@ -226,7 +226,10 @@ class Drink implements ControllerProviderInterface
                 'isFinished'        => $now > $dDrink,
                 'isParticipating'   => $isParticipating
             ));
-        })->value('email', null)->value('token', null)->bind('_showdrink');
+        })
+        ->value('email', null)
+        ->value('token', null)
+        ->bind('_showdrink');
         // *******
 
         return $controllers;

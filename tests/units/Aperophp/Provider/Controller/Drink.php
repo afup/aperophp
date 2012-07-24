@@ -13,7 +13,7 @@ class Drink extends Test
         $this->assert
             ->if($client = $this->createClient())
             ->then
-                ->if($crawler = $client->request('GET', '/drink/'))
+                ->if($crawler = $client->request('GET', '/'))
                 ->then()
                     ->boolean($client->getResponse()->isOk())->isTrue()
         ;
@@ -26,7 +26,7 @@ class Drink extends Test
             ->then
                 ->if(true === $client->connect())
                 ->then()
-                    ->if($crawler = $client->request('GET', '/drink/new.html'))
+                    ->if($crawler = $client->request('GET', '/new.html'))
                     ->then()
                         ->boolean($client->getResponse()->isOk())->isTrue()
                         ->if($form = $crawler->selectButton('create')->form())
@@ -46,7 +46,7 @@ class Drink extends Test
                                 ->if($crawler = $client->followRedirect())
                                 ->then()
                                     ->boolean($client->getResponse()->isOk())->isTrue()
-                                    ->integer(preg_match('#^/drink/(\d+)/view\.html$#', $client->getRequest()->getRequestUri()))->isEqualTo(1)
+                                    ->integer(preg_match('#^/(\d+)/view\.html$#', $client->getRequest()->getRequestUri()))->isEqualTo(1)
                                     ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
         ;
     }
@@ -56,7 +56,7 @@ class Drink extends Test
         $this->assert
             ->if($client = $this->createClient())
             ->then
-                ->if($crawler = $client->request('GET', '/drink/new.html'))
+                ->if($crawler = $client->request('GET', '/new.html'))
                 ->then()
                     ->boolean($client->getResponse()->isRedirect('/member/signin.html'))->isTrue()
                         ->if($crawler = $client->followRedirect())
@@ -72,7 +72,7 @@ class Drink extends Test
             ->then
                 ->if(true == $client->connect())
                 ->then()
-                    ->if($crawler = $client->request('GET', '/drink/1/edit.html'))
+                    ->if($crawler = $client->request('GET', '/1/edit.html'))
                     ->then()
                         ->boolean($client->getResponse()->isOk())->isTrue()
                         ->if($form = $crawler->selectButton('update')->form())
@@ -88,7 +88,7 @@ class Drink extends Test
                                 'drink[day]'         => '2016-07-20',
                             )))
                             ->then()
-                                ->boolean($client->getResponse()->isRedirect('/drink/1/view.html'))->isTrue()
+                                ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
                                 ->if($crawler = $client->followRedirect())
                                 ->then()
                                     ->boolean($client->getResponse()->isOk())->isTrue()
@@ -104,7 +104,7 @@ class Drink extends Test
             ->then
                 ->if(true == $client->connect())
                 ->then()
-                    ->if($crawler = $client->request('GET', '/drink/1/edit.html'))
+                    ->if($crawler = $client->request('GET', '/1/edit.html'))
                     ->then()
                         ->boolean($client->getResponse()->isOk())->isTrue()
                         ->if($form = $crawler->selectButton('update')->form())
@@ -120,7 +120,7 @@ class Drink extends Test
                                 'drink[day]'         => '',
                             )))
                             ->then()
-                                ->boolean($client->getResponse()->isRedirect('/drink/1/edit.html'))->isTrue()
+                                ->boolean($client->getResponse()->isRedirect('/1/edit.html'))->isTrue()
                                 ->if($crawler = $client->followRedirect())
                                 ->then()
                                     ->boolean($client->getResponse()->isOk())->isTrue()
@@ -133,7 +133,7 @@ class Drink extends Test
         $this->assert
             ->if($client = $this->createClient())
             ->then
-                ->if($crawler = $client->request('GET', '/drink/1/edit.html'))
+                ->if($crawler = $client->request('GET', '/1/edit.html'))
                 ->then()
                     ->boolean($client->getResponse()->isRedirect('/member/signin.html'))->isTrue()
                         ->if($crawler = $client->followRedirect())
@@ -149,7 +149,7 @@ class Drink extends Test
             ->then
                 ->if(true == $client->connect('user2', 'password'))
                 ->then
-                    ->if($crawler = $client->request('GET', '/drink/1/edit.html'))
+                    ->if($crawler = $client->request('GET', '/1/edit.html'))
                     ->then()
                         ->boolean($client->getResponse()->isRedirect('/member/signin.html'))->isTrue()
                             ->if($crawler = $client->followRedirect())
@@ -163,9 +163,9 @@ class Drink extends Test
         $this->assert
             ->if($client = $this->createClient())
             ->then
-                ->if($crawler = $client->request('GET', '/drink/2/edit.html'))
+                ->if($crawler = $client->request('GET', '/2/edit.html'))
                 ->then()
-                    ->boolean($client->getResponse()->isRedirect('/drink/2/view.html'))->isTrue()
+                    ->boolean($client->getResponse()->isRedirect('/2/view.html'))->isTrue()
                         ->if($crawler = $client->followRedirect())
                         ->then()
                             ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
@@ -177,7 +177,7 @@ class Drink extends Test
         $this->assert
             ->if($client = $this->createClient())
             ->then
-                ->if($crawler = $client->request('GET', '/drink/1456/edit.html'))
+                ->if($crawler = $client->request('GET', '/1456/edit.html'))
                 ->then()
                     ->boolean($client->getResponse()->isNotFound())->isTrue()
                     ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
@@ -189,7 +189,7 @@ class Drink extends Test
         $this->assert
             ->if($client = $this->createClient())
             ->then
-                ->if($crawler = $client->request('GET', '/drink/list.html'))
+                ->if($crawler = $client->request('GET', '/list.html'))
                 ->then()
                     ->boolean($client->getResponse()->isOk())->isTrue()
         ;
@@ -200,7 +200,7 @@ class Drink extends Test
         $this->assert
             ->if($client = $this->createClient())
             ->then
-                ->if($crawler = $client->request('GET', '/drink/1/view.html'))
+                ->if($crawler = $client->request('GET', '/1/view.html'))
                 ->then()
                     ->boolean($client->getResponse()->isOk())->isTrue()
         ;
@@ -211,7 +211,7 @@ class Drink extends Test
         $this->assert
             ->if($client = $this->createClient())
             ->then
-                ->if($crawler = $client->request('GET', '/drink/987/view.html'))
+                ->if($crawler = $client->request('GET', '/987/view.html'))
                 ->then()
                     ->boolean($client->getResponse()->isNotFound())->isTrue()
                     ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)

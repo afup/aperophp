@@ -15,7 +15,7 @@ class Participate extends Test
             ->then
                 ->if(true === $client->connect())
                 ->then
-                    ->if($crawler = $client->request('GET', '/drink/1/view.html'))
+                    ->if($crawler = $client->request('GET', '/1/view.html'))
                     ->then()
                         ->boolean($client->getResponse()->isOk())->isTrue()
                             ->if($form = $crawler->selectButton('participate')->form())
@@ -25,7 +25,7 @@ class Participate extends Test
                                     'drink_participate[reminder]'        => true,
                                 )))
                                 ->then()
-                                    ->boolean($client->getResponse()->isRedirect('/drink/1/view.html'))->isTrue()
+                                    ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
                                     ->if($crawler = $client->followRedirect())
                                     ->then()
                                         ->boolean($client->getResponse()->isOk())->isTrue()
@@ -42,7 +42,7 @@ class Participate extends Test
                                             'drink_participate[reminder]'        => true,
                                         )))
                                         ->then()
-                                            ->boolean($client->getResponse()->isRedirect('/drink/1/view.html'))->isTrue()
+                                            ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
                                             ->if($crawler = $client->followRedirect())
                                             ->then()
                                                 ->boolean($client->getResponse()->isOk())->isTrue()
@@ -51,9 +51,9 @@ class Participate extends Test
                                                 ->integer($crawler->filter('a#participation_edit')->count())->isEqualTo(1)
                                                 ->integer($crawler->filter('a#participation_delete')->count())->isEqualTo(1)
                                                 // Delete an existing participation
-                                                ->if($crawler = $client->request('GET', '/drink/participation/1/delete.html'))
+                                                ->if($crawler = $client->request('GET', '/participation/1/delete.html'))
                                                 ->then()
-                                                    ->boolean($client->getResponse()->isRedirect('/drink/1/view.html'))->isTrue()
+                                                    ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
                                                     ->if($crawler = $client->followRedirect())
                                                     ->then()
                                                         ->boolean($client->getResponse()->isOk())->isTrue()
@@ -61,9 +61,9 @@ class Participate extends Test
                                                         ->integer($crawler->filter('a#participation_edit')->count())->isEqualTo(0)
                                                         ->integer($crawler->filter('a#participation_delete')->count())->isEqualTo(0)
                                                         // Delete a non-existing participation
-                                                        ->if($crawler = $client->request('GET', '/drink/participation/1/delete.html'))
+                                                        ->if($crawler = $client->request('GET', '/participation/1/delete.html'))
                                                         ->then()
-                                                            ->boolean($client->getResponse()->isRedirect('/drink/1/view.html'))->isTrue()
+                                                            ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
                                                             ->if($crawler = $client->followRedirect())
                                                             ->then()
                                                                 ->boolean($client->getResponse()->isOk())->isTrue()
@@ -76,7 +76,7 @@ class Participate extends Test
         $this->assert
             ->if($client = $this->createClient())
             ->then
-                ->if($crawler = $client->request('GET', '/drink/1/view.html'))
+                ->if($crawler = $client->request('GET', '/1/view.html'))
                 ->then()
                     ->boolean($client->getResponse()->isOk())->isTrue()
                         ->if($form = $crawler->selectButton('participate')->form())
@@ -89,7 +89,7 @@ class Participate extends Test
                                 'drink_participate[reminder]'        => true,
                             )))
                             ->then()
-                                ->boolean($client->getResponse()->isRedirect('/drink/1/view.html'))->isTrue()
+                                ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
                                 ->if($crawler = $client->followRedirect())
                                 ->then()
                                     ->boolean($client->getResponse()->isOk())->isTrue()
@@ -112,7 +112,7 @@ class Participate extends Test
                                         'drink_participate[reminder]'        => true,
                                     )))
                                     ->then()
-                                        ->boolean($client->getResponse()->isRedirect('/drink/1/view.html'))->isTrue()
+                                        ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
                                         ->if($crawler = $client->followRedirect())
                                         ->then()
                                             ->boolean($client->getResponse()->isOk())->isTrue()
@@ -121,9 +121,9 @@ class Participate extends Test
                                             ->integer($crawler->filter('a#participation_edit')->count())->isEqualTo(1)
                                             ->integer($crawler->filter('a#participation_delete')->count())->isEqualTo(1)
                                             // Delete an existing participation
-                                            ->if($crawler = $client->request('GET', '/drink/participation/1/delete.html'))
+                                            ->if($crawler = $client->request('GET', '/participation/1/delete.html'))
                                             ->then()
-                                                ->boolean($client->getResponse()->isRedirect('/drink/1/view.html'))->isTrue()
+                                                ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
                                                 ->if($crawler = $client->followRedirect())
                                                 ->then()
                                                     ->boolean($client->getResponse()->isOk())->isTrue()
@@ -131,9 +131,9 @@ class Participate extends Test
                                                     ->integer($crawler->filter('a#participation_edit')->count())->isEqualTo(0)
                                                     ->integer($crawler->filter('a#participation_delete')->count())->isEqualTo(0)
                                                     // Delete a non-existing participation
-                                                    ->if($crawler = $client->request('GET', '/drink/participation/1/delete.html'))
+                                                    ->if($crawler = $client->request('GET', '/participation/1/delete.html'))
                                                     ->then()
-                                                        ->boolean($client->getResponse()->isRedirect('/drink/1/view.html'))->isTrue()
+                                                        ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
                                                         ->if($crawler = $client->followRedirect())
                                                         ->then()
                                                             ->boolean($client->getResponse()->isOk())->isTrue()
@@ -147,7 +147,7 @@ class Participate extends Test
         $this->assert
             ->if($client = $this->createClient())
             ->then
-                ->if($crawler = $client->request('GET', '/drink/participation/42/delete.html'))
+                ->if($crawler = $client->request('GET', '/participation/42/delete.html'))
                 ->then()
                     ->boolean($client->getResponse()->isNotFound())->isTrue()
                     ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
@@ -159,9 +159,9 @@ class Participate extends Test
         $this->assert
             ->if($client = $this->createClient())
             ->then
-                ->if($crawler = $client->request('GET', '/drink/participation/2/delete.html'))
+                ->if($crawler = $client->request('GET', '/participation/2/delete.html'))
                 ->then()
-                    ->boolean($client->getResponse()->isRedirect('/drink/2/view.html'))->isTrue()
+                    ->boolean($client->getResponse()->isRedirect('/2/view.html'))->isTrue()
                     ->if($crawler = $client->followRedirect())
                     ->then()
                         ->boolean($client->getResponse()->isOk())->isTrue()

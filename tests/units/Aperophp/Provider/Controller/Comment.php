@@ -13,7 +13,7 @@ class Comment extends Test
         $this->assert
             ->if($client = $this->createClient())
             ->then
-                ->if($crawler = $client->request('GET', '/drink/1/view.html'))
+                ->if($crawler = $client->request('GET', '/1/view.html'))
                 ->then()
                     ->boolean($client->getResponse()->isOk())->isTrue()
                     ->integer($crawler->filter('blockquote.pull-right')->count())->isEqualTo(2)
@@ -26,7 +26,7 @@ class Comment extends Test
                                 'drink_comment[content]'         => 'Super apéro.',
                             )))
                             ->then()
-                                ->boolean($client->getResponse()->isRedirect('/drink/1/view.html'))->isTrue()
+                                ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
                                 ->if($crawler = $client->followRedirect())
                                 ->then()
                                     ->boolean($client->getResponse()->isOk())->isTrue()
@@ -40,7 +40,7 @@ class Comment extends Test
         $this->assert
             ->if($client = $this->createClient())
             ->then
-                ->if($crawler = $client->request('GET', '/drink/1/view.html'))
+                ->if($crawler = $client->request('GET', '/1/view.html'))
                 ->then()
                     ->boolean($client->getResponse()->isOk())->isTrue()
                     ->integer($crawler->filter('blockquote.pull-right')->count())->isEqualTo(2)
