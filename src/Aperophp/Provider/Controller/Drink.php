@@ -31,7 +31,7 @@ class Drink implements ControllerProviderInterface
         {
             $app['session']->set('menu', 'home');
 
-            $drinks = $app['drinks']->findAll(3);
+            $drinks = $app['drinks']->findNext(3);
 
             return $app['twig']->render('drink/index.html.twig', array(
                 'drinks' => $drinks

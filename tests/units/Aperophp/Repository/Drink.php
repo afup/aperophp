@@ -48,6 +48,26 @@ class Drink extends Test
         }
     }
 
+    public function testFindNext()
+    {
+        $this->assert
+            ->if($drinks = $this->app['drinks']->findNext())
+            ->then
+                ->boolean(is_array($drinks))->isTrue()
+                ->integer(count($drinks))->isEqualTo(1)
+            ;
+
+        foreach ($drinks as $drink) {
+            $this->assert
+                ->boolean(is_array($drink))->isTrue()
+                ->boolean(array_key_exists('participants_count', $drink))->isTrue()
+                ->boolean(array_key_exists('organizer_username', $drink))->isTrue()
+                ->boolean(array_key_exists('organizer_email', $drink))->isTrue()
+                ->boolean(array_key_exists('city_name', $drink))->isTrue()
+            ;
+        }
+    }
+
     public function testFind_withExistingDrink_returnArray()
     {
         $this->assert

@@ -120,10 +120,8 @@ class Participate implements ControllerProviderInterface
                 return $returnValue;
             }
 
-            return $app['twig']->render('drink/participate.html.twig', array(
-                'participationForm' => $form->createView(),
-                'drink' => $drink,
-            ));
+            $app['session']->setFlash('error', 'Le formulaire de participation est mal remplis.');
+            return $returnValue;
 
         })->bind('_participatedrink');
         // *******

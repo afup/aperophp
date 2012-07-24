@@ -168,4 +168,30 @@ class Participate extends Test
                         ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
         ;
     }
+
+    public function testParticipateToADrink_withUnanonymousUser_badData()
+    {
+        $this->assert
+            ->if($client = $this->createClient())
+            ->then
+                ->if($crawler = $client->request('GET', '/1/view.html'))
+                ->then()
+                    ->boolean($client->getResponse()->isOk())->isTrue()
+                        ->if($form = $crawler->selectButton('participate')->form())
+                        ->then()
+                            ->if($crawler = $client->submit($form, array(
+                                'drink_participate[user][firstname]' => '',
+                                'drink_participate[user][lastname]'  => '',
+                                'drink_participate[user][email]'     => '',
+                                'drink_participate[percentage]'      => '',
+                                'drink_participate[reminder]'        => true,
+                            )))
+                            ->then()
+                                ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
+                                ->if($crawler = $client->followRedirect())
+                                ->then()
+                                    ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
+        ;
+
+    }
 }
