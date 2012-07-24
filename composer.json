@@ -17,11 +17,47 @@
         "symfony/css-selector"                : "dev-master",
         "symfony/twig-bridge"                 : "dev-master",
         "swiftmailer/swiftmailer"             : "dev-master",
-        "mageekguy/atoum"                     : "dev-master"
+        "mageekguy/atoum"                     : "dev-master",
+        "twitter/bootstrap"                   : "2.0.4",
+        "FortAwesome/Font-Awesome"            : "master"
     },
     "autoload": {
         "psr-0": {
             "Aperophp": "src/"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "version": "2.0.4",
+                "name": "twitter/bootstrap",
+                "source": {
+                    "url": "https://github.com/twitter/bootstrap.git",
+                    "type": "git",
+                    "reference": "master"
+                },
+                "dist": {
+                    "url": "https://github.com/twitter/bootstrap/zipball/v2.0.4",
+                    "type": "zip"
+                 }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "version": "master",
+                "name": "FortAwesome/Font-Awesome",
+                "source": {
+                    "url": "https://github.com/FortAwesome/Font-Awesome.git",
+                    "type": "git",
+                    "reference": "master"
+                },
+                "dist": {
+                    "url": "https://github.com/FortAwesome/Font-Awesome/zipball/master",
+                    "type": "zip"
+                 }
+            }
+        }
+    ]
 }
