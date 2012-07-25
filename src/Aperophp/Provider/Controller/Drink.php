@@ -83,7 +83,7 @@ class Drink implements ControllerProviderInterface
                         $app['drinks']->insert($data);
                     } catch (\Exception $e) {
                         $app['db']->rollback();
-                        $app->abort(500, 'Un requête n\a pas pu s\'exécuter.');
+                        $app->abort(500, 'Impossible de créer l\'apero. Merci de réessayer plus tard.');
                     }
                     $app['session']->setFlash('success', 'L\'apéro a été créé avec succès.');
 
@@ -141,7 +141,7 @@ class Drink implements ControllerProviderInterface
                     $app['drinks']->update($data, array('id' => $drink['id']));
                     } catch (\Exception $e) {
                         $app['db']->rollback();
-                        $app->abort(500, 'Un requête n\a pas pu s\'exécuter.');
+                        $app->abort(500, 'Impossible de modifier l\'apéro. Merci de réessayer plus tard.');
                     }
                     $app['session']->setFlash('success', 'L\'apéro a été modifié avec succès.');
 

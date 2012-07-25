@@ -45,7 +45,7 @@ class Comment implements ControllerProviderInterface
                         $app['session']->set('user', $data['user']);
                     } catch (\Exception $e) {
                         $app['db']->rollback();
-                        $app->abort(500, 'Un requête n\a pas pu s\'exécuter.');
+                        $app->abort(500, 'Impossible de sauvegarder vos identifiants. Merci de réessayer plus tard.');
                     }
                 }
 
@@ -60,7 +60,7 @@ class Comment implements ControllerProviderInterface
                     ));
                 } catch (\Exception $e) {
                     $app['db']->rollback();
-                    $app->abort(500, 'Un requête n\a pas pu s\'exécuter.');
+                    $app->abort(500, 'Impossible de sauvegarder votre commentaire. Merci de réessayer plus tard.');
                 }
 
                 $app['session']->setFlash('success', 'Votre commentaire a été posté avec succès.');

@@ -98,7 +98,7 @@ class Member implements ControllerProviderInterface
                         $app['db']->commit();
                     } catch (\Exception $e) {
                         $app['db']->rollback();
-                        $app->abort(500, 'Un requête n\a pas pu s\'exécuter.');
+                        $app->abort(500, 'Impossible de vous inscrire. Merci de réessayer plus tard.');
                     }
 
                     $app['session']->setFlash('success', 'Votre compte a été créé avec succès.');
@@ -163,7 +163,7 @@ class Member implements ControllerProviderInterface
                         $app['db']->commit();
                     } catch (\Exception $e) {
                         $app['db']->rollback();
-                        $app->abort(500, 'Un requête n\a pas pu s\'exécuter.');
+                        $app->abort(500, 'Impossible de modifier votre profil. Merci de réessayer plus tard.');
                     }
 
                     $app['session']->setFlash('success', 'Votre compte a été modifié avec succès.');

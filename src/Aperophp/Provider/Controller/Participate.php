@@ -57,7 +57,7 @@ class Participate implements ControllerProviderInterface
                         $app['users']->insert($data['user']);
                     } catch (\Exception $e) {
                         $app['db']->rollback();
-                        $app->abort(500, 'Un requête n\a pas pu s\'exécuter.');
+                        $app->abort(500, 'Impossible de vous créer un compte. Merci de réessayer plus tard.');
                     }
 
                     // Load User in session
@@ -69,7 +69,7 @@ class Participate implements ControllerProviderInterface
                         $app['users']->update($data['user'], array('id' => $user['id']));
                     } catch (\Exception $e) {
                         $app['db']->rollback();
-                        $app->abort(500, 'Un requête n\a pas pu s\'exécuter.');
+                        $app->abort(500, 'Impossible de modifier votre compte. Merci de réessayer plus tard.');
                     }
                 }
 
@@ -85,7 +85,7 @@ class Participate implements ControllerProviderInterface
                         ));
                     } catch (\Exception $e) {
                         $app['db']->rollback();
-                        $app->abort(500, 'Un requête n\a pas pu s\'exécuter.');
+                        $app->abort(500, 'Impossible de sauvegarder votre participation. Merci de réessayer plus tard.');
                     }
 
                     $app['session']->setFlash('success', 'Participation modifiée.');
@@ -101,7 +101,7 @@ class Participate implements ControllerProviderInterface
                     $app['drink_participants']->insert($participation);
                 } catch (\Exception $e) {
                     $app['db']->rollback();
-                    $app->abort(500, 'Un requête n\a pas pu s\'exécuter.');
+                    $app->abort(500, 'Impossible de sauvegarder votre participation. Merci de réessayer plus tard.');
                 }
 
                 $app['session']->setFlash('success', 'Participation ajoutée.');
@@ -178,7 +178,7 @@ class Participate implements ControllerProviderInterface
                 ));
             } catch (\Exception $e) {
                 $app['db']->rollback();
-                $app->abort(500, 'Un requête n\a pas pu s\'exécuter.');
+                $app->abort(500, 'Impossible de sauvegarder votre participation. Merci de réessayer plus tard.');
             }
 
             $app['session'] ->setFlash('success', 'Participation supprimée avec succès.');
