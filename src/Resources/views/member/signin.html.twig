@@ -1,16 +1,40 @@
 {% extends "layout.html.twig" %}
 
 {% block content %}
-<div class="row">
-    <div class="span4 offset6 well">
-        <form method="post" action="{{ url('_signinmember') }}" {{ form_enctype(form) }}>
-            {{ form_row(form.username) }}
-            {{ form_row(form.password) }}
-            {{ form_rest(form) }}
-            <button type="submit" class="btn btn-primary" name="login">Connexion</button>
-        </form>
-        <a href="{{ url('_signupmember') }}">S'inscrire</a> |
-        <a href="{{ url('_forgetmember') }}">Mot de passe &eacute;gar&eacute; ?</a>
+<div class="span6 offset3">
+    <div class="widget widget-nopad">
+        <div class="widget-header">
+            <i class="icon-calendar"></i>
+            <h3>Connexion</h3>
+        </div> <!-- /widget-header -->
+        <div class="widget-content">
+            <form method="post" action="{{ url('_signinmember') }}" class="form-horizontal" {{ form_enctype(form) }}>
+                <fieldset>
+                    <div class="control-group">
+                        <label for="username" class="control-label">Identifiant</label>
+                        <div class="controls">
+                            {{ form_widget(form.username) }}
+                            {{ form_errors(form.username) }}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="password" class="control-label">Mot de passe</label>
+                        <div class="controls">
+                            {{ form_widget(form.password) }}
+                            {{ form_errors(form.password) }}
+                        </div>
+                    </div>
+                </fieldset>
+                {{ form_rest(form) }}
+                <div class="form-actions">
+                    <button class="btn btn-primary" type="submit" name="edit">Me connecter</button>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
+<div class="span6 offset3" style="text-align:center">
+    <a href="{{ url('_signupmember') }}">S'inscrire</a> |
+    <a href="{{ url('_forgetmember') }}">Mot de passe &eacute;gar&eacute; ?</a>
 </div>
 {% endblock %}

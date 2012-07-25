@@ -1,47 +1,40 @@
-<h2>Participants
-    {% if not isFinished %}
-        {% if isParticipating %}
-            <a class="btn pull-right" href="{{ url('_deleteparticipatedrink', {'drinkId': drink.id}) }}">Se d&eacute;sinscrire</a>
-            <a class="btn pull-right" data-toggle="modal" href="#participateModal">Modifier</a>
-        {% else %}
-            {% if not isConnected %}
-                <a class="btn pull-right" href="{{ url('_forgetparticipatedrink', {'drinkId': drink.id}) }}">Jeton perdu ?</a>
-            {% endif %}
-            <a class="btn pull-right" data-toggle="modal" href="#participateModal" >S'inscrire</a>
+<table class="table table-striped table-condensed">
+    <thead>
+        <tr>
+            <th>Participant</th>
+            <th>Pr&eacute;sence</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for participant in participants %}
+            <tr>
+                {% if participant.member_id is not null%}
+                    <td class="vleft">{{ participant.username }}</td>
+                {% else %}
+                    <td class="vleft">{{ participant.email|replace({'@': '[at]'}) }}</td>
+                {% endif %}
+                <td class="vright">{{ participant.percentage }} %</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if not isFinished %}
+    <div class="float:right">
+    {% if isParticipating %}
+        <a class="btn pull-right" href="{{ url('_deleteparticipatedrink', {'drinkId': drink.id}) }}" >Se désinscrire</a>
+        <a class="btn pull-right" data-toggle="modal" href="#participateModal" >Modifier</a>
+    {% else %}
+        {% if not isConnected %}
+            <a class="btn pull-right" href="{{ url('_forgetparticipatedrink', {'drinkId': drink.id}) }}">Jeton perdu ?</a>
         {% endif %}
-
-        <div class="modal hide fade" id="participateModal">
-            {% include 'drink/_participate.html.twig' %}
-        </div>
+        <a class="btn pull-right" data-toggle="modal" href="#participateModal" >S'inscrire</a>
     {% endif %}
-</h2>
+    </div>
 
-<div class="row">
-    <div class="span3 offset0">
-        <table class="table table-striped table-condensed">
-            <thead>
-                <tr>
-                    <th>Participant</th>
-                    <th>Pr&eacute;sence</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for participant in participants %}
-                    <tr>
-                        {% if participant.member_id is not null%}
-                            <td class="vleft">{{ participant.username }}</td>
-                        {% else %}
-                            <td class="vleft">{{ participant.email|replace({'@': '[at]'}) }}</td>
-                        {% endif %}
-                        <td class="vright">{{ participant.percentage }} %</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="modal hide fade" id="participateModal">
+        {% include 'drink/_participate.html.twig' %}
     </div>
-</div>
-<div class="row">
-    <div class="span3 offset0">
-        Total : {{ participants|length }}
-    </div>
-</div>
+{% endif %}
+
+<p>Total : {{ participants|length }}</p>

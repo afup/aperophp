@@ -1,55 +1,60 @@
 {% extends "layout.html.twig" %}
 
 {% block content %}
-<div class="row">
-    <div class="span8 offset4">
-        <form method="post" action="{{ url('_editmember') }}" class="form-horizontal" {{ form_enctype(form) }}>
-            <fieldset>
-                <legend>Mon profil</legend>
-                <div class="control-group {% if form.user.lastname.vars.errors|length %}error{% endif %}">
-                    {{ form_label(form.user.lastname, null, { 'attr': {'class': 'control-label'} }) }}
-                    <div class="controls">
-                        {{ form_widget(form.user.lastname) }}
-                        {{ form_errors(form.user.lastname) }}
-                    </div>
-                </div>
-                <div class="control-group {% if form.user.firstname.vars.errors|length %}error{% endif %}">
-                    {{ form_label(form.user.firstname, null, { 'attr': {'class': 'control-label'} }) }}
-                    <div class="controls">
-                        {{ form_widget(form.user.firstname) }}
-                        {{ form_errors(form.user.firstname) }}
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label for="username" class="control-label">Identifiant</label>
-                    <div class="controls">
-                        <input type="text" disabled="" placeholder="{{ app.session.get('member').username }}" id="username" class="disabled">
-                    </div>
-                </div>
-                <div class="control-group {% if form.user.email.vars.errors|length %}error{% endif %}">
-                    {{ form_label(form.user.email, null, { 'attr': {'class': 'control-label'} }) }}
-                    <div class="controls">
-                        <div class="input-prepend">
-                            <span class="add-on"><i class="icon-envelope"></i></span>
-                            {{ form_widget(form.user.email, { 'attr': {'class': 'span2'} }) }}
-                            {{ form_errors(form.user.email) }}
+<div class="span8 offset2">
+    <div class="widget widget-nopad">
+        <div class="widget-header">
+            <i class="icon-user"></i>
+            <h3>Mon profil</h3>
+        </div> <!-- /widget-header -->
+        <div class="widget-content">
+            <form method="post" action="{{ url('_editmember') }}" class="form-horizontal" {{ form_enctype(form) }}>
+                <fieldset>
+                    <div class="control-group {% if form.user.lastname.vars.errors|length %}error{% endif %}">
+                        <label for="lastname" class="control-label">Nom</label>
+                        <div class="controls">
+                            {{ form_widget(form.user.lastname) }}
+                            {{ form_errors(form.user.lastname) }}
                         </div>
                     </div>
-                </div>
-                <div class="control-group {% if form.member.password.vars.errors|length %}error{% endif %}">
-                    {{ form_label(form.member.password, null, { 'attr': {'class': 'control-label'} }) }}
-                    <div class="controls">
-                        {{ form_widget(form.member.password) }}
-                        {{ form_errors(form.member.password) }}
+                    <div class="control-group {% if form.user.firstname.vars.errors|length %}error{% endif %}">
+                        <label for="firstname" class="control-label">Prénom</label>
+                        <div class="controls">
+                            {{ form_widget(form.user.firstname) }}
+                            {{ form_errors(form.user.firstname) }}
+                        </div>
                     </div>
-                </div>
-                {{ form_rest(form) }}
-                <div class="form-actions">
-                    <button class="btn btn-primary" type="submit" name="edit">Enregistrer</button>
-                    <button class="btn" type="reset">Annuler</button>
-                </div>
-            </fieldset>
-        </form>
+                    <div class="control-group">
+                        <label for="username" class="control-label">Identifiant</label>
+                        <div class="controls">
+                            <input type="text" disabled="" placeholder="{{ app.session.get('member').username }}" id="username" class="disabled">
+                        </div>
+                    </div>
+                    <div class="control-group {% if form.user.email.vars.errors|length %}error{% endif %}">
+                        <label for="email" class="control-label">Email</label>
+                        <div class="controls">
+                            <div class="input-prepend">
+                                <span class="add-on"><i class="icon-envelope"></i></span>
+                                {{ form_widget(form.user.email, { 'attr': {'class': 'span2'} }) }}
+                                {{ form_errors(form.user.email) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group {% if form.member.password.vars.errors|length %}error{% endif %}">
+                        <label for="password" class="control-label">Mot de passe</label>
+                        <div class="controls">
+                            {{ form_widget(form.member.password) }}
+                            {{ form_errors(form.member.password) }}
+                        </div>
+                    </div>
+                    {{ form_rest(form) }}
+                    <div class="form-actions">
+                        <button class="btn btn-primary" type="submit" name="edit">Enregistrer</button>
+                        <button class="btn" type="reset">Annuler</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}

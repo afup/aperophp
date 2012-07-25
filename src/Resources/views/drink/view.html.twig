@@ -1,37 +1,62 @@
 {% extends "layout.html.twig" %}
 
 {% block content %}
-<div class="row">
-    <div class="span4">
-        <div class="well">
+<div class="span8">
+    <div class="widget">
+        <div class="widget-header">
+            <i class="icon-pushpin"></i>
+            <h3>Les infos</h3>
+        </div> <!-- /widget-header -->
+        <div class="widget-content">
+          {% if not isFinished %}
+            <div class="btn-group" style="float:right">
+                <a href="#" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Action <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="{{ url('_editdrink', {'id': drink.id}) }}"><i class="icon-pencil"></i> Editer</a></li>
+                </ul>
+            </div>
+          {% endif %}
+
+          <h1>{{ drink.kind }} <small>à {{ drink.city_name }}, le {{ drink.day|date("d") }} {{ drink.day|date("F")|trans }} {{ drink.day|date("Y") }} à {{ drink.hour|date("H:i") }}</small></h1>
+
+          <p>Lieu : {{ drink.place }}, {{ drink.address }}</p>
+          <blockquote>
+              <p class="description">{{ drink.description|raw }}</p>
+              <small>organis&eacute; par {{ drink.organizer_username }}</small>
+          </blockquote>
+        </div>
+    </div>
+    <div class="widget widget-nopad">
+        <div class="widget-header">
+            <i class="icon-map-marker"></i>
+            <h3>Le lieu</h3>
+        </div> <!-- /widget-header -->
+        <div class="widget-content">
+          <div id="map" style="width: 100%; height: 400px"></div>
+        </div>
+    </div>
+</div>
+<div class="span4">
+    <div class="widget">
+        <div class="widget-header">
+            <i class="icon-user"></i>
+            <h3>Les participants</h3>
+        </div> <!-- /widget-header -->
+        <div class="widget-content">
             {% include 'drink/_participations.html.twig' with { 'participants': participants, 'nb': drink.participants_count, 'isFinished': isFinished } %}
         </div>
     </div>
-    <div class="span8">
-        <div class="row">
-            <div class="span7"><h1>{{ drink.kind }} <small>&agrave; {{ drink.city_name }}, le {{ drink.day|date("d") }} {{ drink.day|date("F")|trans }} {{ drink.day|date("Y") }} &agrave; {{ drink.hour|date("H:i") }}</small></h1></div>
-
-            {% if not isFinished %}
-              <div class="span1">
-                  <div class="btn-group">
-                      <a href="#" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Action <span class="caret"></span></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="{{ url('_editdrink', {'id': drink.id}) }}"><i class="icon-pencil"></i> Editer</a></li>
-                      </ul>
-                  </div>
-              </div>
-            {% endif %}
-        </div>
-        <p>Lieu : {{ drink.place }}, {{ drink.address }}</p>
-        <blockquote>
-            <p class="description">{{ drink.description|raw }}</p>
-            <small>organis&eacute; par {{ drink.organizer_username }}</small>
-        </blockquote>
-        <div id="map" style="width: 100%; height: 400px; margin-bottom: 15px;"></div>
-        {% include 'comment/_list.html.twig' with {'comments': comments} %}
-        <a class="btn pull-right" data-toggle="modal" href="#commentModal" >Ajouter un commentaire</a>
-        <div class="modal hide fade" id="commentModal">
-            {% include 'comment/_new.html.twig' %}
+    <div class="widget">
+        <div class="widget-header">
+            <i class="icon-comments"></i>
+            <h3>Les commentaires</h3>
+        </div> <!-- /widget-header -->
+        <div class="widget-content">
+          {% include 'comment/_list.html.twig' with {'comments': comments} %}
+          <a class="btn pull-right" data-toggle="modal" href="#commentModal" >Ajouter un commentaire</a>
+          <div class="modal hide fade" id="commentModal">
+              {% include 'comment/_new.html.twig' %}
+          </div>
         </div>
     </div>
 </div>
