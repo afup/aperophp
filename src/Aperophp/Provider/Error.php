@@ -1,6 +1,6 @@
 <?php
 
-namespace Aperophp\Provider\Controller;
+namespace Aperophp\Provider;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Error controller.
+ * Error provider.
  *
  * @author  Gautier DI FOLCO <gautier.difolco@gmail.com>
  * @since   23 july 2012
