@@ -10,19 +10,17 @@
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    
+
     {% block headjs %}{% endblock %}
 
-    <!-- Le styles -->
+    <!-- Les styles -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
     <link href="{{ app.request.basepath }}/css/bootstrap.min.css" rel="stylesheet">
+    <!--[if IE 7]>
+      <link rel="stylesheet" href="assets/css/font-awesome-ie7.css">
+    <![endif]-->
     <link href="{{ app.request.basepath }}/css/bootstrap-responsive.min.css" rel="stylesheet">
     <link href="{{ app.request.basepath }}/css/jquery-ui.custom.css" rel="stylesheet">
-    <link href="{{ app.request.basepath }}/css/apero.css" rel="stylesheet">
-    <style type="text/css">
-      body {
-        padding-top: 60px;
-      }
-    </style>
 
     <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="images/favicon.ico">
@@ -33,18 +31,24 @@
 
   <body>
     {% include 'common/topbar.html.twig' %}
-    <div class="container-fluid">
-      {#  *******
-          ** Display flash
-          *******  #}
-      {% if app.session.hasFlash('success') %}<div class="alert alert-success">{{ app.session.flash('success') }}</div>{% endif %}
-      {% if app.session.hasFlash('notice') %}<div class="alert alert-notice">{{ app.session.flash('notice') }}</div>{% endif %}
-      {% if app.session.hasFlash('error') %}<div class="alert alert-error">{{ app.session.flash('error') }}</div>{% endif %} 
-      {#  ******* #}
-      {% block content %}{% endblock %}
-      <hr>
-      {% include 'common/footer.html.twig' %}
-    </div>
+    <div class="main">
+      <div class="main-inner">
+          <div class="container">
+            <div class="row">
+            {#  *******
+                ** Display flash
+                *******  #}
+            {% if app.session.hasFlash('success') %}<div class="alert alert-success">{{ app.session.flash('success') }}</div>{% endif %}
+            {% if app.session.hasFlash('notice') %}<div class="alert alert-notice">{{ app.session.flash('notice') }}</div>{% endif %}
+            {% if app.session.hasFlash('error') %}<div class="alert alert-error">{{ app.session.flash('error') }}</div>{% endif %}
+            {#  ******* #}
+            {% block content %}{% endblock %}
+            </div> <!-- /row -->
+          <hr/>
+          {% include 'common/footer.html.twig' %}
+          </div> <!-- /container -->
+      </div> <!-- /main-inner -->
+    </div> <!--  /main -->
     <script src="{{ app.request.basepath }}/js/jquery.min.js"></script>
     <script src="{{ app.request.basepath }}/js/jquery-ui.custom.min.js"></script>
     <script src="{{ app.request.basepath }}/js/bootstrap.min.js"></script>

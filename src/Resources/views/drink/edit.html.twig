@@ -3,53 +3,58 @@
 {% form_theme form 'common/Form/fields.html.twig' %}
 
 {% block content %}
-<div class="row">
-    <div class="span8 offset4">
-        <form method="post" action="{{ url('_editdrink', {'id': id}) }}" class="form-horizontal" {{ form_enctype(form) }}>
-            <fieldset>
-                <legend>Editer l'apéro</legend>
-                <div class="control-group">
-                    <label for="drink_dayselector" class="control-label required">Jour</label>
-                    <div class="controls">
-                        <input type="text" required="required" id="drink_dayselector" value="{{ form.day.vars.value|date("d/m/Y") }}">
+<div class="span6 offset3">
+    <div class="widget widget-nopad">
+        <div class="widget-header">
+            <i class="icon-glass"></i>
+            <h3>Editer l'apéro</h3>
+        </div> <!-- /widget-header -->
+        <div class="widget-content">
+            <form method="post" action="{{ url('_editdrink', {'id': id}) }}" class="form-horizontal" {{ form_enctype(form) }}>
+                <fieldset>
+                    <div class="control-group">
+                        <label for="drink_dayselector" class="control-label required">Jour</label>
+                        <div class="controls">
+                            <input type="text" required="required" id="drink_dayselector" value="{{ form.day.vars.value|date("d/m/Y") }}">
+                        </div>
                     </div>
-                </div>
-                <div class="control-group {% if form.hour.vars.errors|length %}error{% endif %}">
-                    {{ form_label(form.hour, null, { 'attr': {'class': 'control-label'} }) }}
-                    <div class="controls">
-                        {{ form_widget(form.hour) }}
-                        {{ form_errors(form.hour) }}
+                    <div class="control-group {% if form.hour.vars.errors|length %}error{% endif %}">
+                        {{ form_label(form.hour, null, { 'attr': {'class': 'control-label'} }) }}
+                        <div class="controls">
+                            {{ form_widget(form.hour) }}
+                            {{ form_errors(form.hour) }}
+                        </div>
                     </div>
-                </div>
-                <div class="control-group {% if form.description.vars.errors|length %}error{% endif %}">
-                    {{ form_label(form.description, null, { 'attr': {'class': 'control-label'} }) }}
-                    <div class="controls">
-                        {{ form_widget(form.description) }}
-                        {{ form_errors(form.description) }}
+                    <div class="control-group {% if form.description.vars.errors|length %}error{% endif %}">
+                        {{ form_label(form.description, null, { 'attr': {'class': 'control-label'} }) }}
+                        <div class="controls">
+                            {{ form_widget(form.description) }}
+                            {{ form_errors(form.description) }}
+                        </div>
                     </div>
-                </div>
-                <div class="control-group {% if form.city_id.vars.errors|length %}error{% endif %}">
-                    {{ form_label(form.city_id, null, { 'attr': {'class': 'control-label'} }) }}
-                    <div class="controls">
-                        {{ form_widget(form.city_id) }}
-                        {{ form_errors(form.city_id) }}
+                    <div class="control-group {% if form.city_id.vars.errors|length %}error{% endif %}">
+                        {{ form_label(form.city_id, null, { 'attr': {'class': 'control-label'} }) }}
+                        <div class="controls">
+                            {{ form_widget(form.city_id) }}
+                            {{ form_errors(form.city_id) }}
+                        </div>
                     </div>
-                </div>
-                <div class="control-group">
-                    <label for="drink_placegmap" class="control-label required">Lieu</label>
-                    <div class="controls">
-                        <p><input type="text" id="drink_placegmap"></p>
-                        <p><input type="text" class="input-xlarge disabled" disabled="" id="drink_place_disabled" value="{{ form.place.vars.value }}"></p>
-                        <p><input type="text" class="input-xlarge disabled" disabled="" id="drink_address_disabled" value="{{ form.address.vars.value }}"></p>
+                    <div class="control-group">
+                        <label for="drink_placegmap" class="control-label required">Lieu</label>
+                        <div class="controls">
+                            <p><input type="text" id="drink_placegmap"></p>
+                            <p><input type="text" class="input-xlarge disabled" disabled="" id="drink_place_disabled" value="{{ form.place.vars.value }}"></p>
+                            <p><input type="text" class="input-xlarge disabled" disabled="" id="drink_address_disabled" value="{{ form.address.vars.value }}"></p>
+                        </div>
                     </div>
-                </div>
-                {{ form_rest(form) }}
-                <div class="form-actions">
-                    <button class="btn btn-primary" type="submit" name="update">Editer</button>
-                    <button class="btn" type="reset">Annuler</button>
-                </div>
-            </fieldset>
-        </form>
+                    {{ form_rest(form) }}
+                    <div class="form-actions">
+                        <button class="btn btn-primary" type="submit" name="update">Editer</button>
+                        <button class="btn" type="reset">Annuler</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}
