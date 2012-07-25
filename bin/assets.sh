@@ -27,7 +27,9 @@ echo -e " - Integrate FontAwesome...                 ${CHECK} Done"
 cp $BOOTSTRAPDIR/less/bootstrap.less $MAINDIR/tmp/
 cp $BOOTSTRAPDIR/less/responsive.less $MAINDIR/tmp/
 sed -i -e "s!import \"!import \"../vendor/twitter/bootstrap/less/!" -e 's!vendor/twitter/bootstrap/less/sprites.less";!vendor/FortAwesome/Font-Awesome/less/font-awesome.less";!' $MAINDIR/tmp/bootstrap.less
+echo -e "@import \"../assets/apero.less\";" >> $MAINDIR/tmp/bootstrap.less
 sed -i -e "s!import \"!import \"../vendor/twitter/bootstrap/less/!" $MAINDIR/tmp/responsive.less
+echo -e "@import \"../assets/apero-responsive.less\";" >> $MAINDIR/tmp/responsive.less
 echo -e " - Prepare Bootstrap less files...          ${CHECK} Done"
 jshint $BOOTSTRAPDIR/js/*.js --config $BOOTSTRAPDIR/js/.jshintrc
 echo -e " - Running JSHint on javascript...          ${CHECK} Done"
@@ -41,7 +43,7 @@ uglifyjs -nc $MAINDIR/tmp/bootstrap.js > $MAINDIR/tmp/bootstrap.min.tmp.js
 echo -e "/*!\n* Bootstrap.js by @fat & @mdo\n* Copyright 2012 Twitter, Inc.\n* http://www.apache.org/licenses/LICENSE-2.0.txt\n*/" > $MAINDIR/tmp/copyright.js
 cat $MAINDIR/tmp/copyright.js $MAINDIR/tmp/bootstrap.min.tmp.js > $MAINDIR/web/js/bootstrap.min.js
 echo -e " - Compiling and minifying javascript...    ${CHECK} Done"
-rm -Rf $MAINDIR/tmp
+#rm -Rf $MAINDIR/tmp
 echo -e " - Cleaning...                              ${CHECK} Done"
 
 echo "${HR}"
