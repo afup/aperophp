@@ -30,8 +30,7 @@ class Participate extends Test
                                     ->then()
                                         ->boolean($client->getResponse()->isOk())->isTrue()
                                         ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
-                                        ->integer($crawler->filter('a#participation_edit')->count())->isEqualTo(1)
-                                        ->integer($crawler->filter('a#participation_delete')->count())->isEqualTo(1)
+                                        ->integer($crawler->filter('h2 > a.btn')->count())->isEqualTo(2)
                                         // Now, I participate to the drink.
                                         // CHeck if all fields have been prefilled
                                         ->string($crawler->filter('input#drink_participate_percentage')->first()->attr('value'))->isEqualTo('90')
@@ -48,8 +47,7 @@ class Participate extends Test
                                                 ->boolean($client->getResponse()->isOk())->isTrue()
                                                 ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
                                                 ->string($crawler->filter('input#drink_participate_percentage')->first()->attr('value'))->isEqualTo('70')
-                                                ->integer($crawler->filter('a#participation_edit')->count())->isEqualTo(1)
-                                                ->integer($crawler->filter('a#participation_delete')->count())->isEqualTo(1)
+                                                ->integer($crawler->filter('h2 > a.btn')->count())->isEqualTo(2)
                                                 // Delete an existing participation
                                                 ->if($crawler = $client->request('GET', '/participation/1/delete.html'))
                                                 ->then()
@@ -58,8 +56,7 @@ class Participate extends Test
                                                     ->then()
                                                         ->boolean($client->getResponse()->isOk())->isTrue()
                                                         ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
-                                                        ->integer($crawler->filter('a#participation_edit')->count())->isEqualTo(0)
-                                                        ->integer($crawler->filter('a#participation_delete')->count())->isEqualTo(0)
+                                                        ->integer($crawler->filter('h2 > a.btn')->count())->isEqualTo(1)
                                                         // Delete a non-existing participation
                                                         ->if($crawler = $client->request('GET', '/participation/1/delete.html'))
                                                         ->then()
@@ -95,8 +92,7 @@ class Participate extends Test
                                     ->boolean($client->getResponse()->isOk())->isTrue()
                                     ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
                                     // Now, I participate to the drink.
-                                    ->integer($crawler->filter('a#participation_edit')->count())->isEqualTo(1)
-                                    ->integer($crawler->filter('a#participation_delete')->count())->isEqualTo(1)
+                                    ->integer($crawler->filter('h2 > a.btn')->count())->isEqualTo(2)
                                     // CHeck if all fields have been prefilled
                                     ->string($crawler->filter('input#drink_participate_user_firstname')->first()->attr('value'))->isEqualTo('Foo')
                                     ->string($crawler->filter('input#drink_participate_user_lastname')->first()->attr('value'))->isEqualTo('Bar')
@@ -118,8 +114,7 @@ class Participate extends Test
                                             ->boolean($client->getResponse()->isOk())->isTrue()
                                             ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
                                             ->string($crawler->filter('input#drink_participate_percentage')->first()->attr('value'))->isEqualTo('70')
-                                            ->integer($crawler->filter('a#participation_edit')->count())->isEqualTo(1)
-                                            ->integer($crawler->filter('a#participation_delete')->count())->isEqualTo(1)
+                                            ->integer($crawler->filter('h2 > a.btn')->count())->isEqualTo(2)
                                             // Delete an existing participation
                                             ->if($crawler = $client->request('GET', '/participation/1/delete.html'))
                                             ->then()
@@ -128,8 +123,7 @@ class Participate extends Test
                                                 ->then()
                                                     ->boolean($client->getResponse()->isOk())->isTrue()
                                                     ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
-                                                    ->integer($crawler->filter('a#participation_edit')->count())->isEqualTo(0)
-                                                    ->integer($crawler->filter('a#participation_delete')->count())->isEqualTo(0)
+                                                    ->integer($crawler->filter('h2 > a.btn')->count())->isEqualTo(1)
                                                     // Delete a non-existing participation
                                                     ->if($crawler = $client->request('GET', '/participation/1/delete.html'))
                                                     ->then()
