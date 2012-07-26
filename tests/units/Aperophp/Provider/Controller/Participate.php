@@ -163,6 +163,66 @@ class Participate extends Test
         ;
     }
 
+    public function testDelete_withNoUser_isRedirectedToDrink()
+    {
+        $this->assert
+            ->if($client = $this->createClient())
+            ->then
+                ->if($crawler = $client->request('GET', '/participation/2/delete.html/marvin/42'))
+                ->then()
+                    ->boolean($client->getResponse()->isRedirect('/2/view.html'))->isTrue()
+                    ->if($crawler = $client->followRedirect())
+                    ->then()
+                        ->boolean($client->getResponse()->isOk())->isTrue()
+                        ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
+        ;
+    }
+
+    public function testDelete_withUnknownUser_isRedirectedToDrink()
+    {
+        $this->assert
+            ->if($client = $this->createClient())
+            ->then
+                ->if($crawler = $client->request('GET', '/participation/1/delete.html/marvin/42'))
+                ->then()
+                    ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
+                    ->if($crawler = $client->followRedirect())
+                    ->then()
+                        ->boolean($client->getResponse()->isOk())->isTrue()
+                        ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
+        ;
+    }
+
+    public function testDelete_withNoUserToken_isRedirectedToDrink()
+    {
+        $this->assert
+            ->if($client = $this->createClient())
+            ->then
+                ->if($crawler = $client->request('GET', '/participation/1/delete.html/user1@example.org'))
+                ->then()
+                    ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
+                    ->if($crawler = $client->followRedirect())
+                    ->then()
+                        ->boolean($client->getResponse()->isOk())->isTrue()
+                        ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
+        ;
+    }
+
+    public function testDelete_withBadUserToken_isRedirectedToDrink()
+    {
+        $this->assert
+            ->if($client = $this->createClient())
+            ->then
+                ->if($crawler = $client->request('GET', '/participation/1/delete.html/user1@example.org/42'))
+                ->then()
+                    ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
+                    ->if($crawler = $client->followRedirect())
+                    ->then()
+                        ->boolean($client->getResponse()->isOk())->isTrue()
+                        ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
+        ;
+    }
+
     public function testParticipateToADrink_withUnanonymousUser_badData()
     {
         $this->assert
@@ -186,6 +246,20 @@ class Participate extends Test
                                 ->then()
                                     ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
         ;
+    }
 
+    public function testDelete_withGoodUserToken_isRedirectedToDrink()
+    {
+        $this->assert
+            ->if($client = $this->createClient())
+            ->then
+                ->if($crawler = $client->request('GET', '/participation/1/delete.html/user1@example.org/token'))
+                ->then()
+                    ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
+                    ->if($crawler = $client->followRedirect())
+                    ->then()
+                        ->boolean($client->getResponse()->isOk())->isTrue()
+                        ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
+        ;
     }
 }
