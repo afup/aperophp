@@ -154,7 +154,7 @@ class Participate implements ControllerProviderInterface
 
                     return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
                 }
-                if (!$user = $app['users']->findOneByEmailAndToken($email, $token)) {
+                if (!$user = $app['users']->findOneByEmailToken($email, $token)) {
                     $app['session'] ->setFlash('error', 'Couple email/jeton invalide.');
 
                     return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
