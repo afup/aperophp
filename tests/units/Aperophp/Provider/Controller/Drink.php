@@ -151,7 +151,7 @@ class Drink extends Test
                 ->then
                     ->if($crawler = $client->request('GET', '/1/edit.html'))
                     ->then()
-                        ->boolean($client->getResponse()->isRedirect('/member/signin.html'))->isTrue()
+                        ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
                             ->if($crawler = $client->followRedirect())
                             ->then()
                                 ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)

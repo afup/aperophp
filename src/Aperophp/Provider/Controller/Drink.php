@@ -121,10 +121,16 @@ class Drink implements ControllerProviderInterface
 
             $member = $app['session']->get('member');
 
-            if (!$member || $drink['member_id'] != $member['id']) {
+            if (!$member) {
                 $app['session']->setFlash('error', 'Vous devez être authentifié et être organisateur de cet apéro pour pouvoir l\'éditer.');
 
                 return new RedirectResponse($app['url_generator']->generate('_signinmember'));
+            }
+
+            if ($drink['member_id'] != $member['id']) {
+                $app['session']->setFlash('error', 'Vous devez être organisateur de cet apéro pour pouvoir l\'éditer.');
+
+                return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));
             }
 
             $form = $app['form.factory']->create('drink', $drink);
