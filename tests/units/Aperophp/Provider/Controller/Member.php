@@ -127,7 +127,7 @@ class Member extends Test
         ;
     }
 
-    public function testSignin_badPasswor()
+    public function testSignin_badPassword()
     {
         $this->assert
             ->if($client = $this->createClient())
