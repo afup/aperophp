@@ -97,7 +97,10 @@ class Member implements ControllerProviderInterface
 
                         $app['db']->commit();
                     } catch (\Exception $e) {
-                        $app['db']->rollback();
+                        try {
+                            $app['db']->rollback();
+                        } catch (\Exception $e) {
+                        }
                         $app->abort(500, 'Impossible de vous inscrire. Merci de réessayer plus tard.');
                     }
 
@@ -162,7 +165,10 @@ class Member implements ControllerProviderInterface
 
                         $app['db']->commit();
                     } catch (\Exception $e) {
-                        $app['db']->rollback();
+                        try {
+                            $app['db']->rollback();
+                        } catch (\Exception $e) {
+                        }
                         $app->abort(500, 'Impossible de modifier votre profil. Merci de réessayer plus tard.');
                     }
 

@@ -44,7 +44,6 @@ class Comment implements ControllerProviderInterface
                         $data['user']['id'] = $app['users']->lastInsertId();
                         $app['session']->set('user', $data['user']);
                     } catch (\Exception $e) {
-                        $app['db']->rollback();
                         $app->abort(500, 'Impossible de sauvegarder vos identifiants. Merci de réessayer plus tard.');
                     }
                 }
@@ -59,7 +58,6 @@ class Comment implements ControllerProviderInterface
                         'created_at' => date('c'),
                     ));
                 } catch (\Exception $e) {
-                    $app['db']->rollback();
                     $app->abort(500, 'Impossible de sauvegarder votre commentaire. Merci de réessayer plus tard.');
                 }
 

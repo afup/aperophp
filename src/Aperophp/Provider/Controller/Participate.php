@@ -56,7 +56,6 @@ class Participate implements ControllerProviderInterface
                     try {
                         $app['users']->insert($data['user']);
                     } catch (\Exception $e) {
-                        $app['db']->rollback();
                         $app->abort(500, 'Impossible de vous créer un compte. Merci de réessayer plus tard.');
                     }
 
@@ -68,7 +67,6 @@ class Participate implements ControllerProviderInterface
                     try {
                         $app['users']->update($data['user'], array('id' => $user['id']));
                     } catch (\Exception $e) {
-                        $app['db']->rollback();
                         $app->abort(500, 'Impossible de modifier votre compte. Merci de réessayer plus tard.');
                     }
                 }
@@ -84,7 +82,6 @@ class Participate implements ControllerProviderInterface
                             'user_id' => $user['id'],
                         ));
                     } catch (\Exception $e) {
-                        $app['db']->rollback();
                         $app->abort(500, 'Impossible de sauvegarder votre participation. Merci de réessayer plus tard.');
                     }
 
@@ -100,7 +97,6 @@ class Participate implements ControllerProviderInterface
                 try {
                     $app['drink_participants']->insert($participation);
                 } catch (\Exception $e) {
-                    $app['db']->rollback();
                     $app->abort(500, 'Impossible de sauvegarder votre participation. Merci de réessayer plus tard.');
                 }
 
@@ -177,7 +173,6 @@ class Participate implements ControllerProviderInterface
                     'user_id' => $participation['user_id']
                 ));
             } catch (\Exception $e) {
-                $app['db']->rollback();
                 $app->abort(500, 'Impossible de sauvegarder votre participation. Merci de réessayer plus tard.');
             }
 

@@ -82,9 +82,9 @@ class Drink implements ControllerProviderInterface
                     try {
                         $app['drinks']->insert($data);
                     } catch (\Exception $e) {
-                        $app['db']->rollback();
                         $app->abort(500, 'Impossible de créer l\'apero. Merci de réessayer plus tard.');
                     }
+
                     $app['session']->setFlash('success', 'L\'apéro a été créé avec succès.');
 
                     return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $app['drinks']->lastInsertId())));
@@ -138,9 +138,8 @@ class Drink implements ControllerProviderInterface
                     $data['kind']      = Repository\Drink::KIND_DRINK;
 
                     try {
-                    $app['drinks']->update($data, array('id' => $drink['id']));
+                        $app['drinks']->update($data, array('id' => $drink['id']));
                     } catch (\Exception $e) {
-                        $app['db']->rollback();
                         $app->abort(500, 'Impossible de modifier l\'apéro. Merci de réessayer plus tard.');
                     }
                     $app['session']->setFlash('success', 'L\'apéro a été modifié avec succès.');
