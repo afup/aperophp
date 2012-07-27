@@ -28,9 +28,8 @@ class Comment implements ControllerProviderInterface
         {
             $drink = $app['drinks']->find($drinkId);
 
-            if (!$drink) {
+            if (!$drink)
                 $app->abort(404, 'Cet apéro n\'existe pas.');
-            }
 
             $form = $app['form.factory']->create('drink_comment');
 
@@ -40,19 +39,27 @@ class Comment implements ControllerProviderInterface
 
                 // If user is not authenticated, a user is created.
                 if (!$app['session']->has('user')) {
-                    $app['users']->insert($data['user']);
-                    $data['user']['id'] = $app['users']->lastInsertId();
-                    $app['session']->set('user', $data['user']);
+                    try {
+                        $app['users']->insert($data['user']);
+                        $data['user']['id'] = $app['users']->lastInsertId();
+                        $app['session']->set('user', $data['user']);
+                    } catch (\Exception $e) {
+                        $app->abort(500, 'Impossible de sauvegarder vos identifiants. Merci de réessayer plus tard.');
+                    }
                 }
 
                 $user = $app['session']->get('user');
 
-                $app['drink_comments']->insert(array(
-                    'content'    => $data['content'],
-                    'user_id'    => $user['id'],
-                    'drink_id'   => $drinkId,
-                    'created_at' => date('c'),
-                ));
+                try {
+                    $app['drink_comments']->insert(array(
+                        'content'    => $data['content'],
+                        'user_id'    => $user['id'],
+                        'drink_id'   => $drinkId,
+                        'created_at' => date('c'),
+                    ));
+                } catch (\Exception $e) {
+                    $app->abort(500, 'Impossible de sauvegarder votre commentaire. Merci de réessayer plus tard.');
+                }
 
                 $app['session']->setFlash('success', 'Votre commentaire a été posté avec succès.');
 

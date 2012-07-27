@@ -1,8 +1,6 @@
 # Install
 
-    rm -Rf vendor/*
     php /path/to/composer.phar install
-    cd vendor && git clone https://github.com/michelf/php-markdown.git && cd ..
     app/console db:install
     app/console db:load-fixtures
 

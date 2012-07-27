@@ -96,9 +96,12 @@ class Member implements ControllerProviderInterface
                         $app['users']->insert($data['user']);
 
                         $app['db']->commit();
-                    } catch (Exception $e) {
-                        $app['db']->rollback();
-                        throw $e;
+                    } catch (\Exception $e) {
+                        try {
+                            $app['db']->rollback();
+                        } catch (\Exception $e) {
+                        }
+                        $app->abort(500, 'Impossible de vous inscrire. Merci de réessayer plus tard.');
                     }
 
                     $app['session']->setFlash('success', 'Votre compte a été créé avec succès.');
@@ -161,16 +164,20 @@ class Member implements ControllerProviderInterface
                         $app['session']->set('user', $user);
 
                         $app['db']->commit();
-                    } catch (Exception $e) {
-                        $app['db']->rollback();
-                        throw $e;
+                    } catch (\Exception $e) {
+                        try {
+                            $app['db']->rollback();
+                        } catch (\Exception $e) {
+                        }
+                        $app->abort(500, 'Impossible de modifier votre profil. Merci de réessayer plus tard.');
                     }
 
                     $app['session']->setFlash('success', 'Votre compte a été modifié avec succès.');
-
-                    return $app->redirect($app['url_generator']->generate('_editmember'));
                 }
-                $app['session']->setFlash('error', 'Quelque chose n\'est pas valide');
+                else
+                    $app['session']->setFlash('error', 'Quelque chose n\'est pas valide');
+
+                return $app->redirect($app['url_generator']->generate('_editmember'));
             }
 
             return $app['twig']->render('member/edit.html.twig', array(

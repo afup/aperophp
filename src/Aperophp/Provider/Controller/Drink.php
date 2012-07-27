@@ -31,7 +31,7 @@ class Drink implements ControllerProviderInterface
         {
             $app['session']->set('menu', 'home');
 
-            $drinks = $app['drinks']->findAll(3);
+            $drinks = $app['drinks']->findNext(3);
 
             return $app['twig']->render('drink/index.html.twig', array(
                 'drinks' => $drinks
@@ -79,12 +79,15 @@ class Drink implements ControllerProviderInterface
                     $data['member_id'] = $member['id'];
                     $data['kind']      = Repository\Drink::KIND_DRINK;
 
-                    $app['drinks']->insert($data);
-                    $id = $app['drinks']->lastInsertId();
+                    try {
+                        $app['drinks']->insert($data);
+                    } catch (\Exception $e) {
+                        $app->abort(500, 'Impossible de créer l\'apero. Merci de réessayer plus tard.');
+                    }
 
                     $app['session']->setFlash('success', 'L\'apéro a été créé avec succès.');
 
-                    return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));
+                    return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $app['drinks']->lastInsertId())));
                 }
             }
 
@@ -105,9 +108,8 @@ class Drink implements ControllerProviderInterface
 
             $drink = $app['drinks']->find($id);
 
-            if (!$drink) {
+            if (!$drink)
                 $app->abort(404, 'Cet apéro n\'existe pas.');
-            }
 
             $now = new \Datetime('now');
             $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $drink['day'] . ' ' . $drink['hour']);
@@ -135,12 +137,20 @@ class Drink implements ControllerProviderInterface
                     $data['member_id'] = $member['id'];
                     $data['kind']      = Repository\Drink::KIND_DRINK;
 
-                    $app['drinks']->update($data, array('id' => $drink['id']));
+                    try {
+                        $app['drinks']->update($data, array('id' => $drink['id']));
+                    } catch (\Exception $e) {
+                        $app->abort(500, 'Impossible de modifier l\'apéro. Merci de réessayer plus tard.');
+                    }
                     $app['session']->setFlash('success', 'L\'apéro a été modifié avec succès.');
 
                     return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));
                 }
-                $app['session']->setFlash('error', 'Il y a des erreurs dans le formulaire.');
+                else
+                {
+                    $app['session']->setFlash('error', 'Il y a des erreurs dans le formulaire.');
+                    return $app->redirect($app['url_generator']->generate('_editdrink', array('id' => $id)));
+                }
             }
 
             return $app['twig']->render('drink/edit.html.twig', array(
@@ -161,9 +171,8 @@ class Drink implements ControllerProviderInterface
 
             $drink = $app['drinks']->find($id);
 
-            if (!$drink) {
+            if (!$drink)
                 $app->abort(404, 'Cet apéro n\'existe pas.');
-            }
 
             $participants = $app['drink_participants']->findByDrinkId($drink['id']);
             $comments = $app['drink_comments']->findByDrinkId($drink['id']);

@@ -39,13 +39,14 @@ class Drink extends Test
                                 'drink[address]'     => '16 Rue Pierre Lescot, Paris, France',
                                 'drink[latitude]'    => '48.86214',
                                 'drink[longitude]'   => '2.34843',
-                                'drink[day]'         => '2012-07-19',
+                                'drink[day]'         => '2016-07-19',
                             )))
                             ->then()
-                                ->boolean($client->getResponse()->isRedirect('/3/view.html'))->isTrue()
+                                ->boolean($client->getResponse()->isRedirect())->isTrue()
                                 ->if($crawler = $client->followRedirect())
                                 ->then()
                                     ->boolean($client->getResponse()->isOk())->isTrue()
+                                    ->integer(preg_match('#^/(\d+)/view\.html$#', $client->getRequest()->getRequestUri()))->isEqualTo(1)
                                     ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
         ;
     }
@@ -84,7 +85,7 @@ class Drink extends Test
                                 'drink[address]'     => '16 Rue Pierre Lescot, Paris, France',
                                 'drink[latitude]'    => '48.86214',
                                 'drink[longitude]'   => '2.34843',
-                                'drink[day]'         => '2012-07-20',
+                                'drink[day]'         => '2016-07-20',
                             )))
                             ->then()
                                 ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
@@ -92,7 +93,38 @@ class Drink extends Test
                                 ->then()
                                     ->boolean($client->getResponse()->isOk())->isTrue()
                                     ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
-                                    ->integer($crawler->filter('div.alert-success:contains("apéro a été modifié avec succès")')->count())->isEqualTo(1)
+                                    ->integer($crawler->filter('p:contains("[Edited]")')->count())->isEqualTo(1)
+        ;
+    }
+
+    public function testEditDrink_withBadData_isUpdated()
+    {
+        $this->assert
+            ->if($client = $this->createClient())
+            ->then
+                ->if(true == $client->connect())
+                ->then()
+                    ->if($crawler = $client->request('GET', '/1/edit.html'))
+                    ->then()
+                        ->boolean($client->getResponse()->isOk())->isTrue()
+                        ->if($form = $crawler->selectButton('update')->form())
+                        ->then()
+                            ->if($crawler = $client->submit($form, array(
+                                'drink[hour]'        => '00:00:00',
+                                'drink[description]' => '',
+                                'drink[city_id]'     => '5',
+                                'drink[place]'       => '',
+                                'drink[address]'     => '',
+                                'drink[latitude]'    => '',
+                                'drink[longitude]'   => '',
+                                'drink[day]'         => '',
+                            )))
+                            ->then()
+                                ->boolean($client->getResponse()->isRedirect('/1/edit.html'))->isTrue()
+                                ->if($crawler = $client->followRedirect())
+                                ->then()
+                                    ->boolean($client->getResponse()->isOk())->isTrue()
+                                    ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
         ;
     }
 
@@ -148,6 +180,7 @@ class Drink extends Test
                 ->if($crawler = $client->request('GET', '/1456/edit.html'))
                 ->then()
                     ->boolean($client->getResponse()->isNotFound())->isTrue()
+                    ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
         ;
     }
 
@@ -181,6 +214,7 @@ class Drink extends Test
                 ->if($crawler = $client->request('GET', '/987/view.html'))
                 ->then()
                     ->boolean($client->getResponse()->isNotFound())->isTrue()
+                    ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
         ;
     }
 }
