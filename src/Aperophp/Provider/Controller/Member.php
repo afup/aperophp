@@ -6,7 +6,6 @@ use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Member controller.
@@ -30,7 +29,7 @@ class Member implements ControllerProviderInterface
             if ($app['session']->has('member')) {
                 $app['session']->setFlash('error', 'Vous êtes déjà authentifié.');
 
-                return new RedirectResponse($app['url_generator']->generate('_homepagedrinks'));
+                return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
             }
 
             $app['session']->set('menu', 'signin');
@@ -87,7 +86,7 @@ class Member implements ControllerProviderInterface
             if ($app['session']->has('member')) {
                 $app['session']->setFlash('error', 'Vous êtes déjà authentifié.');
 
-                return new RedirectResponse($app['url_generator']->generate('_homepagedrinks'));
+                return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
             }
 
             $app['session']->set('menu', 'signup');
@@ -140,7 +139,7 @@ class Member implements ControllerProviderInterface
             if (!$app['session']->has('member')) {
                 $app['session']->setFlash('error', 'Vous devez être authentifié pour accéder à cette ressource.');
 
-                return new RedirectResponse($app['url_generator']->generate('_signinmember'));
+                return $app->redirect($app['url_generator']->generate('_signinmember'));
             }
 
             $member = $app['session']->get('member');
@@ -208,7 +207,7 @@ class Member implements ControllerProviderInterface
             if ($app['session']->has('member')) {
                 $app['session']->setFlash('error', 'Vous êtes déjà authentifié.');
 
-                return new RedirectResponse($app['url_generator']->generate('_homepagedrinks'));
+                return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
             }
 
             $form = $app['form.factory']->create('forget', array());
@@ -267,19 +266,19 @@ class Member implements ControllerProviderInterface
             if ($app['session']->has('member')) {
                 $app['session']->setFlash('error', 'Vous êtes déjà authentifié.');
 
-                return new RedirectResponse($app['url_generator']->generate('_homepagedrinks'));
+                return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
             }
 
             if (!$user = $app['users']->findOneByEmailToken($email, $token)) {
                 $app['session'] ->setFlash('error', 'Couple email/jeton invalide.');
 
-                return new RedirectResponse($app['url_generator']->generate('_homepagedrinks'));
+                return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
             }
 
             if (!($member = $app['members']->find($user['member_id'])) || !$member['active']) {
                 $app['session'] ->setFlash('error', 'Member invalide/inactif.');
 
-                return new RedirectResponse($app['url_generator']->generate('_homepagedrinks'));
+                return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
             }
 
             $app['db']->beginTransaction();

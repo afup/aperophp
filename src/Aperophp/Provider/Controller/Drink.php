@@ -8,7 +8,6 @@ use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Aperophp\Repository;
 
 /**
@@ -63,7 +62,7 @@ class Drink implements ControllerProviderInterface
             if (!$app['session']->has('member')) {
                 $app['session']->setFlash('error', 'Vous devez être authentifié pour créer un apéro.');
 
-                return new RedirectResponse($app['url_generator']->generate('_signinmember'));
+                return $app->redirect($app['url_generator']->generate('_signinmember'));
             }
 
             $app['session']->set('menu', 'newdrink');
@@ -124,7 +123,7 @@ class Drink implements ControllerProviderInterface
             if (!$member) {
                 $app['session']->setFlash('error', 'Vous devez être authentifié et être organisateur de cet apéro pour pouvoir l\'éditer.');
 
-                return new RedirectResponse($app['url_generator']->generate('_signinmember'));
+                return $app->redirect($app['url_generator']->generate('_signinmember'));
             }
 
             if ($drink['member_id'] != $member['id']) {
