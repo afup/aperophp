@@ -36,7 +36,7 @@ class Member implements ControllerProviderInterface
             $form = $app['form.factory']->create('signin');
 
             // If it's not POST method, just display void form
-            if ($request->getMethod() == 'POST') {
+            if ('POST' === $request->getMethod()) {
                 $form->bindRequest($request);
                 if ($form->isValid()) {
                     $data = $form->getData();
@@ -93,7 +93,7 @@ class Member implements ControllerProviderInterface
             $form = $app['form.factory']->create('signup');
 
             // If it's not POST method, just display void form
-            if ($request->getMethod() == 'POST') {
+            if ('POST' === $request->getMethod()) {
                 $form->bindRequest($request);
                 if ($form->isValid()) {
                     $data = $form->getData();
@@ -151,7 +151,7 @@ class Member implements ControllerProviderInterface
             ));
 
             // If it's not POST method, just display void form
-            if ($request->getMethod() == 'POST') {
+            if ('POST' === $request->getMethod()) {
                 $form->bindRequest($request);
                 if ($form->isValid()) {
                     $data = $form->getData();
@@ -213,7 +213,7 @@ class Member implements ControllerProviderInterface
             $form = $app['form.factory']->create('forget', array());
 
             // If it's not POST method, just display void form
-            if ($request->getMethod() == 'POST') {
+            if ('POST' === $request->getMethod()) {
                 $form->bindRequest($request);
                 if ($form->isValid()) {
                     $data = $form->getData();
