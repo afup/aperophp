@@ -141,9 +141,6 @@ class Participate implements ControllerProviderInterface
                 return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
             }
 
-            $oUser = null;
-            $values = array();
-
             if (!$app['session']->has('user')) {
                 if (null === $email || null === $token) {
                     $app['session'] ->setFlash('error', 'Connectez-vous ou utilisez le lien reçu par mail.');
@@ -184,6 +181,75 @@ class Participate implements ControllerProviderInterface
         ->value('email', null)
         ->value('token', null)
         ->bind('_deleteparticipatedrink');
+
+        // *******
+        // ** Request to resend an user token
+        // *******
+        $controllers->match('{drinkId}/forget.html', function(Request $request, $drinkId) use ($app)
+        {
+            if ($app['session']->has('member')) {
+                $app['session']->setFlash('error', 'Vous êtes déjà authentifié.');
+
+                return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
+            }
+
+            $drink = $app['drinks']->find($drinkId);
+
+            if (!$drink)
+                $app->abort(404, 'Cet apéro n\'existe pas.');
+
+            $form = $app['form.factory']->create('participation_forget', array());
+
+            // If it's not POST method, just display void form
+            if ('POST' === $request->getMethod()) {
+                $form->bindRequest($request);
+                if ($form->isValid()) {
+                    $data = $form->getData();
+
+                    $user = $app['users']->findOneByEmail($data['email']);
+                    if (!$user) {
+                        $app['session']->setFlash('error', 'Aucun utilisateur ne possède cet adresse email.');
+                        return $app->redirect($app['url_generator']->generate('_forgetparticipatedrink', array('drinkId' => $drinkId)));
+                    }
+
+                    $participation = $app['drink_participants']->findOne($drink['id'], $user['id']);
+
+                    if (false === $participation) {
+                        $app['session'] ->setFlash('error', 'Participation inexistante.');
+
+                        return $app->redirect($app['url_generator']->generate('_forgetparticipatedrink', array('drinkId' => $drinkId)));
+                    }
+
+                    try {
+                        $app['mailer']->send($app['mailer']
+                            ->createMessage()
+                            ->setSubject('[Aperophp.net] Rappel de votre participation à un '.$drink['kind'])
+                            ->setFrom(array('noreply@aperophp.net'))
+                            ->setTo(array($user['email']))
+                            ->setBody($app['twig']->render('drink/forget_mail.html.twig', array(
+                                'user'  => $user,
+                                'drink' => $drink
+                            )), 'text/html')
+                        );
+                    } catch (\Exception $e) {
+                        $app->abort(500, 'Impossible de vous envoyer à nouveau votre jeton. Merci de réessayer plus tard.');
+                    }
+
+                    $app['session']->setFlash('success', 'Vous allez recevoir un email dans quelques instants contenant votre participation.');
+                    return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
+                }
+                else
+                    $app['session']->setFlash('error', 'Quelque chose n\'est pas valide.');
+
+            }
+
+            return $app['twig']->render('drink/forget.html.twig', array(
+                'form' => $form->createView(),
+                'drinkId' => $drinkId,
+            ));
+        })
+        ->bind('_forgetparticipatedrink')
+        ->method('GET|POST');
 
         return $controllers;
     }
