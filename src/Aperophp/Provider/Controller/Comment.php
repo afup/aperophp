@@ -28,7 +28,7 @@ class Comment implements ControllerProviderInterface
             $drink = $app['drinks']->find($drinkId);
 
             if (!$drink)
-                $app->abort(404, 'Cet apéro n\'existe pas.');
+                $app->abort(404, 'Cet événement n\'existe pas.');
 
             $form = $app['form.factory']->create('drink_comment');
 

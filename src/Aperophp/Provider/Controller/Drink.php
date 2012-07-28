@@ -60,7 +60,7 @@ class Drink implements ControllerProviderInterface
         $controllers->match('new.html', function(Request $request) use ($app)
         {
             if (!$app['session']->has('member')) {
-                $app['session']->setFlash('error', 'Vous devez être authentifié pour créer un apéro.');
+                $app['session']->setFlash('error', 'Vous devez être authentifié pour créer un événement.');
 
                 return $app->redirect($app['url_generator']->generate('_signinmember'));
             }
@@ -81,10 +81,10 @@ class Drink implements ControllerProviderInterface
                     try {
                         $app['drinks']->insert($data);
                     } catch (\Exception $e) {
-                        $app->abort(500, 'Impossible de créer l\'apero. Merci de réessayer plus tard.');
+                        $app->abort(500, 'Impossible de créer l\'événement. Merci de réessayer plus tard.');
                     }
 
-                    $app['session']->setFlash('success', 'L\'apéro a été créé avec succès.');
+                    $app['session']->setFlash('success', 'L\'événement a été créé avec succès.');
 
                     return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $app['drinks']->lastInsertId())));
                 }
@@ -108,7 +108,7 @@ class Drink implements ControllerProviderInterface
             $drink = $app['drinks']->find($id);
 
             if (!$drink)
-                $app->abort(404, 'Cet apéro n\'existe pas.');
+                $app->abort(404, 'Cet événement n\'existe pas.');
 
             $now = new \Datetime('now');
             $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $drink['day'] . ' ' . $drink['hour']);
@@ -121,13 +121,13 @@ class Drink implements ControllerProviderInterface
             $member = $app['session']->get('member');
 
             if (!$member) {
-                $app['session']->setFlash('error', 'Vous devez être authentifié et être organisateur de cet apéro pour pouvoir l\'éditer.');
+                $app['session']->setFlash('error', 'Vous devez être authentifié et être organisateur de cet événement pour pouvoir l\'éditer.');
 
                 return $app->redirect($app['url_generator']->generate('_signinmember'));
             }
 
             if ($drink['member_id'] != $member['id']) {
-                $app['session']->setFlash('error', 'Vous devez être organisateur de cet apéro pour pouvoir l\'éditer.');
+                $app['session']->setFlash('error', 'Vous devez être organisateur de cet événement pour pouvoir l\'éditer.');
 
                 return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));
             }
@@ -145,9 +145,9 @@ class Drink implements ControllerProviderInterface
                     try {
                         $app['drinks']->update($data, array('id' => $drink['id']));
                     } catch (\Exception $e) {
-                        $app->abort(500, 'Impossible de modifier l\'apéro. Merci de réessayer plus tard.');
+                        $app->abort(500, 'Impossible de modifier l\'événement. Merci de réessayer plus tard.');
                     }
-                    $app['session']->setFlash('success', 'L\'apéro a été modifié avec succès.');
+                    $app['session']->setFlash('success', 'L\'événement a été modifié avec succès.');
 
                     return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));
                 }
@@ -177,7 +177,7 @@ class Drink implements ControllerProviderInterface
             $drink = $app['drinks']->find($id);
 
             if (!$drink)
-                $app->abort(404, 'Cet apéro n\'existe pas.');
+                $app->abort(404, 'Cet événement n\'existe pas.');
 
             $participants = $app['drink_participants']->findByDrinkId($drink['id']);
             $comments = $app['drink_comments']->findByDrinkId($drink['id']);
