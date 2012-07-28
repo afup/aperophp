@@ -2,13 +2,15 @@
 
 {% block content %}
 <div class="row">
-    <div class="span4 offset6">
-        <form method="post" action="{{ url('_signinmember') }}" class="well" {{ form_enctype(form) }}>
+    <div class="span4 offset6 well">
+        <form method="post" action="{{ url('_signinmember') }}" {{ form_enctype(form) }}>
             {{ form_row(form.username) }}
             {{ form_row(form.password) }}
             {{ form_rest(form) }}
             <button type="submit" class="btn btn-primary" name="login">Connexion</button>
         </form>
+        <a href="{{ url('_signupmember') }}">S'inscrire</a> |
+        <a href="{{ url('_forgetmember') }}">Mot de passe &eacute;gar&eacute; ?</a>
     </div>
 </div>
 {% endblock %}

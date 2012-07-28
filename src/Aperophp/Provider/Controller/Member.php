@@ -27,6 +27,12 @@ class Member implements ControllerProviderInterface
         // *******
         $controllers->match('signin.html', function(Request $request) use ($app)
         {
+            if ($app['session']->has('member')) {
+                $app['session']->setFlash('error', 'Vous êtes déjà authentifié.');
+
+                return new RedirectResponse($app['url_generator']->generate('_homepagedrinks'));
+            }
+
             $app['session']->set('menu', 'signin');
             $form = $app['form.factory']->create('signin');
 
@@ -78,6 +84,12 @@ class Member implements ControllerProviderInterface
         // *******
         $controllers->get('signup.html', function(Request $request) use ($app)
         {
+            if ($app['session']->has('member')) {
+                $app['session']->setFlash('error', 'Vous êtes déjà authentifié.');
+
+                return new RedirectResponse($app['url_generator']->generate('_homepagedrinks'));
+            }
+
             $app['session']->set('menu', 'signup');
             $form = $app['form.factory']->create('signup');
 
@@ -109,7 +121,7 @@ class Member implements ControllerProviderInterface
                     return $app->redirect($app['url_generator']->generate('_signinmember'));
                 }
                 // Invalid form will display form back
-                $app['session']->setFlash('error', 'Quelque chose n\'est pas valide');
+                $app['session']->setFlash('error', 'Quelque chose n\'est pas valide.');
             }
 
             return $app['twig']->render('member/signup.html.twig', array(
@@ -175,7 +187,7 @@ class Member implements ControllerProviderInterface
                     $app['session']->setFlash('success', 'Votre compte a été modifié avec succès.');
                 }
                 else
-                    $app['session']->setFlash('error', 'Quelque chose n\'est pas valide');
+                    $app['session']->setFlash('error', 'Quelque chose n\'est pas valide.');
 
                 return $app->redirect($app['url_generator']->generate('_editmember'));
             }
@@ -186,6 +198,123 @@ class Member implements ControllerProviderInterface
         })
         ->bind('_editmember')
         ->method('GET|POST');
+        // *******
+
+        // *******
+        // ** Request a new password member
+        // *******
+        $controllers->match('forget.html', function(Request $request) use ($app)
+        {
+            if ($app['session']->has('member')) {
+                $app['session']->setFlash('error', 'Vous êtes déjà authentifié.');
+
+                return new RedirectResponse($app['url_generator']->generate('_homepagedrinks'));
+            }
+
+            $form = $app['form.factory']->create('forget', array());
+
+            // If it's not POST method, just display void form
+            if ($request->getMethod() == 'POST') {
+                $form->bindRequest($request);
+                if ($form->isValid()) {
+                    $data = $form->getData();
+
+                    $user = $app['users']->findOneByEmail($data['email']);
+                    $member = $user && null != $user['member_id'] ? $app['members']->find($user['member_id']) : false;
+                    if (!$user || !$member || !$member['active']) {
+                        $app['session']->setFlash('error', 'Aucun utilisateur ne possède cet adresse email.');
+                        return $app->redirect($app['url_generator']->generate('_forgetmember'));
+                    }
+
+                    try {
+                        $user['token'] = sha1(md5(rand()).microtime(true).md5(rand()));
+                        $app['users']->update($user, array('id' => (int) $user['id']));
+
+                        $app['mailer']->send($app['mailer']
+                            ->createMessage()
+                            ->setSubject('[Aperophp.net] Changement de mot de passe')
+                            ->setFrom(array('noreply@aperophp.net'))
+                            ->setTo(array($user['email']))
+                            ->setBody($app['twig']->render('member/forget_mail.html.twig', array(
+                                'user'   => $user,
+                                'member' => $member
+                            )), 'text/html')
+                        );
+                    } catch (\Exception $e) {
+                        $app->abort(500, 'Impossible de vous rappeler votre mot de passe. Merci de réessayer plus tard.');
+                    }
+
+                    $app['session']->setFlash('success', 'Vous allez recevoir un email dans quelques instants pour changer de mot de passe.');
+                    return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
+                }
+                else
+                    $app['session']->setFlash('error', 'Quelque chose n\'est pas valide.');
+
+            }
+
+            return $app['twig']->render('member/forget.html.twig', array(
+                'form' => $form->createView(),
+            ));
+        })
+        ->bind('_forgetmember')
+        ->method('GET|POST');
+
+        // *******
+        // ** Remember password member
+        // *******
+        $controllers->get('remember.html/{email}/{token}', function(Request $request, $email, $token) use ($app)
+        {
+            if ($app['session']->has('member')) {
+                $app['session']->setFlash('error', 'Vous êtes déjà authentifié.');
+
+                return new RedirectResponse($app['url_generator']->generate('_homepagedrinks'));
+            }
+
+            if (!$user = $app['users']->findOneByEmailToken($email, $token)) {
+                $app['session'] ->setFlash('error', 'Couple email/jeton invalide.');
+
+                return new RedirectResponse($app['url_generator']->generate('_homepagedrinks'));
+            }
+
+            if (!($member = $app['members']->find($user['member_id'])) || !$member['active']) {
+                $app['session'] ->setFlash('error', 'Member invalide/inactif.');
+
+                return new RedirectResponse($app['url_generator']->generate('_homepagedrinks'));
+            }
+
+            $app['db']->beginTransaction();
+
+            try {
+                $password = sha1(md5(rand()).microtime(true).md5(rand()));
+                $member['password'] = $app['utils']->hash($password);
+                $app['members']->update($member, array('id' => (int) $member['id']));
+
+                $user['token'] = sha1(md5(rand()).microtime(true).md5(rand()));
+                $app['users']->update($user, array('id' => (int) $user['id']));
+
+                $app['db']->commit();
+
+                $app['mailer']->send($app['mailer']
+                    ->createMessage()
+                    ->setSubject('[Aperophp.net] Changement de mot de passe')
+                    ->setFrom(array('noreply@aperophp.net'))
+                    ->setTo(array($user['email']))
+                    ->setBody($app['twig']->render('member/remember_mail.html.twig', array(
+                        'password' => $password,
+                        'member'   => $member
+                    )), 'text/html')
+                );
+            } catch (\Exception $e) {
+                try {
+                    $app['db']->rollback();
+                } catch (\Exception $e) {
+                }
+                $app->abort(500, 'Impossible de changer votre mot de passe. Merci de réessayer plus tard.');
+            }
+
+            $app['session'] ->setFlash('success', 'Votre nouveau mot de passe vient de vous être envoyé. Vous pouvez vous connecter immédiatement avec celui-ci.');
+            return $app->redirect($app['url_generator']->generate('_signinmember'));
+        })->bind('_remembermember');
         // *******
 
         return $controllers;

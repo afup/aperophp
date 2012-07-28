@@ -38,4 +38,18 @@ class User extends Repository
         return $this->db->fetchAssoc($sql, array($email, $token));
     }
 
+    /**
+     * findOneByEmail
+     *
+     * @param mixed $email
+     *
+     * @return array
+     */
+    public function findOneByEmail($email)
+    {
+        $sql = 'SELECT * FROM User WHERE email = ? LIMIT 1';
+
+        return $this->db->fetchAssoc($sql, array($email));
+    }
+
 }

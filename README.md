@@ -41,6 +41,7 @@
  * [DONE] le site lui envoie un mail avec une url perso qui contient un token (par exemple un md5)
  * [DONE]l'utilisateur peut modifier son inscription à l'apéro via cette url
  * si il perd l'url, on peut facilement lui régénérer un token et lui renvoyer un mail
+ * [DONE] pouvoir regénérer son mot de passe
 
 ## Nice to have
 
