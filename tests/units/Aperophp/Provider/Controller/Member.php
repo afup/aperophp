@@ -265,6 +265,25 @@ class Member extends Test
                             ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
         ;
     }
+ 
+    public function testForget_noData()
+    {
+        $this->assert
+            ->if($client = $this->createClient())
+            ->then
+                ->if($crawler = $client->request('GET', '/member/forget.html'))
+                ->then()
+                    ->boolean($client->getResponse()->isOk())->isTrue()
+                    ->if($form = $crawler->selectButton('remember')->form())
+                    ->then()
+                        ->if($crawler = $client->submit($form, array(
+                            'member_forget[email]' => '',
+                        )))
+                        ->then()
+                            ->boolean($client->getResponse()->isOk())->isTrue()
+                            ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
+        ;
+    }
 
     public function testRemember_goodData()
     {
