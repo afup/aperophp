@@ -11,9 +11,9 @@ use Aperophp\Form\EventListener\DataFilterSubscriber;
 /**
  * Forget form.
  *
- * @author Koin <pkoin.koin@gmail.com>
- * @since 4 févr. 2012
- * @version 1.0 - 4 févr. 2012 - Koin <pkoin.koin@gmail.com>
+ * @author Gautier DI FOLCO <gautier.difolco@gmail.com>
+ * @since 28 july 2012
+ * @version 1.0 - 28 july. 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
  */
 class ForgetMemberType extends AbstractType
 {
