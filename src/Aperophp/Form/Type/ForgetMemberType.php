@@ -15,7 +15,7 @@ use Aperophp\Form\EventListener\DataFilterSubscriber;
  * @since 4 févr. 2012
  * @version 1.0 - 4 févr. 2012 - Koin <pkoin.koin@gmail.com>
  */
-class ForgetType extends AbstractType
+class ForgetMemberType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -43,6 +43,6 @@ class ForgetType extends AbstractType
 
     public function getName()
     {
-        return 'forget';
+        return 'member_forget';
     }
 }

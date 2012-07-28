@@ -193,7 +193,7 @@ class Member extends Test
                     ->if($form = $crawler->selectButton('remember')->form())
                     ->then()
                         ->if($crawler = $client->submit($form, array(
-                            'forget[email]' => 'user3@example.org',
+                            'member_forget[email]' => 'user3@example.org',
                         )))
                         ->then()
                             ->boolean($client->getResponse()->isRedirect('/'))->isTrue()
@@ -216,7 +216,7 @@ class Member extends Test
                     ->if($form = $crawler->selectButton('remember')->form())
                     ->then()
                         ->if($crawler = $client->submit($form, array(
-                            'forget[email]' => 'user42@example.org',
+                            'member_forget[email]' => 'user42@example.org',
                         )))
                         ->then()
                             ->boolean($client->getResponse()->isRedirect('/member/forget.html'))->isTrue()
@@ -238,7 +238,7 @@ class Member extends Test
                     ->if($form = $crawler->selectButton('remember')->form())
                     ->then()
                         ->if($crawler = $client->submit($form, array(
-                            'forget[email]' => 'user2@example.org',
+                            'member_forget[email]' => 'user2@example.org',
                         )))
                         ->then()
                             ->boolean($client->getResponse()->isRedirect('/member/forget.html'))->isTrue()

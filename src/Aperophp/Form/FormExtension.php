@@ -27,7 +27,7 @@ class FormExtension extends AbstractExtension
             new Type\EditMemberType(),
             new Type\SigninType(),
             new Type\SignupType(),
-            new Type\ForgetType(),
+            new Type\ForgetMemberType(),
         );
     }
 }

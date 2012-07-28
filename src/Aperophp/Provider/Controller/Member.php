@@ -210,7 +210,7 @@ class Member implements ControllerProviderInterface
                 return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
             }
 
-            $form = $app['form.factory']->create('forget', array());
+            $form = $app['form.factory']->create('member_forget', array());
 
             // If it's not POST method, just display void form
             if ('POST' === $request->getMethod()) {
