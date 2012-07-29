@@ -8,7 +8,6 @@ use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Aperophp\Repository;
 
 /**
@@ -61,9 +60,9 @@ class Drink implements ControllerProviderInterface
         $controllers->match('new.html', function(Request $request) use ($app)
         {
             if (!$app['session']->has('member')) {
-                $app['session']->setFlash('error', 'Vous devez être authentifié pour créer un apéro.');
+                $app['session']->setFlash('error', 'Vous devez être authentifié pour créer un événement.');
 
-                return new RedirectResponse($app['url_generator']->generate('_signinmember'));
+                return $app->redirect($app['url_generator']->generate('_signinmember'));
             }
 
             $app['session']->set('menu', 'newdrink');
@@ -77,15 +76,14 @@ class Drink implements ControllerProviderInterface
 
                     $member = $app['session']->get('member');
                     $data['member_id'] = $member['id'];
-                    $data['kind']      = Repository\Drink::KIND_DRINK;
 
                     try {
                         $app['drinks']->insert($data);
                     } catch (\Exception $e) {
-                        $app->abort(500, 'Impossible de créer l\'apero. Merci de réessayer plus tard.');
+                        $app->abort(500, 'Impossible de créer l\'événement. Merci de réessayer plus tard.');
                     }
 
-                    $app['session']->setFlash('success', 'L\'apéro a été créé avec succès.');
+                    $app['session']->setFlash('success', 'L\'événement a été créé avec succès.');
 
                     return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $app['drinks']->lastInsertId())));
                 }
@@ -109,7 +107,7 @@ class Drink implements ControllerProviderInterface
             $drink = $app['drinks']->find($id);
 
             if (!$drink)
-                $app->abort(404, 'Cet apéro n\'existe pas.');
+                $app->abort(404, 'Cet événement n\'existe pas.');
 
             $now = new \Datetime('now');
             $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $drink['day'] . ' ' . $drink['hour']);
@@ -121,10 +119,16 @@ class Drink implements ControllerProviderInterface
 
             $member = $app['session']->get('member');
 
-            if (!$member || $drink['member_id'] != $member['id']) {
-                $app['session']->setFlash('error', 'Vous devez être authentifié et être organisateur de cet apéro pour pouvoir l\'éditer.');
+            if (!$member) {
+                $app['session']->setFlash('error', 'Vous devez être authentifié et être organisateur de cet événement pour pouvoir l\'éditer.');
 
-                return new RedirectResponse($app['url_generator']->generate('_signinmember'));
+                return $app->redirect($app['url_generator']->generate('_signinmember'));
+            }
+
+            if ($drink['member_id'] != $member['id']) {
+                $app['session']->setFlash('error', 'Vous devez être organisateur de cet événement pour pouvoir l\'éditer.');
+
+                return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));
             }
 
             $form = $app['form.factory']->create('drink', $drink);
@@ -135,14 +139,13 @@ class Drink implements ControllerProviderInterface
                     $data = $form->getData();
 
                     $data['member_id'] = $member['id'];
-                    $data['kind']      = Repository\Drink::KIND_DRINK;
 
                     try {
                         $app['drinks']->update($data, array('id' => $drink['id']));
                     } catch (\Exception $e) {
-                        $app->abort(500, 'Impossible de modifier l\'apéro. Merci de réessayer plus tard.');
+                        $app->abort(500, 'Impossible de modifier l\'événement. Merci de réessayer plus tard.');
                     }
-                    $app['session']->setFlash('success', 'L\'apéro a été modifié avec succès.');
+                    $app['session']->setFlash('success', 'L\'événement a été modifié avec succès.');
 
                     return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));
                 }
@@ -172,7 +175,7 @@ class Drink implements ControllerProviderInterface
             $drink = $app['drinks']->find($id);
 
             if (!$drink)
-                $app->abort(404, 'Cet apéro n\'existe pas.');
+                $app->abort(404, 'Cet événement n\'existe pas.');
 
             $participants = $app['drink_participants']->findByDrinkId($drink['id']);
             $comments = $app['drink_comments']->findByDrinkId($drink['id']);
@@ -183,7 +186,7 @@ class Drink implements ControllerProviderInterface
             $textProcessor->no_entities = true;
 
             foreach ($comments as &$comment)
-                $comment['content'] = str_replace('href="javascript:', 'href="', $textProcessor->transform($comment['content']));
+                $comment['content'] = str_replace('href="javascript:', 'href="', substr($textProcessor->transform($comment['content']), 3, -5));
 
             $user = $app['session']->get('user');
 
@@ -214,7 +217,7 @@ class Drink implements ControllerProviderInterface
             $now = new \Datetime('now');
             $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $drink['day'] . ' ' . $drink['hour']);
 
-            $drink['description'] = str_replace('href="javascript:', 'href="', $textProcessor->transform($drink['description']));
+            $drink['description'] = str_replace('href="javascript:', 'href="', substr($textProcessor->transform($drink['description']), 3, -5));
 
             return $app['twig']->render('drink/view.html.twig', array(
                 'drink'             => $drink,
@@ -223,7 +226,8 @@ class Drink implements ControllerProviderInterface
                 'commentForm'       => $commentForm->createView(),
                 'participationForm' => $participationForm->createView(),
                 'isFinished'        => $now > $dDrink,
-                'isParticipating'   => $isParticipating
+                'isParticipating'   => $isParticipating,
+                'isConnected'       => null !== $user,
             ));
         })
         ->value('email', null)

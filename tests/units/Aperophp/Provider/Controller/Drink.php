@@ -35,6 +35,7 @@ class Drink extends Test
                                 'drink[hour]'        => '19:30:00',
                                 'drink[description]' => 'ApéroPHP au père tranquille.',
                                 'drink[city_id]'     => '5',
+                                'drink[kind]'        => 'drink',
                                 'drink[place]'       => 'Au père tranquille',
                                 'drink[address]'     => '16 Rue Pierre Lescot, Paris, France',
                                 'drink[latitude]'    => '48.86214',
@@ -81,6 +82,7 @@ class Drink extends Test
                                 'drink[hour]'        => '20:00:00',
                                 'drink[description]' => 'ApéroPHP au père tranquille [Edited].',
                                 'drink[city_id]'     => '5',
+                                'drink[kind]'        => 'talk',
                                 'drink[place]'       => 'Au père tranquille',
                                 'drink[address]'     => '16 Rue Pierre Lescot, Paris, France',
                                 'drink[latitude]'    => '48.86214',
@@ -94,6 +96,7 @@ class Drink extends Test
                                     ->boolean($client->getResponse()->isOk())->isTrue()
                                     ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
                                     ->integer($crawler->filter('p:contains("[Edited]")')->count())->isEqualTo(1)
+                                    ->integer($crawler->filter('h1:contains("talk")')->count())->isEqualTo(1)
         ;
     }
 
@@ -113,6 +116,7 @@ class Drink extends Test
                                 'drink[hour]'        => '00:00:00',
                                 'drink[description]' => '',
                                 'drink[city_id]'     => '5',
+                                'drink[kind]'        => 'drink',
                                 'drink[place]'       => '',
                                 'drink[address]'     => '',
                                 'drink[latitude]'    => '',
@@ -151,7 +155,7 @@ class Drink extends Test
                 ->then
                     ->if($crawler = $client->request('GET', '/1/edit.html'))
                     ->then()
-                        ->boolean($client->getResponse()->isRedirect('/member/signin.html'))->isTrue()
+                        ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
                             ->if($crawler = $client->followRedirect())
                             ->then()
                                 ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)

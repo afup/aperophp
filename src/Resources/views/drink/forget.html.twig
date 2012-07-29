@@ -1,0 +1,21 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+<div class="row">
+    <div class="span4 offset6">
+        <form method="post" action="{{ url('_forgetparticipatedrink', {'drinkId': drinkId}) }}" class="well" {{ form_enctype(form) }}>
+            <div class="controls">
+                <div class="input-prepend">
+                    <span class="add-on"><i class="icon-envelope"></i></span>
+                    {{ form_widget(form.email, { 'attr': {'class': 'span2'} }) }}
+                    {{ form_errors(form.email) }}
+                </div>
+            </div>
+            {{ form_rest(form) }}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" name="remember">Soumettre</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

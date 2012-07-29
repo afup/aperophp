@@ -90,4 +90,14 @@ class Drink extends Test
                 ->boolean($drink)->isFalse()
             ;
     }
+
+    public function testFindAllKindsInAssociativeArray()
+    {
+        $this->assert
+            ->if($drinks = $this->app['drinks']->findAllKindsInAssociativeArray())
+            ->then
+                ->boolean(is_array($drinks))->isTrue()
+                ->integer(count($drinks))->isEqualTo(2)
+        ;
+    }
 }

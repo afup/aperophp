@@ -23,10 +23,12 @@ class FormExtension extends AbstractExtension
         return array(
             new Type\DrinkCommentType($this->app['session']),
             new Type\DrinkParticipationType($this->app['session']),
-            new Type\DrinkType($this->app['cities']),
+            new Type\DrinkType($this->app['cities'], $this->app['drinks']),
             new Type\EditMemberType(),
             new Type\SigninType(),
             new Type\SignupType(),
+            new Type\ForgetMemberType(),
+            new Type\ForgetParticipationType(),
         );
     }
 }
