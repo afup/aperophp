@@ -78,12 +78,38 @@ class Member extends Test
                                 'member_edit[member][password]' => '',
                             )))
                             ->then()
-                                //->string($client->getResponse()->getContent())->isEqualTo('toto')
                                 ->boolean($client->getResponse()->isRedirect('/member/edit.html'))->isTrue()
                                 ->if($crawler = $client->followRedirect())
                                 ->then()
                                     ->boolean($client->getResponse()->isOk())->isTrue()
                                     ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
+        ;
+    }
+
+    public function testEditProfile_withInvalidData_isModified()
+    {
+        $this->assert
+            ->if($client = $this->createClient())
+            ->then
+                ->if(true == $client->connect())
+                ->then()
+                    ->if($crawler = $client->request('GET', '/member/edit.html'))
+                    ->then()
+                        ->boolean($client->getResponse()->isOk())->isTrue()
+                        ->if($form = $crawler->selectButton('edit')->form())
+                        ->then()
+                            ->if($crawler = $client->submit($form, array(
+                                'member_edit[user][lastname]'   => '',
+                                'member_edit[user][firstname]'  => '',
+                                'member_edit[user][email]'      => '',
+                                'member_edit[member][password]' => '',
+                            )))
+                            ->then()
+                                ->boolean($client->getResponse()->isRedirect('/member/edit.html'))->isTrue()
+                                ->if($crawler = $client->followRedirect())
+                                ->then()
+                                    ->boolean($client->getResponse()->isOk())->isTrue()
+                                    ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
         ;
     }
 
@@ -97,6 +123,27 @@ class Member extends Test
                     ->boolean($client->getResponse()->isRedirect('/member/signin.html'))->isTrue()
                         ->if($crawler = $client->followRedirect())
                         ->then()
+                            ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
+        ;
+    }
+
+    public function testSignin_badPasswor()
+    {
+        $this->assert
+            ->if($client = $this->createClient())
+            ->then
+                ->if($crawler = $client->request('GET', '/member/signin.html'))
+                ->then()
+                    ->boolean($client->getResponse()->isOk())->isTrue()
+                    ->if($form = $crawler->selectButton('login')->form())
+                    ->then()
+                        ->if($crawler = $client->submit($form, array(
+                            'signin[username]'   => 'user2',
+                            'signin[password]'   => 'badpassword',
+                        )))
+                        ->then()
+                            ->boolean($client->getResponse()->isRedirect())->isFalse()
+                            ->boolean($client->getResponse()->isOk())->isTrue()
                             ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
         ;
     }
