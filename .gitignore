@@ -4,6 +4,7 @@ composer.phar
 composer.lock
 deps.lock
 vendor/*
+tmp/*
 
 # IDE files
   # Netbeans

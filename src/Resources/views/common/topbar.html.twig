@@ -1,19 +1,46 @@
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
-        <div class="container-fluid">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </a>
+        <div class="container">
             <a class="brand" href="{{ url('_homepagedrinks') }}">Ap&eacute;ro PHP</a>
             <div class="nav-collapse">
-                <ul class="nav">
-                    <li class="{% if app.session.get('menu') == 'newdrink' %}active{% endif %}"><a href="{{ url('_newdrink') }}">Organiser un &eacute;v&eacute;nement</a></li>
-                    <li class="{% if app.session.get('menu') == 'listdrinks' %}active{% endif %}"><a href="{{ url('_listdrinks') }}">Liste des &eacute;v&eacute;nements</a></li>
-                </ul>
                 {% include "common/connection.html.twig" %}
             </div><!--/.nav-collapse -->
         </div>
     </div>
 </div>
+
+<div class="subnavbar">
+    <div class="subnavbar-inner">
+        <div class="container">
+            <ul class="mainnav">
+                <li{% if app.session.get('menu') == 'homepagedrinks' %} class="active"{% endif %}>
+                    <a href="{{ url('_homepagedrinks') }}">
+                        <i class="icon-home"></i> <span>Accueil</span>
+                    </a>
+                </li>
+                <li{% if app.session.get('menu') == 'newdrink' %} class="active"{% endif %}>
+                    <a href="{{ url('_newdrink') }}">
+                        <i class="icon-glass"></i> <span>Organiser un apéro</span>
+                    </a>
+                </li>
+                <li{% if app.session.get('menu') == 'listdrinks' %} class="active"{% endif %}>
+                    <a href="{{ url('_listdrinks') }}">
+                        <i class="icon-calendar"></i> <span>Liste des apéros</span>
+                    </a>
+                </li>
+                {% if not(app.session.has('member')) %}
+                <li{% if app.session.get('menu') == 'signup' %} class="active"{% endif %}>
+                    <a href="{{ url('_signupmember') }}">
+                        <i class="icon-signin"></i> <span>S'inscrire</span>
+                    </a>
+                </li>
+                <li{% if app.session.get('menu') == 'signin' %} class="active"{% endif %}>
+                    <a href="{{ url('_signinmember') }}">
+                        <i class="icon-key"></i> <span>Se connecter</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div> <!-- /container -->
+    </div> <!-- /subnavbar-inner -->
+</div> <!-- /subnavbar -->
