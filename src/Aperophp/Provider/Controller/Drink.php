@@ -76,7 +76,6 @@ class Drink implements ControllerProviderInterface
 
                     $member = $app['session']->get('member');
                     $data['member_id'] = $member['id'];
-                    $data['kind']      = Repository\Drink::KIND_DRINK;
 
                     try {
                         $app['drinks']->insert($data);
@@ -140,7 +139,6 @@ class Drink implements ControllerProviderInterface
                     $data = $form->getData();
 
                     $data['member_id'] = $member['id'];
-                    $data['kind']      = Repository\Drink::KIND_DRINK;
 
                     try {
                         $app['drinks']->update($data, array('id' => $drink['id']));

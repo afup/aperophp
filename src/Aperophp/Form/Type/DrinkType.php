@@ -21,10 +21,13 @@ class DrinkType extends AbstractType
 {
     protected $cityRepository;
     protected $cities = null;
+    protected $drinkRepository;
+    protected $kinds = null;
 
-    public function __construct(Repository\City $cityRepository)
+    public function __construct(Repository\City $cityRepository, Repository\Drink $drinkRepository)
     {
         $this->cityRepository = $cityRepository;
+        $this->drinkRepository = $drinkRepository;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -44,6 +47,10 @@ class DrinkType extends AbstractType
             ->add('city_id', 'choice', array(
                 'label' => 'Ville',
                 'choices' => $options['cities']
+            ))
+            ->add('kind', 'choice', array(
+                'label' => 'Type',
+                'choices' => $options['kinds']
             ))
             ->add('description', 'textarea', array(
                 'label' => 'Description'
@@ -76,6 +83,12 @@ class DrinkType extends AbstractType
                         'choices' => array_keys($this->getCities())
                     )),
                 ),
+                'kind'       => array(
+                    new Constraints\NotNull(),
+                    new Constraints\Choice(array(
+                        'choices' => array_keys($this->getKinds())
+                    )),
+                ),
                 'description' => new Constraints\NotNull(),
             ),
             'allowExtraFields' => false,
@@ -95,6 +108,7 @@ class DrinkType extends AbstractType
             'validation_constraint' => $collectionConstraint,
             'hours'                 => $hours,
             'cities'                => $this->getCities(),
+            'kinds'                 => $this->getKinds(),
         ));
     }
 
@@ -105,10 +119,19 @@ class DrinkType extends AbstractType
 
     protected function getCities()
     {
-        if (null !== $this->cities) {
-            return $this->cities;
+        if (null === $this->cities) {
+            $this->cities = $this->cityRepository->findAllInAssociativeArray();
         }
 
-        return $this->cityRepository->findAllInAssociativeArray();
+        return $this->cities;
+    }
+
+    protected function getKinds()
+    {
+        if (null === $this->kinds) {
+            $this->kinds = $this->drinkRepository->findAllKindsInAssociativeArray();
+        }
+
+        return $this->kinds;
     }
 }
