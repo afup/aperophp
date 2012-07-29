@@ -50,7 +50,7 @@
 * mini-système de news pour le site
 * lien avec les antennes locales de l'AFUP (pour Lyon, Nantes, Orléans, par exemple)
 * accès et gestion directe depuis le back-office de l'AFUP
-* définir certains apéros comme des Mini confs : intervenants et sujet / lightning talks (slides si dispos) pour les non-membres AFUP qui veulent copier les "Rendez-Vous AFUP"
+* [DONE] définir certains apéros comme des Mini confs : intervenants et sujet / lightning talks (slides si dispos) pour les non-membres AFUP qui veulent copier les "Rendez-Vous AFUP"
 
 
 ## Inutile
