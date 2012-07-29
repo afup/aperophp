@@ -7,7 +7,7 @@
             <thead>
                 <tr>
                     <th>Quand</th>
-                    <th>Où</th>
+                    <th>O&ugrave;</th>
                     <th>Pour</th>
                     <th>Organisateur</th>
                     <th>Nombre</th>
@@ -17,12 +17,12 @@
             <tbody>
                 {% for drink in drinks %}
                     <tr>
-                        <td class="vmiddle">Le {{ drink.day|date("d") }} {{ drink.day|date("F")|trans }} {{ drink.day|date("Y") }}, à {{ drink.hour|date("H:i") }}</td>
+                        <td class="vmiddle">Le {{ drink.day|date("d") }} {{ drink.day|date("F")|trans }} {{ drink.day|date("Y") }}, &agrave; {{ drink.hour|date("H:i") }}</td>
                         <td class="vmiddle">A {{ drink.city_name }}, {{ drink.place }}</td>
                         <td class="vmiddle">{{ drink.kind }}</td>
                         <td class="vmiddle">{{ drink.organizer_username }}</td>
                         <td class="vmiddle">{{ drink.participants_count }}</td>
-                        <td><a class="btn btn-small" href="{{ url('_showdrink', {'id': drink.id}) }}">Voir le détail &raquo;</a></td>
+                        <td><a class="btn btn-small" href="{{ url('_showdrink', {'id': drink.id}) }}">Voir le d&eacute;tail &raquo;</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

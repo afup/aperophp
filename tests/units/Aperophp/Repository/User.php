@@ -69,4 +69,22 @@ class User extends Test
                 ->string($user['lastname'])->isEqualTo('bar')
         ;
     }
+
+    public function testFindOneByEmail_withExistingEntry_returnIt()
+    {
+        $this->assert
+            ->if($user = $this->app['users']->findOneByEmail('user1@example.org'))
+            ->then
+                ->boolean(is_array($user))->isTrue()
+        ;
+    }
+
+    public function testFindOneByEmail_withInexistingEntry_returnIt()
+    {
+        $this->assert
+            ->if($user = $this->app['users']->findOneByEmail('user42@example.org'))
+            ->then
+                ->boolean($user)->isFalse()
+        ;
+    }
 }

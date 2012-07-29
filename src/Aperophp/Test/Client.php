@@ -21,7 +21,7 @@ class Client extends BaseClient
             'signin[password]' => $password,
         ));
 
-        if (!$this->getResponse()->isRedirect('/drink/')) {
+        if (!$this->getResponse()->isRedirect('/')) {
             return false;
         }
 

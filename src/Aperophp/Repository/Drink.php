@@ -8,7 +8,7 @@ namespace Aperophp\Repository;
 class Drink extends Repository
 {
     const KIND_DRINK        = 'drink';
-    const KIND_CONFERENCE   = 'conference';
+    const KIND_CONFERENCE   = 'talk';
 
     public function getTableName()
     {
@@ -90,5 +90,13 @@ class Drink extends Repository
             ';
 
         return $this->db->fetchAssoc($sql, array((int) $id));
+    }
+
+    public function findAllKindsInAssociativeArray()
+    {
+        return array(
+            self::KIND_DRINK      => self::KIND_DRINK,
+            self::KIND_CONFERENCE => self::KIND_CONFERENCE,
+        );
     }
 }
