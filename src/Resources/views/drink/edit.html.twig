@@ -7,7 +7,7 @@
     <div class="span8 offset4">
         <form method="post" action="{{ url('_editdrink', {'id': id}) }}" class="form-horizontal" {{ form_enctype(form) }}>
             <fieldset>
-                <legend>Editer l'apéro</legend>
+                <legend>Editer l'ap&eacute;ro</legend>
                 <div class="control-group">
                     <label for="drink_dayselector" class="control-label required">Jour</label>
                     <div class="controls">
@@ -33,6 +33,13 @@
                     <div class="controls">
                         {{ form_widget(form.city_id) }}
                         {{ form_errors(form.city_id) }}
+                    </div>
+                </div>
+                <div class="control-group {% if form.kind.vars.errors|length %}error{% endif %}">
+                    {{ form_label(form.kind, null, { 'attr': {'class': 'control-label'} }) }}
+                    <div class="controls">
+                        {{ form_widget(form.kind) }}
+                        {{ form_errors(form.kind) }}
                     </div>
                 </div>
                 <div class="control-group">

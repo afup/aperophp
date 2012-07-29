@@ -1,10 +1,12 @@
 <h2>Participants
     {% if not isFinished %}
         {% if isParticipating %}
-            <a class="btn pull-right" href="{{ url('_deleteparticipatedrink', {'drinkId': drink.id}) }}">Se désinscrire</a>
+            <a class="btn pull-right" href="{{ url('_deleteparticipatedrink', {'drinkId': drink.id}) }}">Se d&eacute;sinscrire</a>
             <a class="btn pull-right" data-toggle="modal" href="#participateModal">Modifier</a>
         {% else %}
-            <a class="btn pull-right" href="{{ url('_forgetparticipatedrink', {'drinkId': drink.id}) }}">Jeton perdu ?</a>
+            {% if not isConnected %}
+                <a class="btn pull-right" href="{{ url('_forgetparticipatedrink', {'drinkId': drink.id}) }}">Jeton perdu ?</a>
+            {% endif %}
             <a class="btn pull-right" data-toggle="modal" href="#participateModal" >S'inscrire</a>
         {% endif %}
 
@@ -20,7 +22,7 @@
             <thead>
                 <tr>
                     <th>Participant</th>
-                    <th>Présence</th>
+                    <th>Pr&eacute;sence</th>
                 </tr>
             </thead>
             <tbody>

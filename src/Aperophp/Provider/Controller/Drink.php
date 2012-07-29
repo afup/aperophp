@@ -186,7 +186,7 @@ class Drink implements ControllerProviderInterface
             $textProcessor->no_entities = true;
 
             foreach ($comments as &$comment)
-                $comment['content'] = str_replace('href="javascript:', 'href="', $textProcessor->transform($comment['content']));
+                $comment['content'] = str_replace('href="javascript:', 'href="', substr($textProcessor->transform($comment['content']), 3, -5));
 
             $user = $app['session']->get('user');
 
@@ -217,7 +217,7 @@ class Drink implements ControllerProviderInterface
             $now = new \Datetime('now');
             $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $drink['day'] . ' ' . $drink['hour']);
 
-            $drink['description'] = str_replace('href="javascript:', 'href="', $textProcessor->transform($drink['description']));
+            $drink['description'] = str_replace('href="javascript:', 'href="', substr($textProcessor->transform($drink['description']), 3, -5));
 
             return $app['twig']->render('drink/view.html.twig', array(
                 'drink'             => $drink,
@@ -226,7 +226,8 @@ class Drink implements ControllerProviderInterface
                 'commentForm'       => $commentForm->createView(),
                 'participationForm' => $participationForm->createView(),
                 'isFinished'        => $now > $dDrink,
-                'isParticipating'   => $isParticipating
+                'isParticipating'   => $isParticipating,
+                'isConnected'       => null !== $user,
             ));
         })
         ->value('email', null)

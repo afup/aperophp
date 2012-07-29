@@ -9,7 +9,7 @@
     </div>
     <div class="span8">
         <div class="row">
-            <div class="span7"><h1>{{ drink.kind }} <small>à {{ drink.city_name }}, le {{ drink.day|date("d") }} {{ drink.day|date("F")|trans }} {{ drink.day|date("Y") }} à {{ drink.hour|date("H:i") }}</small></h1></div>
+            <div class="span7"><h1>{{ drink.kind }} <small>&agrave; {{ drink.city_name }}, le {{ drink.day|date("d") }} {{ drink.day|date("F")|trans }} {{ drink.day|date("Y") }} &agrave; {{ drink.hour|date("H:i") }}</small></h1></div>
 
             {% if not isFinished %}
               <div class="span1">
@@ -25,7 +25,7 @@
         <p>Lieu : {{ drink.place }}, {{ drink.address }}</p>
         <blockquote>
             <p class="description">{{ drink.description|raw }}</p>
-            <small>organisé par {{ drink.organizer_username }}</small>
+            <small>organis&eacute; par {{ drink.organizer_username }}</small>
         </blockquote>
         <div id="map" style="width: 100%; height: 400px; margin-bottom: 15px;"></div>
         {% include 'comment/_list.html.twig' with {'comments': comments} %}
@@ -70,7 +70,7 @@
           $("#commentModal").append(data);
       },
       error: function (jqXHR, textStatus, errorThrown) {
-        $("#commentModal").empty().append("Une erreur est survenue, merci de rafraîchir votre page et de réessayer.");
+        $("#commentModal").empty().append("Une erreur est survenue, merci de rafra&icirc;chir votre page et de r&eacute;essayer.");
       },
     });
   });
@@ -90,7 +90,7 @@
           $("#participateModal").append(data);
       },
       error: function (jqXHR, textStatus, errorThrown) {
-        $("#participateModal").empty().append("Une erreur est survenue, merci de rafraîchir votre page et de réessayer.");
+        $("#participateModal").empty().append("Une erreur est survenue, merci de rafra&icirc;chir votre page et de r&eacute;essayer.");
       },
     });
   });
@@ -110,7 +110,7 @@
           $("#dpAnonymousEModal").append(data);
       },
       error: function (jqXHR, textStatus, errorThrown) {
-        $("#dpAnonymousEModal").empty().append("Une erreur est survenue, merci de rafraîchir votre page et de réessayer.");
+        $("#dpAnonymousEModal").empty().append("Une erreur est survenue, merci de rafra&icirc;chir votre page et de r&eacute;essayer.");
       },
     });
   });

@@ -6,11 +6,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="{{ url('_homepagedrinks') }}">Apéro PHP</a>
+            <a class="brand" href="{{ url('_homepagedrinks') }}">Ap&eacute;ro PHP</a>
             <div class="nav-collapse">
                 <ul class="nav">
-                    <li class="{% if app.session.get('menu') == 'newdrink' %}active{% endif %}"><a href="{{ url('_newdrink') }}">Organiser un événement</a></li>
-                    <li class="{% if app.session.get('menu') == 'listdrinks' %}active{% endif %}"><a href="{{ url('_listdrinks') }}">Liste des événements</a></li>
+                    <li class="{% if app.session.get('menu') == 'newdrink' %}active{% endif %}"><a href="{{ url('_newdrink') }}">Organiser un &eacute;v&eacute;nement</a></li>
+                    <li class="{% if app.session.get('menu') == 'listdrinks' %}active{% endif %}"><a href="{{ url('_listdrinks') }}">Liste des &eacute;v&eacute;nements</a></li>
                 </ul>
                 {% include "common/connection.html.twig" %}
             </div><!--/.nav-collapse -->
