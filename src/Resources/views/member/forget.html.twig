@@ -1,21 +1,32 @@
 {% extends "layout.html.twig" %}
 
 {% block content %}
-<div class="row">
-    <div class="span4 offset6">
-        <form method="post" action="{{ url('_forgetmember') }}" class="well" {{ form_enctype(form) }}>
-            <div class="controls">
-                <div class="input-prepend">
-                    <span class="add-on"><i class="icon-envelope"></i></span>
-                    {{ form_widget(form.email, { 'attr': {'class': 'span2'} }) }}
-                    {{ form_errors(form.email) }}
+<div class="span6 offset3">
+    <div class="widget widget-nopad">
+        <div class="widget-header">
+            <i class="icon-calendar"></i>
+            <h3>Mot de passe &eacute;gar&eacute;</h3>
+        </div> <!-- /widget-header -->
+        <div class="widget-content">
+            <form method="post" action="{{ url('_forgetmember') }}" class="form-horizontal" {{ form_enctype(form) }}>
+                <fieldset>
+                    <div class="control-group">
+                        <label for="email" class="control-label">Email</label>
+                        <div class="controls">
+                            <div class="input-prepend">
+                                <span class="add-on"><i class="icon-envelope"></i></span>
+                                {{ form_widget(form.email, { 'attr': {'class': 'span2'} }) }}
+                                {{ form_errors(form.email) }}
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                {{ form_rest(form) }}
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" name="remember">Soumettre</button>
                 </div>
-            </div>
-            {{ form_rest(form) }}
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary" name="remember">Soumettre</button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}

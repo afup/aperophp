@@ -9,9 +9,4 @@
             </ul>
         </li>
     </ul>
-{% else %}
-    <ul class="nav pull-right">
-        <li class="{% if app.session.get('menu') == 'signup' %}active{% endif %}"><a href="{{ url('_signupmember') }}">S'inscrire</a></li>
-        <li class="{% if app.session.get('menu') == 'signin' %}active{% endif %}"><a href="{{ url('_signinmember') }}">Se connecter</a></li>
-    </ul>
 {% endif %}

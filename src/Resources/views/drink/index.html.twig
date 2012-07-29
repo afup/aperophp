@@ -1,21 +1,48 @@
 {% extends "layout.html.twig" %}
 
 {% block content %}
-<div class="row-fluid">
-    <div class="span3">
-        <img src="{{ app.request.basepath }}/img/aperophp.gif" />
-    </div>
-    <div class="span9">
-        <div class="hero-unit">
-            <h1>Ap&eacute;ro PHP</h1>
-            <p>Les ap&eacute;roPHPs sont ouverts &agrave; tous (de d&eacute;butants &agrave; confirm&eacute;s), venez discuter du PHP mais pas que de PHP ! Boissons alcoolis&eacute;es ou non, repas ou simple ap&eacute;ro, c'est &agrave; vous de le d&eacute;finir...</p>
-            <p><a href="{{ url('_newdrink') }}" class="btn btn-primary btn-large">Organiser un ap&eacute;ro &raquo;</a></p>
-        </div>
-        <div class="row-fluid">
-            {% for drink in drinks %}
-                {% include 'drink/_preview.html.twig' with { 'drink': drink } %}
-            {% endfor %}
-        </div><!--/row-->
-    </div><!--/span-->
-</div>
+
+<div class="span8">
+    <div class="widget widget-nopad">
+        <div class="widget-header">
+            <i class="icon-calendar"></i>
+            <h3>A venir</h3>
+        </div> <!-- /widget-header -->
+        <div class="widget-content">
+            <ul class="news-items">
+                {% for drink in drinks %}
+                <li>
+                    <div class="news-item-detail">
+                        <a href="{{ url('_showdrink', {'id': drink.id}) }}" class="news-item-title">{{ drink.kind|upper }} - {{ drink.city_name }}</a>
+                        <p class="news-item-preview">Info : {{ drink.description }}</p>
+                        <p class="news-item-preview">Lieu : {{ drink.place }}</p>
+                        <p class="news-item-preview">Nombre d'inscrits : {{ drink.participants_count }}</p>
+                    </div>
+
+                    <div class="news-item-date">
+                        <span class="news-item-day">{{ drink.day|date("d") }}</span>
+                        <span class="news-item-month">{{ drink.day|date("F")|trans }}</span>
+                        <span class="news-item-hour">{{ drink.hour|date("H:i") }}</span>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div> <!-- /widget-content -->
+    </div> <!-- /widget -->
+</div> <!-- /span8 -->
+
+<div class="span4">
+    <div class="widget">
+        <div class="widget-header">
+            <i class="icon-glass"></i>
+            <h3>Les ap&eacute;ros PHP</h3>
+        </div> <!-- /widget-header -->
+        <div class="widget-content">
+            <p>Les ap&eacute;roPHPs sont ouverts &agrave; tous (de d&eacute;butants &agrave; confirm&eacute;s), venez discuter du PHP mais pas que de PHP !</p>
+            <p>Boissons alcoolis&eacute;es ou non, repas ou simple ap&eacute;ro, c'est &agrave; vous de le d&eacute;finir...</p>
+            <div style="text-align:center"><a href="{{ url('_newdrink') }}" class="btn btn-primary btn-large">Organiser un ap&eacute;ro &raquo;</a></div>
+        </div> <!-- /widget-content -->
+    </div> <!-- /widget -->
+</div> <!-- /span4 -->
+
 {% endblock %}
