@@ -1,5 +1,8 @@
 language: php
 
+env:
+  - DB=mysql
+
 php:
   - 5.3
   - 5.4
@@ -7,6 +10,6 @@ php:
 before_script:
   - wget -nc http://getcomposer.org/composer.phar
   - php composer.phar install
-  - wget http://downloads.atoum.org/nightly/mageekguy.atoum.phar
+  - php app/console db:install --env=travis --load-fixtures
 
-script: ./bin/tests.sh
+script: ./vendor/bin/atoum -d tests/units
