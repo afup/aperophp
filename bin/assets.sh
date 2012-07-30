@@ -26,9 +26,9 @@ echo -e " - Integrate FontAwesome...                 ${CHECK} Done"
 #
 cp $BOOTSTRAPDIR/less/bootstrap.less $MAINDIR/tmp/
 cp $BOOTSTRAPDIR/less/responsive.less $MAINDIR/tmp/
-sed -i -e "s!import \"!import \"../vendor/twitter/bootstrap/less/!" -e 's!vendor/twitter/bootstrap/less/sprites.less";!vendor/FortAwesome/Font-Awesome/less/font-awesome.less";!' $MAINDIR/tmp/bootstrap.less
+sed -i '' -e "s!import \"!import \"../vendor/twitter/bootstrap/less/!" -e 's!vendor/twitter/bootstrap/less/sprites.less";!vendor/FortAwesome/Font-Awesome/less/font-awesome.less";!' $MAINDIR/tmp/bootstrap.less
 echo -e "@import \"../assets/apero.less\";" >> $MAINDIR/tmp/bootstrap.less
-sed -i -e "s!import \"!import \"../vendor/twitter/bootstrap/less/!" $MAINDIR/tmp/responsive.less
+sed -i '' -e "s!import \"!import \"../vendor/twitter/bootstrap/less/!" $MAINDIR/tmp/responsive.less
 echo -e "@import \"../assets/apero-responsive.less\";" >> $MAINDIR/tmp/responsive.less
 echo -e " - Prepare Bootstrap less files...          ${CHECK} Done"
 jshint $BOOTSTRAPDIR/js/*.js --config $BOOTSTRAPDIR/js/.jshintrc
