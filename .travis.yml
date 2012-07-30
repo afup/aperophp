@@ -10,6 +10,7 @@ php:
 before_script:
   - wget -nc http://getcomposer.org/composer.phar
   - php composer.phar install
+  - mysql -e 'create database aperophp_test;'
   - php app/console db:install --env=travis --load-fixtures
 
 script: ./vendor/bin/atoum -d tests/units
