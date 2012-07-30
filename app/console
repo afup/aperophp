@@ -10,12 +10,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-$goToEnv = function($env) use ($app) {
-    if ('test' === $env) {
-        require __DIR__.'/config_test.php';
-    } elseif ('travis' === $env) {
-        require __DIR__.'/config_travis.php';
-    }
+$goToTestEnv = function() use ($app) {
+    require __DIR__.'/config_test.php';
 };
 
 $importFile = function($file) use ($app) {
@@ -36,14 +32,16 @@ $console = new Application('Aperophp', '1');
 
 $console->register('db:install')
     ->setDefinition(array(
-        new InputOption('env', '', InputOption::VALUE_OPTIONAL, 'Test mode', 'normal'),
+        new InputOption('test', '', InputOption::VALUE_NONE, 'Test mode'),
         new InputOption('load-fixtures', '', InputOption::VALUE_NONE, 'Test mode'),
     ))
     ->setDescription('Create database')
-    ->setHelp('Usage: <info>php app/console db:install [--env=(normal|test|travis)] [--load-fixtures]</info>')
+    ->setHelp('Usage: <info>php app/console db:install [--test] [--load-fixtures]</info>')
     ->setCode(
-        function(InputInterface $input, OutputInterface $output) use ($app, $goToEnv, $importFile, $loadFixtures) {
-            $goToEnv($input->getOption('env'));
+        function(InputInterface $input, OutputInterface $output) use ($app, $goToTestEnv, $importFile, $loadFixtures) {
+            if ($input->getOption('test')) {
+                $goToTestEnv();
+            }
 
             $output->writeln('<info>Create schema.</info>');
             $importFile(__DIR__ . '/../data/sql/schema.mysql.sql');
@@ -64,8 +62,10 @@ $console->register('db:load-fixtures')
     ->setDescription('Create database')
     ->setHelp('Usage: <info>php app/console db:load-fixtures [--test]</info>')
     ->setCode(
-        function(InputInterface $input, OutputInterface $output) use ($app, $goToEnv, $loadFixtures) {
-            $goToEnv($input->getOption('env'));
+        function(InputInterface $input, OutputInterface $output) use ($app, $goToTestEnv, $loadFixtures) {
+            if ($input->getOption('test')) {
+                $goToTestEnv();
+            }
 
             $loadFixtures();
         }
