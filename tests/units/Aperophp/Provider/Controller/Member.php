@@ -103,7 +103,7 @@ class Member extends Test
         ;
     }
 
-    public function testEditProfile_withInvalidData_isModified()
+    public function testEditProfile_withInvalidData_isNotModified()
     {
         $this->assert
             ->if($client = $this->createClient())
