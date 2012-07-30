@@ -16,7 +16,7 @@ class Comment extends Test
                 ->if($crawler = $client->request('GET', '/1/view.html'))
                 ->then()
                     ->boolean($client->getResponse()->isOk())->isTrue()
-                    ->integer($crawler->filter('blockquote.pull-right')->count())->isEqualTo(2)
+                    ->integer($crawler->filter('blockquote')->count()-1)->isEqualTo(2)
                         ->if($form = $crawler->selectButton('comment')->form())
                         ->then()
                             ->if($crawler = $client->submit($form, array(
@@ -31,7 +31,7 @@ class Comment extends Test
                                 ->then()
                                     ->boolean($client->getResponse()->isOk())->isTrue()
                                     ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
-                                    ->integer($crawler->filter('blockquote.pull-right')->count())->isEqualTo(3)
+                                    ->integer($crawler->filter('blockquote')->count()-1)->isEqualTo(3)
         ;
     }
 
@@ -43,7 +43,7 @@ class Comment extends Test
                 ->if($crawler = $client->request('GET', '/1/view.html'))
                 ->then()
                     ->boolean($client->getResponse()->isOk())->isTrue()
-                    ->integer($crawler->filter('blockquote.pull-right')->count())->isEqualTo(2)
+                    ->integer($crawler->filter('blockquote')->count()-1)->isEqualTo(2)
                         ->if($form = $crawler->selectButton('comment')->form())
                         ->then()
                             ->if($crawler = $client->submit($form, array(

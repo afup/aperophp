@@ -57,7 +57,7 @@ class EditMemberType extends AbstractType
                         'firstname' => new Constraints\MaxLength(array('limit' => 80)),
                         'email'     => array(
                             new Constraints\Email(),
-                            new Constraints\NotNull(),
+                            new Constraints\NotBlank(),
                         ),
                     )
                 )),
