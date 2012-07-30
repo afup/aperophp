@@ -1,7 +1,6 @@
 ## Application files
 app/config.php
 composer.phar
-composer.lock
 deps.lock
 vendor/*
 tmp/*
