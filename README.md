@@ -1,11 +1,23 @@
 # Install
 
+## Minimal installation
+
     php /path/to/composer.phar install
     app/console db:install
     app/console db:load-fixtures
 
-## Vhost example
+## To generate assets
 
+In order to generate assets, you have to download npm [here](http://npmjs.org/ "npm official website").
+Then, run the following command:
+
+    npm install -g jshint recess uglify-js
+
+You can now generate assets with:
+
+    ./bin/assets.sh
+
+## Vhost example
 
     <VirtualHost *:80>
         DocumentRoot "/path/to/"
