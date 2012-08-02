@@ -28,8 +28,9 @@ class Participate implements ControllerProviderInterface
 
             $drink = $app['drinks']->find($drinkId);
 
-            if (!$drink)
+            if (!$drink) {
                 $app->abort(404, 'Cet événement n\'existe pas.');
+            }
 
             $now = new \Datetime('now');
             $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $drink['day'] . ' ' . $drink['hour']);
@@ -44,7 +45,7 @@ class Participate implements ControllerProviderInterface
 
             $form = $app['form.factory']->create('drink_participate');
 
-            $form->bindRequest($request);
+            $form->bind($request->request->get('drink_participate'));
             if ($form->isValid()) {
                 $data = $form->getData();
 
@@ -117,6 +118,7 @@ class Participate implements ControllerProviderInterface
             }
 
             $app['session']->setFlash('error', 'Le formulaire de participation est mal remplis.');
+
             return $returnValue;
 
         })->bind('_participatedrink');
@@ -129,8 +131,9 @@ class Participate implements ControllerProviderInterface
         {
             $drink = $app['drinks']->find($drinkId);
 
-            if (!$drink)
+            if (!$drink) {
                 $app->abort(404, 'Cet événement n\'existe pas.');
+            }
 
             $now = new \Datetime('now');
             $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $drink['day'] . ' ' . $drink['hour']);
@@ -195,20 +198,22 @@ class Participate implements ControllerProviderInterface
 
             $drink = $app['drinks']->find($drinkId);
 
-            if (!$drink)
+            if (!$drink) {
                 $app->abort(404, 'Cet événement n\'existe pas.');
+            }
 
             $form = $app['form.factory']->create('participation_forget', array());
 
             // If it's not POST method, just display void form
             if ('POST' === $request->getMethod()) {
-                $form->bindRequest($request);
+                $form->bind($request->request->get('participation_forget'));
                 if ($form->isValid()) {
                     $data = $form->getData();
 
                     $user = $app['users']->findOneByEmail($data['email']);
                     if (!$user) {
                         $app['session']->setFlash('error', 'Aucun utilisateur ne possède cet adresse email.');
+
                         return $app->redirect($app['url_generator']->generate('_forgetparticipatedrink', array('drinkId' => $drinkId)));
                     }
 
@@ -236,11 +241,11 @@ class Participate implements ControllerProviderInterface
                     }
 
                     $app['session']->setFlash('success', 'Vous allez recevoir un email dans quelques instants contenant votre participation.');
+
                     return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
                 }
-                else
-                    $app['session']->setFlash('error', 'Quelque chose n\'est pas valide.');
 
+                $app['session']->setFlash('error', 'Quelque chose n\'est pas valide.');
             }
 
             return $app['twig']->render('drink/forget.html.twig', array(

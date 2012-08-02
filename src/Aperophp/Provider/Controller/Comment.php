@@ -27,12 +27,13 @@ class Comment implements ControllerProviderInterface
         {
             $drink = $app['drinks']->find($drinkId);
 
-            if (!$drink)
+            if (!$drink) {
                 $app->abort(404, 'Cet événement n\'existe pas.');
+            }
 
             $form = $app['form.factory']->create('drink_comment');
 
-            $form->bindRequest($request);
+            $form->bind($request->request->get('drink_comment'));
             if ($form->isValid()) {
                 $data = $form->getData();
 
