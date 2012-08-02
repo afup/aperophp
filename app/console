@@ -24,7 +24,7 @@ $importFile = function($file) use ($app) {
     }
 };
 
-$loadFixtures = function($isTestEnv) use ($app, $importFile) {
+$loadFixtures = function() use ($app, $importFile) {
     $importFile(__DIR__.'/../data/sql/fixtures.sql');
 };
 
@@ -39,10 +39,8 @@ $console->register('db:install')
     ->setHelp('Usage: <info>php app/console db:install [--test] [--load-fixtures]</info>')
     ->setCode(
         function(InputInterface $input, OutputInterface $output) use ($app, $goToTestEnv, $importFile, $loadFixtures) {
-            $isTestEnv = false;
             if ($input->getOption('test')) {
                 $goToTestEnv();
-                $isTestEnv = true;
             }
 
             $output->writeln('<info>Create schema.</info>');
@@ -50,7 +48,7 @@ $console->register('db:install')
 
             if ($input->getOption('load-fixtures')) {
                 $output->writeln('<info>Load fixtures.</info>');
-                $loadFixtures($isTestEnv);
+                $loadFixtures();
             }
 
             $output->writeln('<info>Installation done.</info>');
@@ -65,13 +63,11 @@ $console->register('db:load-fixtures')
     ->setHelp('Usage: <info>php app/console db:load-fixtures [--test]</info>')
     ->setCode(
         function(InputInterface $input, OutputInterface $output) use ($app, $goToTestEnv, $loadFixtures) {
-            $isTestEnv = false;
             if ($input->getOption('test')) {
                 $goToTestEnv();
-                $isTestEnv = true;
             }
 
-            $loadFixtures($isTestEnv);
+            $loadFixtures();
         }
 );
 
