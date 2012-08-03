@@ -1,3 +1,5 @@
+# *AperoPHP* [![Build Status](https://secure.travis-ci.org/afup/aperophp.png?branch=master)](http://travis-ci.org/afup/aperophp)
+
 # Install
 
 ## Minimal installation
