@@ -37,7 +37,7 @@ class Member implements ControllerProviderInterface
 
             // If it's not POST method, just display void form
             if ('POST' === $request->getMethod()) {
-                $form->bindRequest($request);
+                $form->bind($request->request->get('signin'));
                 if ($form->isValid()) {
                     $data = $form->getData();
 
@@ -94,7 +94,7 @@ class Member implements ControllerProviderInterface
 
             // If it's not POST method, just display void form
             if ('POST' === $request->getMethod()) {
-                $form->bindRequest($request);
+                $form->bind($request->request->get('signup'));
                 if ($form->isValid()) {
                     $data = $form->getData();
 
@@ -152,7 +152,7 @@ class Member implements ControllerProviderInterface
 
             // If it's not POST method, just display void form
             if ('POST' === $request->getMethod()) {
-                $form->bindRequest($request);
+                $form->bind($request->request->get('member_edit'));
                 if ($form->isValid()) {
                     $data = $form->getData();
 
@@ -184,9 +184,9 @@ class Member implements ControllerProviderInterface
                     }
 
                     $app['session']->setFlash('success', 'Votre compte a été modifié avec succès.');
-                }
-                else
+                } else {
                     $app['session']->setFlash('error', 'Quelque chose n\'est pas valide.');
+                }
 
                 return $app->redirect($app['url_generator']->generate('_editmember'));
             }
@@ -214,7 +214,7 @@ class Member implements ControllerProviderInterface
 
             // If it's not POST method, just display void form
             if ('POST' === $request->getMethod()) {
-                $form->bindRequest($request);
+                $form->bind($request->request->get('member_forget'));
                 if ($form->isValid()) {
                     $data = $form->getData();
 
@@ -222,6 +222,7 @@ class Member implements ControllerProviderInterface
                     $member = $user && null != $user['member_id'] ? $app['members']->find($user['member_id']) : false;
                     if (!$user || !$member || !$member['active']) {
                         $app['session']->setFlash('error', 'Aucun utilisateur ne possède cet adresse email.');
+
                         return $app->redirect($app['url_generator']->generate('_forgetmember'));
                     }
 
@@ -244,11 +245,11 @@ class Member implements ControllerProviderInterface
                     }
 
                     $app['session']->setFlash('success', 'Vous allez recevoir un email dans quelques instants pour changer de mot de passe.');
+
                     return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
                 }
-                else
-                    $app['session']->setFlash('error', 'Quelque chose n\'est pas valide.');
 
+                $app['session']->setFlash('error', 'Quelque chose n\'est pas valide.');
             }
 
             return $app['twig']->render('member/forget.html.twig', array(
@@ -312,6 +313,7 @@ class Member implements ControllerProviderInterface
             }
 
             $app['session'] ->setFlash('success', 'Votre nouveau mot de passe vient de vous être envoyé. Vous pouvez vous connecter immédiatement avec celui-ci.');
+
             return $app->redirect($app['url_generator']->generate('_signinmember'));
         })->bind('_remembermember');
         // *******

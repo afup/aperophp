@@ -70,7 +70,7 @@ class Drink implements ControllerProviderInterface
             $form = $app['form.factory']->create('drink');
 
             if ('POST' === $request->getMethod()) {
-                $form->bindRequest($request);
+                $form->bind($request->request->get('drink'));
                 if ($form->isValid()) {
                     $data = $form->getData();
 
@@ -134,7 +134,7 @@ class Drink implements ControllerProviderInterface
             $form = $app['form.factory']->create('drink', $drink);
 
             if ('POST' === $request->getMethod()) {
-                $form->bindRequest($request);
+                $form->bind($request->request->get('drink'));
                 if ($form->isValid()) {
                     $data = $form->getData();
 

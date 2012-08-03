@@ -1,0 +1,17 @@
+language: php
+
+env:
+  - DB=mysql
+
+php:
+  - 5.3
+  - 5.4
+
+before_script:
+  - wget -nc http://getcomposer.org/composer.phar
+  - php composer.phar install
+  - mysql -e 'create database aperophp_test;'
+  - cp app/config_travis.php app/config.php
+  - php app/console db:install --test --load-fixtures
+
+script: ./vendor/bin/atoum -d tests/units
