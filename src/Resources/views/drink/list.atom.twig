@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ 
+    <title>AperoPHP</title>
+    <subtitle>Liste des apéroPHP à venir</subtitle>
+    <link href="http://aperophp.net"/>
+    <updated>{{ "now"|date("c") }}</updated>
+    <author>
+        <name>AFUP</name>
+        <email>contact@afup.org</email>
+    </author>
+    <id>http://aperophp.net</id>
+
+
+{% for drink in drinks %}
+    <entry>
+        <title>{{ drink.city_name }} le {{ drink.day|date("l d F Y") }} à {{ drink.day|date("H:i") }}</title>
+        <link href="{{ url('_showdrink', {'id': drink.id}) }}" />
+        <id>{{ url('_showdrink', {'id': drink.id}) }}</id>
+        <updated>{{ "now"|date("c") }}</updated>
+        <summary>{{ drink.description }}</summary>
+    </entry>
+{% endfor %}
+</feed>
