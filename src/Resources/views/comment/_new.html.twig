@@ -8,21 +8,21 @@
     <div class="modal-body">
         {% if commentForm.user is defined %}
             <div class="control-group {% if commentForm.user.lastname.vars.errors|length %}error{% endif %}">
-                {{ form_label(commentForm.user.lastname, null, { 'attr': {'class': 'control-label'} }) }}
+                {{ form_label(commentForm.user.lastname, null, { 'label_attr': {'class': 'control-label'} }) }}
                 <div class="controls">
                     {{ form_widget(commentForm.user.lastname) }}
                     {{ form_errors(commentForm.user.lastname) }}
                 </div>
             </div>
             <div class="control-group {% if commentForm.user.firstname.vars.errors|length %}error{% endif %}">
-                {{ form_label(commentForm.user.firstname, null, { 'attr': {'class': 'control-label'} }) }}
+                {{ form_label(commentForm.user.firstname, null, { 'label_attr': {'class': 'control-label'} }) }}
                 <div class="controls">
                     {{ form_widget(commentForm.user.firstname) }}
                     {{ form_errors(commentForm.user.firstname) }}
                 </div>
             </div>
             <div class="control-group {% if commentForm.user.email.vars.errors|length %}error{% endif %}">
-                {{ form_label(commentForm.user.email, null, { 'attr': {'class': 'control-label'} }) }}
+                {{ form_label(commentForm.user.email, null, { 'label_attr': {'class': 'control-label'} }) }}
                 <div class="controls">
                     {{ form_widget(commentForm.user.email) }}
                     {{ form_errors(commentForm.user.email) }}
@@ -30,7 +30,7 @@
             </div>
         {% endif %}
         <div class="control-group {% if commentForm.content.vars.errors|length %}error{% endif %}">
-            {{ form_label(commentForm.content, null, { 'attr': {'class': 'control-label'} }) }}
+            {{ form_label(commentForm.content, null, { 'label_attr': {'class': 'control-label'} }) }}
             <div class="controls">
                 {{ form_widget(commentForm.content) }}
                 {{ form_errors(commentForm.content) }}

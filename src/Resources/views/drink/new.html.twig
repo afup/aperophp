@@ -19,28 +19,28 @@
                         </div>
                     </div>
                     <div class="control-group {% if form.hour.vars.errors|length %}error{% endif %}">
-                        {{ form_label(form.hour, null, { 'attr': {'class': 'control-label'} }) }}
+                        {{ form_label(form.hour, null, { 'label_attr': {'class': 'control-label'} }) }}
                         <div class="controls">
                             {{ form_widget(form.hour) }}
                             {{ form_errors(form.hour) }}
                         </div>
                     </div>
                     <div class="control-group {% if form.description.vars.errors|length %}error{% endif %}">
-                        {{ form_label(form.description, null, { 'attr': {'class': 'control-label'} }) }}
+                        {{ form_label(form.description, null, { 'label_attr': {'class': 'control-label'} }) }}
                         <div class="controls">
                             {{ form_widget(form.description) }}
                             {{ form_errors(form.description) }}
                         </div>
                     </div>
                     <div class="control-group {% if form.city_id.vars.errors|length %}error{% endif %}">
-                        {{ form_label(form.city_id, null, { 'attr': {'class': 'control-label'} }) }}
+                        {{ form_label(form.city_id, null, { 'label_attr': {'class': 'control-label'} }) }}
                         <div class="controls">
                             {{ form_widget(form.city_id) }}
                             {{ form_errors(form.city_id) }}
                         </div>
                     </div>
                     <div class="control-group {% if form.kind.vars.errors|length %}error{% endif %}">
-                        {{ form_label(form.kind, null, { 'attr': {'class': 'control-label'} }) }}
+                        {{ form_label(form.kind, null, { 'label_attr': {'class': 'control-label'} }) }}
                         <div class="controls">
                             {{ form_widget(form.kind) }}
                             {{ form_errors(form.kind) }}
