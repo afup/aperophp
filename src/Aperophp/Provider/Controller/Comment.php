@@ -55,7 +55,6 @@ class Comment implements ControllerProviderInterface
                         'content'    => $data['content'],
                         'user_id'    => $user['id'],
                         'drink_id'   => $drinkId,
-                        'created_at' => date('c'),
                     ));
                 } catch (\Exception $e) {
                     $app->abort(500, 'Impossible de sauvegarder votre commentaire. Merci de réessayer plus tard.');
