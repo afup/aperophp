@@ -1,0 +1,8 @@
+* Après connexion, devrait être loggé (vérifier si check email => si oui, mettre un message)
+* Depot de commentaire : écran pas clair
+* Si dépot de 2 commentaires dans la même action, texte du 1er commentaire affiché au 2nd affichage
+
+* Import des anciennes données
+	-> Structure de données différentes
+	-> Utilité des membres et des commentaires ?
+	-> Que faire des articles

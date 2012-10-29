@@ -41,17 +41,19 @@ class Drink implements ControllerProviderInterface
         // *******
         // ** List
         // *******
-        $controllers->get('list.html', function() use ($app)
+        $controllers->get('list.{format}', function(Request $request, $format) use ($app)
         {
             $app['session']->set('menu', 'listdrinks');
 
             //TODO pagination
             $drinks = $app['drinks']->findNext(10);
 
-            return $app['twig']->render('drink/list.html.twig', array(
+            return $app['twig']->render('drink/list.'.$format.'.twig', array(
                 'drinks' => $drinks
             ));
-        })->bind('_listdrinks');
+        })
+        ->assert('format', 'html|atom')
+        ->bind('_listdrinks');
         // *******
 
         // *******
