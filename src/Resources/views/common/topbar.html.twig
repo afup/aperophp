@@ -24,7 +24,7 @@
                     </a>
                 </li>
                 <li{% if app.session.get('menu') == 'listdrinks' %} class="active"{% endif %}>
-                    <a href="{{ url('_listdrinks') }}">
+                    <a href="{{ url('_listdrinks', {'format': 'html'}) }}">
                         <i class="icon-calendar"></i> <span>Liste des apéros</span>
                     </a>
                 </li>

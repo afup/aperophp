@@ -17,3 +17,7 @@ nbproject/
 
 # Backup files
 *.*~
+
+# Vagrant
+Vagrantfile
+.vagrant
