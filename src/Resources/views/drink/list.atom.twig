@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
  
     <title>AperoPHP</title>
-    <subtitle>Liste des apéroPHP à venir</subtitle>
+    <subtitle>Liste des ap&eacute;roPHP &agrave; venir</subtitle>
     <link href="http://aperophp.net"/>
     <updated>{{ "now"|date("c") }}</updated>
     <author>
@@ -14,7 +14,7 @@
 
 {% for drink in drinks %}
     <entry>
-        <title>{{ drink.city_name }} le {{ drink.day|date("l d F Y") }} à {{ drink.day|date("H:i") }}</title>
+        <title>{{ drink.city_name }} le {{ drink.day|date("l d F Y") }} &agrave; {{ drink.day|date("H:i") }}</title>
         <link href="{{ url('_showdrink', {'id': drink.id}) }}" />
         <id>{{ url('_showdrink', {'id': drink.id}) }}</id>
         <updated>{{ drink.updated_at|date("c") }}</updated>
