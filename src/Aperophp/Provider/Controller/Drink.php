@@ -122,7 +122,7 @@ class Drink implements ControllerProviderInterface
             $member = $app['session']->get('member');
 
             if (!$member) {
-                $app['session']->setFlash('error', 'Vous devez être authentifié et être organisateur de cet événement pour pouvoir l\'éditer.');
+                $app['session']->setFlash('error', 'Vous devez être authentifié pour pouvoir éditer cet événement.');
 
                 return $app->redirect($app['url_generator']->generate('_signinmember'));
             }
