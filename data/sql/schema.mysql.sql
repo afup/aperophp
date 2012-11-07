@@ -20,24 +20,18 @@ CREATE  TABLE IF NOT EXISTS `City` (
   UNIQUE INDEX `nom_UNIQUE` (`name` ASC) )
 ENGINE = InnoDB;
 
-DELIMITER $$
 CREATE TRIGGER `City_insert` BEFORE INSERT ON `City`
 	FOR EACH ROW
 	BEGIN
 		SET NEW.created_at = NOW();
 		SET NEW.updated_at = NOW();
-	END
-$$
-DELIMITER ;
+	END;
 
-DELIMITER $$
 CREATE TRIGGER `City_update` BEFORE UPDATE ON `City`
 	FOR EACH ROW
 	BEGIN
 		SET NEW.updated_at = IFNULL(NEW.updated_at, NOW());
-	END
-$$
-DELIMITER ;
+	END;
 
 
 -- -----------------------------------------------------
@@ -63,24 +57,19 @@ CREATE  TABLE IF NOT EXISTS `User` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-DELIMITER $$
 
 CREATE TRIGGER `User_insert` BEFORE INSERT ON `User`
 	FOR EACH ROW
 	BEGIN
 		SET NEW.created_at = NOW();
 		SET NEW.updated_at = NOW();
-	END
-$$
+	END;
 
 CREATE TRIGGER `User_update` BEFORE UPDATE ON `User`
 	FOR EACH ROW
 	BEGIN
 		SET NEW.updated_at = NOW();
-	END
-$$
-
-DELIMITER ;
+	END;
 
 
 -- -----------------------------------------------------
@@ -98,24 +87,18 @@ CREATE  TABLE IF NOT EXISTS `Member` (
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
-DELIMITER $$
-
 CREATE TRIGGER `Member_insert` BEFORE INSERT ON `Member`
 	FOR EACH ROW
 	BEGIN
 		SET NEW.created_at = NOW();
 		SET NEW.updated_at = NOW();
-	END
-$$
+	END;
 
 CREATE TRIGGER `Member_update` BEFORE UPDATE ON `Member`
 	FOR EACH ROW
 	BEGIN
 		SET NEW.updated_at = NOW();
-	END
-$$
-
-DELIMITER ;
+	END;
 
 
 -- -----------------------------------------------------
@@ -143,24 +126,18 @@ CREATE  TABLE IF NOT EXISTS `User_City` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-DELIMITER $$
-
 CREATE TRIGGER `User_City_insert` BEFORE INSERT ON `User_City`
 	FOR EACH ROW
 	BEGIN
 		SET NEW.created_at = NOW();
 		SET NEW.updated_at = NOW();
-	END
-$$
+	END;
 
 CREATE TRIGGER `User_City_update` BEFORE UPDATE ON `User_City`
 	FOR EACH ROW
 	BEGIN
 		SET NEW.updated_at = NOW();
-	END
-$$
-
-DELIMITER ;
+	END;
 
 
 -- -----------------------------------------------------
@@ -198,24 +175,18 @@ CREATE  TABLE IF NOT EXISTS `Drink` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-DELIMITER $$
-
 CREATE TRIGGER `Drink_insert` BEFORE INSERT ON `Drink`
 	FOR EACH ROW
 	BEGIN
 		SET NEW.created_at = NOW();
 		SET NEW.updated_at = NOW();
-	END
-$$
+	END;
 
 CREATE TRIGGER `Drink_update` BEFORE UPDATE ON `Drink`
 	FOR EACH ROW
 	BEGIN
 		SET NEW.updated_at = NOW();
-	END
-$$
-
-DELIMITER ;
+	END;
 
 
 -- -----------------------------------------------------
@@ -245,24 +216,18 @@ CREATE  TABLE IF NOT EXISTS `Drink_Participation` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-DELIMITER $$
-
 CREATE TRIGGER `Drink_Participation_insert` BEFORE INSERT ON `Drink_Participation`
 	FOR EACH ROW
 	BEGIN
 		SET NEW.created_at = NOW();
 		SET NEW.updated_at = NOW();
-	END
-$$
+	END;
 
 CREATE TRIGGER `Drink_Participation_update` BEFORE UPDATE ON `Drink_Participation`
 	FOR EACH ROW
 	BEGIN
 		SET NEW.updated_at = NOW();
-	END
-$$
-
-DELIMITER ;
+	END;
 
 
 -- -----------------------------------------------------
@@ -292,24 +257,18 @@ CREATE  TABLE IF NOT EXISTS `Drink_Comment` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-DELIMITER $$
-
 CREATE TRIGGER `Drink_Comment_insert` BEFORE INSERT ON `Drink_Comment`
 	FOR EACH ROW
 	BEGIN
 		SET NEW.created_at = NOW();
 		SET NEW.updated_at = NOW();
-	END
-$$
+	END;
 
 CREATE TRIGGER `Drink_Comment_update` BEFORE UPDATE ON `Drink_Comment`
 	FOR EACH ROW
 	BEGIN
 		SET NEW.updated_at = NOW();
-	END
-$$
-
-DELIMITER ;
+	END;
 
 
 -- -----------------------------------------------------
@@ -334,24 +293,18 @@ CREATE  TABLE IF NOT EXISTS `Article` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-DELIMITER $$
-
 CREATE TRIGGER `Article_insert` BEFORE INSERT ON `Article`
 	FOR EACH ROW
 	BEGIN
 		SET NEW.created_at = NOW();
 		SET NEW.updated_at = NOW();
-	END
-$$
+	END;
 
 CREATE TRIGGER `Article_update` BEFORE UPDATE ON `Article`
 	FOR EACH ROW
 	BEGIN
 		SET NEW.updated_at = NOW();
-	END
-$$
-
-DELIMITER ;
+	END;
 
 
 -- -----------------------------------------------------
@@ -381,25 +334,18 @@ CREATE  TABLE IF NOT EXISTS `Article_Comment` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-DELIMITER $$
-
 CREATE TRIGGER `Article_Comment_insert` BEFORE INSERT ON `Article_Comment`
 	FOR EACH ROW
 	BEGIN
 		SET NEW.created_at = NOW();
 		SET NEW.updated_at = NOW();
-	END
-$$
+	END;
 
 CREATE TRIGGER `Article_Comment_update` BEFORE UPDATE ON `Article_Comment`
 	FOR EACH ROW
 	BEGIN
 		SET NEW.updated_at = NOW();
-	END
-$$
-
-DELIMITER ;
-
+	END;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

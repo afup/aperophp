@@ -15,13 +15,7 @@ $goToTestEnv = function() use ($app) {
 };
 
 $importFile = function($file) use ($app) {
-    $queries = explode(';', file_get_contents($file));
-    foreach ($queries as $query) {
-        $query = trim($query);
-        if ($query) {
-            $app['db']->query($query);
-        }
-    }
+    $app['db']->query(file_get_contents($file));
 };
 
 $loadFixtures = function() use ($app, $importFile) {
