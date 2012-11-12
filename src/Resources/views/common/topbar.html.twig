@@ -20,12 +20,12 @@
                 </li>
                 <li{% if app.session.get('menu') == 'newdrink' %} class="active"{% endif %}>
                     <a href="{{ url('_newdrink') }}">
-                        <i class="icon-glass"></i> <span>Organiser un apéro</span>
+                        <i class="icon-glass"></i> <span>Organiser un ap&eacute;ro</span>
                     </a>
                 </li>
                 <li{% if app.session.get('menu') == 'listdrinks' %} class="active"{% endif %}>
                     <a href="{{ url('_listdrinks', {'format': 'html'}) }}">
-                        <i class="icon-calendar"></i> <span>Liste des apéros</span>
+                        <i class="icon-calendar"></i> <span>Liste des ap&eacute;ros</span>
                     </a>
                 </li>
                 {% if not(app.session.has('member')) %}

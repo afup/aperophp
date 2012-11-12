@@ -22,7 +22,7 @@
 {% if not isFinished %}
     <div class="float:right">
     {% if isParticipating %}
-        <a class="btn pull-right" href="{{ url('_deleteparticipatedrink', {'drinkId': drink.id}) }}" >Se désinscrire</a>
+        <a class="btn pull-right" href="{{ url('_deleteparticipatedrink', {'drinkId': drink.id}) }}" >Se d&eacute;sinscrire</a>
         <a class="btn pull-right" data-toggle="modal" href="#participateModal" >Modifier</a>
     {% else %}
         {% if not isConnected %}

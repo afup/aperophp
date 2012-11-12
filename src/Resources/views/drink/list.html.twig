@@ -22,7 +22,7 @@
                 <tbody>
                     {% for drink in drinks %}
                         <tr>
-                            <td>Le {{ drink.day|date("d") }} {{ drink.day|date("F")|trans }} {{ drink.day|date("Y") }}, à {{ drink.hour|date("H:i") }}</td>
+                            <td>Le {{ drink.day|date("d") }} {{ drink.day|date("F")|trans }} {{ drink.day|date("Y") }}, &agrave; {{ drink.hour|date("H:i") }}</td>
                             <td>A {{ drink.city_name }}, {{ drink.place }}</td>
                             <td>{{ drink.kind }}</td>
                             <td>{{ drink.organizer_username }}</td>
