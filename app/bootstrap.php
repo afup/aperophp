@@ -109,8 +109,7 @@ $app['translator.messages'] = array(
 
 $app->register(new SwiftmailerServiceProvider(array(
     'swiftmailer.options'       => $app['mail.options'],
-    'swiftmailer.class_path'    => __DIR__.'/../vendor/SwiftMailer/lib/classes/', 
+    'swiftmailer.class_path'    => __DIR__.'/../vendor/SwiftMailer/lib/classes/',
 )));
-$app['swiftmailer.transport'] = new \Swift_Transport_SpoolTransport($app['swiftmailer.transport.eventdispatcher']);
 
 return $app;
