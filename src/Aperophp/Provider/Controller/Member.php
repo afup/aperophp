@@ -244,7 +244,7 @@ class Member implements ControllerProviderInterface
                         $app->abort(500, 'Impossible de vous rappeler votre mot de passe. Merci de réessayer plus tard.');
                     }
 
-                    $app['session']->setFlash('success', 'Vous allez recevoir un email dans quelques instants pour changer de mot de passe.');
+                    $app['session']->setFlash('success', 'Vous allez recevoir un email dans quelques instants pour changer de mot de passe.<br/>Si vous ne recevez pas cet email, pensez à vérifier vos indésirables.');
 
                     return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
                 }
