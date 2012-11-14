@@ -17,7 +17,7 @@
             </div>
           {% endif %}
 
-          <h1>{{ drink.kind }} <small>&agrave; {{ drink.city_name }}, le {{ drink.day|date("d") }} {{ drink.day|date("F")|trans }} {{ drink.day|date("Y") }} &agrave; {{ drink.hour|date("H:i") }}</small></h1>
+          <h1>{{ drink.kind|trans }} <small>&agrave; {{ drink.city_name }}, le {{ drink.day|date("d") }} {{ drink.day|date("F")|trans }} {{ drink.day|date("Y") }} &agrave; {{ drink.hour|date("H:i") }}</small></h1>
 
           <p>Lieu : {{ drink.place }}, {{ drink.address }}</p>
           <blockquote>
