@@ -37,9 +37,10 @@
             </div>
         </div>
         <div class="control-group {% if participationForm.reminder.vars.errors|length %}error{% endif %}">
-            {{ form_label(participationForm.reminder, null, { 'label_attr': {'class': 'control-label'} }) }}
             <div class="controls">
-                {{ form_widget(participationForm.reminder) }}
+                <label class="checkbox">
+                {{ form_widget(participationForm.reminder) }} {{ participationForm.reminder.get('label') }}
+                </label>
                 {{ form_errors(participationForm.reminder) }}
             </div>
         </div>
