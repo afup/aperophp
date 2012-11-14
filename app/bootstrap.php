@@ -104,6 +104,8 @@ $app['translator.domains'] = array(
             'October'   => 'Octobre',
             'November'  => 'Novembre',
             'December'  => 'Décembre',
+            'drink'  => 'Apéro',
+            'talk'  => 'Mini-conf',
         )
     ),
     'validators' => array(

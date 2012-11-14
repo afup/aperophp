@@ -1,5 +1,5 @@
 <div class="span4">
-    <h5>{{ drink.kind }}</h5>
+    <h5>{{ drink.kind|trans }}</h5>
     <h2>{{ drink.city_name }}</h2>
     <h3>{{ drink.day|date("d") }} {{ drink.day|date("F")|trans }} {{ drink.day|date("Y") }}</h3>
     <ul>
