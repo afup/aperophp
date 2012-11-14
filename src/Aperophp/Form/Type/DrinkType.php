@@ -5,6 +5,7 @@ namespace Aperophp\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints;
+use Aperophp\Validator\Constraints as AperophpConstraints;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Aperophp\Repository;
@@ -71,7 +72,7 @@ class DrinkType extends AbstractType
                 'longitude'   => new Constraints\NotNull(),
                 'day'         => array(
                     new Constraints\NotNull(),
-                    new Constraints\Date(),
+                    new AperophpConstraints\FutureDate(),
                 ),
                 'hour'        => array(
                     new Constraints\NotNull(),

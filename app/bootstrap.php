@@ -89,21 +89,28 @@ $app->register(new TranslationServiceProvider(array(
     'locale'          => $app['locale'],
 )));
 
-$app['translator.messages'] = array(
-    'fr' => array(
-        'January'   => 'Janvier',
-        'February'  => 'Février',
-        'March'     => 'Mars',
-        'April'     => 'Avril',
-        'May'       => 'Mai',
-        'June'      => 'Juin',
-        'July'      => 'Juillet',
-        'August'    => 'Aout',
-        'September' => 'Septembre',
-        'October'   => 'Octobre',
-        'November'  => 'Novembre',
-        'December'  => 'Décembre',
+$app['translator.domains'] = array(
+    'messages' => array(
+        'fr' => array(
+            'January'   => 'Janvier',
+            'February'  => 'Février',
+            'March'     => 'Mars',
+            'April'     => 'Avril',
+            'May'       => 'Mai',
+            'June'      => 'Juin',
+            'July'      => 'Juillet',
+            'August'    => 'Aout',
+            'September' => 'Septembre',
+            'October'   => 'Octobre',
+            'November'  => 'Novembre',
+            'December'  => 'Décembre',
+        )
     ),
+    'validators' => array(
+        'fr' => array(
+            'The date must be in the future'  => 'La date doit être future',
+        )
+    )
 );
 // *******
 
