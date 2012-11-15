@@ -43,7 +43,8 @@ class DrinkType extends AbstractType
             ->add('day', 'hidden')
             ->add('hour', 'choice', array(
                 'label' => 'Heure',
-                'choices' => $options['hours']
+                'choices' => $options['hours'],
+                'data' => '19:00:00'
             ))
             ->add('city_id', 'choice', array(
                 'label' => 'Ville',
