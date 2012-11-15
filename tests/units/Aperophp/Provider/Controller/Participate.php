@@ -23,7 +23,7 @@ class Participate extends Test
                             ->if($form = $crawler->selectButton('participate')->form())
                             ->then()
                                 ->if($crawler = $client->submit($form, array(
-                                    'drink_participate[percentage]'      => '90',
+                                    'drink_participate[percentage]'      => '30',
                                     'drink_participate[reminder]'        => true,
                                 )))
                                 ->then()
@@ -36,7 +36,7 @@ class Participate extends Test
                                         ->integer($crawler->filter('div.participation a.btn:contains("Se désinscrire")')->count())->isEqualTo(1)
                                         // Now, I participate to the drink.
                                         // CHeck if all fields have been prefilled
-                                        ->string($crawler->filter('input#drink_participate_percentage')->first()->attr('value'))->isEqualTo('90')
+                                        ->string($crawler->filter('select#drink_participate_percentage option[selected=selected]')->first()->attr('value'))->isEqualTo('30')
                                         ->string($crawler->filter('input#drink_participate_reminder')->first()->attr('value'))->isEqualTo(1)
                                         // Submit the form again to modified participation
                                         ->if($crawler = $client->submit($form, array(
@@ -49,7 +49,7 @@ class Participate extends Test
                                             ->then()
                                                 ->boolean($client->getResponse()->isOk())->isTrue()
                                                 ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
-                                                ->string($crawler->filter('input#drink_participate_percentage')->first()->attr('value'))->isEqualTo('70')
+                                                ->string($crawler->filter('select#drink_participate_percentage option[selected=selected]')->first()->attr('value'))->isEqualTo('70')
                                                 ->integer($crawler->filter('div.participation a.btn:contains("Modifier")')->count())->isEqualTo(1)
                                                 ->integer($crawler->filter('div.participation a.btn:contains("Se désinscrire")')->count())->isEqualTo(1)
                                                 // Delete an existing participation
@@ -89,7 +89,7 @@ class Participate extends Test
                                 'drink_participate[user][firstname]' => 'Foo',
                                 'drink_participate[user][lastname]'  => 'Bar',
                                 'drink_participate[user][email]'     => 'foobar@example.org',
-                                'drink_participate[percentage]'      => '90',
+                                'drink_participate[percentage]'      => '30',
                                 'drink_participate[reminder]'        => true,
                             )))
                             ->then()
@@ -105,7 +105,7 @@ class Participate extends Test
                                     ->string($crawler->filter('input#drink_participate_user_firstname')->first()->attr('value'))->isEqualTo('Foo')
                                     ->string($crawler->filter('input#drink_participate_user_lastname')->first()->attr('value'))->isEqualTo('Bar')
                                     ->string($crawler->filter('input#drink_participate_user_email')->first()->attr('value'))->isEqualTo('foobar@example.org')
-                                    ->string($crawler->filter('input#drink_participate_percentage')->first()->attr('value'))->isEqualTo('90')
+                                    ->string($crawler->filter('select#drink_participate_percentage option[selected=selected]')->first()->attr('value'))->isEqualTo('30')
                                     ->string($crawler->filter('input#drink_participate_reminder')->first()->attr('value'))->isEqualTo(1)
                                     // Submit the form again to modified participation
                                     ->if($crawler = $client->submit($form, array(
@@ -121,7 +121,7 @@ class Participate extends Test
                                         ->then()
                                             ->boolean($client->getResponse()->isOk())->isTrue()
                                             ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
-                                            ->string($crawler->filter('input#drink_participate_percentage')->first()->attr('value'))->isEqualTo('70')
+                                            ->string($crawler->filter('select#drink_participate_percentage option[selected=selected]')->first()->attr('value'))->isEqualTo('70')
                                             ->integer($crawler->filter('div.participation a.btn:contains("Modifier")')->count())->isEqualTo(1)
                                             ->integer($crawler->filter('div.participation a.btn:contains("Se désinscrire")')->count())->isEqualTo(1)
                                             // Delete an existing participation
@@ -248,7 +248,7 @@ class Participate extends Test
                                 'drink_participate[user][firstname]' => '',
                                 'drink_participate[user][lastname]'  => '',
                                 'drink_participate[user][email]'     => '',
-                                'drink_participate[percentage]'      => '',
+                                'drink_participate[percentage]'      => 0,
                                 'drink_participate[reminder]'        => true,
                             )))
                             ->then()
@@ -357,7 +357,7 @@ class Participate extends Test
                             ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
         ;
     }
- 
+
     public function testForget_withunknownDrink_isRedirectedToDrink()
     {
         $this->assert
@@ -369,7 +369,7 @@ class Participate extends Test
                     ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
         ;
     }
- 
+
     public function testForget_noData()
     {
         $this->assert
