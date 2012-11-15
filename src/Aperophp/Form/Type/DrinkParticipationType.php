@@ -51,7 +51,7 @@ class DrinkParticipationType extends AbstractType
 
         $builder
             ->add('percentage', 'text', array(
-                'label' => 'Poucentage de participation'
+                'label' => 'Pourcentage de participation'
             ))
             ->add('reminder', 'checkbox', array(
                 'label'    => 'Me rappeler l\'évènement',
