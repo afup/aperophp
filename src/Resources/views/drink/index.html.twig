@@ -13,7 +13,7 @@
                 {% for drink in drinks %}
                 <li>
                     <div class="news-item-detail">
-                        <a href="{{ url('_showdrink', {'id': drink.id}) }}" class="news-item-title">{{ drink.kind|upper }} - {{ drink.city_name }}</a>
+                        <a href="{{ url('_showdrink', {'id': drink.id}) }}" class="news-item-title">{{ drink.kind|trans|upper }} - {{ drink.city_name }}</a>
                         <p class="news-item-preview">Info : {{ drink.description }}</p>
                         <p class="news-item-preview">Lieu : {{ drink.place }}</p>
                         <p class="news-item-preview">Nombre d'inscrits : {{ drink.participants_count }}</p>
