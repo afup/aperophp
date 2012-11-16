@@ -96,7 +96,7 @@ class Drink extends Test
                                     ->boolean($client->getResponse()->isOk())->isTrue()
                                     ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
                                     ->integer($crawler->filter('p:contains("[Edited]")')->count())->isEqualTo(1)
-                                    ->integer($crawler->filter('h1:contains("talk")')->count())->isEqualTo(1)
+                                    ->integer($crawler->filter('h1:contains("Mini-conf")')->count())->isEqualTo(1)
         ;
     }
 

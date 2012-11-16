@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Constraints;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Aperophp\Form\EventListener\DataFilterSubscriber;
+use Aperophp\Repository;
 
 /**
  *  Participate form.
@@ -18,10 +19,13 @@ use Aperophp\Form\EventListener\DataFilterSubscriber;
 class DrinkParticipationType extends AbstractType
 {
     protected $session;
+    protected $drinkParticipantRepository;
+    protected $presences = null;
 
-    public function __construct(SessionInterface $session)
+    public function __construct(SessionInterface $session, Repository\DrinkParticipant $drinkParticipantRepository)
     {
         $this->session = $session;
+        $this->drinkParticipantRepository = $drinkParticipantRepository;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -50,8 +54,12 @@ class DrinkParticipationType extends AbstractType
         }
 
         $builder
-            ->add('percentage', 'text', array(
-                'label' => 'Pourcentage de participation'
+            ->add('percentage', 'choice', array(
+                'label' => 'Participation',
+                'choices' => $options['presences'],
+                'attr' => array(
+                    'size' => count($this->getPresences())
+                )
             ))
             ->add('reminder', 'checkbox', array(
                 'label'    => 'Me rappeler l\'évènement',
@@ -63,8 +71,10 @@ class DrinkParticipationType extends AbstractType
     {
         $fields = array(
             'percentage'   => array(
-                new Constraints\Min(array('limit' => 0)),
-                new Constraints\Max(array('limit' => 100))
+                new Constraints\NotNull(),
+                new Constraints\Choice(array(
+                    'choices' => array_keys($this->getPresences())
+                )),
             ),
             'reminder'     => array(),
         );
@@ -85,11 +95,21 @@ class DrinkParticipationType extends AbstractType
 
         $resolver->setDefaults(array(
             'validation_constraint' => $collectionConstraint,
+            'presences'             => $this->getPresences(),
         ));
     }
 
     public function getName()
     {
         return 'drink_participate';
+    }
+
+    protected function getPresences()
+    {
+        if (null === $this->presences) {
+            $this->presences = $this->drinkParticipantRepository->findAllPresencesInAssociativeArray();
+        }
+
+        return $this->presences;
     }
 }

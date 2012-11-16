@@ -4,6 +4,7 @@ namespace Aperophp\Repository;
 
 class DrinkParticipant extends Repository
 {
+
     public function getTableName()
     {
         return 'Drink_Participation';
@@ -34,5 +35,15 @@ class DrinkParticipant extends Repository
         $sql = 'SELECT d.* FROM Drink d, Drink_Participation p WHERE p.drink_id = d.id AND user_id = ?';
 
         return $this->db->fetchAll($sql, array((int) $userId));
+    }
+
+    public function findAllPresencesInAssociativeArray()
+    {
+        return array(
+            100 => 'For sure, I will be there',
+            70  => 'I will probably be there',
+            30  => 'I will try to be there',
+            0   => 'I won\'t be there',
+        );
     }
 }
