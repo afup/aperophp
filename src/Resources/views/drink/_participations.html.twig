@@ -13,7 +13,7 @@
                 {% else %}
                     <td class="vleft">{{ participant.email|replace({'@': '[at]'}) }}</td>
                 {% endif %}
-                <td class="vright">{{ participant.percentage }} %</td>
+                <td class="vright">{{ presences[participant.percentage]|trans }}</td>
             </tr>
         {% endfor %}
     </tbody>

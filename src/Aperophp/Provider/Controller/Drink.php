@@ -180,6 +180,7 @@ class Drink implements ControllerProviderInterface
                 $app->abort(404, 'Cet événement n\'existe pas.');
 
             $participants = $app['drink_participants']->findByDrinkId($drink['id']);
+            $presences = $app['drink_participants']->findAllPresencesInAssociativeArray();
             $comments = $app['drink_comments']->findByDrinkId($drink['id']);
 
             $textProcessorClass = MARKDOWN_PARSER_CLASS;
@@ -230,6 +231,7 @@ class Drink implements ControllerProviderInterface
                 'isFinished'        => $now > $dDrink,
                 'isParticipating'   => $isParticipating,
                 'isConnected'       => null !== $user,
+                'presences'         => $presences,
             ));
         })
         ->value('email', null)
