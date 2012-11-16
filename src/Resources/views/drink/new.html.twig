@@ -49,7 +49,7 @@
                     <div class="control-group">
                         <label for="drink_placegmap" class="control-label required">Lieu</label>
                         <div class="controls">
-                            <p><input type="text" required="required" id="drink_placegmap"></p>
+                            <p><input type="text" required="required" id="drink_placegmap" onblur="setTimeout(checkMaps,50);"/></p>
                             <p><input type="text" class="input-xlarge disabled" disabled="" id="drink_place_disabled"></p>
                             <p><input type="text" class="input-xlarge disabled" disabled="" id="drink_address_disabled"></p>
                         </div>
