@@ -52,4 +52,17 @@ class User extends Repository
         return $this->db->fetchAssoc($sql, array($email));
     }
 
+    /**
+     * removeUsers
+     *
+     * @param mixed $email
+     * @param integer $userId
+     */
+    public function removeUsers($email, $userId)
+    {
+        $sql = 'DELETE FROM User WHERE id <> ? AND email = ?';
+
+        $this->db->prepare($sql)->execute(array((int) $userId, $email));
+    }
+
 }

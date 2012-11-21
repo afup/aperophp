@@ -105,6 +105,10 @@ class Member implements ControllerProviderInterface
                         $app['members']->insert($data['member']);
                         $data['user']['member_id'] = $app['members']->lastInsertId();
                         $app['users']->insert($data['user']);
+                        $data['user']['id'] = $app['users']->lastInsertId();
+                        $app['drink_participants']->groupByEmail($data['user']['email'], $data['user']['id']);
+                        $app['drink_comments']->groupByEmail($data['user']['email'], $data['user']['id']);
+                        $app['users']->removeUsers($data['user']['email'], $data['user']['id']);
 
                         $app['db']->commit();
                     } catch (\Exception $e) {

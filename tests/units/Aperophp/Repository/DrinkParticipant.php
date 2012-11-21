@@ -33,7 +33,7 @@ class DrinkParticipant extends Test
             ->then
                 ->if(is_array($participation))
                 ->then
-                    ->boolean(2 == count($participation))->isTrue()
+                    ->boolean(3 == count($participation))->isTrue()
         ;
     }
 

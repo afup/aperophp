@@ -46,4 +46,11 @@ class DrinkParticipant extends Repository
             0   => 'I won\'t be there',
         );
     }
+
+    public function groupByEmail($email, $userId)
+    {
+        $sql = 'UPDATE Drink_Participation SET user_id = ? WHERE user_id IN (SELECT id FROM User WHERE email = ?)';
+
+        $this->db->prepare($sql)->execute(array((int) $userId, $email));
+    }
 }
