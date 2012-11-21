@@ -17,7 +17,7 @@
         "symfony/css-selector"                : "dev-master",
         "symfony/twig-bridge"                 : "dev-master",
         "swiftmailer/swiftmailer"             : "dev-master",
-        "mageekguy/atoum"                     : "dev-master",
+        "atoum/atoum"                         : "dev-master",
         "twitter/bootstrap"                   : "2.0.4",
         "FortAwesome/Font-Awesome"            : "master"
     },
