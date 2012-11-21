@@ -29,7 +29,8 @@ INSERT INTO `Member` (`id`, `username`, `password`, `active`) VALUES
 INSERT INTO `User` (`id`, `lastname`, `firstname`, `email`, `token`, `member_id`) VALUES
 (1, 'Example1', 'User1', 'user1@example.org', 'token', null),
 (2, 'Example2', 'User2', 'user2@example.org', 'token', null),
-(3, 'Example3', 'User3', 'user3@example.org', 'token', 1);
+(3, 'Example3', 'User3', 'user3@example.org', 'token', 1),
+(4, 'Example4', 'User4', 'user4@example.org', 'token', null);
 
 --
 -- Contenu de la table `Drink`
@@ -45,7 +46,8 @@ INSERT INTO `Drink` (`id`, `place`, `address`, `day`, `hour`, `kind`, `descripti
 
 INSERT INTO `Drink_Participation` (`drink_id`, `user_id`, `percentage`, `reminder`) VALUES
 (1, 1, 70, 1),
-(1, 3, 70, 1);
+(1, 3, 70, 1),
+(1, 4, 70, 1);
 
 --
 -- Contenu de la table `Drink_Comment`
@@ -53,4 +55,4 @@ INSERT INTO `Drink_Participation` (`drink_id`, `user_id`, `percentage`, `reminde
 
 INSERT INTO `Drink_Comment` (`id`, `created_at`, `content`, `drink_id`, `user_id`) VALUES
 (1, '2012-07-03 21:56:06', 'c\'est génial !', 1, 2),
-(2, '2012-07-03 21:57:17', 'Je suis bien d\'accord.', 1, 3);
+(2, '2012-07-03 21:57:17', 'Je suis bien d\'accord.', 1, 4);
