@@ -46,7 +46,7 @@ class Drink implements ControllerProviderInterface
             $app['session']->set('menu', 'listdrinks');
 
             //TODO pagination
-            $drinks = $app['drinks']->findNext(10);
+            $drinks = $app['drinks']->findAll(25);
 
             return $app['twig']->render('drink/list.'.$format.'.twig', array(
                 'drinks' => $drinks
