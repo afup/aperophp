@@ -35,7 +35,7 @@ class Drink extends Repository
             WHERE d.member_id = m.id
               AND u.member_id = m.id
               AND d.city_id = c.id
-            ORDER BY day ASC
+            ORDER BY day DESC
             LIMIT %d
         ', $limit);
 
@@ -50,7 +50,7 @@ class Drink extends Repository
         if (null === $limit) {
             $limit = 3;
         }
-        
+
         $today = new \DateTime();
 
         $sql  = sprintf(
