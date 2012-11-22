@@ -361,4 +361,37 @@ class Member extends Test
                             ->integer($crawler->filter('div.alert-error')->count())->isEqualTo(1)
         ;
     }
+
+    public function testSignup_withExistingEmail_areParticipationsChanged()
+    {
+        $this->assert
+            ->if($client = $this->createClient())
+            ->then
+                ->if($crawler = $client->request('GET', '/member/signup.html'))
+                ->then()
+                    ->boolean($client->getResponse()->isOk())->isTrue()
+                    ->if($form = $crawler->selectButton('register')->form())
+                    ->then()
+                        ->if($crawler = $client->submit($form, array(
+                            'signup[user][lastname]'   => 'Foo',
+                            'signup[user][firstname]'  => 'Bar',
+                            'signup[member][username]' => 'marvin',
+                            'signup[user][email]'      => 'user4@example.org',
+                            'signup[member][password]' => 'user4',
+                        )))
+                        ->then()
+                            ->boolean($client->getResponse()->isRedirect('/member/signin.html'))->isTrue()
+                            ->if($crawler = $client->followRedirect())
+                            ->then()
+                                ->boolean($client->getResponse()->isOk())->isTrue()
+                                ->integer($crawler->filter('div.alert-success')->count())->isEqualTo(1)
+                                ->if(true === $client->connect('marvin', 'user4'))
+                                ->then
+                                    ->if($crawler = $client->request('GET', '/1/view.html'))
+                                    ->then()
+                                        ->boolean($client->getResponse()->isOk())->isTrue()
+                                        ->integer($crawler->filter('td.vleft:contains("marvin")')->count())->isEqualTo(1)
+                                        ->integer($crawler->filter('small:contains("marvin")')->count())->isEqualTo(1)
+        ;
+    }
 }

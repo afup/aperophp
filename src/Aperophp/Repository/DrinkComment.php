@@ -11,7 +11,11 @@ class DrinkComment extends Repository
 
     public function findByDrinkId($drinkId)
     {
-        $sql = 'SELECT c.*, u.email as user_email FROM Drink_Comment c, User u WHERE c.user_id = u.id AND drink_id = ? ORDER BY created_at';
+        $sql = 'SELECT c.*, u.email as user_email,
+                (SELECT username FROM Member m WHERE m.id = u.member_id) as username
+                FROM Drink_Comment c, User u
+                WHERE c.user_id = u.id AND drink_id = ?
+                ORDER BY created_at';
 
         return $this->db->fetchAll($sql, array((int) $drinkId));
     }
@@ -21,5 +25,12 @@ class DrinkComment extends Repository
         $sql = 'SELECT * FROM Drink_Comment WHERE drink_id = ? AND user_id = ? LIMIT 1';
 
         return $this->db->fetchAssoc($sql, array((int) $drinkId, (int) $userId));
+    }
+
+    public function groupByEmail($email, $userId)
+    {
+        $sql = 'UPDATE Drink_Comment SET user_id = ? WHERE user_id IN (SELECT id FROM User WHERE email = ?)';
+
+        $this->db->prepare($sql)->execute(array((int) $userId, $email));
     }
 }
