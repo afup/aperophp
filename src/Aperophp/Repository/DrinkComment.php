@@ -11,7 +11,7 @@ class DrinkComment extends Repository
 
     public function findByDrinkId($drinkId)
     {
-        $sql = 'SELECT c.*, u.email as user_email,
+        $sql = 'SELECT c.*, u.email as user_email, u.firstname,
                 (SELECT username FROM Member m WHERE m.id = u.member_id) as username
                 FROM Drink_Comment c, User u
                 WHERE c.user_id = u.id AND drink_id = ?
