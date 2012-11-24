@@ -11,7 +11,7 @@
                 {% if participant.member_id is not null%}
                     <td class="vleft">{{ participant.username }}</td>
                 {% else %}
-                    <td class="vleft">{{ participant.email|replace({'@': '[at]'}) }}</td>
+                    <td class="vleft">{{ participant.firstname }}</td>
                 {% endif %}
                 <td class="vright">{{ presences[participant.percentage]|trans }}</td>
             </tr>
