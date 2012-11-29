@@ -44,10 +44,7 @@ class DrinkParticipationType extends AbstractType
                 ))
                 ->add('firstname', 'text', array(
                     'label'    => 'Prénom',
-                    'required' => false,
-                    'attr'     => array(
-                        'placeholder' => 'Facultatif.'
-                    )
+                    'required' => true
                 ))
                 ->add('email', 'email')
             );

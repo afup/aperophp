@@ -5,7 +5,7 @@
             {% if comment.username is not null%}
                 {{ comment.username }},
             {% else %}
-                {{ comment.user_email|replace({'@': '[at]'}) }},
+                {{ comment.firstname }},
             {% endif %}
             le {{ comment.created_at|date("d") }} {{ comment.created_at|date("F")|trans }} {{ comment.created_at|date("Y") }} &agrave; {{ comment.created_at|date("H:i") }}</small>
     </blockquote>
