@@ -12,6 +12,7 @@ use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
 use Silex\Provider\SwiftmailerServiceProvider;
+use SilexGravatar\GravatarExtension;
 
 $app = new Application();
 
@@ -120,9 +121,30 @@ $app['translator.domains'] = array(
 );
 // *******
 
+// *******
+// ** Mail
+// *******
 $app->register(new SwiftmailerServiceProvider(array(
     'swiftmailer.options'       => $app['mail.options'],
     'swiftmailer.class_path'    => __DIR__.'/../vendor/SwiftMailer/lib/classes/',
 )));
+// *******
+
+// *******
+// ** Gravatar
+// *******
+$app->register(new GravatarExtension(), array(
+    'gravatar.class_path' => __DIR__ . '/../vendor/fate/gravatar-php/src',
+    'gravatar.cache_dir'  => __DIR__ . '/../cache',
+    'gravatar.cache_ttl'  => 240, // 240 seconds
+    'gravatar.options' => array(
+        'size' => 100,
+        'rating' => Gravatar\Service::RATING_G,
+        'secure' => true,
+        'default'   => Gravatar\Service::DEFAULT_MM,
+        'force_default' => false
+    )
+));
+// *******
 
 return $app;

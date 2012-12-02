@@ -9,9 +9,9 @@
         {% for participant in participants %}
             <tr>
                 {% if participant.member_id is not null%}
-                    <td class="vleft">{{ participant.username }}</td>
+                    <td class="vleft"><img src="{{ gravatar(participant.email, {'size': 40}) }}" />&nbsp;{{ participant.username }}</td>
                 {% else %}
-                    <td class="vleft">{{ participant.firstname }}</td>
+                    <td class="vleft"><img src="{{ gravatar(participant.email, {'size': 40}) }}" />&nbsp;{{ participant.firstname }}</td>
                 {% endif %}
                 <td class="vright">{{ presences[participant.percentage]|trans }}</td>
             </tr>
