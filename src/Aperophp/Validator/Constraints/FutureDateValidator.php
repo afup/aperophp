@@ -16,13 +16,13 @@ class FutureDateValidator extends DateValidator
         parent::validate($value, $constraint);
 
         if ($value instanceof \DateTime) {
-            $now = new \DateTime();
+            $now = new \DateTime('today');
             if ($value < $now) {
                 $this->context->addViolation($constraint->message, array('%date%' => $value));
             }
         }
 
-        if (is_string($value) && strtotime($value) < time()) {
+        if (is_string($value) && date('Y-m-d', strtotime($value)) < date('Y-m-d', time())) {
             $this->context->addViolation($constraint->message, array('%date%' => $value));
         }
     }
