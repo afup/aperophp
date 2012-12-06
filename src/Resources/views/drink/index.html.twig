@@ -3,12 +3,13 @@
 {% block content %}
 
 <div class="span8">
-    <div class="widget widget-nopad">
+    <div class="widget">
         <div class="widget-header">
             <i class="icon-calendar"></i>
             <h3>A venir</h3>
         </div> <!-- /widget-header -->
         <div class="widget-content">
+            {% if drinks %}
             <ul class="news-items">
                 {% for drink in drinks %}
                 <li>
@@ -27,6 +28,9 @@
                 </li>
                 {% endfor %}
             </ul>
+            {% else %}
+            <p><a href="/new.html">Les développeurs PHP ont soif, ce serait bien d'organiser un apéro !</a></p>
+            {% endif %}
         </div> <!-- /widget-content -->
     </div> <!-- /widget -->
 </div> <!-- /span8 -->
