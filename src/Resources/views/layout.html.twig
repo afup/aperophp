@@ -42,9 +42,9 @@
                 {#  *******
                     ** Display flash
                     *******  #}
-                {% if app.session.hasFlash('success') %}<div class="alert alert-success">{{ app.session.flash('success') }}</div>{% endif %}
-                {% if app.session.hasFlash('notice') %}<div class="alert alert-notice">{{ app.session.flash('notice') }}</div>{% endif %}
-                {% if app.session.hasFlash('error') %}<div class="alert alert-error">{{ app.session.flash('error') }}</div>{% endif %}
+                {% if app.session.hasFlash('success') %}<div class="alert alert-success">{{ app.session.flash('success')|nl2br }}</div>{% endif %}
+                {% if app.session.hasFlash('notice') %}<div class="alert alert-notice">{{ app.session.flash('notice')|nl2br }}</div>{% endif %}
+                {% if app.session.hasFlash('error') %}<div class="alert alert-error">{{ app.session.flash('error')|nl2br }}</div>{% endif %}
                 {#  ******* #}
               </div> <!-- /span12 -->
               {% block content %}{% endblock %}
