@@ -19,7 +19,8 @@
         "swiftmailer/swiftmailer"             : "dev-master",
         "atoum/atoum"                         : "dev-master",
         "twitter/bootstrap"                   : "2.0.4",
-        "FortAwesome/Font-Awesome"            : "master"
+        "FortAwesome/Font-Awesome"            : "master",
+        "mheap/Silex-Gravatar"                : "*"
     },
     "autoload": {
         "psr-0": {

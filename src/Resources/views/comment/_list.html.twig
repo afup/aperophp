@@ -1,6 +1,6 @@
 {% for comment in comments %}
     <blockquote>
-        <p>{{ comment.content|raw }}</p>
+        <p><img src="{{ gravatar(comment.user_email, {'size': 40}) }}" />&nbsp;{{ comment.content|raw }}</p>
         <small>
             {% if comment.username is not null%}
                 {{ comment.username }},
