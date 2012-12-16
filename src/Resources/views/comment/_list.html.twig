@@ -7,6 +7,6 @@
             {% else %}
                 {{ comment.firstname }},
             {% endif %}
-            le {{ comment.created_at|date("d") }} {{ comment.created_at|date("F")|trans }} {{ comment.created_at|date("Y") }} &agrave; {{ comment.created_at|date("H:i") }}</small>
+            le {{ comment.created_at|date("d") }} {{ comment.created_at|date("F")|trans|lower }} {{ comment.created_at|date("Y") }} &agrave; {{ comment.created_at|date("H:i") }}</small>
     </blockquote>
 {% endfor %}
