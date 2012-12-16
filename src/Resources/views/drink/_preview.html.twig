@@ -1,7 +1,7 @@
 <div class="span4">
     <h5>{{ drink.kind|trans }}</h5>
     <h2>{{ drink.city_name }}</h2>
-    <h3>{{ drink.day|date("d") }} {{ drink.day|date("F")|trans }} {{ drink.day|date("Y") }}</h3>
+    <h3>{{ drink.day|date("d") }} {{ drink.day|date("F")|trans|lower }} {{ drink.day|date("Y") }}</h3>
     <ul>
         <li>Lieu : {{ drink.place }}</li>
         <li>&agrave; {{ drink.hour|date("H:i") }}</li>
