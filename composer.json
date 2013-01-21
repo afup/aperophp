@@ -20,7 +20,7 @@
         "atoum/atoum"                         : "dev-master",
         "twitter/bootstrap"                   : "2.0.4",
         "FortAwesome/Font-Awesome"            : "master",
-        "mheap/Silex-Gravatar"                : "*"
+        "mheap/Silex-Gravatar"                : "master"
     },
     "autoload": {
         "psr-0": {
@@ -58,6 +58,22 @@
                     "url": "https://github.com/FortAwesome/Font-Awesome/zipball/master",
                     "type": "zip"
                  }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "version": "master",
+                "name": "mheap/Silex-Gravatar",
+                "source": {
+                    "url": "https://github.com/mheap/Silex-Gravatar.git",
+                    "type": "git",
+                    "reference": "master"
+                },
+                "dist": {
+                    "url": "https://github.com/mheap/Silex-Gravatar/zipball/master",
+                    "type": "zip"
+                }
             }
         }
     ]

@@ -1,8 +1,7 @@
 ## Application files
 app/config.php
-composer.phar
 deps.lock
-vendor/*
+vendor/
 tmp/*
 
 # IDE files
