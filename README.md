@@ -2,11 +2,32 @@
 
 # Install
 
+## Requirements
+
+* PHP 5.4
+* MySQL
+* Apache
+
+Project have been builded and his production environment OS is a Debian Squeeze
+
 ## Minimal installation
 
-    php /path/to/composer.phar install
+### Project
+
+* Clone project
+* Install configuration
+  * Copy app/config.php.dist to config.php
+  * Update configuration for your installation (typically, database connexion)
+* Install dependancies
+    ```bash
+    cd /path/to/project
+    php composer.phar install
+    ```
+* Install and populate database
+    ```bash
     app/console db:install
     app/console db:load-fixtures
+    ```
 
 ## To generate assets
 
