@@ -20,7 +20,8 @@
         "twitter/bootstrap"         : "2.0.4",
         "FortAwesome/Font-Awesome"  : "master",
         "mheap/Silex-Gravatar"      : "master",
-        "Gravatar/Gravatar"         : "master"
+        "Gravatar/Gravatar"         : "master",
+        "michelf/php-markdown"      : "1.3.x-dev"
     },
     "require-dev": {
         "atoum/atoum"               : "dev-master"
