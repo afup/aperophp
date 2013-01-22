@@ -2,30 +2,35 @@
     "name"        : "afup/aperophp",
     "minimum-stability": "dev",
     "require": {
-        "silex/silex"                         : "1.0.*",
-        "doctrine/common"                     : "dev-master",
-        "doctrine/dbal"                       : "dev-master",
-        "twig/twig"                           : "dev-master",
-        "twig/extensions"                     : "dev-master",
-        "symfony/class-loader"                : "dev-master",
-        "symfony/form"                        : "dev-master",
-        "symfony/validator"                   : "dev-master",
-        "symfony/translation"                 : "dev-master",
-        "symfony/config"                      : "dev-master",
-        "symfony/browser-kit"                 : "dev-master",
-        "symfony/console"                     : "dev-master",
-        "symfony/css-selector"                : "dev-master",
-        "symfony/twig-bridge"                 : "dev-master",
-        "swiftmailer/swiftmailer"             : "dev-master",
-        "atoum/atoum"                         : "dev-master",
-        "twitter/bootstrap"                   : "2.0.4",
-        "FortAwesome/Font-Awesome"            : "master",
-        "mheap/Silex-Gravatar"                : "master"
+        "silex/silex"               : "1.0.*",
+        "doctrine/common"           : "dev-master",
+        "doctrine/dbal"             : "dev-master",
+        "twig/twig"                 : "dev-master",
+        "twig/extensions"           : "dev-master",
+        "symfony/class-loader"      : "dev-master",
+        "symfony/form"              : "dev-master",
+        "symfony/validator"         : "dev-master",
+        "symfony/translation"       : "dev-master",
+        "symfony/config"            : "dev-master",
+        "symfony/browser-kit"       : "dev-master",
+        "symfony/console"           : "dev-master",
+        "symfony/css-selector"      : "dev-master",
+        "symfony/twig-bridge"       : "dev-master",
+        "swiftmailer/swiftmailer"   : "dev-master",
+        "twitter/bootstrap"         : "2.0.4",
+        "FortAwesome/Font-Awesome"  : "master",
+        "mheap/Silex-Gravatar"      : "master",
+        "Gravatar/Gravatar"         : "master"
+    },
+    "require-dev": {
+        "atoum/atoum"               : "dev-master"
     },
     "autoload": {
         "psr-0": {
-            "Aperophp": "src/"
-        }
+            "Aperophp": "src/",
+            "Gravatar": "vendor/Gravatar/Gravatar/src/"
+        },
+        "classmap": ["vendor/mheap/Silex-Gravatar/src/SilexGravatar/GravatarExtension.php"]
     },
     "repositories": [
         {
@@ -72,6 +77,22 @@
                 },
                 "dist": {
                     "url": "https://github.com/mheap/Silex-Gravatar/zipball/master",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "Gravatar/Gravatar",
+                "version": "master",
+                "source": {
+                    "url": "https://github.com/sveneisenschmidt/Gravatar-php.git",
+                    "type": "git",
+                    "reference": "master"
+                },
+                "dist": {
+                    "url": "https://github.com/sveneisenschmidt/Gravatar-php/zipball/master",
                     "type": "zip"
                 }
             }
