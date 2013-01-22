@@ -2,7 +2,7 @@
 
 namespace Aperophp\Provider\Controller;
 
-include_once dirname(__FILE__) . '/../../../../vendor/php-markdown/markdown.php';
+//include_once dirname(__FILE__) . '/../../../../vendor/php-markdown/markdown.php';
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
