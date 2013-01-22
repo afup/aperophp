@@ -12,7 +12,6 @@ use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
 use Silex\Provider\SwiftmailerServiceProvider;
-use SilexGravatar\GravatarExtension;
 
 $app = new Application();
 
@@ -141,8 +140,8 @@ $app->register(new SwiftmailerServiceProvider(array(
 // *******
 // ** Gravatar
 // *******
-$app->register(new GravatarExtension(), array(
-    'gravatar.class_path' => __DIR__ . '/../vendor/fate/gravatar-php/src',
+$app->register(new SilexGravatar\GravatarExtension(), array(
+    'gravatar.class_path' => __DIR__ . '/../vendor/mheap/Silex-Gravatar/src',
     'gravatar.cache_dir'  => __DIR__ . '/../cache',
     'gravatar.cache_ttl'  => 240, // 240 seconds
     'gravatar.options' => array(
