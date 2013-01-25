@@ -36,7 +36,7 @@ class Participate implements ControllerProviderInterface
             $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $drink['day'] . ' ' . $drink['hour']);
 
             if ($now > $dDrink) {
-                $app['session'] ->setFlash('error', 'L\'événement est terminé.');
+                $app['session'] ->getFlashBag()->add('error', 'L\'événement est terminé.');
 
                 return $returnValue;
             }
@@ -86,7 +86,7 @@ class Participate implements ControllerProviderInterface
                         $app->abort(500, 'Impossible de sauvegarder votre participation. Merci de réessayer plus tard.');
                     }
 
-                    $app['session']->setFlash('success', 'Participation modifiée.');
+                    $app['session']->getFlashBag()->add('success', 'Participation modifiée.');
 
                     return $returnValue;
                 }
@@ -101,7 +101,7 @@ class Participate implements ControllerProviderInterface
                     $app->abort(500, 'Impossible de sauvegarder votre participation. Merci de réessayer plus tard.');
                 }
 
-                $app['session']->setFlash('success', 'Participation ajoutée.');
+                $app['session']->getFlashBag()->add('success', 'Participation ajoutée.');
 
                 $app['mailer']->send($app['mailer']
                     ->createMessage()
@@ -117,7 +117,7 @@ class Participate implements ControllerProviderInterface
                 return $returnValue;
             }
 
-            $app['session']->setFlash('error', 'Le formulaire de participation est mal remplis.');
+            $app['session']->getFlashBag()->add('error', 'Le formulaire de participation est mal remplis.');
 
             return $returnValue;
 
@@ -139,19 +139,19 @@ class Participate implements ControllerProviderInterface
             $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $drink['day'] . ' ' . $drink['hour']);
 
             if ($now > $dDrink) {
-                $app['session'] ->setFlash('error', 'L\'événement est terminé.');
+                $app['session'] ->getFlashBag()->add('error', 'L\'événement est terminé.');
 
                 return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
             }
 
             if (!$app['session']->has('user')) {
                 if (null === $email || null === $token) {
-                    $app['session'] ->setFlash('error', 'Connectez-vous ou utilisez le lien reçu par mail.');
+                    $app['session'] ->getFlashBag()->add('error', 'Connectez-vous ou utilisez le lien reçu par mail.');
 
                     return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
                 }
                 if (!$user = $app['users']->findOneByEmailToken($email, $token)) {
-                    $app['session'] ->setFlash('error', 'Couple email/jeton invalide.');
+                    $app['session'] ->getFlashBag()->add('error', 'Couple email/jeton invalide.');
 
                     return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
                 }
@@ -162,7 +162,7 @@ class Participate implements ControllerProviderInterface
             $participation = $app['drink_participants']->findOne($drinkId, $user['id']);
 
             if (false === $participation) {
-                $app['session'] ->setFlash('error', 'Participation inexistante.');
+                $app['session'] ->getFlashBag()->add('error', 'Participation inexistante.');
 
                 return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
             }
@@ -176,7 +176,7 @@ class Participate implements ControllerProviderInterface
                 $app->abort(500, 'Impossible de sauvegarder votre participation. Merci de réessayer plus tard.');
             }
 
-            $app['session'] ->setFlash('success', 'Participation supprimée avec succès.');
+            $app['session'] ->getFlashBag()->add('success', 'Participation supprimée avec succès.');
 
             return $request->isXmlHttpRequest() ? 'redirect' : $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
 
@@ -191,7 +191,7 @@ class Participate implements ControllerProviderInterface
         $controllers->match('{drinkId}/forget.html', function(Request $request, $drinkId) use ($app)
         {
             if ($app['session']->has('member')) {
-                $app['session']->setFlash('error', 'Vous êtes déjà authentifié.');
+                $app['session']->getFlashBag()->add('error', 'Vous êtes déjà authentifié.');
 
                 return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
             }
@@ -212,7 +212,7 @@ class Participate implements ControllerProviderInterface
 
                     $user = $app['users']->findOneByEmail($data['email']);
                     if (!$user) {
-                        $app['session']->setFlash('error', 'Aucun utilisateur ne possède cet adresse email.');
+                        $app['session']->getFlashBag()->add('error', 'Aucun utilisateur ne possède cet adresse email.');
 
                         return $app->redirect($app['url_generator']->generate('_forgetparticipatedrink', array('drinkId' => $drinkId)));
                     }
@@ -220,7 +220,7 @@ class Participate implements ControllerProviderInterface
                     $participation = $app['drink_participants']->findOne($drink['id'], $user['id']);
 
                     if (false === $participation) {
-                        $app['session'] ->setFlash('error', 'Participation inexistante.');
+                        $app['session'] ->getFlashBag()->add('error', 'Participation inexistante.');
 
                         return $app->redirect($app['url_generator']->generate('_forgetparticipatedrink', array('drinkId' => $drinkId)));
                     }
@@ -240,12 +240,12 @@ class Participate implements ControllerProviderInterface
                         $app->abort(500, 'Impossible de vous envoyer à nouveau votre jeton. Merci de réessayer plus tard.');
                     }
 
-                    $app['session']->setFlash('success', 'Vous allez recevoir un email dans quelques instants contenant votre participation.');
+                    $app['session']->getFlashBag()->add('success', 'Vous allez recevoir un email dans quelques instants contenant votre participation.');
 
                     return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
                 }
 
-                $app['session']->setFlash('error', 'Quelque chose n\'est pas valide.');
+                $app['session']->getFlashBag()->add('error', 'Quelque chose n\'est pas valide.');
             }
 
             return $app['twig']->render('drink/forget.html.twig', array(

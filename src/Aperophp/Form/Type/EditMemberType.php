@@ -53,8 +53,8 @@ class EditMemberType extends AbstractType
             'fields' => array(
                 'user' => new Constraints\Collection(array(
                     'fields' => array(
-                        'lastname'  => new Constraints\MaxLength(array('limit' => 80)),
-                        'firstname' => new Constraints\MaxLength(array('limit' => 80)),
+                        'lastname'  => new Constraints\Length(array('max' => 80)),
+                        'firstname' => new Constraints\Length(array('max' => 80)),
                         'email'     => array(
                             new Constraints\Email(),
                             new Constraints\NotBlank(),
@@ -63,7 +63,7 @@ class EditMemberType extends AbstractType
                 )),
                 'member' => new Constraints\Collection(array(
                     'fields' => array(
-                        'password' => new Constraints\MaxLength(array('limit' => 80)),
+                        'password' => new Constraints\Length(array('max' => 80)),
                     )
                 ))
             ),
