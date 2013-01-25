@@ -61,8 +61,8 @@ class DrinkCommentType extends AbstractType
 
         if (!$this->session->has('member')) {
             $fields['user'] = new Constraints\Collection(array(
-                'lastname' => new Constraints\MaxLength(array('limit' => 80)),
-                'firstname' => new Constraints\MaxLength(array('limit' => 80)),
+                'lastname' => new Constraints\Length(array('max' => 80)),
+                'firstname' => new Constraints\Length(array('max' => 80)),
                 'email' => array(
                     new Constraints\Email(),
                     new Constraints\NotNull(),

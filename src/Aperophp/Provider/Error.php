@@ -33,7 +33,7 @@ class Error implements ControllerProviderInterface
                     default:
                         break;
             }
-            $app['session']->setFlash('error', $e->getMessage());
+            $app['session']->getFlashBag()->add('error', $e->getMessage());
             return new Response($app['twig']->render('error/'.$page.'.html.twig'), $code);
         });
         // *******

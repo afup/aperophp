@@ -27,7 +27,7 @@ class Member implements ControllerProviderInterface
         $controllers->match('signin.html', function(Request $request) use ($app)
         {
             if ($app['session']->has('member')) {
-                $app['session']->setFlash('error', 'Vous êtes déjà authentifié.');
+                $app['session']->getFlashBag()->add('error', 'Vous êtes déjà authentifié.');
 
                 return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
             }
@@ -52,7 +52,7 @@ class Member implements ControllerProviderInterface
                         return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
                     }
 
-                    $app['session']->setFlash('error', 'Identifiant / Mot de passe incorrect.');
+                    $app['session']->getFlashBag()->add('error', 'Identifiant / Mot de passe incorrect.');
                 }
                 // Invalid form will display form back
             }
@@ -84,7 +84,7 @@ class Member implements ControllerProviderInterface
         $controllers->get('signup.html', function(Request $request) use ($app)
         {
             if ($app['session']->has('member')) {
-                $app['session']->setFlash('error', 'Vous êtes déjà authentifié.');
+                $app['session']->getFlashBag()->add('error', 'Vous êtes déjà authentifié.');
 
                 return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
             }
@@ -119,12 +119,12 @@ class Member implements ControllerProviderInterface
                         $app->abort(500, 'Impossible de vous inscrire. Merci de réessayer plus tard.');
                     }
 
-                    $app['session']->setFlash('success', 'Votre compte a été créé avec succès.');
+                    $app['session']->getFlashBag()->add('success', 'Votre compte a été créé avec succès.');
 
                     return $app->redirect($app['url_generator']->generate('_signinmember'));
                 }
                 // Invalid form will display form back
-                $app['session']->setFlash('error', 'Quelque chose n\'est pas valide.');
+                $app['session']->getFlashBag()->add('error', 'Quelque chose n\'est pas valide.');
             }
 
             return $app['twig']->render('member/signup.html.twig', array(
@@ -141,7 +141,7 @@ class Member implements ControllerProviderInterface
         $controllers->match('edit.html', function(Request $request) use ($app)
         {
             if (!$app['session']->has('member')) {
-                $app['session']->setFlash('error', 'Vous devez être authentifié pour accéder à cette ressource.');
+                $app['session']->getFlashBag()->add('error', 'Vous devez être authentifié pour accéder à cette ressource.');
 
                 return $app->redirect($app['url_generator']->generate('_signinmember'));
             }
@@ -187,9 +187,9 @@ class Member implements ControllerProviderInterface
                         $app->abort(500, 'Impossible de modifier votre profil. Merci de réessayer plus tard.');
                     }
 
-                    $app['session']->setFlash('success', 'Votre compte a été modifié avec succès.');
+                    $app['session']->getFlashBag()->add('success', 'Votre compte a été modifié avec succès.');
                 } else {
-                    $app['session']->setFlash('error', 'Quelque chose n\'est pas valide.');
+                    $app['session']->getFlashBag()->add('error', 'Quelque chose n\'est pas valide.');
                 }
 
                 return $app->redirect($app['url_generator']->generate('_editmember'));
@@ -209,7 +209,7 @@ class Member implements ControllerProviderInterface
         $controllers->match('forget.html', function(Request $request) use ($app)
         {
             if ($app['session']->has('member')) {
-                $app['session']->setFlash('error', 'Vous êtes déjà authentifié.');
+                $app['session']->getFlashBag()->add('error', 'Vous êtes déjà authentifié.');
 
                 return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
             }
@@ -225,7 +225,7 @@ class Member implements ControllerProviderInterface
                     $user = $app['users']->findOneByEmail($data['email']);
                     $member = $user && null != $user['member_id'] ? $app['members']->find($user['member_id']) : false;
                     if (!$user || !$member || !$member['active']) {
-                        $app['session']->setFlash('error', 'Aucun utilisateur ne possède cet adresse email.');
+                        $app['session']->getFlashBag()->add('error', 'Aucun utilisateur ne possède cet adresse email.');
 
                         return $app->redirect($app['url_generator']->generate('_forgetmember'));
                     }
@@ -248,12 +248,12 @@ class Member implements ControllerProviderInterface
                         $app->abort(500, 'Impossible de vous rappeler votre mot de passe. Merci de réessayer plus tard.');
                     }
 
-                    $app['session']->setFlash('success', "Vous allez recevoir un email dans quelques instants pour changer de mot de passe.\nSi vous ne recevez pas cet email, pensez à vérifier vos indésirables.");
+                    $app['session']->getFlashBag()->add('success', "Vous allez recevoir un email dans quelques instants pour changer de mot de passe.\nSi vous ne recevez pas cet email, pensez à vérifier vos indésirables.");
 
                     return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
                 }
 
-                $app['session']->setFlash('error', 'Quelque chose n\'est pas valide.');
+                $app['session']->getFlashBag()->add('error', 'Quelque chose n\'est pas valide.');
             }
 
             return $app['twig']->render('member/forget.html.twig', array(
@@ -269,19 +269,19 @@ class Member implements ControllerProviderInterface
         $controllers->get('remember.html/{email}/{token}', function(Request $request, $email, $token) use ($app)
         {
             if ($app['session']->has('member')) {
-                $app['session']->setFlash('error', 'Vous êtes déjà authentifié.');
+                $app['session']->getFlashBag()->add('error', 'Vous êtes déjà authentifié.');
 
                 return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
             }
 
             if (!$user = $app['users']->findOneByEmailToken($email, $token)) {
-                $app['session'] ->setFlash('error', 'Couple email/jeton invalide.');
+                $app['session'] ->getFlashBag()->add('error', 'Couple email/jeton invalide.');
 
                 return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
             }
 
             if (!($member = $app['members']->find($user['member_id'])) || !$member['active']) {
-                $app['session'] ->setFlash('error', 'Member invalide/inactif.');
+                $app['session'] ->getFlashBag()->add('error', 'Member invalide/inactif.');
 
                 return $app->redirect($app['url_generator']->generate('_homepagedrinks'));
             }
@@ -316,7 +316,7 @@ class Member implements ControllerProviderInterface
                 $app->abort(500, 'Impossible de changer votre mot de passe. Merci de réessayer plus tard.');
             }
 
-            $app['session'] ->setFlash('success', 'Votre nouveau mot de passe vient de vous être envoyé. Vous pouvez vous connecter immédiatement avec celui-ci.');
+            $app['session'] ->getFlashBag()->add('success', 'Votre nouveau mot de passe vient de vous être envoyé. Vous pouvez vous connecter immédiatement avec celui-ci.');
 
             return $app->redirect($app['url_generator']->generate('_signinmember'));
         })->bind('_remembermember');

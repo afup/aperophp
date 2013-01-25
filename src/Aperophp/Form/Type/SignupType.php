@@ -55,8 +55,8 @@ class SignupType extends AbstractType
             'fields' => array(
                 'user' => new Constraints\Collection(array(
                     'fields' => array(
-                        'lastname'     => new Constraints\MaxLength(array('limit' => 80)),
-                        'firstname'    => new Constraints\MaxLength(array('limit' => 80)),
+                        'lastname'     => new Constraints\Length(array('max' => 80)),
+                        'firstname'    => new Constraints\Length(array('max' => 80)),
                         'email'        => array(
                             new Constraints\NotBlank(),
                             new Constraints\Email(),
@@ -67,12 +67,12 @@ class SignupType extends AbstractType
                     'fields' => array(
                         'username'     => array(
                             new Constraints\NotBlank(),
-                            new Constraints\MaxLength(array('limit' => 80)),
+                            new Constraints\Length(array('max' => 80)),
                         ),
                         'password'     => array(
                             new Constraints\NotBlank(),
-                            new Constraints\MinLength(array('limit' => 4)),
-                            new Constraints\MaxLength(array('limit' => 80)),
+                            new Constraints\MinLength(array('max' => 4)),
+                            new Constraints\Length(array('max' => 80)),
                         ),
                     )
                 ))

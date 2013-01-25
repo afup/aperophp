@@ -31,11 +31,11 @@ class SigninType extends AbstractType
         $collectionConstraint = new Constraints\Collection(array(
             'fields' => array(
                 'username' => array(
-                    new Constraints\MaxLength(array('limit' => 80)),
+                    new Constraints\Length(array('max' => 80)),
                     new Constraints\NotNull(),
                 ),
                 'password' => array(
-                    new Constraints\MaxLength(array('limit' => 80)),
+                    new Constraints\Length(array('max' => 80)),
                     new Constraints\NotNull(),
                 ),
             ),

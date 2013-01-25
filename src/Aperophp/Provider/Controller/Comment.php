@@ -60,7 +60,7 @@ class Comment implements ControllerProviderInterface
                     $app->abort(500, 'Impossible de sauvegarder votre commentaire. Merci de réessayer plus tard.');
                 }
 
-                $app['session']->setFlash('success', 'Votre commentaire a été posté avec succès.');
+                $app['session']->getFlashBag()->add('success', 'Votre commentaire a été posté avec succès.');
 
                 return $request->isXmlHttpRequest() ? 'redirect' : $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
             }

@@ -62,7 +62,7 @@ class Drink implements ControllerProviderInterface
         $controllers->match('new.html', function(Request $request) use ($app)
         {
             if (!$app['session']->has('member')) {
-                $app['session']->setFlash('error', 'Vous devez être authentifié pour créer un événement.');
+                $app['session']->getFlashBag()->add('error', 'Vous devez être authentifié pour créer un événement.');
 
                 return $app->redirect($app['url_generator']->generate('_signinmember'));
             }
@@ -85,7 +85,7 @@ class Drink implements ControllerProviderInterface
                         $app->abort(500, 'Impossible de créer l\'événement. Merci de réessayer plus tard.');
                     }
 
-                    $app['session']->setFlash('success', 'L\'événement a été créé avec succès.');
+                    $app['session']->getFlashBag()->add('success', 'L\'événement a été créé avec succès.');
 
                     return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $app['drinks']->lastInsertId())));
                 }
@@ -114,7 +114,7 @@ class Drink implements ControllerProviderInterface
             $now = new \Datetime('now');
             $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $drink['day'] . ' ' . $drink['hour']);
             if ($now > $dDrink) {
-                $app['session']->setFlash('error', 'L\'événement est terminé.');
+                $app['session']->getFlashBag()->add('error', 'L\'événement est terminé.');
 
                 return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));
             }
@@ -122,13 +122,13 @@ class Drink implements ControllerProviderInterface
             $member = $app['session']->get('member');
 
             if (!$member) {
-                $app['session']->setFlash('error', 'Vous devez être authentifié pour pouvoir éditer cet événement.');
+                $app['session']->getFlashBag()->add('error', 'Vous devez être authentifié pour pouvoir éditer cet événement.');
 
                 return $app->redirect($app['url_generator']->generate('_signinmember'));
             }
 
             if ($drink['member_id'] != $member['id']) {
-                $app['session']->setFlash('error', 'Vous devez être organisateur de cet événement pour pouvoir l\'éditer.');
+                $app['session']->getFlashBag()->add('error', 'Vous devez être organisateur de cet événement pour pouvoir l\'éditer.');
 
                 return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));
             }
@@ -147,13 +147,13 @@ class Drink implements ControllerProviderInterface
                     } catch (\Exception $e) {
                         $app->abort(500, 'Impossible de modifier l\'événement. Merci de réessayer plus tard.');
                     }
-                    $app['session']->setFlash('success', 'L\'événement a été modifié avec succès.');
+                    $app['session']->getFlashBag()->add('success', 'L\'événement a été modifié avec succès.');
 
                     return $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $id)));
                 }
                 else
                 {
-                    $app['session']->setFlash('error', 'Il y a des erreurs dans le formulaire.');
+                    $app['session']->getFlashBag()->add('error', 'Il y a des erreurs dans le formulaire.');
                     return $app->redirect($app['url_generator']->generate('_editdrink', array('id' => $id)));
                 }
             }
