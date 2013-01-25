@@ -183,7 +183,7 @@ class Drink implements ControllerProviderInterface
             $presences = $app['drink_participants']->findAllPresencesInAssociativeArray();
             $comments = $app['drink_comments']->findByDrinkId($drink['id']);
 
-            $textProcessor = new \michelf\Markdown();
+            $textProcessor = new \Michelf\Markdown();
             $textProcessor->no_markup = true;
             $textProcessor->no_entities = true;
 
