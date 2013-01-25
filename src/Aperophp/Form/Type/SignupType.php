@@ -71,8 +71,7 @@ class SignupType extends AbstractType
                         ),
                         'password'     => array(
                             new Constraints\NotBlank(),
-                            new Constraints\MinLength(array('max' => 4)),
-                            new Constraints\Length(array('max' => 80)),
+                            new Constraints\Length(array('min' => 4, 'max' => 80)),
                         ),
                     )
                 ))
