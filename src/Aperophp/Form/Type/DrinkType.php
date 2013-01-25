@@ -66,9 +66,9 @@ class DrinkType extends AbstractType
             'fields' => array(
                 'place'       => array(
                     new Constraints\NotNull(),
-                    new Constraints\MaxLength(array('limit' => 100)),
+                    new Constraints\Length(array('max' => 100)),
                 ),
-                'address'     => new Constraints\MaxLength(array('limit' => 100)),
+                'address'     => new Constraints\Length(array('max' => 100)),
                 'latitude'    => new Constraints\NotNull(),     // TODO use a DataTransformer to validate theses 2 values
                 'longitude'   => new Constraints\NotNull(),
                 'day'         => array(
