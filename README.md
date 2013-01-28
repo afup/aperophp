@@ -1,8 +1,13 @@
-# *AperoPHP* [![Build Status](https://secure.travis-ci.org/afup/aperophp.png?branch=master)](http://travis-ci.org/afup/aperophp)
+AperoPHP
+========
 
-# Install
+[![Build Status](https://secure.travis-ci.org/afup/aperophp.png?branch=master)](http://travis-ci.org/afup/aperophp)
 
-## Requirements
+Install
+=======
+
+Requirements
+------------
 
 * PHP 5.4
 * MySQL
@@ -10,9 +15,8 @@
 
 Project have been builded and his production environment OS is a Debian Squeeze
 
-## Minimal installation
-
-### Project
+Minimal installation
+--------------------
 
 * Clone project
 * Install configuration
@@ -29,7 +33,8 @@ Project have been builded and his production environment OS is a Debian Squeeze
     app/console db:load-fixtures
     ```
 
-## To generate assets
+To generate assets
+------------------
 
 In order to generate assets, you have to download npm [here](http://npmjs.org/ "npm official website").
 Then, run the following command:
@@ -40,7 +45,8 @@ You can now generate assets with:
 
     ./bin/assets.sh
 
-## Vhost example
+Vhost example
+-------------
 
     <VirtualHost *:80>
         DocumentRoot "/path/to/"
@@ -58,9 +64,16 @@ You can now generate assets with:
         </Directory>
     </VirtualHost>
 
-# TODO
+Comment participer
+==================
 
-## Nice to have
+[Comment participer ?](https://github.com/afup/aperophp/wiki/Comment-contribuer)
+
+TODO
+====
+
+Nice to have
+------------
 
 * authentification avec des services tierces (Openid, Twitter, Google, Facebook, etc.) oui 
 * mise en avant des membres AFUP
@@ -68,7 +81,8 @@ You can now generate assets with:
 * lien avec les antennes locales de l'AFUP (pour Lyon, Nantes, Orléans, par exemple)
 * accès et gestion directe depuis le back-office de l'AFUP
 
-## To add as issues ?
+To add as issues ?
+------------------
 
 * Après connexion, devrait être loggé (vérifier si check email => si oui, mettre un message)
 * Depot de commentaire : écran pas clair
