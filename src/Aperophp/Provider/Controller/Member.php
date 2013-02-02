@@ -157,18 +157,29 @@ class Member implements ControllerProviderInterface
             // If it's not POST method, just display void form
             if ('POST' === $request->getMethod()) {
                 $form->bind($request->request->get('member_edit'));
+
                 if ($form->isValid()) {
                     $data = $form->getData();
 
                     $member = $app['session']->get('member');
                     $user = $app['session']->get('user');
-
                     $app['db']->beginTransaction();
-
                     try {
-                        if ('' !== $data['member']['password']) {
-                            $data['member']['password'] = $app['utils']->hash($data['member']['password']);
-                            $app['members']->update($data['member'], array('id' => (int) $member['id']));
+
+                        if (!is_null($data['member']['password'])) {
+
+                            $memberActual = $app['members']->findOneByUsernameAndPassword($member['username'], $app['utils']->hash($data['member']['oldpassword']));
+
+                            if($memberActual){
+                                $data['member']['password'] = $app['utils']->hash($data['member']['password']);
+                                unset($data['member']['oldpassword']);
+                                $app['members']->update($data['member'], array('id' => (int) $member['id']));
+                            }else{
+                                $app['session']->getFlashBag()->add('error', 'Votre mot de passe n\'est pas le bon');
+
+                                return $app->redirect($app['url_generator']->generate('_editmember'));
+                            }
+                                
                         }
 
                         $app['users']->update($data['user'], array('id' => (int) $user['id']));
@@ -180,6 +191,10 @@ class Member implements ControllerProviderInterface
 
                         $app['db']->commit();
                     } catch (\Exception $e) {
+
+                        echo 'Exception reçue : ',  $e->getMessage(), "\n";
+                        exit;
+
                         try {
                             $app['db']->rollback();
                         } catch (\Exception $e) {
@@ -189,6 +204,7 @@ class Member implements ControllerProviderInterface
 
                     $app['session']->getFlashBag()->add('success', 'Votre compte a été modifié avec succès.');
                 } else {
+
                     $app['session']->getFlashBag()->add('error', 'Quelque chose n\'est pas valide.');
                 }
 
