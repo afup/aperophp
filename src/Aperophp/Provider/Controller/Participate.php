@@ -103,6 +103,25 @@ class Participate implements ControllerProviderInterface
 
                 $app['session']->getFlashBag()->add('success', 'Participation ajoutée.');
 
+                $dEndDrink = clone $dDrink;
+                $dEndDrink->modify('+3 hours');
+                $dateFormat = 'Ymd\THis';
+
+
+                $icsInvite = \Swift_Attachment::newInstance()
+                  ->setContentType('text/calendar;charset=UTF-8;method=REQUEST')
+                  ->setBody($app['twig']->render('drink/invite_ics.twig', array(
+                    'user'      => $user,
+                    'drink'     => $drink,
+                    'datetimes' => array(
+                      'start'   => $dDrink->format($dateFormat),
+                      'end'     => $dEndDrink->format($dateFormat),
+                      'current' => date($dateFormat),
+                    ),
+                  )))
+                  ->setEncoder(\Swift_Encoding::getQpEncoding())
+                ;
+
                 $app['mailer']->send($app['mailer']
                     ->createMessage()
                     ->setSubject('[Aperophp.net] Inscription à un '.$drink['kind'])
@@ -112,6 +131,7 @@ class Participate implements ControllerProviderInterface
                         'user'  => $user,
                         'drink' => $drink
                     )), 'text/html')
+                    ->attach($icsInvite)
                 );
 
                 return $returnValue;
