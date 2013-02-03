@@ -30,7 +30,7 @@ class Drink extends Repository
 
         $sql  = sprintf(
             'SELECT d.*, m.username as organizer_username, u.email as organizer_email, c.name as city_name,
-                (SELECT COUNT(*) FROM Drink_Participation WHERE drink_id = d.id) as participants_count
+                (SELECT COUNT(*) FROM Drink_Participation WHERE drink_id = d.id AND percentage > 0) as participants_count
             FROM Drink d, Member m, User u, City c
             WHERE d.member_id = m.id
               AND u.member_id = m.id
@@ -55,7 +55,7 @@ class Drink extends Repository
 
         $sql  = sprintf(
             'SELECT d.*, m.username as organizer_username, u.email as organizer_email, c.name as city_name,
-                (SELECT COUNT(*) FROM Drink_Participation WHERE drink_id = d.id) as participants_count
+                (SELECT COUNT(*) FROM Drink_Participation WHERE drink_id = d.id AND percentage > 0) as participants_count
             FROM Drink d, Member m, User u, City c
             WHERE d.member_id = m.id
               AND u.member_id = m.id
@@ -80,7 +80,7 @@ class Drink extends Repository
     {
         $sql  =
             'SELECT d.*, m.username as organizer_username, u.email as organizer_email, c.name as city_name,
-                (SELECT COUNT(*) FROM Drink_Participation WHERE drink_id = d.id) as participants_count
+                (SELECT COUNT(*) FROM Drink_Participation WHERE drink_id = d.id AND percentage > 0) as participants_count
             FROM Drink d, Member m, User u, City c
             WHERE d.member_id = m.id
               AND u.member_id = m.id
