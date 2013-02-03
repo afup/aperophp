@@ -3,6 +3,9 @@ app/config.php
 deps.lock
 vendor/
 tmp/*
+web/
+
+.gitignore
 
 # IDE files
   # Netbeans
