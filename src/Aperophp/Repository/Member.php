@@ -23,4 +23,20 @@ class Member extends Repository
 
         return $this->db->fetchAssoc($sql, array($username, $password));
     }
+
+    /**
+     * checkUserPassword
+     *
+     * @param string $username
+     * @param string $password
+     *
+     * @return int
+     */
+    public function checkUserPassword($username, $password)
+    {
+
+        $sql = 'SELECT COUNT(*) FROM ' . $this->getTableName() . ' WHERE username = ? AND password = ? LIMIT 1';
+
+        return $this->db->fetchColumn($sql, array($username, $password));
+    }
 }

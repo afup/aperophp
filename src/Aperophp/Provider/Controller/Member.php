@@ -162,24 +162,19 @@ class Member implements ControllerProviderInterface
                     $data = $form->getData();
 
                     $member = $app['session']->get('member');
-                    $user = $app['session']->get('user');
+                    $user   = $app['session']->get('user');
+
                     $app['db']->beginTransaction();
+
                     try {
 
                         if (!is_null($data['member']['password'])) {
 
-                            $memberActual = $app['members']->findOneByUsernameAndPassword($member['username'], $app['utils']->hash($data['member']['oldpassword']));
-
-                            if($memberActual){
-                                $data['member']['password'] = $app['utils']->hash($data['member']['password']);
-                                unset($data['member']['oldpassword']);
-                                $app['members']->update($data['member'], array('id' => (int) $member['id']));
-                            }else{
+                            if(!$this->changePasswordUser($member, $app, $data)){
                                 $app['session']->getFlashBag()->add('error', 'Votre mot de passe n\'est pas le bon');
 
                                 return $app->redirect($app['url_generator']->generate('_editmember'));
                             }
-                                
                         }
 
                         $app['users']->update($data['user'], array('id' => (int) $user['id']));
@@ -191,9 +186,6 @@ class Member implements ControllerProviderInterface
 
                         $app['db']->commit();
                     } catch (\Exception $e) {
-
-                        echo 'Exception reçue : ',  $e->getMessage(), "\n";
-                        exit;
 
                         try {
                             $app['db']->rollback();
@@ -339,5 +331,24 @@ class Member implements ControllerProviderInterface
         // *******
 
         return $controllers;
+    }
+
+    /**
+     * Change password if current password is ok
+     *
+     * @return boolean
+     */
+    private function changePasswordUser($member, $app, $data)
+    {   
+        if($app['members']->checkUserPassword($member['username'], $app['utils']->hash($data['member']['oldpassword'])) != 0) {
+            
+            $data['member']['password'] = $app['utils']->hash($data['member']['password']);
+            unset($data['member']['oldpassword']);
+            $app['members']->update($data['member'], array('id' => (int) $member['id']));
+
+            return true;
+        }
+        
+        return false;
     }
 }
