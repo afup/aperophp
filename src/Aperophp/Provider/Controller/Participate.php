@@ -103,16 +103,7 @@ class Participate implements ControllerProviderInterface
 
                 $app['session']->getFlashBag()->add('success', 'Participation ajoutée.');
 
-                $app['mailer']->send($app['mailer']
-                    ->createMessage()
-                    ->setSubject('[Aperophp.net] Inscription à un '.$drink['kind'])
-                    ->setFrom(array('noreply@aperophp.net'))
-                    ->setTo(array($user['email']))
-                    ->setBody($app['twig']->render('drink/participation_mail.html.twig', array(
-                        'user'  => $user,
-                        'drink' => $drink
-                    )), 'text/html')
-                );
+                $app['mailer']->send($app['mail_factory']->createParticipation($user, $drink));
 
                 return $returnValue;
             }

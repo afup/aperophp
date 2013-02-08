@@ -32,6 +32,10 @@ $app['utils'] = $app->share(function() use ($app) {
     return new \Aperophp\Lib\Utils($app);
 });
 
+$app['mail_factory'] = $app->share(function() use ($app) {
+    return new \Aperophp\Lib\MailFactory($app['mailer'], $app['twig']);
+});
+
 $app->register(new UrlGeneratorServiceProvider());
 
 $app->register(new FormServiceProvider());
