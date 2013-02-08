@@ -30,14 +30,14 @@ class Drink extends Repository
 
         $sql  = sprintf(
             'SELECT d.*, m.username as organizer_username, u.email as organizer_email, c.name as city_name,
-                (SELECT COUNT(*) FROM Drink_Participation WHERE drink_id = d.id) as participants_count
+                (%s) as participants_count
             FROM Drink d, Member m, User u, City c
             WHERE d.member_id = m.id
               AND u.member_id = m.id
               AND d.city_id = c.id
             ORDER BY day DESC
             LIMIT %d
-        ', $limit);
+        ', self::getCountParticipantsQuery(), $limit);
 
         return $this->db->fetchAll($sql);
     }
@@ -55,7 +55,7 @@ class Drink extends Repository
 
         $sql  = sprintf(
             'SELECT d.*, m.username as organizer_username, u.email as organizer_email, c.name as city_name,
-                (SELECT COUNT(*) FROM Drink_Participation WHERE drink_id = d.id) as participants_count
+                (%s) as participants_count
             FROM Drink d, Member m, User u, City c
             WHERE d.member_id = m.id
               AND u.member_id = m.id
@@ -64,6 +64,7 @@ class Drink extends Repository
               ORDER BY day ASC
             LIMIT %s
         ',
+        self::getCountParticipantsQuery(),
         $today->format('Y-m-d') ,
         $limit);
 
@@ -79,15 +80,15 @@ class Drink extends Repository
     public function find($id)
     {
         $sql  =
-            'SELECT d.*, m.username as organizer_username, u.email as organizer_email, c.name as city_name,
-                (SELECT COUNT(*) FROM Drink_Participation WHERE drink_id = d.id) as participants_count
+            sprintf('SELECT d.*, m.username as organizer_username, u.email as organizer_email, c.name as city_name,
+                (%s) as participants_count
             FROM Drink d, Member m, User u, City c
             WHERE d.member_id = m.id
               AND u.member_id = m.id
               AND d.city_id = c.id
               AND d.id = ?
             LIMIT 1
-            ';
+            ', self::getCountParticipantsQuery());
 
         return $this->db->fetchAssoc($sql, array((int) $id));
     }
@@ -99,4 +100,10 @@ class Drink extends Repository
             self::KIND_CONFERENCE => self::KIND_CONFERENCE,
         );
     }
+
+    protected static function getCountParticipantsQuery()
+    {
+      return "SELECT COUNT(*) FROM Drink_Participation WHERE drink_id = d.id AND percentage > 0";
+    }
+
 }
