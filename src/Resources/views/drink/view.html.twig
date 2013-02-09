@@ -6,16 +6,13 @@
         <div class="widget-header">
             <i class="icon-pushpin"></i>
             <h3>Les infos</h3>
+            {% if not isFinished %}
+              <a class="btn icon-pencil" href="{{ url('_editdrink', {'id': drink.id}) }}" style="float:right;margin:4px"></a>
+            {% endif %}
+
         </div> <!-- /widget-header -->
         <div class="widget-content">
-          {% if not isFinished %}
-            <div class="btn-group" style="float:right">
-                <a href="#" data-toggle="dropdown" class="btn dropdown-toggle">Action <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <li><a href="{{ url('_editdrink', {'id': drink.id}) }}"><i class="icon-pencil"></i> Editer</a></li>
-                </ul>
-            </div>
-          {% endif %}
+          <a class="btn btn-primary btn-large pull-right" data-toggle="modal" href="#participateModal" >S'inscrire</a>
 
           <h1>{{ drink.kind|trans }} <small>&agrave; {{ drink.city_name }}, le {{ drink.day|date("d") }} {{ drink.day|date("F")|trans|lower }} {{ drink.day|date("Y") }} &agrave; {{ drink.hour|date("H:i") }}</small></h1>
 
