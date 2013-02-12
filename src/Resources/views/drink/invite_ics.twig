@@ -1,0 +1,22 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//AFUP//AperoPHP//EN\n
+CALSCALE:GREGORIAN
+METHOD:REQUEST
+BEGIN:VEVENT
+DTEND;VALUE=DATE-TIME:{{ datetimes.end }} 
+STATUS:TENTATIVE
+DTSTART;VALUE=DATE-TIME:{{ datetimes.start }} 
+TRANSP:TRANSPARENT
+DTSTAMP:{{ datetimes.current }} 
+ATTENDEE;CUTYPE=3DINDIVIDUAL;ROLE=3DREQ-PARTICIPANT;PARTSTAT=3DNEEDS-ACTION;RSV
+ P=3DTRUE;X-NUM-GUESTS=3D0;CN={{ user.lastname }} {{ user.firstname }}:MAILTO:{{ user.email }}
+UID:{{ datetimes.current }}-aperophp.net
+SUMMARY:Apéro PHP
+ORGANIZER;CN=aperophp.net:MAILTO:noreply@aperophp.net
+LOCATION:{{ drink.address }} 
+SEQUENCE:0
+DESCRIPTION:Détails sur l'apéro PHP : {{ url('_showdrink', {'id': drink.id}) }}
+END:VEVENT
+END:VCALENDAR
+
