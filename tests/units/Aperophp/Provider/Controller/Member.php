@@ -5,7 +5,10 @@ namespace tests\units\Aperophp\Provider\Controller;
 require_once __DIR__.'/../../../../../vendor/autoload.php';
 
 use Aperophp\Test\Test;
-
+/**
+ *
+ * @engine isolate
+ */
 class Member extends Test
 {
     public function testSignup_withValidData_isRegistered()

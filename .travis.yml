@@ -9,7 +9,7 @@ php:
 
 before_script:
   - wget -nc http://getcomposer.org/composer.phar
-  - php composer.phar install
+  - php composer.phar install --dev
   - mysql -e 'create database aperophp_test;'
   - cp app/config_travis.php app/config.php
   - php app/console db:install --test --load-fixtures
