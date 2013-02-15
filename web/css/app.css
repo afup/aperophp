@@ -1,0 +1,9 @@
+@media (max-width: 480px) {
+  .modal.fade.in {
+    left: -20px;
+    right: -20px;
+  }
+  .widget {
+    overflow: visible;
+  }
+}
