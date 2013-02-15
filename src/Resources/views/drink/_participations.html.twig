@@ -20,15 +20,15 @@
 </table>
 
 {% if not isFinished %}
-    <div class="float:right">
+    <div class="btn-group pull-right">
     {% if isParticipating %}
-        <a class="btn pull-right" href="{{ url('_deleteparticipatedrink', {'drinkId': drink.id}) }}" >Se d&eacute;sinscrire</a>
-        <a class="btn pull-right" data-toggle="modal" href="#participateModal" >Modifier</a>
+        <a class="btn" data-toggle="modal" href="#participateModal" >Modifier</a>
+        <a class="btn" href="{{ url('_deleteparticipatedrink', {'drinkId': drink.id}) }}" >Se d&eacute;sinscrire</a>
     {% else %}
+        <a class="btn" data-toggle="modal" href="#participateModal" >S'inscrire</a>
         {% if not isConnected %}
-            <a class="btn pull-right" href="{{ url('_forgetparticipatedrink', {'drinkId': drink.id}) }}">Jeton perdu ?</a>
+            <a class="btn" href="{{ url('_forgetparticipatedrink', {'drinkId': drink.id}) }}">Jeton perdu ?</a>
         {% endif %}
-        <a class="btn pull-right" data-toggle="modal" href="#participateModal" >S'inscrire</a>
     {% endif %}
     </div>
 
