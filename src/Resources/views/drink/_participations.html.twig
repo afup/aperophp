@@ -1,3 +1,22 @@
+{% if not isFinished %}
+    <div class="float:right">
+    {% if isParticipating %}
+        <a class="btn pull-right" href="{{ url('_deleteparticipatedrink', {'drinkId': drink.id}) }}" >Se d&eacute;sinscrire</a>
+        <a class="btn pull-right" data-toggle="modal" href="#participateModal" >Modifier</a>
+    {% else %}
+        {% if not isConnected %}
+            <a class="btn pull-right" href="{{ url('_forgetparticipatedrink', {'drinkId': drink.id}) }}">Jeton perdu ?</a>
+        {% endif %}
+    {% endif %}
+    </div>
+
+    <div class="modal hide fade" id="participateModal">
+        {% include 'drink/_participate.html.twig' %}
+    </div>
+{% endif %}
+
+<p>Total : {{ nb }}</p>
+
 <table class="table table-striped table-condensed">
     <thead>
         <tr>
@@ -19,22 +38,3 @@
     </tbody>
 </table>
 
-{% if not isFinished %}
-    <div class="float:right">
-    {% if isParticipating %}
-        <a class="btn pull-right" href="{{ url('_deleteparticipatedrink', {'drinkId': drink.id}) }}" >Se d&eacute;sinscrire</a>
-        <a class="btn pull-right" data-toggle="modal" href="#participateModal" >Modifier</a>
-    {% else %}
-        {% if not isConnected %}
-            <a class="btn pull-right" href="{{ url('_forgetparticipatedrink', {'drinkId': drink.id}) }}">Jeton perdu ?</a>
-        {% endif %}
-        <a class="btn pull-right" data-toggle="modal" href="#participateModal" >S'inscrire</a>
-    {% endif %}
-    </div>
-
-    <div class="modal hide fade" id="participateModal">
-        {% include 'drink/_participate.html.twig' %}
-    </div>
-{% endif %}
-
-<p>Total : {{ nb }}</p>
