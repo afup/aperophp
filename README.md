@@ -69,6 +69,17 @@ Comment participer
 
 [Comment participer ?](https://github.com/afup/aperophp/wiki/Comment-contribuer)
 
+Comment déployer
+================
+
+Le déploiement est assuré par [Capistrano](https://github.com/capistrano/capistrano) qui est un programme en Ruby.
+
+Pour déployer, il vous faudra donc disposer d'un environnement Ruby fonctionnel ([exemple pour Mac OS X](http://pym.me/posts/installer-et-configurer-un-environnement-de-developpement-ruby-sur-mac-os-x/)).
+
+Ensuite, il faut installer la gem capistrano : `gem install capistrano`
+
+Pour déployer le projet, il suffit de taper la commande `cap deploy`
+
 TODO
 ====
 
