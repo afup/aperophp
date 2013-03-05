@@ -158,4 +158,8 @@ $app->register(new SilexGravatar\GravatarExtension(), array(
 ));
 // *******
 
+
+$app['twig']->addExtension(new \Aperophp\Lib\AutoLinkTwigExtension());
+
+
 return $app;
