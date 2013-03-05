@@ -13,7 +13,9 @@
 
         </div> <!-- /widget-header -->
         <div class="widget-content">
+          {% if not isFinished %}
           <a class="btn btn-primary btn-large pull-right" data-toggle="modal" href="#participateModal" >S'inscrire</a>
+          {% endif %}
 
           <h1>{{ drink.kind|trans }} <small>&agrave; {{ drink.city_name }}, le {{ drink.day|date("d") }} {{ drink.day|date("F")|trans|lower }} {{ drink.day|date("Y") }} &agrave; {{ drink.hour|date("H:i") }}</small></h1>
 
