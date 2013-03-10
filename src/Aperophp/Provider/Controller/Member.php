@@ -79,6 +79,22 @@ class Member implements ControllerProviderInterface
         // *******
 
         // *******
+        // ** Check sniup form field validity
+        // *******
+        $controllers->post('checkusername.html', function(Request $request) use ($app)
+        {
+            $username = $request->get('username');
+            if(empty($username)) {
+                return json_encode(array('valid' => false));
+            }
+
+            $result = $app['members']->findOneByUsername($username);
+
+            return json_encode(array('valid' => empty($result)));
+        })->bind('_checkusername');
+        // *******
+
+        // *******
         // ** Signup member
         // *******
         $controllers->get('signup.html', function(Request $request) use ($app)

@@ -29,7 +29,7 @@
                     <div class="control-group {% if form.member.username.vars.errors|length %}error{% endif %}">
                         {{ form_label(form.member.username, null, { 'label_attr': {'class': 'control-label'} }) }}
                         <div class="controls">
-                            {{ form_widget(form.member.username) }}
+                            {{ form_widget(form.member.username, { 'attr': {'onchange': 'checkUsername(this)'} }) }}
                             {{ form_errors(form.member.username) }}
                         </div>
                     </div>
@@ -60,4 +60,22 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block bottomjs %}
+<script type="text/javascript">
+    function checkUsername(field) {
+        $.post('{{ url('_checkusername') }}', { username: $(field).val() }, function(result) {
+            var controlGroup = $(field).closest('.control-group');
+
+            if(typeof(result['valid'])  == 'undefined' || !result['valid']) {    
+                controlGroup.addClass('error');
+                $(field).closest('.controls').append('<span class="help-inline">Cet identifiant est déjà attribué.</div>');
+            } else {
+                controlGroup.removeClass('error');
+                $('span.help-inline', controlGroup).remove();
+            }
+        }, 'json');
+    }
+</script>
 {% endblock %}
