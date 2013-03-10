@@ -71,9 +71,11 @@
             if(typeof(result['valid'])  == 'undefined' || !result['valid']) {    
                 controlGroup.addClass('error');
                 $(field).closest('.controls').append('<span class="help-inline">Cet identifiant est déjà attribué.</div>');
+                $('button[type=submit]').attr('disabled', 'disabled');
             } else {
                 controlGroup.removeClass('error');
                 $('span.help-inline', controlGroup).remove();
+                $('button[type=submit]').removeAttr('disabled');
             }
         }, 'json');
     }
