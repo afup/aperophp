@@ -33,7 +33,7 @@ class Member extends Repository
      */
     public function findOneByUsername($username)
     {
-        $sql = 'SELECT * FROM Member WHERE username = ? LIMIT 1';
+        $sql = 'SELECT * FROM Member WHERE username = ?';
 
         return $this->db->fetchAssoc($sql, array($username));
     }
