@@ -76,9 +76,27 @@ Le déploiement est assuré par [Capistrano](https://github.com/capistrano/capis
 
 Pour déployer, il vous faudra donc disposer d'un environnement Ruby fonctionnel ([exemple pour Mac OS X](http://pym.me/posts/installer-et-configurer-un-environnement-de-developpement-ruby-sur-mac-os-x/)).
 
-Ensuite, il faut installer la gem capistrano : `gem install capistrano`
+Ensuite, il faut installer les gems nécessaires : 
+```
+gem install capistrano
+gem install railsless-deploy
+```
 
 Pour déployer le projet, il suffit de taper la commande `cap deploy`
+
+NB : il est nécessaire que votre clé SSH soit autorisée sur l'utilisateur pour pouvoir déployer
+
+Premier déploiement
+-------------------
+
+Voici les étapes à faire attention pour un 1er déploiement
+
+* Récupérer les informations du serveurs (utilisateur SSH, hôte, path d'installation) et s'assurer qu'une clé SSH est autorisée sur ce couple
+* Modifier la configuration du serveur de déploiement (config/deploy.rb)
+* Initialiser le dossier de déploiement avec la commande `cap deploy:setup`
+* Créer les fichiers partagés (shared/app/config.php)
+* Cloner manuellement le projet Git dans un dossier temporaire pour autoriser le host
+* Tester un déploiement `cap deploy`
 
 TODO
 ====

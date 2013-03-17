@@ -1,6 +1,12 @@
-# TODO
+# encoding: utf-8
+
+load "config/recipes/railsless"
+load "config/recipes/composer"
+load "config/recipes/database"
+load "config/recipes/railsless"
 
 set :app_config, %w(app/config.php)
+load "config/recipes/app_config"
 
 set :shared_children, ["app/log"]
 
@@ -18,3 +24,5 @@ server 'TODO', :app, :web, :db, :primary => true
 set :user, "TODO"
 
 after "deploy:restart", "deploy:cleanup"
+
+#TODO backup database
