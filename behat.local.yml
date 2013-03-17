@@ -1,0 +1,7 @@
+default:
+  context:
+    parameters:
+      base_url: http://aperophp.local
+  extensions:
+    Behat\MinkExtension\Extension:
+      base_url: http://aperophp.local
