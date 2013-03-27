@@ -12,7 +12,8 @@ namespace :composer do
 
   task :copy_vendors, :except => { :no_release => true } do
     composer_vendor = fetch :composer_vendor, 'vendor'
-    run "vendorDir=#{current_path}/#{composer_vendor}; if [ -d $vendorDir ] || [ -h $vendorDir ]; then cp -a $vendorDir/* #{latest_release}/#{composer_vendor}; fi;"
+      run "if [ ! -d  #{latest_release}/#{composer_vendor} ]; then mkdir -p #{latest_release}/#{composer_vendor}; fi;"
+      run "vendorDir=#{current_path}/#{composer_vendor}; if [ -d $vendorDir ] || [ -h $vendorDir ]; then cp -a $vendorDir/* #{latest_release}/#{composer_vendor}; fi;"
   end
 end
 
