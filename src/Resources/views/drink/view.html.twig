@@ -21,7 +21,7 @@
 
           <p>Lieu : {{ drink.place }}, {{ drink.address }}</p>
           <blockquote>
-              <p class="description">{{ drink.description|raw }}</p>
+              <p class="description">{{ drink.description|autolink(1, 20)|raw }}</p>
               <small>organis&eacute; par {{ drink.organizer_username }}</small>
           </blockquote>
         </div>
