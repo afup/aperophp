@@ -23,20 +23,17 @@ class Member extends Repository
 
         return $this->db->fetchAssoc($sql, array($username, $password));
     }
-
     /**
-     * checkUserPassword
+     * findOneByUsername
      *
      * @param string $username
-     * @param string $password
      *
-     * @return int
+     * @return array
      */
-    public function checkUserPassword($username, $password)
+    public function findOneByUsername($username)
     {
+        $sql = 'SELECT * FROM Member WHERE username = ? AND active = true LIMIT 1';
 
-        $sql = 'SELECT COUNT(*) FROM ' . $this->getTableName() . ' WHERE username = ? AND password = ? LIMIT 1';
-
-        return $this->db->fetchColumn($sql, array($username, $password));
+        return $this->db->fetchAssoc($sql, array($username));
     }
 }

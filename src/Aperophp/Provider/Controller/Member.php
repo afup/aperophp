@@ -41,9 +41,8 @@ class Member implements ControllerProviderInterface
                 if ($form->isValid()) {
                     $data = $form->getData();
 
-                    $member = $app['members']->findOneByUsernameAndPassword($data['username'], $app['utils']->hash($data['password']));
-
-                    if ($member) {
+                    $member = $app['members']->findOneByUsername($data['username']);
+                    if ($member['password'] == $app['utils']->hash($data['password'])) {
                         unset($member['password']);
                         $app['session']->set('member', $member);
                         $user = $app['users']->findOneByMemberId($member['id']);
@@ -170,7 +169,7 @@ class Member implements ControllerProviderInterface
 
                         if (!is_null($data['member']['password'])) {
 
-                            if(!$this->changePasswordUser($member, $app, $data)){
+                            if(!Member::changePasswordUser($member, $app, $data)){
                                 $app['session']->getFlashBag()->add('error', 'Votre mot de passe n\'est pas le bon');
 
                                 return $app->redirect($app['url_generator']->generate('_editmember'));
@@ -338,17 +337,33 @@ class Member implements ControllerProviderInterface
      *
      * @return boolean
      */
-    private function changePasswordUser($member, $app, $data)
+    public function changePasswordUser($member, $app, $data)
     {   
-        if($app['members']->checkUserPassword($member['username'], $app['utils']->hash($data['member']['oldpassword'])) != 0) {
-            
+        $result = false;
+
+        $verifMember = $app['members']->findOneByUsername($member['username']);
+
+        if($verifMember && Member::checkUserPassword($member, $verifMember, $app)) {
+
             $data['member']['password'] = $app['utils']->hash($data['member']['password']);
             unset($data['member']['oldpassword']);
             $app['members']->update($data['member'], array('id' => (int) $member['id']));
 
-            return true;
+            $result = true;
         }
-        
-        return false;
+
+        return $result;
+    }
+
+    /**
+     * Check user password
+     *
+     * @return boolean
+     */
+    public function checkUserPassword($member, $verifMember, $app)
+    {
+        $member = $app['members']->find($member['id']);
+
+        return $verifMember['password'] == $member['password'];
     }
 }
