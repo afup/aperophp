@@ -17,11 +17,11 @@ set :branch,        "master"
 
 set :keep_releases, 5
 set :use_sudo,      false
-set :deploy_to,     "TODO"
+set :deploy_to,     "/home/aperophp/aperophp.net"
 
-server 'TODO', :app, :web, :db, :primary => true
+server 'afup.org', :app, :web, :db, :primary => true
 
-set :user, "TODO"
+set :user, "aperophp"
 
 after "deploy:restart", "deploy:cleanup"
 
