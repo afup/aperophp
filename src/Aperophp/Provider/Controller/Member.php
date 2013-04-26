@@ -81,7 +81,7 @@ class Member implements ControllerProviderInterface
         // *******
         // ** Check sniup form field validity
         // *******
-        $controllers->post('checkusername.html', function(Request $request) use ($app)
+        $controllers->post('checkusername.json', function(Request $request) use ($app)
         {
             $username = $request->get('username');
             if(empty($username)) {
