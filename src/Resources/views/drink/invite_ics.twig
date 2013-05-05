@@ -9,8 +9,7 @@ STATUS:TENTATIVE
 DTSTART;VALUE=DATE-TIME:{{ datetimes.start }} 
 TRANSP:TRANSPARENT
 DTSTAMP:{{ datetimes.current }} 
-ATTENDEE;CUTYPE=3DINDIVIDUAL;ROLE=3DREQ-PARTICIPANT;PARTSTAT=3DNEEDS-ACTION;RSV
- P=3DTRUE;X-NUM-GUESTS=3D0;CN={{ user.lastname }} {{ user.firstname }}:MAILTO:{{ user.email }}
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;X-NUM-GUESTS=0;CN={{ user.lastname }} {{ user.firstname }}:MAILTO:{{ user.email }}
 UID:{{ datetimes.current }}-aperophp.net
 SUMMARY:Apéro PHP
 ORGANIZER;CN=aperophp.net:MAILTO:noreply@aperophp.net
