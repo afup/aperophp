@@ -48,14 +48,18 @@ class DrinkCommentType extends AbstractType
             );
         }
 
-        $builder->add('content', 'textarea', array(
-            'label' => 'Commentaire'
-        ));
+        $builder
+            ->add('content', 'textarea', array(
+                'label' => 'Commentaire'
+            ))
+            ->add('captcha', 'hidden')
+        ;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $fields = array(
+            'captcha' => new Constraints\Blank(array('message' => "Vous avez été détecté comme un robot.")),
             'content' => new Constraints\NotNull(),
         );
 

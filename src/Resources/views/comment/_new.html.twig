@@ -6,6 +6,7 @@
         <h3>Commentaire</h3>
     </div>
     <div class="modal-body">
+        {{ form_errors(commentForm) }}
         {% if commentForm.user is defined %}
             <div class="control-group {% if commentForm.user.lastname.vars.errors|length %}error{% endif %}">
                 {{ form_label(commentForm.user.lastname, null, { 'label_attr': {'class': 'control-label'} }) }}

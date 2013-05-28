@@ -65,8 +65,8 @@ class Comment implements ControllerProviderInterface
                 return $request->isXmlHttpRequest() ? 'redirect' : $app->redirect($app['url_generator']->generate('_showdrink', array('id' => $drinkId)));
             }
 
-            return $app['twig']->render('comment/new.html.twig', array(
-                'form' => $form->createView(),
+            return $app['twig']->render('comment/_new.html.twig', array(
+                'commentForm' => $form->createView(),
                 'drink' => $drink,
             ));
         })->bind('_createcomment');
