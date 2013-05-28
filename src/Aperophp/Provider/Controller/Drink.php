@@ -2,8 +2,6 @@
 
 namespace Aperophp\Provider\Controller;
 
-//include_once dirname(__FILE__) . '/../../../../vendor/php-markdown/markdown.php';
-
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
@@ -12,10 +10,6 @@ use Aperophp\Repository;
 
 /**
  * Drink controller
- *
- * @author Mikael Randy <mikael.randy@gmail.com>
- * @since 21 janv. 2012
- * @version 1.4 - 23 july 2012 - Gautier DI FOLCO <gautier.difolco@gmail.com>
  */
 class Drink implements ControllerProviderInterface
 {
