@@ -11,6 +11,7 @@
         </div> <!-- /widget-header -->
         <div class="widget-content">
             <form method="post" action="{{ url('_editdrink', {'id': id}) }}" class="form-horizontal" {{ form_enctype(form) }}>
+                {{ form_errors(form) }}
                 <fieldset>
                     <div class="control-group">
                         <label for="drink_dayselector" class="control-label required">Jour</label>

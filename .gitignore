@@ -1,5 +1,6 @@
 ## Application files
 app/config.php
+bin/*
 deps.lock
 vendor/
 tmp/*

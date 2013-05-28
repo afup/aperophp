@@ -78,6 +78,7 @@ class Drink implements ControllerProviderInterface
 
                     $member = $app['session']->get('member');
                     $data['member_id'] = $member['id'];
+                    unset($data['captcha']);
 
                     try {
                         $app['drinks']->insert($data);
@@ -141,6 +142,7 @@ class Drink implements ControllerProviderInterface
                     $data = $form->getData();
 
                     $data['member_id'] = $member['id'];
+                    unset($data['captcha']);
 
                     try {
                         $app['drinks']->update($data, array('id' => $drink['id']));

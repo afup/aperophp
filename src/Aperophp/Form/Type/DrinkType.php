@@ -36,6 +36,7 @@ class DrinkType extends AbstractType
         $builder->addEventSubscriber(new DataFilterSubscriber($builder));
 
         $builder
+            ->add('captcha', 'hidden')
             ->add('place', 'hidden')
             ->add('address', 'hidden')
             ->add('latitude', 'hidden')
@@ -64,6 +65,7 @@ class DrinkType extends AbstractType
         // Collection Constraint
         $collectionConstraint = new Constraints\Collection(array(
             'fields' => array(
+                'captcha'     => new Constraints\Blank(array('message' => "Vous avez été détecté comme un robot.")),
                 'place'       => array(
                     new Constraints\NotNull(),
                     new Constraints\Length(array('max' => 100)),
