@@ -3,8 +3,8 @@
     "minimum-stability": "dev",
     "require": {
         "silex/silex"               : "1.0.*",
-        "doctrine/common"           : "dev-master",
-        "doctrine/dbal"             : "dev-master",
+        "doctrine/common"           : "2.4.*",
+        "doctrine/dbal"             : "2.4.*",
         "twig/twig"                 : "dev-master",
         "twig/extensions"           : "dev-master",
         "symfony/class-loader"      : "2.1.x",
