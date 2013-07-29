@@ -5,7 +5,6 @@ namespace Aperophp\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints;
-use Doctrine\DBAL\Connection;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Aperophp\Form\EventListener\DataFilterSubscriber;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
