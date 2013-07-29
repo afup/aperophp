@@ -3,7 +3,6 @@
 require_once __DIR__.'/../vendor/autoload.php';
 
 use Silex\Application;
-use Silex\Provider\SymfonyBridgesServiceProvider;
 use Silex\Provider\UrlGeneratorServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\FormServiceProvider;

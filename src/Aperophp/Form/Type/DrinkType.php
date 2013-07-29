@@ -6,7 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints;
 use Aperophp\Validator\Constraints as AperophpConstraints;
-use Doctrine\DBAL\Connection;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Aperophp\Repository;
 use Aperophp\Form\EventListener\DataFilterSubscriber;
