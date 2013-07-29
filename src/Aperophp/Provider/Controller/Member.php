@@ -69,7 +69,7 @@ class Member implements ControllerProviderInterface
         // *******
         // ** Signout member
         // *******
-        $controllers->get('signout.html', function(Request $request) use ($app)
+        $controllers->get('signout.html', function() use ($app)
         {
             $app['session']->clear();
             $app['session']->invalidate();
@@ -266,7 +266,7 @@ class Member implements ControllerProviderInterface
         // *******
         // ** Remember password member
         // *******
-        $controllers->get('remember.html/{email}/{token}', function(Request $request, $email, $token) use ($app)
+        $controllers->get('remember.html/{email}/{token}', function($email, $token) use ($app)
         {
             if ($app['session']->has('member')) {
                 $app['session']->getFlashBag()->add('error', 'Vous êtes déjà authentifié.');

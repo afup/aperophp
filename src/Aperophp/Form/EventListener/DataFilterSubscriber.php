@@ -34,7 +34,6 @@ class DataFilterSubscriber implements EventSubscriberInterface
     public function preSetData(FilterDataEvent $event)
     {
         $data = $event->getData();
-        $form = $event->getForm();
 
         if (null === $data) {
             return;

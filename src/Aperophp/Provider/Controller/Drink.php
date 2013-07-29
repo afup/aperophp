@@ -35,7 +35,7 @@ class Drink implements ControllerProviderInterface
         // *******
         // ** List
         // *******
-        $controllers->get('list.{format}', function(Request $request, $format) use ($app)
+        $controllers->get('list.{format}', function($format) use ($app)
         {
             $app['session']->set('menu', 'listdrinks');
 
@@ -166,7 +166,7 @@ class Drink implements ControllerProviderInterface
         // *******
         // ** See a drink
         // *******
-        $controllers->get('{id}/view.html/{email}/{token}', function($id, $email, $token) use ($app)
+        $controllers->get('{id}/view.html/{email}/{token}', function($id) use ($app)
         {
             $app['session']->set('menu', null);
 
