@@ -1,10 +1,8 @@
 <?php
 
-$runner->setBootstrapFile( __DIR__ . '/tests/units/bootstrap.php' );
-
-$script->addTestAllDirectory('tests/units');
-
 $runner->disableCodeCoverage();
+
+$script->addTestAllDirectory(__DIR__ . '/tests/units');
 
 ## Notifier (growlnotify)
 $images = __DIR__ . '/vendor/atoum/atoum/resources/images/logo';
@@ -17,7 +15,7 @@ if(syslibExist('growlnotify') )
     $notifier
         ->setSuccessImage($images . DIRECTORY_SEPARATOR . 'success.png')
         ->setFailureImage($images . DIRECTORY_SEPARATOR . 'failure.png')
-    ;
+    ; 
     $report->addField($notifier, array(atoum\runner::runStop));
 }
 
