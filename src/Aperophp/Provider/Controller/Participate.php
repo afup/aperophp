@@ -102,7 +102,9 @@ class Participate implements ControllerProviderInterface
 
                 $app['session']->getFlashBag()->add('success', 'Participation ajoutée.');
 
-                $app['mailer']->send($app['mail_factory']->createParticipation($user, $drink));
+                if ($participation['percentage'] > 0) {
+                  $app['mailer']->send($app['mail_factory']->createParticipation($user, $drink));
+                }
 
                 return $returnValue;
             }
