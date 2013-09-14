@@ -28,6 +28,7 @@
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
     <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    {% block headcss %}{% endblock %}
 
     <!-- Atom -->
     <link rel = "alternate" type="application/atom+xml" title="Liste des ap&eacute;ros" href = "{{ url('_listdrinks', {'format': 'atom'}) }}"/>
@@ -56,9 +57,12 @@
           </div> <!-- /container -->
       </div> <!-- /main-inner -->
     </div> <!--  /main -->
-    <script src="{{ app.request.basepath }}/js/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="{{ app.request.basepath }}/js/jquery-ui.custom.min.js"></script>
     <script src="{{ app.request.basepath }}/js/bootstrap.min.js"></script>
     {% block bottomjs %}{% endblock %}
   </body>
 </html>
+
+
+

@@ -39,6 +39,11 @@
                         <i class="icon-key"></i> <span>Se connecter</span>
                     </a>
                 </li>
+                <li{% if app.session.get('menu') == 'stats' %} class="active"{% endif %}>
+                    <a href="{{ url('_stats', {'type': 'year', 'city': 0}) }}">
+                        <i class="icon-signal"></i> <span>Statistiques</span>
+                    </a>
+                </li>
                 {% endif %}
             </ul>
         </div> <!-- /container -->
