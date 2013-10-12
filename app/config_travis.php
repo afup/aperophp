@@ -1,9 +1,9 @@
 <?php
-$app['db.options'] = array(
-    'driver'    => $app['db.options']['driver'],
-    'host'      => $app['db.options']['host'],
-    'dbname'    => $app['db.options']['dbname'],
-    'user'      => 'root',
-    'password'  => '',
-);
 
+$app['db.options'] = array_merge(
+    $app['bd.options'], 
+    array(
+        'user'      => 'root',
+        'password'  => '',
+    )
+);
