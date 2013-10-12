@@ -1,5 +1,13 @@
 {% extends "layout.html.twig" %}
 
+{% block metas %}
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{ drink.kind|trans }} PHP - {{ drink.city_name }} - {{ drink.day|date("d") }} {{ drink.day|date("F")|trans|lower }} {{ drink.hour|date("H:i") }}">
+<meta name="twitter:description" content="{{ drink.description|striptags|replace({"\n": " "})|truncate(200)|raw }}">
+<meta name="twitter:image:src" content="{{ app.request.schemeAndHttpHost }}/img/aperophp.gif">
+<meta name="twitter:domain" content="aperoPHP.net">
+{% endblock%}
+
 {% block content %}
 <div class="span8">
     <div class="widget">
