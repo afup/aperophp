@@ -19,9 +19,8 @@ Fonctionnalité: La homepage fonctionne correctement
   Scénario: La liste des apéritifs à venir est affichée
     Quand je vais sur la page d'accueil
     Alors le bloc "A venir" est visible
-    Et l'apéritif du "19 juillet" à "Paris" est visible
-    Et l'apéritif du "19 juillet" à "Paris" est visible
-    Et l'apéritif du "19 juillet" à "Lyon" n'est pas visible
+    Et l'apéritif du "19 Juillet" à "Paris" est visible
+    Et l'apéritif du "19 Juillet" à "Lyon" n'est pas visible
 
   Scénario: Le bloc de création d'un apéritif est disponible
     Quand je vais sur la page d'accueil

@@ -6,14 +6,32 @@ class Homepage extends PageObject\Page
 {
     protected $path = '/';
 
-    protected $elements = array(
-        'Menu'  => array('css' => 'ul.mainnav'),
-    );
-
-    public function hasMenu(array $menu_content)
+    /**
+     * Check if a drink for given place and date is displayed on the page
+     * 
+     * @param  string  $date
+     * @param  string  $place
+     * @return boolean
+     */
+    public function hasDrink($date, $place)
     {
-        $menu = $this->getElement('Menu');
-        var_dump(array_diff($menu_content, $menu->toArray()));
+        foreach( $this->getAllDrinks() as $drink ) {
+            if( strstr( $drink->getText(), $date ) && strstr( $drink->getText(), $place )) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get all drinks element on the page
+     * 
+     * @return array
+     */
+    protected function getAllDrinks()
+    {
+        return $this->findAll('css', 'ul.news-items li');
     }
 }
 

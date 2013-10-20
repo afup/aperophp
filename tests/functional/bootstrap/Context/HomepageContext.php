@@ -2,12 +2,12 @@
 
 namespace Context;
 
-use Behat\Behat\Context\BehatContext;
-use Behat\Behat\Exception\PendingException;
+use SensioLabs\Behat\PageObjectExtension\Context\PageObjectContext;
+use Behat\Behat\Exception;
 use Behat\Behat\Context\Step;
 use Behat\Gherkin\Node\TableNode;
 
-class HomepageContext extends BehatContext
+class HomepageContext extends PageObjectContext
 {
     /**
      * @Given /^le lien "([^"]*)" est visible$/
@@ -58,9 +58,9 @@ class HomepageContext extends BehatContext
      */
     public function lAperitifDuAEstVisible($date, $place)
     {
-        return array(
-            new Step\Then("je devrais voir \"$date\""),
-        );
+        if( !$this->getPage('Homepage')->hasDrink($date, $place) ) {
+            throw new \LogicException("L'apéritif du $date à $place est introuvable sur la page");
+        }
     }
 
     /**
@@ -68,8 +68,8 @@ class HomepageContext extends BehatContext
      */
     public function lAperitifDuANEstPasVisible($date, $place)
     {
-        return array(
-            new Step\Then("je ne devrais pas voir \"$date\""),
-        );
+        if( $this->getPage('Homepage')->hasDrink($date, $place) ) {
+            throw new \LogicException("L'apéritif du $date à $place est présent sur la page");
+        }
     }
 }
