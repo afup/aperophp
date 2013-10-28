@@ -16,6 +16,8 @@ nbproject/
 .settings/
   # SublimeText
 *.sublime-*
+  # PhpStorm
+*.idea
 
 # Backup files
 *.*~
