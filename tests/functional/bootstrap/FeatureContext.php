@@ -3,12 +3,7 @@
 use Behat\Behat\Context\BehatContext;
 use Behat\MinkExtension\Context\MinkContext;
 
-//
-// Require 3rd-party libraries here:
-//
-//   require_once 'PHPUnit/Autoload.php';
-//   require_once 'PHPUnit/Framework/Assert/Functions.php';
-//
+use Aperophp\Test\Functional\Context;
 
 /**
  * Features context.
@@ -23,7 +18,7 @@ class FeatureContext extends BehatContext
      */
     public function __construct(array $parameters)
     {
-        $this->useContext('view', new View\WebContext($parameters));
+        $this->useContext('view', new Context\WebContext($parameters));
         $this->useContext('homepage', new Context\HomepageContext($parameters));
         $this->useContext('mink', new MinkContext($parameters));
     }
