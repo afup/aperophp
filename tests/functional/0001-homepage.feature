@@ -8,7 +8,8 @@ Fonctionnalité: La homepage fonctionne correctement
 
   Scénario: Le menu est correctement affiché
     Quand je vais sur la page d'accueil
-    Alors le menu contient ces éléments:
+    Alors le menu est affiché
+    Et le menu contient ces éléments:
       | libellé            | lien                 |
       | Accueil            | /                    |    
       | Organiser un apéro | /new.html            |
@@ -25,4 +26,4 @@ Fonctionnalité: La homepage fonctionne correctement
   Scénario: Le bloc de création d'un apéritif est disponible
     Quand je vais sur la page d'accueil
     Alors le bloc "Les apéros PHP" est visible
-    Et le lien "Organiser un apéro" est visible
+    Et il est possible de créer un apéro

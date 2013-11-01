@@ -1,6 +1,6 @@
 <?php
 
-namespace View;
+namespace Aperophp\Test\Functional\Context;
 
 use Behat\Behat\Context\BehatContext;
 use Behat\Behat\Exception\PendingException;
@@ -21,14 +21,6 @@ class WebContext extends BehatContext
     protected function getMink()
     {
         return $this->getMainContext()->getSubcontext('mink');
-    }
-
-    protected function getMenuLinks()
-    {
-        $session = $this->getMink()->getSession();
-        $page = $session->getPage();
-
-        return $page->findAll('css', 'ul.mainnav > li > a');
     }
 
     /**
