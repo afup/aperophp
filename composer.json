@@ -3,21 +3,25 @@
     "description"       : "Source code for aperophp.net website",
     "licence"           : "GPL-3.0+",
     "minimum-stability" : "dev",
+    "config": {
+        "bin-dir": "bin/"
+    },
     "require": {
         "silex/silex"               : "1.0.*",
-        "doctrine/common"           : "2.4.*",
-        "doctrine/dbal"             : "2.4.*",
+        "doctrine/common"           : "2.4.x-dev",
+        "doctrine/dbal"             : "2.4.x-dev",
         "twig/twig"                 : "dev-master",
         "twig/extensions"           : "dev-master",
-        "symfony/class-loader"      : "2.1.x",
-        "symfony/form"              : "2.1.x",
-        "symfony/validator"         : "2.1.x",
-        "symfony/translation"       : "2.1.x",
-        "symfony/config"            : "2.1.x",
-        "symfony/browser-kit"       : "2.1.x",
-        "symfony/console"           : "2.1.x",
-        "symfony/css-selector"      : "2.1.x",
-        "symfony/twig-bridge"       : "2.1.x",
+        "symfony/class-loader"      : "2.2.x",
+        "symfony/routing"           : "2.2.x",
+        "symfony/form"              : "2.2.x",
+        "symfony/validator"         : "2.2.x",
+        "symfony/translation"       : "2.2.x",
+        "symfony/config"            : "2.2.x",
+        "symfony/browser-kit"       : "2.2.x",
+        "symfony/console"           : "2.2.x",
+        "symfony/css-selector"      : "2.2.x",
+        "symfony/twig-bridge"       : "2.2.x",
         "swiftmailer/swiftmailer"   : "dev-master",
         "twitter/bootstrap"         : "2.0.4",
         "FortAwesome/Font-Awesome"  : "master",
@@ -26,7 +30,12 @@
         "michelf/php-markdown"      : "1.3.x-dev"
     },
     "require-dev": {
-        "atoum/atoum"               : "dev-master"
+        "atoum/atoum"                               : "dev-master",
+        "behat/behat"                               : "2.4.*@stable",
+        "behat/mink-extension"                      : "1.0.*@stable",
+        "behat/mink-goutte-driver"                  : "1.0.*@stable",
+        "sensiolabs/behat-page-object-extension"    : "*",
+        "bossa/phpspec2-expect"                     : "dev-master"
     },
     "autoload": {
         "psr-0": {

@@ -1,6 +1,8 @@
 ## Application files
 app/config.php
 bin/*
+behat.local.yml
+behat.yml
 deps.lock
 vendor/
 tmp/*
@@ -14,6 +16,8 @@ nbproject/
 .settings/
   # SublimeText
 *.sublime-*
+  # PhpStorm
+*.idea
 
 # Backup files
 *.*~

@@ -1,0 +1,7 @@
+# coding standard
+standard=PSR2
+
+# Path to parse
+src
+
+# Path to ignore
