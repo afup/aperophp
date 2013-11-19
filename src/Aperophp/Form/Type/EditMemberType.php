@@ -23,9 +23,18 @@ class EditMemberType extends AbstractType
 
         $builder->add(
             $builder->create('member', 'form')
-            ->add('password', 'password', array(
-                'label'    => 'Mot de passe',
-                'required' => false
+            ->add('oldpassword', 'password', array(
+                'label'     => 'Mot de passe actuel',
+                'required'  => false
+            ))
+            ->add('password', 'repeated', array(
+                'type'              => 'password',
+                'invalid_message'   => 'Les mots de passe doivent correspondre.',
+                'first_options'     => array('label' => 'Mot de passe'),
+                'second_options'    => array('label' => 'Mot de passe (validation)'),
+                'first_name'        => 'first',
+                'second_name'       => 'second',
+                'required'          => false
             ))
         )->add(
             $builder->create('user', 'form')
@@ -63,7 +72,8 @@ class EditMemberType extends AbstractType
                 )),
                 'member' => new Constraints\Collection(array(
                     'fields' => array(
-                        'password' => new Constraints\Length(array('max' => 80)),
+                        'oldpassword'   => new Constraints\Length(array('max' => 80)),
+                        'password'      => new Constraints\Length(array('max' => 80)),
                     )
                 ))
             ),

@@ -4,6 +4,9 @@ bin/*
 deps.lock
 vendor/
 tmp/*
+web/
+
+.gitignore
 
 # IDE files
   # Netbeans

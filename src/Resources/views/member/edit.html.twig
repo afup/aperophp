@@ -40,11 +40,26 @@
                             </div>
                         </div>
                     </div>
-                    <div class="control-group {% if form.member.password.vars.errors|length %}error{% endif %}">
-                        <label for="password" class="control-label">Mot de passe</label>
+
+                    <div class="control-group {% if form.member.oldpassword.vars.errors|length %}error{% endif %}">
+                        <label for="oldpassword" class="control-label">Mot de passe actuel</label>
                         <div class="controls">
-                            {{ form_widget(form.member.password) }}
-                            {{ form_errors(form.member.password) }}
+                            {{ form_widget(form.member.oldpassword) }}
+                            {{ form_errors(form.member.oldpassword) }}
+                        </div>
+                    </div>
+                    <div class="control-group {% if form.member.password.first.vars.errors|length %}error{% endif %}">
+                        <label for="password.first" class="control-label">Mot de passe</label>
+                        <div class="controls">
+                            {{ form_widget(form.member.password.first) }}
+                            {{ form_errors(form.member.password.first) }}
+                        </div>
+                    </div>
+                    <div class="control-group {% if form.member.password.second.vars.errors|length %}error{% endif %}">
+                        <label for="password.second" class="control-label">Mot de passe (confirmez)</label>
+                        <div class="controls">
+                            {{ form_widget(form.member.password.second) }}
+                            {{ form_errors(form.member.password.second) }}
                         </div>
                     </div>
                     {{ form_rest(form) }}

@@ -40,9 +40,8 @@ class Member implements ControllerProviderInterface
                 if ($form->isValid()) {
                     $data = $form->getData();
 
-                    $member = $app['members']->findOneByUsernameAndPassword($data['username'], $app['utils']->hash($data['password']));
-
-                    if ($member) {
+                    $member = $app['members']->findOneByUsername($data['username']);
+                    if ($member['password'] == $app['utils']->hash($data['password'])) {
                         unset($member['password']);
                         $app['session']->set('member', $member);
                         $user = $app['users']->findOneByMemberId($member['id']);
@@ -156,18 +155,24 @@ class Member implements ControllerProviderInterface
             // If it's not POST method, just display void form
             if ('POST' === $request->getMethod()) {
                 $form->bind($request->request->get('member_edit'));
+
                 if ($form->isValid()) {
                     $data = $form->getData();
 
                     $member = $app['session']->get('member');
-                    $user = $app['session']->get('user');
+                    $user   = $app['session']->get('user');
 
                     $app['db']->beginTransaction();
 
                     try {
-                        if ('' !== $data['member']['password']) {
-                            $data['member']['password'] = $app['utils']->hash($data['member']['password']);
-                            $app['members']->update($data['member'], array('id' => (int) $member['id']));
+
+                        if (!is_null($data['member']['password'])) {
+
+                            if(!Member::changePasswordUser($member, $app, $data)){
+                                $app['session']->getFlashBag()->add('error', 'Votre mot de passe n\'est pas le bon');
+
+                                return $app->redirect($app['url_generator']->generate('_editmember'));
+                            }
                         }
 
                         $app['users']->update($data['user'], array('id' => (int) $user['id']));
@@ -179,6 +184,7 @@ class Member implements ControllerProviderInterface
 
                         $app['db']->commit();
                     } catch (\Exception $e) {
+
                         try {
                             $app['db']->rollback();
                         } catch (\Exception $e) {
@@ -188,6 +194,7 @@ class Member implements ControllerProviderInterface
 
                     $app['session']->getFlashBag()->add('success', 'Votre compte a été modifié avec succès.');
                 } else {
+
                     $app['session']->getFlashBag()->add('error', 'Quelque chose n\'est pas valide.');
                 }
 
@@ -322,5 +329,40 @@ class Member implements ControllerProviderInterface
         // *******
 
         return $controllers;
+    }
+
+    /**
+     * Change password if current password is ok
+     *
+     * @return boolean
+     */
+    public function changePasswordUser($member, $app, $data)
+    {   
+        $result = false;
+
+        $verifMember = $app['members']->findOneByUsername($member['username']);
+
+        if($verifMember && Member::checkUserPassword($member, $verifMember, $app)) {
+
+            $data['member']['password'] = $app['utils']->hash($data['member']['password']);
+            unset($data['member']['oldpassword']);
+            $app['members']->update($data['member'], array('id' => (int) $member['id']));
+
+            $result = true;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Check user password
+     *
+     * @return boolean
+     */
+    public function checkUserPassword($member, $verifMember, $app)
+    {
+        $member = $app['members']->find($member['id']);
+
+        return $verifMember['password'] == $member['password'];
     }
 }
