@@ -14,13 +14,13 @@ if(syslibExist('growlnotify') )
     $notifier
         ->setSuccessImage($images . DIRECTORY_SEPARATOR . 'success.png')
         ->setFailureImage($images . DIRECTORY_SEPARATOR . 'failure.png')
-    ; 
+    ;
     $report->addField($notifier, array(atoum\runner::runStop));
 }
 
 /**
  * Return true if library is available on system
- * 
+ *
  * @param  string $libName
  * @return boolean
  */
