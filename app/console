@@ -3,46 +3,43 @@
 
 $app = require __DIR__ . '/app.php';
 
-//Include the namespaces of the components we plan to use
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Aperophp\Database\Tool as DatabaseTool;
 
-$goToTestEnv = function() use ($app) {
-    require __DIR__.'/config_test.php';
-};
+$changeEnvironment = function($env) use ($app) {
+    $env_config = __DIR__.'/config_'.$env.'.php';
 
-$importFile = function($file) use ($app) {
-    $app['db']->query(file_get_contents($file));
-};
-
-$loadFixtures = function() use ($app, $importFile) {
-    $importFile(__DIR__.'/../data/sql/fixtures.sql');
+    if(file_exists($env_config)) {
+        require $env_config;
+    }
 };
 
 $console = new Application('Aperophp', '1');
 
 $console->register('db:install')
     ->setDefinition(array(
-        new InputOption('test', '', InputOption::VALUE_NONE, 'Test mode'),
-        new InputOption('load-fixtures', '', InputOption::VALUE_NONE, 'Test mode'),
+        new InputOption('env', 'dev', InputOption::VALUE_OPTIONAL, 'Environment'),
+        new InputOption('load-fixtures', '', InputOption::VALUE_NONE, 'Import fixtures after database creation'),
     ))
     ->setDescription('Create database')
-    ->setHelp('Usage: <info>php app/console db:install [--test] [--load-fixtures]</info>')
+    ->setHelp('Usage: <info>php app/console db:install [--env=dev] [--load-fixtures]</info>')
     ->setCode(
-        function(InputInterface $input, OutputInterface $output) use ($app, $goToTestEnv, $importFile, $loadFixtures) {
-            if ($input->getOption('test')) {
-                $goToTestEnv();
-            }
+        function(InputInterface $input, OutputInterface $output) use ($app, $changeEnvironment) {
+            $output->writeln('<comment>Env : '.$input->getOption('env').'</comment>');
+            $changeEnvironment($input->getOption('env'));
+
+            $databaseTool = new DatabaseTool($app['db']);
 
             $output->writeln('<info>Create schema.</info>');
-            $importFile(__DIR__ . '/../data/sql/schema.mysql.sql');
+            $databaseTool->createSchema(__DIR__ . '/../data/sql/schema.mysql.sql');
 
             if ($input->getOption('load-fixtures')) {
                 $output->writeln('<info>Load fixtures.</info>');
-                $loadFixtures();
+                $databaseTool->loadFixtures(__DIR__.'/../data/sql/fixtures.sql');
             }
 
             $output->writeln('<info>Installation done.</info>');
@@ -51,17 +48,19 @@ $console->register('db:install')
 
 $console->register('db:load-fixtures')
     ->setDefinition(array(
-        new InputOption('test', '', InputOption::VALUE_NONE, 'Test mode'),
+        new InputOption('env', '', InputOption::VALUE_NONE, 'Environment'),
     ))
     ->setDescription('Create database')
-    ->setHelp('Usage: <info>php app/console db:load-fixtures [--test]</info>')
+    ->setHelp('Usage: <info>php app/console db:load-fixtures [--env=dev]</info>')
     ->setCode(
-        function(InputInterface $input, OutputInterface $output) use ($app, $goToTestEnv, $loadFixtures) {
-            if ($input->getOption('test')) {
-                $goToTestEnv();
-            }
+        function(InputInterface $input, OutputInterface $output) use ($app, $changeEnvironment) {
+            $output->writeln('<comment>Env : '.$input->getOption('env').'</comment>');
+            $changeEnvironment($input->getOption('env'));
 
-            $loadFixtures();
+            $databaseTool = new DatabaseTool($app['db']);
+
+            $output->writeln('<info>Load fixtures</info>');
+            $databaseTool->loadFixtures(__DIR__.'/../data/sql/fixtures.sql');
         }
 );
 
