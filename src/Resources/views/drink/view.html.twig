@@ -55,7 +55,10 @@
             <h3>Les commentaires</h3>
         </div> <!-- /widget-header -->
         <div class="widget-content">
-          {% include 'comment/_list.html.twig' with {'comments': comments} %}
+          {% include 'comment/_list.html.twig' with {
+            'comments': comments,
+            'display_spam_buttons': (app.session.has('member') and app.session.get('member').id == drink.member_id),
+          } %}
           <a class="btn pull-right" data-toggle="modal" href="#commentModal" >Ajouter un commentaire</a>
           <div class="modal hide fade" id="commentModal">
               {% include 'comment/_new.html.twig' %}

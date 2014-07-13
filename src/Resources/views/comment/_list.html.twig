@@ -8,5 +8,13 @@
                 {{ comment.firstname }},
             {% endif %}
             le {{ comment.created_at|date("d") }} {{ comment.created_at|date("F")|trans|lower }} {{ comment.created_at|date("Y") }} &agrave; {{ comment.created_at|date("H:i") }}</small>
+
+            {%  if display_spam_buttons %}
+                {% if comment.is_spam %}
+                    <a class="btn btn-success" style="color: #fff" href="{{ url('_comment_toggle_is_spam', {'drinkId': drink.id, 'commentId': comment.id}) }}">Signaler comme non spam</a>
+                {% else %}
+                    <a class="btn btn-danger" style="color: #fff" href="{{ url('_comment_toggle_is_spam', {'drinkId': drink.id, 'commentId': comment.id}) }}">Signaler comme spam</a>
+                {% endif %}
+            {% endif %}
     </blockquote>
 {% endfor %}

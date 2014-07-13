@@ -81,7 +81,7 @@ class Drink extends Repository
     {
         $sql  =
             sprintf('SELECT d.*, m.username as organizer_username, u.email as organizer_email, c.name as city_name,
-                (%s) as participants_count
+                (%s) as participants_count, m.id as member_id
             FROM Drink d, Member m, User u, City c
             WHERE d.member_id = m.id
               AND u.member_id = m.id

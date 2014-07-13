@@ -171,12 +171,15 @@ class Drink implements ControllerProviderInterface
 
             $drink = $app['drinks']->find($id);
 
-            if (!$drink)
+            if (!$drink) {
                 $app->abort(404, 'Cet événement n\'existe pas.');
+            }
+
+            $hideSpam = !($app['session']->get('member') && $app['session']->get('member')['id'] == $drink['member_id']);
 
             $participants = $app['drink_participants']->findByDrinkId($drink['id']);
             $presences = $app['drink_participants']->findAllPresencesInAssociativeArray();
-            $comments = $app['drink_comments']->findByDrinkId($drink['id']);
+            $comments = $app['drink_comments']->findByDrinkId($drink['id'], $hideSpam);
 
             $textProcessor = new \Michelf\Markdown();
             $textProcessor->no_markup = true;
