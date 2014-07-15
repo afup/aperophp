@@ -9,15 +9,23 @@ class DrinkComment extends Repository
         return 'Drink_Comment';
     }
 
-    public function findByDrinkId($drinkId)
+    public function findByDrinkId($drinkId, $hideSpam = false)
     {
         $sql = 'SELECT c.*, u.email as user_email, u.firstname,
                 (SELECT username FROM Member m WHERE m.id = u.member_id) as username
                 FROM Drink_Comment c, User u
                 WHERE c.user_id = u.id AND drink_id = ?
-                ORDER BY created_at';
+            ';
 
-        return $this->db->fetchAll($sql, array((int) $drinkId));
+        if ($hideSpam) {
+            $sql .= ' AND c.is_spam = 0 ';
+        }
+
+        $sql .= ' ORDER BY created_at';
+
+        $params = array((int) $drinkId);
+
+        return $this->db->fetchAll($sql, $params);
     }
 
     public function findOne($drinkId, $userId)

@@ -42,3 +42,7 @@ $app['swiftmailer.options'] = array(
 	'encryption' => null,
 	'auth_mode' => null,
 );
+
+
+$app['akismet_api_key'] = 'api_key';
+$app['akismet_url'] = 'http://localhost';

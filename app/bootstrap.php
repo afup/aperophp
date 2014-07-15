@@ -161,4 +161,8 @@ $app->register(new SilexGravatar\GravatarExtension(), array(
 $app['twig']->addExtension(new \Aperophp\Lib\AutoLinkTwigExtension());
 
 
+$app['akismet'] = $app->share(function() use ($app) {
+    return new \TijsVerkoyen\Akismet\Akismet($app['akismet_api_key'], $app['akismet_url']);
+});
+
 return $app;
