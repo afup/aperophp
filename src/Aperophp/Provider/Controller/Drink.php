@@ -175,7 +175,8 @@ class Drink implements ControllerProviderInterface
                 $app->abort(404, 'Cet événement n\'existe pas.');
             }
 
-            $hideSpam = !($app['session']->get('member') && $app['session']->get('member')['id'] == $drink['member_id']);
+            $member = $app['session']->get('member');
+            $hideSpam = !($member && $member['id'] == $drink['member_id']);
 
             $participants = $app['drink_participants']->findByDrinkId($drink['id']);
             $presences = $app['drink_participants']->findAllPresencesInAssociativeArray();
