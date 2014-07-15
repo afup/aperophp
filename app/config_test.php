@@ -13,3 +13,7 @@ $app['db.options'] = array(
 );
 
 $app['swiftmailer.transport'] = new \Swift_Transport_NullTransport($app['swiftmailer.transport.eventdispatcher']);
+
+$app['akismet'] = $app->share(function() use ($app) {
+    return new \Aperophp\Test\AkismetMock();
+});
