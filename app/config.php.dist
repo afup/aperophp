@@ -46,3 +46,7 @@ $app['swiftmailer.options'] = array(
 
 $app['akismet_api_key'] = 'api_key';
 $app['akismet_url'] = 'http://localhost';
+
+$app['ga.enabled'] = false;
+$app['ga.ua'] = '';
+
