@@ -29,7 +29,7 @@ class WebContext extends BehatContext
     public function laPageSAfficheCorrectement($url)
     {
         return array(
-            new Step\Then("je suis sur \"$url\""),
+            new Step\Then("je devrais être sur \"$url\""),
             new Step\Then("le code de status de la réponse devrait être 200"),
         );
     }
