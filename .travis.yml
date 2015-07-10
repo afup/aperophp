@@ -15,3 +15,5 @@ before_script:
   - php app/console db:install --test --load-fixtures
 
 script: ./vendor/bin/atoum -d tests/units
+
+sudo: false
