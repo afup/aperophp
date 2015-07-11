@@ -22,6 +22,7 @@ set :deploy_to,     "/home/aperophp/aperophp.net"
 server 'aperophp.net', :app, :web, :db, :primary => true
 
 set :user, "aperophp"
+ssh_options[:forward_agent] = true
 
 after "deploy:restart", "deploy:cleanup"
 
