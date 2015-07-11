@@ -19,7 +19,7 @@ set :keep_releases, 5
 set :use_sudo,      false
 set :deploy_to,     "/home/aperophp/aperophp.net"
 
-server 'afup.org', :app, :web, :db, :primary => true
+server 'aperophp.net', :app, :web, :db, :primary => true
 
 set :user, "aperophp"
 
