@@ -78,6 +78,7 @@ $app->register(new TwigServiceProvider(), array(
 // Add Twig extensions
 $app['twig'] = $app->share($app->extend('twig', function($twig, $app) {
     $twig->addExtension(new Twig_Extensions_Extension_Debug());
+    $twig->addExtension(new Twig_Extensions_Extension_Text());
     $twig->addGlobal('ga_enabled', $app['ga.enabled']);
     $twig->addGlobal('ga_ua', $app['ga.ua']);
 
