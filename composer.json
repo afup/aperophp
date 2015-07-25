@@ -1,7 +1,7 @@
 {
     "name"              : "afup/aperophp",
     "description"       : "Source code for aperophp.net website",
-    "licence"           : "GPL-3.0+",
+    "license"           : "GPL-3.0+",
     "minimum-stability" : "dev",
     "require": {
         "silex/silex"               : "1.0.*",
