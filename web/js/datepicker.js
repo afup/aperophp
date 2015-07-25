@@ -4,6 +4,7 @@
 function init_datepicker(inputDP, altInputDP) 
 {
 	inputDP.datepicker({ 
+		firstDay: 1,
 		dateFormat: 'dd/mm/yy', 
 		altField: altInputDP, 
 		altFormat: 'yy-mm-dd',
