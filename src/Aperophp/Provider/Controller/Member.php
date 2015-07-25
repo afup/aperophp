@@ -97,6 +97,11 @@ class Member implements ControllerProviderInterface
                 if ($form->isValid()) {
                     $data = $form->getData();
 
+                    $username = $data['member']['username'];
+                    if ($app['members']->findOneByUsername($username)) {
+                         $app->abort(500, sprintf("Le nom d'utilisateur '%s' est déjà utilisé.", $username));
+                    }
+
                     $app['db']->beginTransaction();
 
                     try {
