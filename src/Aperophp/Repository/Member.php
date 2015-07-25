@@ -23,4 +23,18 @@ class Member extends Repository
 
         return $this->db->fetchAssoc($sql, array($username, $password));
     }
+
+    /**
+     * findOneByUsername
+     *
+     * @param string $username
+     *
+     * @return array
+     */
+    public function findOneByUsername($username)
+    {
+        $sql = 'SELECT * FROM Member WHERE username = ?';
+
+        return $this->db->fetchAssoc($sql, array($username));
+    }
 }

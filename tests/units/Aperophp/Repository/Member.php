@@ -34,4 +34,31 @@ class Member extends Test
                 ->boolean($member)->isFalse()
         ;
     }
+
+    public function testFindOneByUsername_withExistingEntry_returnArray()
+    {
+        $this->assert
+            ->if($member = $this->app['members']->findOneByUsername('user'))
+            ->then
+                ->boolean(is_array($member))->isTrue()
+        ;
+    }
+
+    public function testFindOneByUsername_withIncorrectUsername_returnFalse()
+    {
+        $this->assert
+            ->if($member = $this->app['members']->findOneByUsername('no-exist-user'))
+            ->then
+                ->boolean($member)->isFalse()
+        ;
+    }
+
+    public function testFindOneByUsername_withInactiveUser_returnArray()
+    {
+        $this->assert
+            ->if($member = $this->app['members']->findOneByUsername('inactive_user'))
+            ->then
+                ->boolean(is_array($member))->isTrue()
+        ;
+    }
 }
