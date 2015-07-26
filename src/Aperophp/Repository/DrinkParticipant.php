@@ -25,6 +25,7 @@ class DrinkParticipant extends Repository
             FROM User u, Drink_Participation p
             WHERE p.user_id = u.id
               AND p.drink_id = ?
+            ORDER BY percentage DESC
         ';
 
         return $this->db->fetchAll($sql, array((int) $drinkId));
