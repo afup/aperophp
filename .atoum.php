@@ -1,8 +1,7 @@
 <?php
 
 $runner->disableCodeCoverage();
-
-$script->addTestAllDirectory(__DIR__ . '/tests/units');
+$runner->addTestsFromDirectory(__DIR__ . '/tests/units');
 
 ## Notifier (growlnotify)
 $images = __DIR__ . '/vendor/atoum/atoum/resources/images/logo';
