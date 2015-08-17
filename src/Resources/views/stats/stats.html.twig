@@ -1,0 +1,191 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+
+<div class="span12">
+    <div class="widget" style="overflow:visible">
+        <div class="widget-header">
+            <i class="icon-pushpin"></i>
+            <h3>Résumé</h3>
+
+              <div class="btn-group pull-right" style="float:right;margin:4px">
+
+                <button class="btn">Période : {{ types[type] }}</button>
+                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                  <span class="caret"></span>
+                </button>
+
+                <ul class="dropdown-menu" style="overflow:visible">
+                  {% for code, libelle in types %}
+                  <li><a href="{{ url('_stats', {'type': code, 'city': city }) }}">{{ libelle }}{% if type == code %}<i class="icon-ok"></i>{% endif %}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+
+              <div class="btn-group pull-right" style="float:right;margin:4px">
+
+                <button class="btn">Ville : {{ cities[city] }}</button>
+                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                  <span class="caret"></span>
+                </button>
+
+                <ul class="dropdown-menu" style="overflow:visible">
+                  {% for id, libelle in cities %}
+                  <li><a href="{{ url('_stats', {'type': type, 'city' : id }) }}">{{ libelle }}{% if city == id %}<i class="icon-ok"></i>{% endif %}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+
+         </div>
+         <div class="widget-content">
+         {% if total %}
+         Depuis le {{ date_from|date("d") }} {{ date_from|date("F")|trans|lower }} {{ date_from|date("Y") }} , <span class="highlighted-number">{{ total }}</span> apéros ont été organisés et ont réunis <span class="highlighted-number">{{ total_participants|number_format(0, '', ' ') }}</span> participants. Comment ceux-ci sont-ils répartis ?
+         {% else %}
+         Aucun résultat.
+         {% endif %}
+        </div>
+    </div>
+</div>
+
+{% if total and display_all_cities %}
+<div class="span4">
+    <div class="widget widget-nopad participation">
+        <div class="widget-header">
+            <i class="icon-map-marker"></i>
+            <h3>Répartition géographique</h3>
+        </div>
+         <div class="widget-content">
+            <div id="map"></div>
+        </div>
+    </div>
+</div>
+
+
+<div class="span8">
+    <div class="widget">
+        <div class="widget-header">
+            <i class="icon-user"></i>
+            <h3>Moyenne du nombre d'inscrits aux apéros, par ville</h3>
+        </div>
+         <div class="widget-content">
+           <table class="highchart"
+                  data-graph-container-before="1"
+                  data-graph-type="column"
+                  data-graph-legend-disabled="0"
+                  style="display:none"
+                  data-graph-yaxis-2-title-text="Moyenne d'inscrits"
+                  data-graph-yaxis-1-title-text="Nombre d'apéros"
+                  data-graph-xaxis-title-text="Ville"
+                  data-graph-color-1="#6F8CCD"
+                  data-graph-yaxis-1-opposite="1"
+           >
+             <thead>
+               <tr>
+                 <th>Ville</th>
+                 <th data-graph-yaxis="1">Moyenne du nombre inscrits</th>
+                 <th data-graph-hidden="1">Mombre d'apéros</th>
+               </tr>
+             </thead>
+
+             <tbody>
+
+             {% for city in avg_participants %}
+               <tr>
+                 <td>{{ city.name }}</td>
+                 <td >{{ city.participants_avg }}</td>
+                 <td>{{ city.total_drinks }}</td>
+
+               </tr>
+             {% endfor %}
+
+           </tbody>
+
+           </table>
+          {% if type == 'all' %}
+          Seulement les villes ayant organisées plus de {{ constant('\\Aperophp\\Lib\\Stats::RECURRENT_MINIMUM') }} apéros sont affichées.
+          {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+{% if total %}
+<div class="span8">
+    <div class="widget">
+        <div class="widget-header">
+            <i class="icon-calendar"></i>
+            <h3>Nombre d'inscrits à travers le temps</h3>
+        </div>
+         <div class="widget-content">
+           <table class="highchart"
+                  data-graph-container-before="1"
+                  data-graph-type="column"
+                  data-graph-legend-disabled="1"
+                  style="display:none"
+                  data-graph-yaxis-1-title-text="Nombre d'inscrits"
+                  data-graph-color-1="#6F8CCD"
+                  data-graph-xaxis-type="datetime"
+           >
+             <thead>
+               <tr>
+                 <th>Date</th>
+                 <th>Nombre d'inscrits</th>
+               </tr>
+             </thead>
+
+             <tbody>
+
+             {% for date, count in date_participants %}
+               <tr>
+                 <td>{{ date }}</td>
+                 <td>{{ count }}</td>
+               </tr>
+             {% endfor %}
+
+           </tbody>
+
+           </table>
+
+        </div>
+    </div>
+</div>
+
+<div class="span4">
+    <div class="widget widget-nopad participation">
+        <div class="widget-header">
+            <i class="icon-book"></i>
+            <h3>Statistiques diverses</h3>
+        </div>
+         <div class="widget-content">
+          <ul>
+            <li>Moyenne de participants : {{ various.average }}</li>
+            <li>Nombre maximum de participants : {{ various.max }}</li>
+            <li>Les développeurs PHP préfèrent boire au mois de {{ various.month|date('F')|trans }}</li>
+          </ul>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock %}
+
+
+{% block bottomjs %}
+    <script>
+        var addressPoints = {{ geo |json_encode()|raw }};
+    </script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharttable.org/master/jquery.highchartTable-min.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet-providers/1.1.1/leaflet-providers.min.js"></script>
+    <script src='http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.2/Leaflet.fullscreen.min.js'></script>
+    <script src="{{ app.request.basepath }}/js/stats.js"></script>
+{% endblock %}
+
+{% block headcss %}
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <link rel="stylesheet" href="http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.2/leaflet.fullscreen.css" />
+{% endblock %}

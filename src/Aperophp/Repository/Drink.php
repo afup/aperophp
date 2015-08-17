@@ -42,6 +42,7 @@ class Drink extends Repository
         return $this->db->fetchAll($sql);
     }
 
+
     /**
      * Find futur drinks order by day, with participants
      */
@@ -101,7 +102,7 @@ class Drink extends Repository
         );
     }
 
-    protected static function getCountParticipantsQuery()
+    public static function getCountParticipantsQuery()
     {
       return "SELECT COUNT(*) FROM Drink_Participation WHERE drink_id = d.id AND percentage > 0";
     }
