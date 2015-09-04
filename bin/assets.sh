@@ -4,7 +4,7 @@
 #
 SCRIPTDIR=$(cd $(dirname "$0"); pwd)
 MAINDIR=$(cd $(dirname "$DIR"); pwd)
-BOOTSTRAPDIR=$MAINDIR/vendor/twitter/bootstrap
+BOOTSTRAPDIR=$MAINDIR/vendor/twbs/bootstrap
 [ -d $MAINDIR/tmp ] || mkdir $MAINDIR/tmp
 DATE=$(date +%I:%M%p)
 CHECK="\\033[1;32m✔\\033[0;39m"
