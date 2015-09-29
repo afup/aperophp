@@ -1,0 +1,9 @@
+{
+  "name": "aperophp",
+  "version": "1.0.0",
+  "dependencies": {
+    "jshint": "^0.9.1",
+    "recess": "1.1.9",
+    "uglify-js": "^2.0.0"
+  }
+}

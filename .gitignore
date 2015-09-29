@@ -3,6 +3,7 @@ app/config.php
 bin/*
 deps.lock
 vendor/
+node_modules/
 tmp/*
 
 # IDE files

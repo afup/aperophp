@@ -6,7 +6,7 @@ SCRIPTDIR=$(cd $(dirname "$0"); pwd)
 MAINDIR=$(cd $(dirname "$DIR"); pwd)
 BOOTSTRAPDIR=$MAINDIR/vendor/twbs/bootstrap
 [ -d $MAINDIR/tmp ] || mkdir $MAINDIR/tmp
-DATE=$(date +%I:%M%p)
+DATE=$(date +%H:%M%p)
 CHECK="\\033[1;32m✔\\033[0;39m"
 HR=\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#
 
@@ -39,11 +39,11 @@ recess --compile $MAINDIR/tmp/responsive.less > $MAINDIR/web/css/bootstrap-respo
 recess --compress $MAINDIR/tmp/responsive.less > $MAINDIR/web/css/bootstrap-responsive.min.css
 echo -e " - Compiling LESS with Recess...            ${CHECK} Done"
 cat $BOOTSTRAPDIR/js/bootstrap-transition.js $BOOTSTRAPDIR/js/bootstrap-alert.js $BOOTSTRAPDIR/js/bootstrap-button.js $BOOTSTRAPDIR/js/bootstrap-carousel.js $BOOTSTRAPDIR/js/bootstrap-collapse.js $BOOTSTRAPDIR/js/bootstrap-dropdown.js $BOOTSTRAPDIR/js/bootstrap-modal.js $BOOTSTRAPDIR/js/bootstrap-tooltip.js $BOOTSTRAPDIR/js/bootstrap-popover.js $BOOTSTRAPDIR/js/bootstrap-scrollspy.js $BOOTSTRAPDIR/js/bootstrap-tab.js $BOOTSTRAPDIR/js/bootstrap-typeahead.js > $MAINDIR/tmp/bootstrap.js
-uglifyjs -nc $MAINDIR/tmp/bootstrap.js > $MAINDIR/tmp/bootstrap.min.tmp.js
+uglifyjs $MAINDIR/tmp/bootstrap.js > $MAINDIR/tmp/bootstrap.min.tmp.js
 echo -e "/*!\n* Bootstrap.js by @fat & @mdo\n* Copyright 2012 Twitter, Inc.\n* http://www.apache.org/licenses/LICENSE-2.0.txt\n*/" > $MAINDIR/tmp/copyright.js
 cat $MAINDIR/tmp/copyright.js $MAINDIR/tmp/bootstrap.min.tmp.js > $MAINDIR/web/js/bootstrap.min.js
 echo -e " - Compiling and minifying javascript...    ${CHECK} Done"
-#rm -Rf $MAINDIR/tmp
+rm -Rf $MAINDIR/tmp
 echo -e " - Cleaning...                              ${CHECK} Done"
 
 echo "${HR}"
