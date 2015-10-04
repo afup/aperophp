@@ -39,7 +39,7 @@ To generate assets
 In order to generate assets, you have to download npm [here](http://npmjs.org/ "npm official website").
 Then, run the following command:
 
-    npm install -g jshint recess uglify-js
+    npm install
 
 You can now generate assets with:
 
