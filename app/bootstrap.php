@@ -137,10 +137,10 @@ $app['translator.domains'] = array(
 // *******
 // ** Mail
 // *******
-$app->register(new SwiftmailerServiceProvider(array(
+$app->register(new SwiftmailerServiceProvider(), array(
     'swiftmailer.options'       => $app['mail.options'],
     'swiftmailer.class_path'    => __DIR__.'/../vendor/SwiftMailer/lib/classes/',
-)));
+));
 // *******
 
 // *******
