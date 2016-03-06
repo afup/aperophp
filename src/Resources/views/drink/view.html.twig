@@ -57,6 +57,7 @@
             {% include 'drink/_participations.html.twig' with { 'participants': participants, 'nb': drink.participants_count, 'isFinished': isFinished } %}
         </div>
     </div>
+    {% if not drink.meetup_com_id %}
     <div class="widget comment">
         <div class="widget-header">
             <i class="icon-comments"></i>
@@ -73,6 +74,7 @@
           </div>
         </div>
     </div>
+    {% endif %}
 </div>
 {% endblock %}
 

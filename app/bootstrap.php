@@ -168,4 +168,8 @@ $app['akismet'] = $app->share(function() use ($app) {
     return new \TijsVerkoyen\Akismet\Akismet($app['akismet_api_key'], $app['akismet_url']);
 });
 
+$app['meetup_client'] = $app->share(function() use ($app) {
+    return \DMS\Service\Meetup\MeetupKeyAuthClient::factory(array('key' => $app['meetup.api_key']));
+});
+
 return $app;

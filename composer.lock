@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "66d72700b9e1567924d9c245094368e6",
-    "content-hash": "82dd1592ef4ac8c44529a82821e15ea9",
+    "hash": "32e7a0383116c306d7b1a03b61eec762",
+    "content-hash": "3edd49fe872cb1f579c0c25b6390076f",
     "packages": [
         {
             "name": "Gravatar/Gravatar",
@@ -23,6 +23,112 @@
             },
             "type": "library",
             "time": "2014-02-20 08:06:29"
+        },
+        {
+            "name": "atoum/stubs",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/atoum/stubs.git",
+                "reference": "45babf1aa5042a99c68fe8a17e1229d7c21407cb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/atoum/stubs/zipball/45babf1aa5042a99c68fe8a17e1229d7c21407cb",
+                "reference": "45babf1aa5042a99c68fe8a17e1229d7c21407cb",
+                "shasum": ""
+            },
+            "suggest": {
+                "atoum/atoum": "Include atoum in your projet dependencies"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD"
+            ],
+            "authors": [
+                {
+                    "name": "Julien Bianchi",
+                    "email": "julien.bianchi@atoum.org"
+                },
+                {
+                    "name": "Ludovic Fleury",
+                    "email": "ludovic.fleury@atoum.org"
+                }
+            ],
+            "description": "Stubs for atoum, the simple modern and intuitive unit testing framework for PHP 5.3+",
+            "homepage": "http://www.atoum.org",
+            "keywords": [
+                "TDD",
+                "atoum",
+                "test",
+                "unit testing"
+            ],
+            "time": "2016-01-07 19:57:29"
+        },
+        {
+            "name": "dms/meetup-api-client",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rdohms/meetup-api-client.git",
+                "reference": "478a20547446e2f01fbf3cdd44a38fc003f0fa32"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rdohms/meetup-api-client/zipball/478a20547446e2f01fbf3cdd44a38fc003f0fa32",
+                "reference": "478a20547446e2f01fbf3cdd44a38fc003f0fa32",
+                "shasum": ""
+            },
+            "require": {
+                "guzzle/guzzle": "~3.7",
+                "php": "^5.3.10 | ^7.0"
+            },
+            "require-dev": {
+                "mathiasgrimm/arraypath": "~1.3",
+                "phpunit/phpunit": "^4.8",
+                "symfony/console": "~2.2",
+                "symfony/css-selector": "~2.2",
+                "symfony/dom-crawler": "~2.2",
+                "symfony/var-dumper": "~2.6"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "DMS": [
+                        "src/",
+                        "tests/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rafael Dohms",
+                    "homepage": "http://doh.ms"
+                }
+            ],
+            "description": "Meetup.com API client written on top of Guzzle. This supports all API operations.",
+            "keywords": [
+                "Guzzle",
+                "api",
+                "dms",
+                "meetup.com"
+            ],
+            "time": "2015-12-23 13:54:00"
         },
         {
             "name": "doctrine/annotations",
@@ -242,7 +348,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/9f35e74fcbe9011b660e0b423e98c83b7a8699c0",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/773c56e51fc26ae07a47146fae31b320dd6cada3",
                 "reference": "6a39bb947b20d12a16820f2709509e41e28af005",
                 "shasum": ""
             },
@@ -386,7 +492,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/inflector/zipball/097e7ba84f64a427e55008117ef2bb94096731dc",
+                "url": "https://api.github.com/repos/doctrine/inflector/zipball/90b2128806bfde671b6952ab8bea493942c1fdae",
                 "reference": "8b4b3ccec7aafc596e2fc1e593c9f2e78f939c8c",
                 "shasum": ""
             },
@@ -548,6 +654,101 @@
                 "icon"
             ],
             "time": "2013-06-17 15:31:59"
+        },
+        {
+            "name": "guzzle/guzzle",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/guzzle3.git",
+                "reference": "b3f5050cb6270c7a728a0b74ac2de50a262b3e02"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/b3f5050cb6270c7a728a0b74ac2de50a262b3e02",
+                "reference": "b3f5050cb6270c7a728a0b74ac2de50a262b3e02",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.3",
+                "symfony/event-dispatcher": "~2.1"
+            },
+            "replace": {
+                "guzzle/batch": "self.version",
+                "guzzle/cache": "self.version",
+                "guzzle/common": "self.version",
+                "guzzle/http": "self.version",
+                "guzzle/inflection": "self.version",
+                "guzzle/iterator": "self.version",
+                "guzzle/log": "self.version",
+                "guzzle/parser": "self.version",
+                "guzzle/plugin": "self.version",
+                "guzzle/plugin-async": "self.version",
+                "guzzle/plugin-backoff": "self.version",
+                "guzzle/plugin-cache": "self.version",
+                "guzzle/plugin-cookie": "self.version",
+                "guzzle/plugin-curlauth": "self.version",
+                "guzzle/plugin-error-response": "self.version",
+                "guzzle/plugin-history": "self.version",
+                "guzzle/plugin-log": "self.version",
+                "guzzle/plugin-md5": "self.version",
+                "guzzle/plugin-mock": "self.version",
+                "guzzle/plugin-oauth": "self.version",
+                "guzzle/service": "self.version",
+                "guzzle/stream": "self.version"
+            },
+            "require-dev": {
+                "doctrine/cache": "~1.3",
+                "monolog/monolog": "~1.0",
+                "phpunit/phpunit": "3.7.*",
+                "psr/log": "~1.0",
+                "symfony/class-loader": "~2.1",
+                "zendframework/zend-cache": "2.*,<2.3",
+                "zendframework/zend-log": "2.*,<2.3"
+            },
+            "suggest": {
+                "guzzlehttp/guzzle": "Guzzle 5 has moved to a new package name. The package you have installed, Guzzle 3, is deprecated."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.9-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Guzzle": "src/",
+                    "Guzzle\\Tests": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Guzzle Community",
+                    "homepage": "https://github.com/guzzle/guzzle/contributors"
+                }
+            ],
+            "description": "PHP HTTP client. This library is deprecated in favor of https://packagist.org/packages/guzzlehttp/guzzle",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "rest",
+                "web service"
+            ],
+            "time": "2015-04-29 17:06:53"
         },
         {
             "name": "mheap/Silex-Gravatar",
@@ -936,11 +1137,11 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
-                "reference": "51909bf7f5d763d125a67781942d9293f65afae7"
+                "reference": "52783b199f0899b037441d9f2b3b9ca84e22b60a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/51909bf7f5d763d125a67781942d9293f65afae7",
+                "url": "https://api.github.com/repos/symfony/config/zipball/52783b199f0899b037441d9f2b3b9ca84e22b60a",
                 "reference": "v2.1.11",
                 "shasum": ""
             },
@@ -1213,12 +1414,12 @@
             "target-dir": "Symfony/Component/Form",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Form.git",
+                "url": "https://github.com/symfony/form.git",
                 "reference": "d2edecec0d0f854ed176f7ac32332d44fa31c696"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Form/zipball/d2edecec0d0f854ed176f7ac32332d44fa31c696",
+                "url": "https://api.github.com/repos/symfony/form/zipball/d2edecec0d0f854ed176f7ac32332d44fa31c696",
                 "reference": "v2.1.11",
                 "shasum": ""
             },
@@ -1271,7 +1472,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/f9aad386aa4a27ef7b35ba6665afae6689de0a32",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/1471377556d700602dccf298226c2e167499d19b",
                 "reference": "329b059893fdcc9399962ca5881d988264123d23",
                 "shasum": ""
             },
@@ -1321,7 +1522,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/703a8e941aae3adf50fea0780d90ab141ddba27f",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/c4aa19ff5b0adb7ff606f45e8631db8ebdc76072",
                 "reference": "f42c09457e6cdebdc34bb1603178c8e69be1565a",
                 "shasum": ""
             },
@@ -1379,7 +1580,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "http://symfony.com",
-            "time": "2013-09-13 12:20:37"
+            "time": "2015-10-05 17:32:31"
         },
         {
             "name": "symfony/locale",
@@ -1484,7 +1685,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/8549a3faebaef87d2b938641e5d59beb6912be4b",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/9f464f27cb127232f5c32d5a736fe769e5249442",
                 "reference": "3085975262bc36dc89929a936056dc6e5cb8a100",
                 "shasum": ""
             },
@@ -1757,7 +1958,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig-extensions/zipball/449e3c8a9ffad7c2479c7864557275a32b037499",
+                "url": "https://api.github.com/repos/twigphp/Twig-extensions/zipball/afd3a08ad948e034b4ffdab23f53925538a91635",
                 "reference": "f5b0c84f3699e494c84ee627d7d583e115d2c4a2",
                 "shasum": ""
             },
@@ -1851,12 +2052,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/atoum/atoum.git",
-                "reference": "d72a56e361142ea16a78924136657db0e65b6b85"
+                "reference": "c6cc7571750ec85c2141ff0dd36e1267e33a4ebf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/atoum/atoum/zipball/8295a17544e0118720debbbff845a84b6f44396e",
-                "reference": "d72a56e361142ea16a78924136657db0e65b6b85",
+                "url": "https://api.github.com/repos/atoum/atoum/zipball/c6cc7571750ec85c2141ff0dd36e1267e33a4ebf",
+                "reference": "c6cc7571750ec85c2141ff0dd36e1267e33a4ebf",
                 "shasum": ""
             },
             "require": {
@@ -1871,12 +2072,18 @@
                 "mageekguy/atoum": "*"
             },
             "suggest": {
+                "atoum/stubs": "Provides IDE support (like autocompletion) for atoum",
                 "ext-mbstring": "Provides support for UTF-8 strings"
             },
             "bin": [
                 "bin/atoum"
             ],
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                }
+            },
             "autoload": {
                 "classmap": [
                     "classes/"
@@ -1884,7 +2091,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD"
+                "BSD-3-Clause"
             ],
             "authors": [
                 {
@@ -1917,7 +2124,7 @@
                 "test",
                 "unit testing"
             ],
-            "time": "2013-09-13 08:51:09"
+            "time": "2016-03-02 18:57:26"
         }
     ],
     "aliases": [],
