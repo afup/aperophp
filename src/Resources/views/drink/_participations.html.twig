@@ -1,4 +1,4 @@
-{% if not isFinished %}
+{% if not isFinished and not drink.meetup_com_id %}
     <div class="btn-group pull-right">
     {% if isParticipating %}
         <a class="btn" data-toggle="modal" href="#participateModal" >Modifier</a>

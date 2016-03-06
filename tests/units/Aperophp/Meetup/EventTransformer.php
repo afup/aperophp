@@ -84,6 +84,7 @@ EOF;
                     ->string['created_at']->isEqualTo('2015-06-14 17:57:39')
                     ->string['updated_at']->isEqualTo('2015-12-18 18:28:57')
                     ->string['meetup_com_id']->isEqualTo('223238801')
+                    ->string['meetup_com_event_url']->isEqualTo('http://www.meetup.com/Ansible-Lyon/events/223238801/')
         ;
     }
 }

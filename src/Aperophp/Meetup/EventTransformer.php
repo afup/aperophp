@@ -45,6 +45,7 @@ class EventTransformer
             'created_at' => $this->transformDate($event['created'])->format('Y-m-d H:i:s'),
             'updated_at' => $this->transformDate($event['updated'])->format('Y-m-d H:i:s'),
             'meetup_com_id' => $event['id'],
+            'meetup_com_event_url' => $event['event_url'],
         );
     }
 
