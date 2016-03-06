@@ -73,7 +73,28 @@ abstract class Repository
      */
     public function find($id)
     {
-        return $this->db->fetchAssoc(sprintf('SELECT * FROM %s WHERE id = ? LIMIT 1', $this->getTableName()), array((int) $id));
+        return $this->findByAttr('id', (int)$id);
+    }
+
+    /**
+     * @param string $meetupId
+     *
+     * @return array
+     */
+    public function findByMeetupId($meetupId)
+    {
+        return $this->findByAttr('meetup_com_id', $meetupId);
+    }
+
+    /**
+     * @param string $attr
+     * @param string $value
+     *
+     * @return array
+     */
+    protected function findByAttr($attr, $value)
+    {
+        return $this->db->fetchAssoc(sprintf('SELECT * FROM %s WHERE %s = ? LIMIT 1', $this->getTableName(), $attr), array($value));
     }
 
     /**
