@@ -57,11 +57,11 @@ class Drink extends Repository
         $sql  = sprintf(
             'SELECT d.*, m.username as organizer_username, u.email as organizer_email, c.name as city_name,
                 (%s) as participants_count
-            FROM Drink d, Member m, User u, City c
-            WHERE d.member_id = m.id
-              AND u.member_id = m.id
-              AND d.city_id = c.id
-              AND d.day >= "%s"
+            FROM Drink d
+            JOIN City c ON (d.city_id = c.id)
+            LEFT JOIN Member m ON (d.member_id = m.id)
+            LEFT JOIN User u ON (m.id = u.member_id)
+            WHERE d.day >= "%s"
               ORDER BY day ASC
             LIMIT %s
         ',
