@@ -26,8 +26,11 @@ class EventTransformer
      */
     public function transform(array $event)
     {
-        $time = $this->transformDate($event['time']);
+        if (!$this->isValid($event)) {
+            return null;
+        }
 
+        $time = $this->transformDate($event['time']);
 
         if (false === ($cityId = array_search($event['venue']['city'], $this->cities))) {
             throw new \Exception(sprintf("City %s not found", var_export($event['venue']['city'], true)));
@@ -47,6 +50,16 @@ class EventTransformer
             'meetup_com_id' => $event['id'],
             'meetup_com_event_url' => $event['event_url'],
         );
+    }
+
+    /**
+     * @param array $event
+     *
+     * @return bool
+     */
+    protected function isValid(array $event)
+    {
+        return false !== stripos($event['name'], "Apéro");
     }
 
     /**

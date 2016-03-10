@@ -99,6 +99,10 @@ class SyncWithMeetup extends Command
         foreach ($events as $event) {
             $drink = $eventTransformer->transform($event);
 
+            if (null === $drink) {
+                continue;
+            }
+
             if (false === ($foundDrink = $this->drinkRepository->findByMeetupId($drink['meetup_com_id']))) {
                 $this->drinkRepository->insert($drink);
             } else {
