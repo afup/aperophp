@@ -87,7 +87,7 @@ class SyncWithMeetup extends Command
     {
         $command = $this->meetupClient->getCommand(
             'GetEvents',
-            array('group_urlname' => implode(',', $this->groupUrlnames), 'status' => 'past')
+            array('group_urlname' => implode(',', $this->groupUrlnames))
         );
 
         $command->prepare();
