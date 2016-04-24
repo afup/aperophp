@@ -64,9 +64,6 @@ class SyncWithMeetup extends Command
 
     }
 
-    /**
-     *
-     */
     protected function configure()
     {
         $this
