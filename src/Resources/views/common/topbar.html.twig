@@ -29,22 +29,22 @@
                     </a>
                 </li>
                 {% if not(app.session.has('member')) %}
-                <li{% if app.session.get('menu') == 'signup' %} class="active"{% endif %}>
-                    <a href="{{ url('_signupmember') }}">
-                        <i class="icon-signin"></i> <span>S'inscrire</span>
-                    </a>
-                </li>
-                <li{% if app.session.get('menu') == 'signin' %} class="active"{% endif %}>
-                    <a href="{{ url('_signinmember') }}">
-                        <i class="icon-key"></i> <span>Se connecter</span>
-                    </a>
-                </li>
+                    <li{% if app.session.get('menu') == 'signup' %} class="active"{% endif %}>
+                        <a href="{{ url('_signupmember') }}">
+                            <i class="icon-signin"></i> <span>S'inscrire</span>
+                        </a>
+                    </li>
+                    <li{% if app.session.get('menu') == 'signin' %} class="active"{% endif %}>
+                        <a href="{{ url('_signinmember') }}">
+                            <i class="icon-key"></i> <span>Se connecter</span>
+                        </a>
+                    </li>
+                {% endif %}
                 <li{% if app.session.get('menu') == 'stats' %} class="active"{% endif %}>
                     <a href="{{ url('_stats', {'type': 'year', 'city': 0}) }}">
                         <i class="icon-signal"></i> <span>Statistiques</span>
                     </a>
                 </li>
-                {% endif %}
             </ul>
         </div> <!-- /container -->
     </div> <!-- /subnavbar-inner -->
