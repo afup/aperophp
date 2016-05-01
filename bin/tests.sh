@@ -1,5 +1,5 @@
 #!/bin/sh
 
-php app/console db:install --test --load-fixtures
+php app/console db:install --env=test --load-fixtures
 
-./vendor/bin/atoum
+./bin/atoum

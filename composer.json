@@ -5,10 +5,10 @@
     "minimum-stability" : "dev",
     "require": {
         "silex/silex"               : "1.0.*",
-        "doctrine/common"           : "2.4.*",
-        "doctrine/dbal"             : "2.4.*",
-        "twig/twig"                 : "1.12.*",
-        "twig/extensions"           : "dev-master",
+        "doctrine/common"           : "~2.4",
+        "doctrine/dbal"             : "~2.4",
+        "twig/twig"                 : "~1.12",
+        "twig/extensions"           : "~1.3",
         "symfony/class-loader"      : "2.1.x",
         "symfony/form"              : "2.1.x",
         "symfony/validator"         : "2.1.x",
@@ -27,7 +27,12 @@
         "tijsverkoyen/akismet"      : "1.1.0"
     },
     "require-dev": {
-        "atoum/atoum"               : "dev-master"
+        "atoum/atoum"                               : "~2.2",
+        "behat/behat"                               : "~2.4",
+        "behat/mink-extension"                      : "~1.0",
+        "behat/mink-goutte-driver"                  : "~1.0",
+        "sensiolabs/behat-page-object-extension"    : "~1.0",
+        "bossa/phpspec2-expect"                     : "dev-master"
     },
     "autoload": {
         "psr-0": {

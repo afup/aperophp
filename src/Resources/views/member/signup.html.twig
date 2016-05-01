@@ -10,7 +10,7 @@
             <h3>Inscription</h3>
         </div> <!-- /widget-header -->
         <div class="widget-content">
-            <form method="post" action="{{ url('_signupmember') }}" class="form-horizontal" {{ form_enctype(form) }}>
+            <form id="signup" method="post" action="{{ url('_signupmember') }}" class="form-horizontal" {{ form_enctype(form) }}>
                 <fieldset>
                     <div class="control-group {% if form.user.lastname.vars.errors|length %}error{% endif %}">
                         {{ form_label(form.user.lastname, null, { 'label_attr': {'class': 'control-label'} }) }}

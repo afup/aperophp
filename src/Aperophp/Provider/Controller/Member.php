@@ -131,7 +131,7 @@ class Member implements ControllerProviderInterface
                             $app['db']->rollback();
                         } catch (\Exception $e) {
                         }
-                        $app->abort(500, 'Impossible de vous inscrire. Merci de réessayer plus tard.');
+                        $app->abort(500, 'Impossible de vous inscrire. Merci de réessayer plus tard. ['.$e->getMessage().']');
                     }
 
                     $app['session']->getFlashBag()->add('success', 'Votre compte a été créé avec succès.');

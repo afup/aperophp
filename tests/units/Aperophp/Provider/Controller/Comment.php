@@ -33,6 +33,7 @@ class Comment extends Test
                     ->if($form = $crawler->selectButton('comment')->form())
                     ->and($crawler = $client->submit($form, $this->getDefaultDatas()))
                     ->then()
+                        ->dump($client->getResponse()->getContent())
                         ->boolean($client->getResponse()->isRedirect('/1/view.html'))->isTrue()
                         ->if($crawler = $client->followRedirect())
                         ->then()

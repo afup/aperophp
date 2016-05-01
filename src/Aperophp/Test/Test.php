@@ -6,6 +6,16 @@ use mageekguy\atoum;
 
 class Test extends atoum\test
 {
+    /**
+     * @var \Silex\Application
+     */
+    protected $app;
+
+    /**
+     * Initialize application
+     *
+     * @param $method Method name
+     */
     public function beforeTestMethod($method)
     {
         $this->app = require __DIR__.'/../../../app/app.php';

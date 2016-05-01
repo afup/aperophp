@@ -39,7 +39,7 @@
         <div class="control-group {% if participationForm.reminder.vars.errors|length %}error{% endif %}">
             <div class="controls">
                 <label class="checkbox">
-                {{ form_widget(participationForm.reminder) }} {{ participationForm.reminder.get('label') }}
+                {{ form_widget(participationForm.reminder) }} {{ participationForm.reminder.vars.label }}
                 </label>
                 {{ form_errors(participationForm.reminder) }}
             </div>
