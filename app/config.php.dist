@@ -50,3 +50,7 @@ $app['akismet_url'] = 'http://localhost';
 $app['ga.enabled'] = false;
 $app['ga.ua'] = '';
 
+$app['meetup.api_key'] = "";
+$app['meetup.groupurlnames'] = array(
+);
+

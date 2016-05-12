@@ -22,7 +22,11 @@
         </div> <!-- /widget-header -->
         <div class="widget-content">
           {% if not isFinished %}
-          <a class="btn btn-primary btn-large pull-right" data-toggle="modal" href="#participateModal" >S'inscrire</a>
+              {% if drink.meetup_com_id %}
+                  <a class="btn btn-primary btn-large btn-danger pull-right" href="{{ drink.meetup_com_event_url }}" >S'inscrire sur meetup.com</a>
+              {% else %}
+                  <a class="btn btn-primary btn-large pull-right" data-toggle="modal" href="#participateModal" >S'inscrire</a>
+              {% endif %}
           {% endif %}
 
           <h1>{{ drink.kind|trans }} <small>&agrave; {{ drink.city_name }}, le {{ drink.day|date("d") }} {{ drink.day|date("F")|trans|lower }} {{ drink.day|date("Y") }} &agrave; {{ drink.hour|date("H:i") }}</small></h1>
@@ -57,6 +61,7 @@
             {% include 'drink/_participations.html.twig' with { 'participants': participants, 'nb': drink.participants_count, 'isFinished': isFinished } %}
         </div>
     </div>
+    {% if not drink.meetup_com_id %}
     <div class="widget comment">
         <div class="widget-header">
             <i class="icon-comments"></i>
@@ -73,6 +78,7 @@
           </div>
         </div>
     </div>
+    {% endif %}
 </div>
 {% endblock %}
 

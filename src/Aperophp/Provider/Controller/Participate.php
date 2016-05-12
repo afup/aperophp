@@ -31,6 +31,10 @@ class Participate implements ControllerProviderInterface
                 $app->abort(404, 'Cet événement n\'existe pas.');
             }
 
+            if (null !== $drink['meetup_com_id']) {
+                $app->abort(401, 'Il faut utiliser meetup.com pour participer à cet apéro.');
+            }
+
             $now = new \Datetime('now');
             $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $drink['day'] . ' ' . $drink['hour']);
 
@@ -127,6 +131,10 @@ class Participate implements ControllerProviderInterface
                 $app->abort(404, 'Cet événement n\'existe pas.');
             }
 
+            if (null !== $drink['meetup_com_id']) {
+                $app->abort(401, 'Il faut utiliser meetup.com pour participer à cet apéro.');
+            }
+
             $now = new \Datetime('now');
             $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $drink['day'] . ' ' . $drink['hour']);
 
@@ -192,6 +200,10 @@ class Participate implements ControllerProviderInterface
 
             if (!$drink) {
                 $app->abort(404, 'Cet événement n\'existe pas.');
+            }
+
+            if (null !== $drink['meetup_com_id']) {
+                $app->abort(401, 'Il faut utiliser meetup.com pour participer à cet apéro.');
             }
 
             $form = $app['form.factory']->create('participation_forget', array());

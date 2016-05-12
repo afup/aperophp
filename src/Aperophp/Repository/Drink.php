@@ -31,10 +31,10 @@ class Drink extends Repository
         $sql  = sprintf(
             'SELECT d.*, m.username as organizer_username, u.email as organizer_email, c.name as city_name,
                 (%s) as participants_count
-            FROM Drink d, Member m, User u, City c
-            WHERE d.member_id = m.id
-              AND u.member_id = m.id
-              AND d.city_id = c.id
+            FROM Drink d
+            LEFT JOIN Member m ON (d.member_id = m.id)
+            LEFT JOIN User u ON (u.member_id = m.id)
+            JOIN City c ON (d.city_id = c.id)
             ORDER BY day DESC
             LIMIT %d
         ', self::getCountParticipantsQuery(), $limit);
@@ -57,11 +57,11 @@ class Drink extends Repository
         $sql  = sprintf(
             'SELECT d.*, m.username as organizer_username, u.email as organizer_email, c.name as city_name,
                 (%s) as participants_count
-            FROM Drink d, Member m, User u, City c
-            WHERE d.member_id = m.id
-              AND u.member_id = m.id
-              AND d.city_id = c.id
-              AND d.day >= "%s"
+            FROM Drink d
+            JOIN City c ON (d.city_id = c.id)
+            LEFT JOIN Member m ON (d.member_id = m.id)
+            LEFT JOIN User u ON (m.id = u.member_id)
+            WHERE d.day >= "%s"
               ORDER BY day ASC
             LIMIT %s
         ',
@@ -73,25 +73,47 @@ class Drink extends Repository
     }
 
     /**
-     * Load a specific drink
+     * @param int $id
      *
-     * @param integer $id
      * @return array
      */
     public function find($id)
     {
+        return $this->findByAttr('id', (int) $id);
+    }
+
+    /**
+     * @param int $meetupId
+     *
+     * @return array
+     */
+    public function findByMeetupId($meetupId)
+    {
+        return $this->findByAttr('meetup_com_id', $meetupId);
+    }
+
+    /**
+     * Load a specific drink
+     *
+     * @param string $attr
+     * @param int $value
+     *
+     * @return array
+     */
+    protected function findByAttr($attr, $value)
+    {
         $sql  =
             sprintf('SELECT d.*, m.username as organizer_username, u.email as organizer_email, c.name as city_name,
                 (%s) as participants_count, m.id as member_id
-            FROM Drink d, Member m, User u, City c
-            WHERE d.member_id = m.id
-              AND u.member_id = m.id
-              AND d.city_id = c.id
-              AND d.id = ?
+            FROM Drink d
+            LEFT JOIN Member m ON (d.member_id = m.id)
+            LEFT JOIN User u ON (u.member_id = m.id)
+            JOIN City c ON (d.city_id = c.id)
+            WHERE d.%s = ?
             LIMIT 1
-            ', self::getCountParticipantsQuery());
+            ', self::getCountParticipantsQuery(), $attr);
 
-        return $this->db->fetchAssoc($sql, array((int) $id));
+        return $this->db->fetchAssoc($sql, array($value));
     }
 
     public function findAllKindsInAssociativeArray()

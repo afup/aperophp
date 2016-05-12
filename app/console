@@ -65,4 +65,6 @@ $console->register('db:load-fixtures')
         }
 );
 
+$console->add(new \Aperophp\Command\SyncWithMeetup($app['meetup_client'], $app['drinks'], $app['cities'], $app['users'], $app['drink_participants'], $app['meetup.groupurlnames']));
+
 $console->run();

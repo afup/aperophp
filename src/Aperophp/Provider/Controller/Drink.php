@@ -218,7 +218,9 @@ class Drink implements ControllerProviderInterface
             $now = new \Datetime('now');
             $dDrink = \Datetime::createFromFormat('Y-m-d H:i:s', $drink['day'] . ' ' . $drink['hour']);
 
-            $drink['description'] = str_replace('href="javascript:', 'href="', substr($textProcessor->transform($drink['description']), 3, -5));
+            if (null === $drink['meetup_com_id']) {
+                $drink['description'] = str_replace('href="javascript:', 'href="', substr($textProcessor->transform($drink['description']), 3, -5));
+            }
 
             return $app['twig']->render('drink/view.html.twig', array(
                 'drink'             => $drink,
