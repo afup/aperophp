@@ -31,6 +31,27 @@ class DrinkParticipant extends Repository
         return $this->db->fetchAll($sql, array((int) $drinkId));
     }
 
+    public function countByUserId($userId)
+    {
+        $sql = '
+            SELECT
+                COUNT(1) AS count
+            FROM
+                Drink_Participation AS p
+            WHERE
+                p.user_id = ?
+        ';
+
+        return $this->db->fetchColumn($sql, [(int) $userId]);
+    }
+
+    public function findByUserId($userId)
+    {
+        $sql = 'SELECT * FROM Drink_Participation WHERE user_id = ?';
+
+        return $this->db->fetchAll($sql, [(int) $userId]);
+    }
+
     public function findDrinksByUserId($userId)
     {
         $sql = 'SELECT d.* FROM Drink d, Drink_Participation p WHERE p.drink_id = d.id AND user_id = ?';

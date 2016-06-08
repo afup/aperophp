@@ -168,4 +168,15 @@ $app['akismet'] = $app->share(function() use ($app) {
     return new \TijsVerkoyen\Akismet\Akismet($app['akismet_api_key'], $app['akismet_url']);
 });
 
+$app['antispam'] = $app->share(function() use ($app) {
+    return new \Aperophp\Lib\Antispam(
+        $app['db'],
+        $app['users'],
+        $app['members'],
+        $app['drink_participants'],
+        $app['drink_comments'],
+        $app['akismet']
+    );
+});
+
 return $app;

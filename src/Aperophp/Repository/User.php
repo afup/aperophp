@@ -53,6 +53,20 @@ class User extends Repository
     }
 
     /**
+     * findByEmail
+     *
+     * @param $email
+     *
+     * @return array
+     */
+    public function findByEmail($email)
+    {
+        $sql = 'SELECT * FROM User WHERE email = ?';
+
+        return $this->db->fetchAll($sql, array($email));
+    }
+
+    /**
      * removeUsers
      *
      * @param mixed $email
@@ -65,4 +79,15 @@ class User extends Repository
         $this->db->prepare($sql)->execute(array((int) $userId, $email));
     }
 
+    /**
+     * Return email duplicated in User table
+     *
+     * @retun array
+     */
+    public function getDuplicatedEmails()
+    {
+        $sql = 'SELECT email FROM User GROUP BY email HAVING COUNT(1) > 1';
+
+        return $this->db->fetchAll($sql);
+    }
 }

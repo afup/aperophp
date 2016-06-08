@@ -25,10 +25,10 @@ $loadFixtures = function() use ($app, $importFile) {
 $console = new Application('Aperophp', '1');
 
 $console->register('db:install')
-    ->setDefinition(array(
+    ->setDefinition([
         new InputOption('test', '', InputOption::VALUE_NONE, 'Test mode'),
         new InputOption('load-fixtures', '', InputOption::VALUE_NONE, 'Test mode'),
-    ))
+    ])
     ->setDescription('Create database')
     ->setHelp('Usage: <info>php app/console db:install [--test] [--load-fixtures]</info>')
     ->setCode(
@@ -50,9 +50,9 @@ $console->register('db:install')
 );
 
 $console->register('db:load-fixtures')
-    ->setDefinition(array(
+    ->setDefinition([
         new InputOption('test', '', InputOption::VALUE_NONE, 'Test mode'),
-    ))
+    ])
     ->setDescription('Create database')
     ->setHelp('Usage: <info>php app/console db:load-fixtures [--test]</info>')
     ->setCode(
@@ -64,5 +64,41 @@ $console->register('db:load-fixtures')
             $loadFixtures();
         }
 );
+
+$console
+    ->register('spam:users:dedupe')
+    ->setDefinition([])
+    ->setDescription('Dedupe users')
+    ->setHelp('Usage: <info>php app/console spam:users:dedupe [--fix]</info>')
+    ->setCode(function(InputInterface $input, OutputInterface $output) use ($app) {
+        $antispam = $app['antispam'];
+        $antispam->setOutput($output);
+        $antispam->dedupeUsers();
+    })
+;
+
+$console
+    ->register('spam:comment:check')
+    ->setDefinition([])
+    ->setDescription('Analyse existing comments to check spams')
+    ->setHelp('Usage: <info>php app/console spam:comment:check</info>')
+    ->setCode(function(InputInterface $input, OutputInterface $output) use ($app) {
+        $antispam = $app['antispam'];
+        $antispam->setOutput($output);
+        $antispam->checkComments();
+    })
+;
+
+$console
+    ->register('spam:comment:purge')
+    ->setDefinition([])
+    ->setDescription('Remove comments flaged as spam')
+    ->setHelp('Usage: <info>php app/console spam:comment:purge</info>')
+    ->setCode(function(InputInterface $input, OutputInterface $output) use ($app) {
+        $antispam = $app['antispam'];
+        $antispam->setOutput($output);
+        $antispam->removeSpamComments();
+    })
+;
 
 $console->run();
