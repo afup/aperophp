@@ -12,6 +12,7 @@ Requirements
 * PHP 5.4
 * MySQL
 * Apache
+* Composer (major or equal to 1.2.0)
 
 Project have been builded and his production environment OS is a Debian Squeeze
 
@@ -25,7 +26,7 @@ Minimal installation
 * Install dependancies
     ```bash
     cd /path/to/project
-    php composer.phar install
+    composer install
     ```
 * Install and populate database
     ```bash
