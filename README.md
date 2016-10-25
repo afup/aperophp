@@ -23,15 +23,15 @@ Minimal installation
   * Copy app/config.php.dist to config.php
   * Update configuration for your installation (typically, database connexion)
 * Install dependancies
-    ```bash
-    cd /path/to/project
-    php composer.phar install
-    ```
+```bash
+cd /path/to/project
+php composer.phar install
+```
 * Install and populate database
-    ```bash
-    app/console db:install
-    app/console db:load-fixtures
-    ```
+```bash
+app/console db:install
+app/console db:load-fixtures
+```
 
 To generate assets
 ------------------
