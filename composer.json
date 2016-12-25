@@ -29,7 +29,8 @@
         "atoum/stubs": "^2.5"
     },
     "require-dev": {
-        "atoum/atoum"               : "dev-master"
+        "atoum/atoum"               : "2.8.x",
+        "shulard/atoum-xml-extension": "^0.1.0"
     },
     "autoload": {
         "psr-0": {
