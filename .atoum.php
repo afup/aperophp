@@ -1,6 +1,8 @@
 <?php
 
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 $runner->disableCodeCoverage();
+$runner->setBootstrapFile(__DIR__ . '/tests/bootstrap.php');
 $runner->addTestsFromDirectory(__DIR__ . '/tests/units');
 
 ## Notifier (growlnotify)
