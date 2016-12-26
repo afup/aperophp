@@ -1,0 +1,11 @@
+db:
+  ports:
+    - "3406:3306"
+
+apachephp:
+  ports:
+    - "9105:80"
+
+mailcatcher:
+  ports:
+    - "1081:1080"

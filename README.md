@@ -64,6 +64,42 @@ Vhost example
         </Directory>
     </VirtualHost>
 
+
+Install with docker
+===================
+
+Requirements
+------------
+
+* docker
+* docker-compose
+
+Installation
+------------
+
+* Copier la configuration de docker-compose:
+```
+cp docker-compose.override.yml-dist docker-compose.override.yml
+```
+* Au besoin, modifier le fichier `docker-compose.override.yml` avec les ports que vous souhaitez utiliser.
+* Copier la configuration de l'application:
+```
+cp app/config.php.dist app/config.php
+```
+* executer un `docker-compose up` pour lancer l'application.
+
+Utilisation
+-----------
+
+* Executer des commandes:
+```
+./docker/bin/bash
+```
+* Accès à mysql
+```
+./docker/bin/mysql
+```
+
 Comment participer
 ==================
 
