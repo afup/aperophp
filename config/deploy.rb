@@ -11,7 +11,7 @@ load "config/recipes/app_config"
 set :shared_children, ["app/log"]
 
 set :scm,           :git
-set :repository,    "git@github.com:afup/aperophp.git"
+set :repository,    "https://github.com/afup/aperophp.git"
 set :deploy_via,    :remote_cache
 set :branch,        "master"
 
