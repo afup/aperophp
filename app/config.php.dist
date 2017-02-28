@@ -21,10 +21,10 @@ $app['secret'] 	= 'change_me_im_not_secret';
 // MySQL
 $app['db.options'] = array(
     'driver'    => 'pdo_mysql',
-    'host'      => 'localhost',
+    'host'      => 'db',
     'dbname'    => 'aperophp',
-    'user'      => '',
-    'password'  => '',
+    'user'      => 'afup',
+    'password'  => 'afup',
 );
 // *******
 
@@ -35,8 +35,8 @@ $app['db.options'] = array(
 // @see http://silex.sensiolabs.org/doc/providers/swiftmailer.html#parameters
 // SMTP Transport
 $app['mail.options'] = array(
-	'host' => 'localhost',
-	'port' => '25',
+	'host' => 'mailcatcher',
+	'port' => '1025',
 	'username' => '',
 	'password' => '',
 	'encryption' => null,

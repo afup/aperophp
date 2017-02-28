@@ -1,0 +1,29 @@
+db:
+  build: ./docker/dockerfiles/mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_USER: afup
+    MYSQL_PASSWORD: afup
+    MYSQL_DATABASE: aperophp
+  volumes:
+    - ./data/mysql:/var/lib/mysql
+
+apachephp:
+  build: ./docker/dockerfiles/apachephp
+  volumes:
+    - ./:/var/www/html
+  links:
+    - db
+    - mailcatcher
+
+cliphp:
+  build: ./docker/dockerfiles/apachephp
+  volumes:
+      - ./:/var/www/html
+  links:
+    - db
+    - mailcatcher
+  command: "false"
+
+mailcatcher:
+  image: schickling/mailcatcher

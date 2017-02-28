@@ -22,3 +22,6 @@ nbproject/
 # Vagrant
 Vagrantfile
 .vagrant
+
+/docker-compose.override.yml
+/data
