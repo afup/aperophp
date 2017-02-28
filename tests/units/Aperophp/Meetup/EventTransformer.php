@@ -2,8 +2,6 @@
 
 namespace tests\units\Aperophp\Meetup;
 
-require_once __DIR__.'/../../../../vendor/autoload.php';
-
 class EventTransformer extends \atoum
 {
     public function testTransform()

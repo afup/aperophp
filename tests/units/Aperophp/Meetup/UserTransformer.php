@@ -2,8 +2,6 @@
 
 namespace tests\units\Aperophp\Meetup;
 
-require_once __DIR__.'/../../../../vendor/autoload.php';
-
 class UserTransformer extends \atoum
 {
     public function testHash()

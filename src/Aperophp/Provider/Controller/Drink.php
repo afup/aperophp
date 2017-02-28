@@ -36,14 +36,17 @@ class Drink implements ControllerProviderInterface
         // *******
         $controllers->get('list.{format}', function($format) use ($app)
         {
-            $app['session']->set('menu', 'listdrinks');
-
-            //TODO pagination
             $drinks = $app['drinks']->findAll(25);
+            if ($format == 'html') {
+                //TODO pagination
+                $app['session']->set('menu', 'listdrinks');
+                return $app['twig']->render('drink/list.html.twig', array(
+                    'drinks' => $drinks
+                ));
+            }
 
-            return $app['twig']->render('drink/list.'.$format.'.twig', array(
-                'drinks' => $drinks
-            ));
+            $exporter = new \Aperophp\Lib\FeedExporter();
+            return $exporter->export($drinks);
         })
         ->assert('format', 'html|atom')
         ->bind('_listdrinks');
