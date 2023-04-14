@@ -7,7 +7,7 @@
         "silex/silex"               : "1.0.*",
         "doctrine/common"           : "2.4.*",
         "doctrine/dbal"             : "2.4.*",
-        "twig/twig"                 : "1.12.*",
+        "twig/twig"                 : "1.44.*",
         "twig/extensions"           : "dev-master",
         "symfony/class-loader"      : "2.1.x",
         "symfony/form"              : "2.1.x",
